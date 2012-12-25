@@ -1,0 +1,3 @@
+[submodule "src/SteamShortcutManager"]
+	path = src/SteamShortcutManager
+	url = git://github.com/scottrice/SteamShortcutManager.git
