@@ -9,10 +9,16 @@ added to any of those directories, having it added to Steam.
 While this is not the only experience I hope to enable via this application,
 the driving goal behind this application is to allow someone to download all
 of the ROMs for a certain system, throw them in a folder, and then be able to
-use Steam's Big Picture mode to act as a ROM chooser, so they can go and play
+use Steam's Big Picture mode to act as a ROM selector, so they can go and play
 their favorite game on X console extremely easily, similar to how buddwm does
 it in his NES/SNES PC build projects. You can find the videos I am talking
-about here: 
+about here:
+
+http://www.youtube.com/watch?feature=player_detailpage&v=cBtYiQ1mnvA#t=462s
+
+Clearly this is just the software end, but hopefully this gives an idea of the
+kind of user experience I am hoping for (pick a game from a list, immediately
+get to play it, etc)
 
 ##TODO
 
