@@ -1,3 +1,0 @@
-[submodule "ice/SteamShortcutManager"]
-	path = ice/SteamShortcutManager
-	url = git://github.com/scottrice/SteamShortcutManager.git
