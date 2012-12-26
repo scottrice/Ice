@@ -20,9 +20,27 @@ class Console():
         
     def path(self):
         return IceFilesystemHelper.path_for_console(self)
+        
+    def find_all_roms(self):
+        return []
 
-n64 = Console("N64","Nintendo 64",)
+def find_all_roms():
+    all_roms = []
+    for console in supported_consoles:
+        all_roms = all_roms.append(console.find_all_roms())
+
+# TODO: Emulator should be an object, not a string...
+n64 = Console("N64","Nintendo 64","")
 
 supported_consoles = [
-    
+    # nes,
+    # snes,
+    n64#,
+    # ps1,
+    # ps2,
+    # genesis,
+    # dreamcast,
+    # gameboy,
+    # gba,
+    # ds
 ]

@@ -134,3 +134,15 @@ def userdata_directory_for_name(username):
 
 def userdata_directory_for_user_id(user_id):
     return os.path.join(SteamInstallationLocationManager.steam_userdata_location(),str(user_id))
+    
+def shortcuts_file_for_user_id(user_id):
+    return os.path.join(os.path.join(userdata_directory_for_user_id(user_id),"config"),"shortcuts.vdf")
+    
+def user_ids_on_this_machine():
+    """
+    Reads the userdata folder to find a list of IDs of Users on this machine.
+    This function returns the user_ids in the communityid32 format, so use
+    those related methods to convert to other formats
+    """
+    # TODO: Implement
+    return [40586375]

@@ -28,9 +28,9 @@ default_userdata_directory["osx"] = "~/Library/Application Support/Steam/userdat
 # TODO: Check if the default location exists. If it doesn't, search the filesystem to find it.
 # TODO: Generate based on operating system
 def steam_location():
-    return default_steam_directory["osx"]
+    return os.path.expanduser(default_steam_directory["osx"])
 
 # TODO: Check if the default location exists. If it doesn't, search the filesystem to find it.
 # TODO: Generate based on operating system
 def steam_userdata_location():
-    return default_userdata_directory["osx"]
+    return os.path.expanduser(default_userdata_directory["osx"])

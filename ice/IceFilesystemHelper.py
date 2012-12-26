@@ -37,6 +37,6 @@ def path_for_console(console):
     C:\Users\Scott\Documents\ROMs\PS2
     """
     return os.path.join(rom_directory(),console.shortname)
-    
+
 # def executable_path_for_shortcut(shortcut):
 #     return os.path.join(executables_directory(),shortcut.appname+".cmd")
