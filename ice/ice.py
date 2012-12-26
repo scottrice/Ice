@@ -3,7 +3,7 @@
 import sys
 import os
 
-from SteamShortcutManager.SteamShortcutManager import SteamShortcutManager
+from SteamShortcutManager import SteamShortcutManager
 import SteamInstallationLocationManager
 import SteamUserManager
 import IceConsole

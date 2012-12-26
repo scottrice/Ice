@@ -92,7 +92,7 @@ class SteamShortcutFileParser():
     # real reason why this is the case, other than that is the type of parser I
     # know how to write (thanks compilers class!). I will be basing it on the
     # grammar which I have (hopefully) written above.
-    def parse(string):
+    def parse(self,string):
         return []
             
 
