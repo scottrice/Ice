@@ -112,10 +112,13 @@ class SteamShortcutManager():
         print "Write to file: %s" % self.shortcuts_file
         print self.to_shortcuts_string()
         #open(self.shortcuts_file,"w").write(self.to_shortcuts_string())
+    
+    def add(self,shortcut):
+        self.games.append(shortcut) 
             
-    def add_game(self,appname,exe,startdir,icon="",tag=""):
+    def add_shortcut(self,appname,exe,startdir,icon="",tag=""):
         shortcut = SteamShortcut(appname,exe,startdir,icon,tag)
-        self.games.append(shortcut)
+        self.add(shortcut)
         
     def to_shortcuts_string(self):
         return SteamShortcutFileFormatter().generate_string(self.games)
