@@ -15,6 +15,8 @@ Thanks!
 import os
 import glob
 
+from distutils.core import setup
+
 def find_data_files(source,target,patterns):
     """Locates the specified data-files and returns the matches
     in a data_files compatible format.
@@ -44,11 +46,12 @@ setup(
     version="0.01",
     description="ROM Manager for Steam",
     author="Scott Rice",
-    console=['samplescript.py'],
-    data_files=find_data_files('data','',[
-        'README',
-        'images/*',
-    ]),
+    packages=["ice"],
+    package_dir={'ice':'ice'},
+    data_files=find_data_files('','',[
+        'README.md',
+        'resources/*',
+    ])
 )
 
 # Will copy data/README to dist/README, and all files in data/images/ to dist/images/
