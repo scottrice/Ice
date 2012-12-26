@@ -108,7 +108,7 @@ class SteamShortcutManager():
         file_contents = open(file,"r").read()
         self.games = SteamShortcutFileParser().parse(file_contents)
         
-    def save():
+    def save(self):
         print "Write to file: %s" % self.shortcuts_file
         print self.to_shortcuts_string
         #open(self.shortcuts_file,"w").write(self.to_shortcuts_string())
