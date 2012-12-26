@@ -16,4 +16,12 @@ about here:
 
 ##TODO
 
-TODO: Write TODO
+- Find list of users for a system, possibly let users choose the 'current' user
+- Watch specified folder for updates
+- Create folders to watch if they don't exist
+- Create a list of ROMs based on the files in those folders (a ROM should have
+  a name, a path, and a console)
+- Get the list of shortcuts the user currently has in their shortcuts.vdf file
+- Sync the ROMs that we found in the folders with the shortcuts that are 
+  already in shortcuts.vdf. Possibly need to add some sort of marker that lets
+  me know a shortcut was added by Ice
