@@ -22,6 +22,26 @@ about here:
 - Create a list of ROMs based on the files in those folders (a ROM should have
   a name, a path, and a console)
 - Get the list of shortcuts the user currently has in their shortcuts.vdf file
+- Figure out any issues with referencing files that I include in my package.
+  This will require additional time with setup.py, as it is still kind of
+  magical to me.
+- Add emulators to the package (possible issue with distribution?), or maybe
+  even let the user use their own emulators.
+- Create scripts that will open the ROM in a given emulator when run (this will
+  be the shortcut "Exe" for Steam)
 - Sync the ROMs that we found in the folders with the shortcuts that are 
   already in shortcuts.vdf. Possibly need to add some sort of marker that lets
   me know a shortcut was added by Ice
+- Figure out possible issues with modifying shortcuts.vdf while Steam is
+  currently running. Will we need a restart? This could very much alter our
+  current 'ideal' user experience
+  
+##Goal Updates
+
+Until I can identify issues with Steam and modifying shortcuts.vdf, I will code
+under the assumption that Ice is run every time the user wants to 'update'
+their list of shortcuts, as in we don't have to run constantly and watch the
+folders, but instead we just run one update and exit. This will also help in
+that since there is no persistant state, if Steam undoes all our changes
+because it overwrote shortcuts.vdf on close, the user can just run Ice again
+and all our changes will be redone.
