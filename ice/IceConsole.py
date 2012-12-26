@@ -27,7 +27,8 @@ class Console():
 def find_all_roms():
     all_roms = []
     for console in supported_consoles:
-        all_roms = all_roms.append(console.find_all_roms())
+        all_roms.extend(console.find_all_roms())
+    return all_roms
 
 # TODO: Emulator should be an object, not a string...
 n64 = Console("N64","Nintendo 64","")
