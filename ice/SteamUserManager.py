@@ -6,11 +6,17 @@ SteamUserManager.py
 Created by Scott on 2012-12-23.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 
-The purpose of this class is to abstract away the conversion between Steam
-usernames and Steam IDs. It should also be able to determine the path to
-the userdata folder for a given user (finding the directory containing all of
-the different userdata folders should be the job of the 
-SteamInstallationLocationManager) 
+The purpose of this class is to handle anything related to Steam user accounts
+A big part of that is abstracting away the conversion between Steam usernames
+and Steam IDs. It should also be able to determine the path to the userdata 
+folder for a given user (finding the directory containing all of the different
+userdata folders should be the job of the SteamInstallationLocationManager) 
+
+Functionality should be added to this module if two conditions are met. The
+first is if it is related at all to Steam User accounts, and the second is if
+it doesn't involve Ice in any way. If there is functionality related to Steam
+Users, but it involves Ice, it should most likely go in the IceFilesystemHelper
+(as the filesystem is a big reason Ice needs to know about Steam users)
 """
 
 import sys
@@ -21,6 +27,7 @@ import httplib
 import SteamInstallationLocationManager
 
 name_to_id_cache = {}
+id_to_name_cache = {}
 
 ###############################################################################
 # Most of the information used in the following 4 methods I obtained via this
@@ -43,11 +50,15 @@ def communityid64_from_name(username):
     like 8 times trying to do something simple
     """
     if username not in name_to_id_cache:
-        conn = httplib.HTTPConnection("steamcommunity.com")
-        url = "/id/%s?xml=1" %  username
-        print url
-        conn.request("GET",url)
-        response = conn.getresponse()
+        # Sometimes Steam will randomly give me a 503 service unavailable.
+        # Keep attempting to reach Steam until it gives me a 200
+        while True:
+            conn = httplib.HTTPConnection("steamcommunity.com")
+            url = "/id/%s?xml=1" %  username
+            conn.request("GET",url)
+            response = conn.getresponse()
+            if response.status != 503:
+                break
         xml_string = response.read()
         # Rather than parse the XML (which has the possibility of being quite slow,
         # along with adding a dependency on an XML parser), I will instead just do
@@ -96,32 +107,33 @@ def communityid32_from_name(username):
     y = __y_value__(username)
     return (z * 2) + y
     
-def name_from_steam_id(user_id):
-    # Calculates the 64 bit community id and then uses that to do the mapping
-    raise "Not yet implemented"
-    return ""
-    
 def name_from_communityid32(user_id):
     w = user_id
     y = w & 1
     z = (w - y) / 2
-    return name_from_steam_id(z)
+    v = __v_value__
+    return name_from_communityid64((z * 2) + v + y)
 
 def name_from_communityid64(user_id):
     """
     Makes a request to http://steamcommunity.com/profiles/{id64}, which then
     sets the 'location' header variable to the correct location.
     """
-    conn = httplib.HTTPConnection("steamcommunity.com")
-    url = "/profiles/%s" % str(user_id)
-    conn.request("HEAD",url)
-    response = conn.getresponse()
-    # profile_url is of the form "http://steamcommunity.com/id/{username}/"
-    profile_url = response.getheader("location")
-    # Chop off the beginning of profile url, such that only the name remains
-    # The 29 should chop off http://steamcommunity.com/id/ and the -1 should
-    # chop off the trailing /
-    return profile_url[29:-1]
+    if user_id not in id_to_name_cache:
+        while True:
+            conn = httplib.HTTPConnection("steamcommunity.com")
+            url = "/profiles/%s" % str(user_id)
+            conn.request("HEAD",url)
+            response = conn.getresponse()
+            if response.status != 503:
+                break
+        # profile_url is of the form "http://steamcommunity.com/id/{username}/"
+        profile_url = response.getheader("location")
+        # Chop off the beginning of profile url, such that only the name remains
+        # The 29 should chop off http://steamcommunity.com/id/ and the -1 should
+        # chop off the trailing /
+        id_to_name_cache[user_id] = profile_url[29:-1]
+    return id_to_name_cache[user_id]
 
 def userdata_directory_for_name(username):
     """
@@ -133,9 +145,23 @@ def userdata_directory_for_name(username):
     return userdata_directory_for_user_id(communityid32_from_name(username))
 
 def userdata_directory_for_user_id(user_id):
+    """
+    Returns the path to the userdata directory for a specific user
+    
+    The userdata directory is where Steam keeps information specific to certain
+    users. Of special note for Ice is the config/shortcuts.vdf file, which
+    contains all of the 'Non-Steam Games' shortcuts.
+    """
     return os.path.join(SteamInstallationLocationManager.steam_userdata_location(),str(user_id))
     
 def shortcuts_file_for_user_id(user_id):
+    """
+    Returns the path to the shortcuts.vdf file for a specific user
+    
+    This is really just a convenience method, as it just calls
+    userdata_directory_for_user_id, and then adds the path element
+    /config/shortcuts.vdf to the result
+    """
     return os.path.join(os.path.join(userdata_directory_for_user_id(user_id),"config"),"shortcuts.vdf")
     
 def user_ids_on_this_machine():
@@ -143,6 +169,14 @@ def user_ids_on_this_machine():
     Reads the userdata folder to find a list of IDs of Users on this machine.
     This function returns the user_ids in the communityid32 format, so use
     those related methods to convert to other formats
+    
+    The userdata folder contains a bunch of directories that are all 32 bit
+    community ids, so to find a list of ids on the machine we simply find a
+    list of subfolders inside the userdata folder
     """
-    # TODO: Implement
-    return [40586375]
+    ids = []
+    userdata_dir = SteamInstallationLocationManager.steam_userdata_location()
+    for entry in os.listdir(userdata_dir):
+        if os.path.isdir(os.path.join(userdata_dir,entry)):
+            ids.append(int(entry))
+    return ids

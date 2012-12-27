@@ -34,7 +34,7 @@ class IceROMManager():
         can be a O(1) lookup to see if the ROM is already managed, and a O(1)
         addition to the list (if it does not exist)
         
-        Stores the managed ROMs in a set for Time Complexity. See
+        Stores the managed ROMs in a set to optimize time complexity. See
         http://wiki.python.org/moin/TimeComplexity
         for details
         """

@@ -36,16 +36,35 @@ def roms_directory():
     return os.path.join(os.path.expanduser("~"),"ROMs")
 
 def executables_directory():
+    """
+    Should return a decent path in which to store executables. This path should
+    be out of the way for users on every Operating System (executables needed
+    by Steam are an implementation detail that users shouldn't have to worry 
+    about)
+    
+    Example...
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\Exes
+    Max OS X: ~/Library/Application Support/Ice/Exes
+    
+    """
     return os.path.join(appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor),"Exes")
     
-def path_for_console(console):
+def cache_directory():
     """
-    Should return a directory with a decent name for each emulator, such as
-    C:\Users\Scott\Documents\ROMs\N64
-    or
-    C:\Users\Scott\Documents\ROMs\PS2
+    Returns the path to a directory where Ice can store persistant data without
+    worry of user interference
+    
+    Example...
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\_cache
+    Max OS X: ~/Library/Application Support/Ice/_cache
     """
-    return os.path.join(rom_directory(),console.shortname)
-
-# def executable_path_for_shortcut(shortcut):
-#     return os.path.join(executables_directory(),shortcut.appname+".cmd")
+    return os.path.join(appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor),"_cache")    
+    
+def cache_file(filename):
+    """
+    Returns the path to a file in the caches directory such that Ice can easily
+    save/store persistant data for the next run
+    """
+    # TODO: Automatically save cache files when python exits, so I can write to
+    # these files without worrying about having to save when I am done
+    return os.path.join(cache_directory(),filename)
