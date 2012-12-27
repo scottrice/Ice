@@ -12,4 +12,4 @@ from IceROMTests import IceROMTests
     
 def run_tests():
     suite = unittest.TestLoader().loadTestsFromTestCase(IceROMTests)
-    unittest.TextTestRunner().run(suite)
+    unittest.TextTestRunner(verbosity=2).run(suite)

@@ -34,5 +34,6 @@ class ROM:
         # Return the entire string leading up to (but not including) the period
         return name_with_ext[:dot_index]
         
-    def executable(self):
-        return os.path.join(self.console.executables_directory(),self.name()+".cmd")
+    def executable_path(self):
+        suffix = ".cmd" if sys.platform.startswith('win') else ".sh"
+        return os.path.join(self.console.executables_directory(),self.name()+suffix)
