@@ -13,8 +13,8 @@ from test import run_tests
 # The code below is to allow test cases to import the class they are testing by
 # using the syntax 'import ice.******'.
 #
-# This code was taken from a StackOverflow answer by sorin. The internet is
-# down right now but I will link to it when I get the chance.
+# This code was taken from a StackOverflow answer by sorin. Thanks bud!
+# http://stackoverflow.com/questions/279237/python-import-a-module-from-a-folder
 #
 # Get a reference to the current directory, without using __file__, which fails
 # in certain situations based on how you call the script in Windows
