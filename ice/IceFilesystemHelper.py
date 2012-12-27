@@ -5,6 +5,15 @@ IceFilesystemHelper.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
+
+Abstracts away filesystem specific information into app-specific methods. For
+example, the app doesn't care about where exactly on the filesystem the ROMs
+directory is located, it just wants to know what ROMs are a part of it. This
+module is meant to deal with that abstraction.
+
+Functionality should be added to this module if it involves the filesystem, but
+doesn't heavily involve any of the other datatypes used by this app (Consoles,
+ROMs, etc)
 """
 
 import sys

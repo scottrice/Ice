@@ -5,6 +5,13 @@ IceROMManager.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
+
+The purpose of this class is to handle the interaction (or some would say 
+conversion) between ROMs and Steam Shortcuts. This class also handles checking
+to make sure I don't add duplicates of any ROMs to Steam.
+
+Functionality should be added to this class if it involves the interaction
+between ROMs and Steam Shortcuts.
 """
 
 import sys

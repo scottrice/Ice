@@ -5,6 +5,13 @@ IceROM.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
+
+ROM model. Handles the collection of data that makes up a ROM (as of right now,
+just the path to the ROM and what console is is from). Also contains some
+convenience methods for the filesystem. 
+
+Functionality should be added to this class if it heavily involves the use of
+ROMs
 """
 
 import sys

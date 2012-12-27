@@ -5,6 +5,13 @@ IceConsole.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
+
+This class represents the Console datatype. Each ROM is associated with a
+Console, and each Console has many ROMs. A Console also is associated with an
+emulator, which can be used to play a ROM.
+
+Functionality should be added to this class/module if it deals with Consoles or
+their emulators. This includes finding a list of ROMs in this console's folder.
 """
 
 import sys
@@ -49,3 +56,14 @@ supported_consoles = [
     gba#,
     # ds
 ]
+
+# console_mapping is a map between the shortname (which is also used as the
+# the folder name) of a console to the console object itself. For example,
+# console_mapping["N64"] should return the n64 instance variable (which 
+# contains the longname, shortname, emulator path, etc)
+console_mapping = {}
+for console in supported_consoles:
+    console_mapping[console.shortname] = console
+    
+def lookup(name):
+    return console_mapping[name]
