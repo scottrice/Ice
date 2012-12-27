@@ -65,5 +65,5 @@ console_mapping = {}
 for console in supported_consoles:
     console_mapping[console.shortname] = console
     
-def lookup(name):
+def console_lookup(name):
     return console_mapping[name]
