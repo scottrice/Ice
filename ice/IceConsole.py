@@ -18,6 +18,7 @@ import sys
 import os
 
 import IceFilesystemHelper
+from IceROM import ROM
 
 class Console():
     def __init__(self,shortname,fullname,emulator):
@@ -25,14 +26,14 @@ class Console():
         self.fullname = fullname
         self.emulator = emulator
         
-    def path(self):
+    def roms_directory(self):
         """
-        Should return a directory with a decent name for each emulator, such as
+        Should return a directory with a decent name for each console, such as
         C:\Users\Scott\Documents\ROMs\N64
         or
         C:\Users\Scott\Documents\ROMs\PS2
         """
-        return os.path.join(IceFilesystemHelper.rom_directory(),self.shortname)
+        return os.path.join(IceFilesystemHelper.roms_directory(),self.shortname)
         
     def executables_directory(self):
         """
@@ -44,7 +45,11 @@ class Console():
         return os.path.join(IceFilesystemHelper.executables_directory(),self.shortname)
         
     def find_all_roms(self):
-        return []
+        roms = []
+        for file in os.listdir(self.roms_directory()):
+            if not os.path.isdir(file):
+                roms.append(ROM(file,self))
+        return roms
 
 def find_all_roms():
     all_roms = []
@@ -54,7 +59,7 @@ def find_all_roms():
 
 # TODO: Figure out what should go into the Emulator section. We need some way
 # of representing emulators, but is a string enough? Do we need an object?
-n64 = Console("N64","Nintendo 64","")
+n64 = Console("N64","Nintendo 64","/Applications/sixtyforce.app")
 gba = Console("GBA","Gameboy Advance","")
 
 supported_consoles = [
@@ -66,7 +71,7 @@ supported_consoles = [
     # genesis,
     # dreamcast,
     # gameboy,
-    gba#,
+    # gba,
     # ds
 ]
 

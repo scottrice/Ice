@@ -68,3 +68,8 @@ def cache_file(filename):
     # TODO: Automatically save cache files when python exits, so I can write to
     # these files without worrying about having to save when I am done
     return os.path.join(cache_directory(),filename)
+    
+# def create_roms_directory_if_needed():
+#     if
+#     
+# create_roms_directory_if_needed()

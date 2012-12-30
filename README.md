@@ -23,7 +23,11 @@ get to play it, etc)
 ##TODO
 
 - Find list of users for a system, possibly let users choose the 'current' user
+  **Right now, I am avoiding this by just adding the ROMs to every use on the 
+  system
 - Watch specified folder for updates
+  **Until I can identify how Steam deals with shortcuts being editing while it
+  is open, I am going to make ice a "run to update" script
 - Create folders to watch if they don't exist
 - Create a list of ROMs based on the files in those folders (a ROM should have
   a name, a path, and a console)

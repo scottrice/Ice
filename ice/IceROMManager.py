@@ -42,12 +42,16 @@ class IceROMManager():
         self.managed_roms = set()
         self.__find_managed_roms_in_previous_shortcuts__()
         
+    # TODO: Implement. Should figure out which shortcuts in the 
+    # SteamShortcutManager were added by Ice. Possibly include a flag for that?
     def __find_managed_roms_in_previous_shortcuts__(self):
         return None
         
     def __shortcut_for_rom__(self,rom):
         # TODO: Support custom icons
-        return SteamShortcut(rom.name(),rom.executable(),rom.console.executables_directory(),"",rom.console.fullname)
+        exe_path = "\"%s\"" % rom.executable_path()
+        exe_dir = "\"%s\"" % rom.console.executables_directory()
+        return SteamShortcut(rom.name(),exe_path,exe_dir,"",rom.console.fullname)
         
     def add_rom(self,rom):
         if rom.path not in self.managed_roms:
