@@ -28,6 +28,9 @@ class Console():
         self.__create_directories_if_needed__()
         
     def __create_directories_if_needed__(self):
+        """
+        Creates directories that the console will need if they don't exist yet
+        """
         def create_directory_if_needed(dir):
             if not os.path.exists(dir):
                 os.makedirs(dir)
@@ -53,6 +56,10 @@ class Console():
         return os.path.join(IceFilesystemHelper.executables_directory(),self.shortname)
         
     def find_all_roms(self):
+        """
+        Reads a list of all the ROMs from the appropriate directory for the
+        console
+        """
         roms = []
         for file in os.listdir(self.roms_directory()):
             if not os.path.isdir(file):
@@ -60,6 +67,9 @@ class Console():
         return roms
 
 def find_all_roms():
+    """
+    Gets the roms for every console in the list of supported consoles
+    """
     all_roms = []
     for console in supported_consoles:
         all_roms.extend(console.find_all_roms())
