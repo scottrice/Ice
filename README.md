@@ -22,16 +22,9 @@ get to play it, etc)
 
 ##TODO
 
-- Find list of users for a system, possibly let users choose the 'current' user
-  **Right now, I am avoiding this by just adding the ROMs to every use on the 
-  system
 - Watch specified folder for updates
   **Until I can identify how Steam deals with shortcuts being editing while it
   is open, I am going to make ice a "run to update" script
-- Create folders to watch if they don't exist
-- Create a list of ROMs based on the files in those folders (a ROM should have
-  a name, a path, and a console)
-- Get the list of shortcuts the user currently has in their shortcuts.vdf file
 - Figure out any issues with referencing files that I include in my package.
   This will require additional time with setup.py, as it is still kind of
   magical to me.
@@ -39,9 +32,6 @@ get to play it, etc)
   even let the user use their own emulators.
 - Create scripts that will open the ROM in a given emulator when run (this will
   be the shortcut "Exe" for Steam)
-- Sync the ROMs that we found in the folders with the shortcuts that are 
-  already in shortcuts.vdf. Possibly need to add some sort of marker that lets
-  me know a shortcut was added by Ice
 - Figure out possible issues with modifying shortcuts.vdf while Steam is
   currently running. Will we need a restart? This could very much alter our
   current 'ideal' user experience
