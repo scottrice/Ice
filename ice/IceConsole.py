@@ -21,10 +21,18 @@ import IceFilesystemHelper
 from IceROM import ROM
 
 class Console():
-    def __init__(self,shortname,fullname,emulator):
+    def __init__(self,shortname,fullname,emulator_path):
         self.shortname = shortname
         self.fullname = fullname
-        self.emulator = emulator
+        self.emulator_path = emulator_path
+        self.__create_directories_if_needed__()
+        
+    def __create_directories_if_needed__(self):
+        def create_directory_if_needed(dir):
+            if not os.path.exists(dir):
+                os.makedirs(dir)
+        create_directory_if_needed(self.roms_directory())
+        create_directory_if_needed(self.executables_directory())
         
     def roms_directory(self):
         """
@@ -57,13 +65,14 @@ def find_all_roms():
         all_roms.extend(console.find_all_roms())
     return all_roms
 
-# TODO: Figure out what should go into the Emulator section. We need some way
-# of representing emulators, but is a string enough? Do we need an object?
+# Emulator should be the path leading to the emulator application. Creating an
+# exe for a rom then will basically look like "{emulator_path} {rom_path}"
+nes = Console("NES","Nintendo Entertainment System","")
 n64 = Console("N64","Nintendo 64","/Applications/sixtyforce.app")
 gba = Console("GBA","Gameboy Advance","")
 
 supported_consoles = [
-    # nes,
+    nes,
     # snes,
     n64,
     # ps1,
@@ -71,7 +80,7 @@ supported_consoles = [
     # genesis,
     # dreamcast,
     # gameboy,
-    # gba,
+    gba,
     # ds
 ]
 

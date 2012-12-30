@@ -39,13 +39,31 @@ class IceROMManager():
         for details
         """
         self.shortcut_manager = shortcut_manager
+        # managed_roms is a set of executable paths. I chose executable_paths
+        # because it should be unique to every rom, and it is something that
+        # is easily accessed from both the ROM object and the Shortcut object
         self.managed_roms = set()
         self.__find_managed_roms_in_previous_shortcuts__()
         
-    # TODO: Implement. Should figure out which shortcuts in the 
-    # SteamShortcutManager were added by Ice. Possibly include a flag for that?
     def __find_managed_roms_in_previous_shortcuts__(self):
-        return None
+        """
+        We are going to detect if something is managed by Ice by checking
+        to see if the executable is inside of Ices executable directory.
+        Since there are two layers to the path, {ice_exe_dir}/{console}/{rom},
+        and I want to check equality on ice_exe_dir, I need to do two 
+        os.path.dirname's. As a shortcut, I could instead do an os.path.dirname
+        on the shortcuts startdir, which is always the directory containing the
+        ROM.
+        """
+        for shortcut in self.shortcut_manager.games:
+            containing_dir = os.path.dirname(shortcut.startdir)
+            # This is required because the shortcut for a rom is the path to
+            # the exe surrounded by quotes. Doing a dirname on "\"{dir}\"" will
+            # give us "\"{dir}", so we add a leading quote to the executables
+            # directory and compare against that
+            formatted_exes_directory = "\"%s" % IceFilesystemHelper.executables_directory()
+            if containing_dir == formatted_exes_directory:
+                self.managed_roms.add(shortcut.exe)
         
     def __shortcut_for_rom__(self,rom):
         # TODO: Support custom icons
@@ -54,6 +72,8 @@ class IceROMManager():
         return SteamShortcut(rom.name(),exe_path,exe_dir,"",rom.console.fullname)
         
     def add_rom(self,rom):
-        if rom.path not in self.managed_roms:
-            self.managed_roms.add(rom.path)
+        formatted_executable_path = "\"%s\"" % rom.executable_path()
+        # Only add the ROM if it isn't already in Steam
+        if formatted_executable_path not in self.managed_roms:
+            self.managed_roms.add(formatted_executable_path)
             self.shortcut_manager.add(self.__shortcut_for_rom__(rom))

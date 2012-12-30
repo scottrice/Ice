@@ -23,6 +23,17 @@ import appdirs
 
 import IceSettings
 
+def app_data_directory():
+    """
+    Should return a decent path for Ice to store any kind of settings/data it
+    needs. One example of this would be the exes directory.
+    
+    Example...
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\Exes
+    Mac OS X: ~/Library/Application Support/Ice/Exes
+    """
+    return appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor)
+
 def roms_directory():
     """
     Should return a decent path in which to store ROMs. This path should be
@@ -47,7 +58,7 @@ def executables_directory():
     Max OS X: ~/Library/Application Support/Ice/Exes
     
     """
-    return os.path.join(appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor),"Exes")
+    return os.path.join(app_data_directory(),"Exes")
     
 def cache_directory():
     """
@@ -67,9 +78,4 @@ def cache_file(filename):
     """
     # TODO: Automatically save cache files when python exits, so I can write to
     # these files without worrying about having to save when I am done
-    return os.path.join(cache_directory(),filename)
-    
-# def create_roms_directory_if_needed():
-#     if
-#     
-# create_roms_directory_if_needed()
+    return os.path.join(cache_directory(),filename)    

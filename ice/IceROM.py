@@ -37,3 +37,13 @@ class ROM:
     def executable_path(self):
         suffix = ".cmd" if sys.platform.startswith('win') else ".sh"
         return os.path.join(self.console.executables_directory(),self.name()+suffix)
+        
+    def executable_string(self):
+        """
+        The command string which should go in the executable. This command
+        should, when executed, launch the correct emulator and open the ROM.
+        """
+        # TODO: Figure out if this is different for different platforms (I am
+        # pretty sure it is D:
+        # TODO: Implement
+        return ""
