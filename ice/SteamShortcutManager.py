@@ -10,6 +10,8 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import sys
 import os
 
+import re
+
 x00 = u'\x00'
 x01 = u'\x01'
 x08 = u'\x08'
@@ -22,6 +24,19 @@ class SteamShortcut:
         self.startdir = startdir
         self.icon = icon
         self.tag = tag
+        
+    def __eq__(self,other):
+        return (
+            isinstance(other,self.__class__) and
+            self.appname == other.appname and
+            self.exe == other.exe and
+            self.startdir == other.startdir and
+            self.icon == other.icon and
+            self.tag == other.tag
+        )
+    
+    def __ne__(self,other):
+        return not self.__eq__(other)
 
 
 # This class is in charge of outputting a valid shortcuts.vdf file given an
@@ -46,7 +61,7 @@ class SteamShortcutFileFormatter():
         string += self.generate_keyvalue_pair("AppName",shortcut.appname)
         string += self.generate_keyvalue_pair("Exe",shortcut.exe)
         string += self.generate_keyvalue_pair("StartDir",shortcut.startdir)
-        string += self.generate_icon_string(shortcut.icon)
+        string += self.generate_keyvalue_pair("icon",shortcut.icon)
         # Tags seem to be a special case. It seems to be a key-value pair just
         # like all the others, except it doesnt start with a x01 character. It
         # also seems to be an array, even though Steam wont let more than one
@@ -61,17 +76,10 @@ class SteamShortcutFileFormatter():
     # supposed to end in x00 when there are more and x08 when there arent. Since
     # I am not sure, I am going to leave the code in for now
     def generate_keyvalue_pair(self,key,value,more=True):
-        if value == "":
-            value = x00
         return x01 + key + x00 + value + (x00 if more else x08)
     
-    def generate_icon_string(self,icon,more=True):
-        # if icon == "":
-        #     icon = x00
-        return x01 + "icon" + x00 + icon + x00 + (x00 if more else x08)
-    
     def generate_tags_string(self,tag):
-        string = "tags" + x00
+        string = x00 + "tags" + x00
         if tag == "":
             string += x08
         else:
@@ -88,13 +96,65 @@ class SteamShortcutFileFormatter():
 # This class is in charge of parsing a shortcuts.vdf file into an array which
 # can be easily manipulated with python code.
 class SteamShortcutFileParser():
-    # This is written in the style of a recursive decent parser. There is no
-    # real reason why this is the case, other than that is the type of parser I
-    # know how to write (thanks compilers class!). I will be basing it on the
-    # grammar which I have (hopefully) written above.
+    # I am going to use regular expressions to parse this file. I haven't used
+    # regular expressions in Python before, so I apologize for any terrible
+    # code that I write...
     def parse(self,string):
-        return []
+        return self.match_base(string)
+        
+    def match_base(self,string):
+        match = re.match(ur"\u0000shortcuts\u0000(.*)\u0008\u0008$",string)
+        if match:
+            array = self.match_array_string(match.groups()[0])
+            return array
+            # return self.match_array_string(match.groups()[0])
+        else:
+            return None
+    
+    def match_array_string(self,string):
+        # Match backwards (aka match last item first)
+        if string == "":
+            return []
+        # One side effect of matching this way is we are throwing away the
+        # array index. I dont think that it is that important though, so I am
+        # ignoring it for now
+        match = re.match(ur"(.*)\u0000[0-9]\u0000(.*)\u0008",string)
+        groups = match.groups()
+        if match:
+            # Recursivly find the previous shortcuts
+            shortcuts = self.match_array_string(groups[0])
+            shortcuts.append(self.match_shortcut_string(groups[1]))
+            return shortcuts
+        else:
+            return []
             
+    def match_shortcut_string(self,string):
+        # I am going to cheat a little here. I am going to match specifically
+        # for the shortcut string (Appname, Exe, StartDir, etc), as oppposed
+        # to matching for general Key-Value pairs. This could possibly create a
+        # lot of work for me later, but for now it will get the job done
+        match = re.match(ur"\u0001AppName\u0000(.*)\u0000\u0001Exe\u0000(.*)\u0000\u0001StartDir\u0000(.*)\u0000\u0001icon\u0000(.*)\u0000\u0000tags\u0000(.*)\u0008",string)
+        if match:
+            # The 'groups' that are returned by the match should be the data
+            # contained in the file. Now just make a SteamShortcut out of that
+            # data
+            groups = match.groups()
+            appname = groups[0]
+            exe = groups[1]
+            startdir = groups[2]
+            icon = groups[3]
+            tags = self.match_tags_string(groups[4])
+            return SteamShortcut(appname,exe,startdir,icon,tags)
+        else:
+            return None
+            
+    def match_tags_string(self,string):
+        match = re.match(ur"\u00010\u0000(.*)\u0000",string)
+        if match:
+            groups = match.groups()
+            return groups[0]
+        else:
+            return ""
 
 class SteamShortcutManager():
     
@@ -103,15 +163,34 @@ class SteamShortcutManager():
         if file != None:
             self.__load_shortcuts__(file)
             
+    def __eq__(self,other):
+        return (isinstance(other,self.__class__) and self.games == other.games)
+        
+    def __ne__(self,other):
+        return not self.__eq__(other)
+            
     def __load_shortcuts__(self,file):
         self.shortcuts_file = file
         file_contents = open(file,"r").read()
-        self.games = SteamShortcutFileParser().parse(file_contents)
+        parsed_games = SteamShortcutFileParser().parse(file_contents)
+        if parsed_games == None:
+            print "Parsing error on file: %s" % file
+        self.games = parsed_games
+        # self.games = SteamShortcutFileParser().parse(file_contents)
         
-    def save(self):
-        print "Write to file: %s" % self.shortcuts_file
-        print self.to_shortcuts_string()
-        #open(self.shortcuts_file,"w").write(self.to_shortcuts_string())
+    def save(self,file=None):
+        # print "Write to file: %s" % self.shortcuts_file
+        # print self.to_shortcuts_string()
+        # If they just called save(), then overwrite the file that was used to
+        # generate the manager.
+        if not file:
+            file = self.shortcuts_file
+        # If file is still undefined, then we have no idea where to save it, so
+        # we just return after printing an error
+        if not file:
+            print "SteamShortcutManager Save Error: No file specified"
+            return None
+        open(file,"w").write(self.to_shortcuts_string())
     
     def add(self,shortcut):
         self.games.append(shortcut) 
