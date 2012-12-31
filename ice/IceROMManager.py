@@ -72,6 +72,9 @@ class IceROMManager():
         return SteamShortcut(rom.name(),exe_path,exe_dir,"",rom.console.fullname)
         
     def add_rom(self,rom):
+        # Don't add a ROM if we don't have a supported emulator for it
+        if rom.console.emulator_path is None:
+            return
         formatted_executable_path = "\"%s\"" % rom.executable_path()
         # Only add the ROM if it isn't already in Steam
         if formatted_executable_path not in self.managed_roms:

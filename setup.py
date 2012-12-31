@@ -40,18 +40,15 @@ def find_data_files(source,target,patterns):
                 ret.setdefault(path,[]).append(filename)
     return sorted(ret.items())
 
-# Example:
 setup(
     name="Ice",
     version="0.01",
     description="ROM Manager for Steam",
     author="Scott Rice",
+    include_package_data=True,
     packages=["ice"],
     package_dir={'ice':'ice'},
-    data_files=find_data_files('','',[
-        'README.md',
-        'resources/*',
-    ])
+    package_data={'ice':['resources/*']}
 )
 
 # Will copy data/README to dist/README, and all files in data/images/ to dist/images/

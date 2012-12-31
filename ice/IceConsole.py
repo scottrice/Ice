@@ -17,15 +17,26 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 import sys
 import os
 
+import IceSettings
 import IceFilesystemHelper
 from IceROM import ROM
 
 class Console():
-    def __init__(self,shortname,fullname,emulator_path):
+    def __init__(self,shortname,fullname):
         self.shortname = shortname
         self.fullname = fullname
-        self.emulator_path = emulator_path
+        self.emulator_path = self.__find_emulator__()
         self.__create_directories_if_needed__()
+        
+    def __find_emulator__(self):
+        """
+        Uses the settings to determine the emulator path for a given console
+        """
+        platform = IceSettings.platform_string()
+        if not IceSettings.emulator_exists(platform,self):
+            return None
+        emulators_dir = IceFilesystemHelper.emulators_directory(platform)
+        return os.path.join(emulators_dir,IceSettings.relative_emulator_path(platform,self))
         
     def __create_directories_if_needed__(self):
         """
@@ -78,21 +89,32 @@ def find_all_roms():
 
 # Emulator should be the path leading to the emulator application. Creating an
 # exe for a rom then will basically look like "{emulator_path} {rom_path}"
-nes = Console("NES","Nintendo Entertainment System","")
-n64 = Console("N64","Nintendo 64","/Applications/sixtyforce.app")
-gba = Console("GBA","Gameboy Advance","/Applications/VisualBoyAdvance.app")
+nes = Console("NES","Nintendo Entertainment System")
+snes = Console("SNES","Super Nintendo")
+n64 = Console("N64","Nintendo 64")
+gamecube = Console("Gamecube","Nintendo Gamecube")
+wii = Console("Wii", "Nintendo Wii")
+ps1 = Console("PS1", "Playstation")
+ps2 = Console("PS2", "Playstation 2")
+genesis = Console("Genesis", "Sega Genesis")
+dreamcast = Console("Dreamcast", "Sega Dreamcast")
+gameboy = Console("Gameboy", "Nintendo Gameboy")
+gba = Console("GBA","Gameboy Advance")
+ds = Console("DS","Nintendo DS")
 
 supported_consoles = [
     nes,
-    # snes,
+    snes,
     n64,
-    # ps1,
-    # ps2,
-    # genesis,
-    # dreamcast,
-    # gameboy,
+    gamecube,
+    wii,
+    ps1,
+    ps2,
+    genesis,
+    dreamcast,
+    gameboy,
     gba,
-    # ds
+    ds
 ]
 
 # console_mapping is a map between the shortname (which is also used as the

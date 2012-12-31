@@ -60,6 +60,20 @@ def executables_directory():
     """
     return os.path.join(app_data_directory(),"Exes")
 
+def resources_directory():
+    """
+    Should return the path to the resources directory in our package
+    """
+    this_dir, this_filename = os.path.split(__file__)
+    return os.path.join(this_dir,"resources")
+
+def emulators_directory(platform):
+    """
+    Should return the path for the emulators directory in the package for a
+    given platform
+    """
+    emulators_dir = os.path.join(resources_directory(), "emulators",platform)
+
 def cache_directory():
     """
     Returns the path to a directory where Ice can store persistant data without
