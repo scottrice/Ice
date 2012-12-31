@@ -43,7 +43,15 @@ class ROM:
         The command string which should go in the executable. This command
         should, when executed, launch the correct emulator and open the ROM.
         """
-        # TODO: Figure out if this is different for different platforms (I am
-        # pretty sure it is D:
-        # TODO: Implement
+        if sys.platform.startswith('win'):
+            return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
+        # TODO: Figure out how to make this string on Mac OS X or Linux
         return ""
+        
+    def ensure_exe_file_exists(self):
+        """
+        Checks to see if a file exists at the executable path, and if it does
+        not, then creates the file with the executable_string
+        """
+        if not os.path.exists(self.executable_path()):
+            open(self.executable_path(),"w+").write(self.executable_string())

@@ -61,9 +61,10 @@ class Console():
         console
         """
         roms = []
-        for file in os.listdir(self.roms_directory()):
-            if not os.path.isdir(file):
-                roms.append(ROM(file,self))
+        for filename in os.listdir(self.roms_directory()):
+            file_path = os.path.join(self.roms_directory(),filename)
+            if not os.path.isdir(file_path):
+                roms.append(ROM(file_path,self))
         return roms
 
 def find_all_roms():
@@ -79,7 +80,7 @@ def find_all_roms():
 # exe for a rom then will basically look like "{emulator_path} {rom_path}"
 nes = Console("NES","Nintendo Entertainment System","")
 n64 = Console("N64","Nintendo 64","/Applications/sixtyforce.app")
-gba = Console("GBA","Gameboy Advance","")
+gba = Console("GBA","Gameboy Advance","/Applications/VisualBoyAdvance.app")
 
 supported_consoles = [
     nes,

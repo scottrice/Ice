@@ -59,7 +59,7 @@ def executables_directory():
     
     """
     return os.path.join(app_data_directory(),"Exes")
-    
+
 def cache_directory():
     """
     Returns the path to a directory where Ice can store persistant data without

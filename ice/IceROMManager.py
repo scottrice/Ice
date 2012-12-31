@@ -76,4 +76,7 @@ class IceROMManager():
         # Only add the ROM if it isn't already in Steam
         if formatted_executable_path not in self.managed_roms:
             self.managed_roms.add(formatted_executable_path)
+            # Since we are about to add a shortcut for a ROM, we better make
+            # sure the executable it needs exists
+            rom.ensure_exe_file_exists()
             self.shortcut_manager.add(self.__shortcut_for_rom__(rom))
