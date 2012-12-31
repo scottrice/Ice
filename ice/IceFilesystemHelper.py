@@ -72,7 +72,7 @@ def emulators_directory(platform):
     Should return the path for the emulators directory in the package for a
     given platform
     """
-    emulators_dir = os.path.join(resources_directory(), "emulators",platform)
+    return os.path.join(resources_directory(), "emulators",platform)
 
 def cache_directory():
     """

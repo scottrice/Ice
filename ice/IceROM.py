@@ -17,6 +17,7 @@ ROMs
 import sys
 import os
 
+import IceSettings
 import IceFilesystemHelper
 
 class ROM:
@@ -43,10 +44,14 @@ class ROM:
         The command string which should go in the executable. This command
         should, when executed, launch the correct emulator and open the ROM.
         """
-        if sys.platform.startswith('win'):
+        platform = IceSettings.platform_string()
+        if platform == "Windows":
             return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
-        # TODO: Figure out how to make this string on Mac OS X or Linux
-        return ""
+        elif platform == "OSX":
+            return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator_path, self.path)
+        else:
+            # TODO: Figure out how to make this string on Linux
+            return ""
         
     def ensure_exe_file_exists(self):
         """

@@ -25,13 +25,6 @@ get to play it, etc)
 - Watch specified folder for updates
   **Until I can identify how Steam deals with shortcuts being editing while it
   is open, I am going to make ice a "run to update" script
-- Figure out any issues with referencing files that I include in my package.
-  This will require additional time with setup.py, as it is still kind of
-  magical to me.
-- Add emulators to the package (possible issue with distribution?), or maybe
-  even let the user use their own emulators.
-- Create scripts that will open the ROM in a given emulator when run (this will
-  be the shortcut "Exe" for Steam)
 - Figure out possible issues with modifying shortcuts.vdf while Steam is
   currently running. Will we need a restart? This could very much alter our
   current 'ideal' user experience
@@ -45,3 +38,15 @@ folders, but instead we just run one update and exit. This will also help in
 that since there is no persistant state, if Steam undoes all our changes
 because it overwrote shortcuts.vdf on close, the user can just run Ice again
 and all our changes will be redone.
+
+##License Issues
+
+The biggest issue I can think of when it comes to including emulators in my
+application is Licensing. I checked online, and it seems that most emulators
+are licensed under GPLv2 or an MIT-like license. I don't plan on using this
+commercially, so a non-commercial version of MIT should be fine, and as far as
+I can tell from reading GPL, executing the GPLd code should not require me to
+GPL my own application as well. I am not a lawyer though, so any of the things
+I just said could be very wrong, but that is my understanding for now, and
+those are the assumptions I am going to work under until I can find someone who
+tells me otherwise
