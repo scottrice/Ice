@@ -15,7 +15,7 @@ from ice.IceConsole import Console, supported_consoles, console_lookup, gba
 
 class IceConsoleTests(unittest.TestCase):
     def setUp(self):
-        self.console = Console("Test","Test Console","")
+        self.console = Console("Test","Test Console")
         
     def test_console_lookup(self):
         """
