@@ -107,7 +107,7 @@ ps1 = Console("PS1", "Playstation")
 ps2 = Console("PS2", "Playstation 2")
 genesis = Console("Genesis", "Sega Genesis")
 dreamcast = Console("Dreamcast", "Sega Dreamcast")
-gameboy = Console("Gameboy", "Nintendo Gameboy")
+gameboy = Console("Gameboy", "Gameboy")
 gba = Console("GBA","Gameboy Advance")
 ds = Console("DS","Nintendo DS")
 

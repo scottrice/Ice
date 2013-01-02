@@ -1,0 +1,17 @@
+NOTES REGARDING ICONS: Each icon has a different license, which I mention 
+below. If you are looking to use my code in a way which violates the terms of
+the license for any of the icons, it is up to you to find replacements.
+
+The NES, SNES, N64, Gamecube, Wii, PS1, PS2, Genesis, Dreamcast, and GBA icons
+were all made by Deleket (http://www.deleket.com), whose work I found here:
+http://www.gettyicons.com/free-icon/119/game-emulator-icon-set/
+They are listed as free for non-commercial use. Thanks Deleket!
+
+The Nintendo DS icon comes from draseart, whose work I found here: 
+http://www.iconarchive.com/artist/draseart.html
+The icon is free for non-commercial use. Thanks draseart!
+
+The Gameboy icon comes from 177 icons, whose work I found here:
+http://www.gettyicons.com/free-icon/143/old-school-icon-set/free-gameboy-icon-png/
+The icon is listed as free for commercial use, but selling and claiming
+ownership is not allowed. Thanks to 177 icons!
