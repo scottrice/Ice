@@ -66,10 +66,11 @@ class IceROMManager():
                 self.managed_roms.add(shortcut.exe)
         
     def __shortcut_for_rom__(self,rom):
-        # TODO: Support custom icons
         exe_path = "\"%s\"" % rom.executable_path()
         exe_dir = "\"%s\"" % rom.console.executables_directory()
-        return SteamShortcut(rom.name(),exe_path,exe_dir,"",rom.console.fullname)
+        # Each shortcut should have an icon set based on the console for which
+        # it belongs
+        return SteamShortcut(rom.name(),exe_path,exe_dir,rom.console.icon_path(),rom.console.fullname)
         
     def add_rom(self,rom):
         # Don't add a ROM if we don't have a supported emulator for it

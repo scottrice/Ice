@@ -66,6 +66,15 @@ class Console():
         """
         return os.path.join(IceFilesystemHelper.executables_directory(),self.shortname)
         
+    def icon_path(self):
+        """
+        Should return the path to the icon for the given console. This icon
+        should be located in the resources/images/icons directory, and should
+        be named the same as the emulator shortname with a .png extension
+        """
+        icon_filename = self.shortname + ".png"
+        return os.path.join(IceFilesystemHelper.icons_directory(),icon_filename)
+        
     def find_all_roms(self):
         """
         Reads a list of all the ROMs from the appropriate directory for the
