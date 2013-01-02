@@ -16,6 +16,7 @@ ROMs
 
 import sys
 import os
+import stat
 
 import IceSettings
 import IceFilesystemHelper
@@ -60,3 +61,7 @@ class ROM:
         """
         if not os.path.exists(self.executable_path()):
             open(self.executable_path(),"w+").write(self.executable_string())
+            # Taken from StackOverflow answer: 
+            # http://stackoverflow.com/questions/12791997/how-do-you-do-a-simple-chmod-x-from-within-python
+            st = os.stat(self.executable_path())
+            os.chmod(self.executable_path(), st.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)

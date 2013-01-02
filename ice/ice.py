@@ -25,10 +25,16 @@ def main():
             # The ROM manager will take care of only adding missing ROMs and
             # such. All changes should be reflected in the shortcuts_manager
             rom_manager.add_rom(rom)
+        # For testing purposes, uncomment this code, which will save the new
+        # shortcuts.vdf file in updated_shortcuts.vdf instead of overwriting
+        # the old file
+        # 
+        # shortcuts_dir = os.path.dirname(shortcuts_path)
+        # my_path = os.path.join(shortcuts_dir,"updated_shortcuts.vdf")
+        # shortcuts_manager.save(my_path)
+        # 
         # Generate a new shortcuts.vdf file with all of the new additions
-        shortcuts_dir = os.path.dirname(shortcuts_path)
-        my_path = os.path.join(shortcuts_dir,"updated_shortcuts.vdf")
-        shortcuts_manager.save(my_path)
+        shortcuts_manager.save()
     
 if __name__ == "__main__":
     main()
