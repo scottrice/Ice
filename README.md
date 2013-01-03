@@ -1,24 +1,12 @@
 ##Description
-The purpose of this application is to turn Steam's Big Picture mode into a
-retro console gaming paradise. This application accomplishes this in two ways,
-the first is by coming bundled with a set of emulators pre-set up with an Xbox
-controller in mind (Xbox only because of how well supported it is in Windows).
-The second is to 'watch' a predetermined set of directories, and when a ROM is
-added to any of those directories, having it added to Steam.
 
-While this is not the only experience I hope to enable via this application,
-the driving goal behind this application is to allow someone to download all
-of the ROMs for a certain system, throw them in a folder, and then be able to
-use Steam's Big Picture mode to act as a ROM selector, so they can go and play
-their favorite game on X console extremely easily, similar to how buddwm does
-it in his NES/SNES PC build projects. You can find the videos I am talking
-about here:
-
-http://www.youtube.com/watch?feature=player_detailpage&v=cBtYiQ1mnvA#t=462s
-
-Clearly this is just the software end, but hopefully this gives an idea of the
-kind of user experience I am hoping for (pick a game from a list, immediately
-get to play it, etc)
+The purpose of this project is to leverage Steam's Big Picture mode to turn it
+into an emulator frontend (similar to Hyperspin). It accomplishes this by
+creating folders in specified locations on the users hard drive, and when a ROM
+is placed in one of those folders, my application will automatically add it to
+Steam as a non-steam game. Emulators to run each game should come 
+pre-configured to support Xbox 360 controllers intelligently while still 
+allowing all Steam features to be accessible (community etc)
 
 ##TODO
 
@@ -28,6 +16,9 @@ get to play it, etc)
 - Figure out possible issues with modifying shortcuts.vdf while Steam is
   currently running. Will we need a restart? This could very much alter our
   current 'ideal' user experience
+- Figure out a new location to store emulators to avoid having to push them to
+  github. My first inclination would be to put them in my Dropbox, and instead
+  distribute a script to download them all from there. Look into it.
   
 ##Goal Updates
 
