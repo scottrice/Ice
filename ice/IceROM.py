@@ -49,7 +49,14 @@ class ROM:
         if platform == "Windows":
             return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
         elif platform == "OSX":
-            return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator_path, self.path)
+            # Check if we are running an application or a shell script
+            if self.console.emulator_path.endswith(".app"):
+                # If we are running an app, we need to do 'open -a {app_path}'
+                return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator_path, self.path)
+            else:
+                # If we are running a script, we just execute the script
+                return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator_path,self.path)
+                
         else:
             # TODO: Figure out how to make this string on Linux
             return ""

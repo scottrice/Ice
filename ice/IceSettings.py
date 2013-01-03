@@ -41,7 +41,7 @@ windows_emulators = {
 osx_emulators = {
     # "NES":          "",
     "SNES":         "Snes9x/Snes9x.app",
-    # "N64":          "",
+    "N64":          "mupen64plus/ice_run.sh",
     # "Gamecube":     "",
     # "Wii":          "",
     # "PS1":          "",
