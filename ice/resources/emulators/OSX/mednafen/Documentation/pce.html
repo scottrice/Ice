@@ -1,0 +1,134 @@
+
+
+<html>
+ <head>
+  <title>Mednafen PC Engine/TurboGrafx 16 (CD)/SuperGrafx Documentation</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="mednafen.css" />
+ </head>
+ <body>
+  <center><h1><img alt="Mednafen" src="mednafen.png" width="696" height="204" /></h1></center>
+  <center><h1>PC Engine/TurboGrafx 16 (CD)/SuperGrafx Documentation</h1></center>
+  <center><i>Last updated May 15, 2012<br />Valid as of 0.9.22-WIP</i></center>
+ <p>
+ <b>Table of Contents:</b>
+ <ul><li /><a href="#Introduction">Introduction</a><ul></ul><li /><a href="#Custom+Palettes">Custom Palettes</a><ul></ul><li /><a href="#Default+Key+Assignments">Default Key Assignments</a><ul></ul><li /><a href="#Advanced+Usage">Advanced Usage</a><ul><li /><a href="#Advanced+Usage%01Accidental+Soft+Resets">Accidental Soft Resets</a><ul></ul><li /><a href="#Advanced+Usage%01Sprite+Flickering">Sprite Flickering</a><ul></ul><li /><a href="#Advanced+Usage%01Obnoxious+Sound+Effects+in+CD+Games">Obnoxious Sound Effects in CD Games</a><ul></ul></ul><li /><a href="#Settings+Reference">Settings Reference</a><ul></ul></ul></p><hr width="100%" />
+<a name="Introduction"><h2>Introduction</h2></a><p> 
+ <ul>
+  <li>Sub-instruction timing granularity(but greater than cycle granularity)
+  <li>All sprite sizes supported.</li>
+  <li>16-sprites per line limit emulated.</li>
+  <li>Accurate HuC6280 flags emulation.</li>
+  <li>Dot-clock emulation for more accurate aspect ratios.</li>
+  <li>Very accurate and tonally-correct(thanks to Blip_Synth) PSG emulation.</li>
+  <li>Support for Street Fighter 2's HuCard hardware.</li>
+  <li>Support for Populous's backup RAM.</li>
+  <li>6-button pad emulation.</li>
+  <li>Mouse emulation.</li>
+ </ul>
+</p><hr width="100%">
+<a name="Custom+Palettes"><h2>Custom Palettes</h2></a><p><p>
+Custom palettes should contain 512 or 1024 8-bit-per-color-component RGB triplets.  If only 512 triplets are present, the remaining 512
+greyscale colors will be calculated automatically.
+</p>
+</p><hr width="100%">
+
+
+<a name="Default+Key+Assignments"><h2>Default Key Assignments</h2></a><p> <p>
+ <table border>
+  <tr><th colspan="3">Hotkeys</th></tr>
+  <tr><th>Key(s):</th><th>Action:</th><th>Setting Name:</th></tr>
+  <tr><td>ALT + SHIFT + 1</td><td>Activate in-game input configuration process for gamepad 1.</td><td>input_config1</td></tr>
+  <tr><td>ALT + SHIFT + 2</td><td>Activate in-game input configuration process for gamepad 2.</td><td>input_config2</td></tr>
+  <tr><td>ALT + SHIFT + 3</td><td>Activate in-game input configuration process for gamepad 3.</td><td>input_config3</td></tr>
+  <tr><td>ALT + SHIFT + 4</td><td>Activate in-game input configuration process for gamepad 4.</td><td>input_config4</td></tr>
+  <tr><td>ALT + SHIFT + 5</td><td>Activate in-game input configuration process for gamepad 5.</td><td>input_config5</td></tr>
+ </table>
+ </p>
+
+ <p>
+ <table border>
+  <tr><th colspan="2">Virtual Gamepad 1</th></tr>
+  <tr><th>Key:</th><th nowrap>Button:</th></tr>
+  <tr><td>Keypad 2</td><td>II</td></tr>
+  <tr><td>Keypad 3</td><td>I</td></tr>
+  <tr><td>Enter/Return</td><td>Run</td></tr>
+  <tr><td>Tab</td><td>Select</td></tr>
+  <tr><td>W</td><td>Up</td></tr>
+  <tr><td>S</td><td>Down</td></tr>
+  <tr><td>A</td><td>Left</td></tr>
+  <tr><td>D</td><td>Right</td></tr>
+ </table>
+ </p>
+</p><hr width="100%">
+<a name="Advanced+Usage"><h2>Advanced Usage</h2></a><p> <a name="Advanced+Usage%01Accidental+Soft+Resets"><h3>Accidental Soft Resets</h3></a><p> <p>
+  To prevent soft resets due to accidentally hitting RUN and SEL at the same time, set <a href="#pce.disable_softreset">pce.disable_softreset</a> to <b>1</b>.  This will prevent the emulated PCE from seeing both of those buttons pressed at the
+  same time.  However, it is not guaranteed to work on all games, particularly ones with sloppily-coded gamepad polling routines.
+ </p>
+ </p><hr width="75%">
+ <a name="Advanced+Usage%01Sprite+Flickering"><h3>Sprite Flickering</h3></a><p> <p>
+  Sprite flickering in shmups got you down?  Tired of scenery having a critical existence failure in games that have complex multi-layer effects?  Then the <a href="#pce.nospritelimit">pce.nospritelimit</a> setting is for you!<br>
+  Changing this setting to a value of <b>1</b> will eliminate 99% of your flickering and existence failure woes.  Side effects may include the superpower of seeing submarines through water(as in the first boss
+  scene of "Bloody Wolf"), along with seeing other hidden elements and graphical glitches("Ninja Ryukenden" has at least one broken cutscene with this setting enabled).
+ </p>
+
+ <table border>
+  <tr><th colspan="2"><i>Bloody Wolf</i> (glitching example)</th><th colspan="2"><i>Ginga Fukei Densetsu Sapphire</i> (improvement example)</th></tr>
+  <tr><td><img src="bwolf0.png"></td><td><img src="bwolf1.png"></td><td><img src="sapphire0.png"></td><td><img src="sapphire1.png"></td></tr>
+  <tr><td>pce.nospritelimit 0</td><td>pce.nospritelimit 1</td><td>pce.nospritelimit 0</td><td>pce.nospritelimit 1</td></tr>
+ </table>
+
+ </p><hr width="75%">
+ <a name="Advanced+Usage%01Obnoxious+Sound+Effects+in+CD+Games"><h3>Obnoxious Sound Effects in CD Games</h3></a><p> <p>
+  Many CD games have awesome music, but it is drowned out by excessively loud obnoxious sound effects.  This can be partially remedied by altering the <a href="#pce.cdpsgvolume">pce.cdpsgvolume</a> and <a href="#pce.adpcmvolume">pce.adpcmvolume</a> settings, try say a value of <b>50</b>,
+  but doing so may cause issues with cutscenes and PSG music-only sections.
+ </p>
+ </p><hr width="75%">
+</p><hr width="75%">
+<a name="Settings+Reference"><h2>Settings Reference</h2></a><p><p>
+<b>Caution:</b> Any settings that change emulation behavior as seen from the emulated game are shown with the setting name bolded in the table. One should be conscious of these settings if one has changed them from the default values when using network play or movies, as they can cause desychronizations if not set the same among hosts(or between the recording emulator and the playing emulator). 
+</p>
+<p><table border><tr class="TableHeader"><th>Setting:</th><th>Value Type:</th><th>Possible Values:</th><th>Default Value:</th><th>Description:</th></tr><tr class="RowA"><td class="ColA"><a name="pce.adpcmlp">pce.adpcmlp</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable lowpass filter with rolloff dependent on playback-frequency.<p>This makes ADPCM voices sound less "harsh", however, the downside is that it will cause many ADPCM sound effects to sound a bit muffled.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.adpcmvolume">pce.adpcmvolume</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 200</td><td class="ColD">100</td><td class="ColE">ADPCM volume.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.arcadecard"><b>pce.arcadecard</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">1</td><td class="ColE">Enable Arcade Card emulation.<p>Leaving this option enabled is recommended, unless you want to see special warning screens on ACD games, or you prefer the non-enhanced modes of ACD-enhanced SCD games.  Additionally, you may want to disable it you you wish to use state rewinding with a SCD ACD-enhanced game on a slow CPU, as the extra 2MiB of RAM the Arcade Card offers is difficult to compress in real-time.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.cdbios"><b>pce.cdbios</b></a></td><td class="ColB">string</td><td class="ColC">&nbsp;</td><td class="ColD">syscard3.pce</td><td class="ColE">Path to the CD BIOS<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.cddavolume">pce.cddavolume</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 200</td><td class="ColD">100</td><td class="ColE">CD-DA volume.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.cdpsgvolume">pce.cdpsgvolume</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 200</td><td class="ColD">100</td><td class="ColE">PSG volume when playing a CD game.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.disable_bram_cd"><b>pce.disable_bram_cd</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Disable BRAM(saved game memory) for CD games.<p>It is intended for viewing CD games' error screens that may be different from simple BRAM full and uninitialized BRAM error screens, though it can cause the game to crash outright.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.disable_bram_hucard"><b>pce.disable_bram_hucard</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Disable BRAM(saved game memory) for HuCard games.<p>It is intended for changing the behavior(passwords vs save games) of some HuCard games.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.disable_softreset">pce.disable_softreset</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.forcesgx"><b>pce.forcesgx</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Force SuperGrafx emulation.<p>Enabling this option is not necessary to run unrecognized PCE ROM images in SuperGrafx mode, and enabling it is discouraged; ROM images with a file extension of ".sgx" will automatically enable SuperGrafx emulation.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.gecdbios"><b>pce.gecdbios</b></a></td><td class="ColB">string</td><td class="ColC">&nbsp;</td><td class="ColD">gecard.pce</td><td class="ColE">Path to the GE CD BIOS<p>Games Express CD Card BIOS (Unlicensed)</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.h_overscan">pce.h_overscan</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Show horizontal overscan area.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.input.multitap"><b>pce.input.multitap</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">1</td><td class="ColE">Enable multitap(TurboTap) emulation.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.input.port1"><b>pce.input.port1</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />mouse<br />tsushinkb</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 1<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>mouse</b> - Mouse<br></li><br /><li><b>tsushinkb</b> - Tsushin Keyboard<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.input.port2"><b>pce.input.port2</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />mouse</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 2<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>mouse</b> - Mouse<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.input.port3"><b>pce.input.port3</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />mouse</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 3<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>mouse</b> - Mouse<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.input.port4"><b>pce.input.port4</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />mouse</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 4<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>mouse</b> - Mouse<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.input.port5"><b>pce.input.port5</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />mouse</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 5<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>mouse</b> - Mouse<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.mouse_sensitivity">pce.mouse_sensitivity</a></td><td class="ColB">real</td><td class="ColC"> <i>through</i> </td><td class="ColD">0.50</td><td class="ColE">Emulated mouse sensitivity.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.nospritelimit">pce.nospritelimit</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Remove 16-sprites-per-scanline hardware limit.<p>WARNING: Enabling this option may cause undesirable graphics glitching on some games(such as "Bloody Wolf").</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.psgrevision">pce.psgrevision</a></td><td class="ColB">enum</td><td class="ColC">huc6280<br />huc6280a<br />enhanced<br />match</td><td class="ColD">huc6280a</td><td class="ColE">Select PSG revision.<p>WARNING: HES playback will always use the "huc6280a" revision if this setting is set to "match", since HES playback is always done with SuperGrafx emulation enabled.</p><ul><li><b>huc6280</b> - HuC6280<br>HuC6280 as found in the original PC Engine.</li><br /><li><b>huc6280a</b> - HuC6280A<br>HuC6280A as found in the SuperGrafx and CoreGrafx I.  Provides proper channel amplitude centering, but may cause clicking in a few games designed with the original HuC6280's sound characteristics in mind.</li><br /><li><b>enhanced</b> - Enhanced<br>Emulator-only pseudo-revision, designed to reduce clicking and audio artifacts in games designed for either real revision.</li><br /><li><b>match</b> - Match emulation mode.<br>Selects "huc6280" for non-SuperGrafx mode, and "huc6280a" for SuperGrafx(full) mode.</li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.slend">pce.slend</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 239</td><td class="ColD">235</td><td class="ColE">Last rendered scanline.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.slstart">pce.slstart</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 239</td><td class="ColD">4</td><td class="ColE">First rendered scanline.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.vramsize">pce.vramsize</a></td><td class="ColB">integer</td><td class="ColC">32768 <i>through</i> 65536</td><td class="ColD">32768</td><td class="ColE">Size of emulated VRAM per VDC in 16-bit words.  DO NOT CHANGE THIS UNLESS YOU KNOW WTF YOU ARE DOING.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+</table></p><p><table border><tr class="TableHeader"><th>Setting:</th><th>Value Type:</th><th>Possible Values:</th><th>Default Value:</th><th>Description:</th></tr><tr class="RowA"><td class="ColA"><a name="pce.debugger.disfontsize">pce.debugger.disfontsize</a></td><td class="ColB">enum</td><td class="ColC"></td><td class="ColD">small</td><td class="ColE">Disassembly font size.<p></p><ul></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.debugger.memcharenc">pce.debugger.memcharenc</a></td><td class="ColB">string</td><td class="ColC">&nbsp;</td><td class="ColD">shift_jis</td><td class="ColE">Character encoding for the debugger's memory editor.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.enable">pce.enable</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">1</td><td class="ColE">Enable (automatic) usage of this module.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.forcemono">pce.forcemono</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Force monophonic sound output.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.pixshader">pce.pixshader</a></td><td class="ColB">enum</td><td class="ColC">none<br />autoip<br />autoipsharper<br />scale2x<br />ipsharper<br />ipxnoty<br />ipynotx<br />ipxnotysharper<br />ipynotxsharper</td><td class="ColD">none</td><td class="ColE">Enable specified OpenGL pixel shader.<p>Obviously, this will only work with the OpenGL "video.driver" setting, and only on cards and OpenGL implementations that support pixel shaders, otherwise you will get a black screen, or Mednafen may display an error message when starting up. Bilinear interpolation is disabled with pixel shaders, and any interpolation, if present, will be noted in the description of each pixel shader.</p><ul><li><b>none</b> - None/Disabled<br></li><br /><li><b>autoip</b> - Auto Interpolation<br>Will automatically interpolate on each axis if the corresponding effective scaling factor is not an integer.</li><br /><li><b>autoipsharper</b> - Sharper Auto Interpolation<br>Same as "autoip", but when interpolation is done, it is done in a manner that will reduce blurriness if possible.</li><br /><li><b>scale2x</b> - Scale2x<br></li><br /><li><b>ipsharper</b> - Sharper bilinear interpolation.<br></li><br /><li><b>ipxnoty</b> - Linear interpolation on X axis only.<br></li><br /><li><b>ipynotx</b> - Linear interpolation on Y axis only.<br></li><br /><li><b>ipxnotysharper</b> - Sharper version of "ipxnoty".<br></li><br /><li><b>ipynotxsharper</b> - Sharper version of "ipynotx".<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.scanlines">pce.scanlines</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 100</td><td class="ColD">0</td><td class="ColE">Enable scanlines with specified opacity.<p>Opacity is specified in %; IE a value of "100" will give entirely black scanlines.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.special">pce.special</a></td><td class="ColB">enum</td><td class="ColC">none<br />hq2x<br />hq3x<br />hq4x<br />scale2x<br />scale3x<br />scale4x<br />2xsai<br />super2xsai<br />supereagle<br />nn2x<br />nn3x<br />nn4x<br />nny2x<br />nny3x<br />nny4x</td><td class="ColD">none</td><td class="ColE">Enable specified special video scaler.<p>The destination rectangle is NOT altered by this setting, so if you have xscale and yscale set to "2", and try to use a 3x scaling filter like hq3x, the image is not going to look that great. The nearest-neighbor scalers are intended for use with bilinear interpolation enabled, at high resolutions(such as 1280x1024; nn2x(or nny2x) + bilinear interpolation + fullscreen stretching at this resolution looks quite nice).</p><ul><li><b>none</b> - None/Disabled<br></li><br /><li><b>hq2x</b> - hq2x<br></li><br /><li><b>hq3x</b> - hq3x<br></li><br /><li><b>hq4x</b> - hq4x<br></li><br /><li><b>scale2x</b> - scale2x<br></li><br /><li><b>scale3x</b> - scale3x<br></li><br /><li><b>scale4x</b> - scale4x<br></li><br /><li><b>2xsai</b> - 2xSaI<br></li><br /><li><b>super2xsai</b> - Super 2xSaI<br></li><br /><li><b>supereagle</b> - Super Eagle<br></li><br /><li><b>nn2x</b> - Nearest-neighbor 2x<br></li><br /><li><b>nn3x</b> - Nearest-neighbor 3x<br></li><br /><li><b>nn4x</b> - Nearest-neighbor 4x<br></li><br /><li><b>nny2x</b> - Nearest-neighbor 2x, y axis only<br></li><br /><li><b>nny3x</b> - Nearest-neighbor 3x, y axis only<br></li><br /><li><b>nny4x</b> - Nearest-neighbor 4x, y axis only<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.stretch">pce.stretch</a></td><td class="ColB">enum</td><td class="ColC">0<br />full<br />aspect<br />aspect_int<br />aspect_mult2</td><td class="ColD">aspect_mult2</td><td class="ColE">Stretch to fill screen.<p></p><ul><li><b>0</b> - Disabled<br></li><br /><li><b>full</b> - Full<br>Full-screen stretch, disregarding aspect ratio.</li><br /><li><b>aspect</b> - Aspect Preserve<br>Full-screen stretch as far as the aspect ratio(in this sense, the equivalent xscalefs == yscalefs) can be maintained.</li><br /><li><b>aspect_int</b> - Aspect Preserve + Integer Scale<br>Full-screen stretch, same as "aspect" except that the equivalent xscalefs and yscalefs are rounded down to the nearest integer.</li><br /><li><b>aspect_mult2</b> - Aspect Preserve + Integer Multiple-of-2 Scale<br>Full-screen stretch, same as "aspect_int", but rounds down to the nearest multiple of 2.</li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.tblur">pce.tblur</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable video temporal blur(50/50 previous/current frame by default).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.tblur.accum">pce.tblur.accum</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Accumulate color data rather than discarding it.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.tblur.accum.amount">pce.tblur.accum.amount</a></td><td class="ColB">real</td><td class="ColC">0 <i>through</i> 100</td><td class="ColD">50</td><td class="ColE">Blur amount in accumulation mode, specified in percentage of accumulation buffer to mix with the current frame.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.videoip">pce.videoip</a></td><td class="ColB">enum</td><td class="ColC">0<br />1<br />x<br />y</td><td class="ColD">1</td><td class="ColE">Enable (bi)linear interpolation.<p></p><ul><li><b>0</b> - Disabled<br></li><br /><li><b>1</b> - Bilinear<br></li><br /><li><b>x</b> - Linear (X)<br>Interpolation only on the X axis.</li><br /><li><b>y</b> - Linear (Y)<br>Interpolation only on the Y axis.</li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.xres">pce.xres</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 65536</td><td class="ColD">0</td><td class="ColE">Full-screen horizontal resolution.<p>A value of "0" will cause the desktop horizontal resolution to be used.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.xscale">pce.xscale</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">3.000000</td><td class="ColE">Scaling factor for the X axis.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.xscalefs">pce.xscalefs</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">1.000000</td><td class="ColE">Scaling factor for the X axis in fullscreen mode.<p>For this settings to have any effect, the "<system>.stretch" setting must be set to "0".</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.yres">pce.yres</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 65536</td><td class="ColD">0</td><td class="ColE">Full-screen vertical resolution.<p>A value of "0" will cause the desktop vertical resolution to be used.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="pce.yscale">pce.yscale</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">3.000000</td><td class="ColE">Scaling factor for the Y axis.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="pce.yscalefs">pce.yscalefs</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">1.000000</td><td class="ColE">Scaling factor for the Y axis in fullscreen mode.<p>For this settings to have any effect, the "<system>.stretch" setting must be set to "0".</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+</table></p></p><hr width="100%">
+ </body>
+</html>

@@ -123,7 +123,12 @@ supported_consoles = [
     dreamcast,
     gameboy,
     gba,
-    ds
+# I orginally planned DS support, but didn't think it though, as the point
+# of this project was to make something controller friendly, and I have no
+# idea how someone would use a controller to emulate a Nintendo DS. I can see
+# my application being useful without a controller, as a way to get Steam to
+# manage ROMs, but for now I will ignore DS support
+    # ds
 ]
 
 # console_mapping is a map between the shortname (which is also used as the

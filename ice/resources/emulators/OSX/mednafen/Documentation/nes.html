@@ -1,0 +1,513 @@
+
+
+<html>
+ <head>
+  <title>Mednafen Nintendo Entertainment System/Famicom Documentation</title>
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="mednafen.css" />
+ </head>
+ <body>
+  <center><h1><img alt="Mednafen" src="mednafen.png" width="696" height="204" /></h1></center>
+  <center><h1>Nintendo Entertainment System/Famicom Documentation</h1></center>
+  <center><i>Last updated May 15, 2012<br />Valid as of 0.9.22-WIP</i></center>
+ <p>
+ <b>Table of Contents:</b>
+ <ul><li /><a href="#Introduction">Introduction</a><ul><li /><a href="#Introduction%01Custom+Palettes">Custom Palettes</a><ul></ul><li /><a href="#Introduction%01Input">Input</a><ul><li /><a href="#Introduction%01Input%01Zapper">Zapper</a><ul></ul></ul><li /><a href="#Introduction%01File+Formats">File Formats</a><ul><li /><a href="#Introduction%01File+Formats%01iNES+Format">iNES Format</a><ul></ul><li /><a href="#Introduction%01File+Formats%01UNIF">UNIF</a><ul></ul></ul><li /><a href="#Introduction%01Famicom+Disk+System">Famicom Disk System</a><ul></ul><li /><a href="#Introduction%01Game+Genie">Game Genie</a><ul></ul><li /><a href="#Introduction%01VS+Unisystem">VS Unisystem</a><ul></ul></ul><li /><a href="#Default+Key+Assignments">Default Key Assignments</a><ul><li /><a href="#Default+Key+Assignments%01VS+Unisystem">VS Unisystem</a><ul></ul><li /><a href="#Default+Key+Assignments%01Famicom+Disk+System">Famicom Disk System</a><ul></ul><li /><a href="#Default+Key+Assignments%01Barcode+Readers">Barcode Readers</a><ul></ul><li /><a href="#Default+Key+Assignments%01Game+Pad">Game Pad</a><ul></ul><li /><a href="#Default+Key+Assignments%01Power+Pad">Power Pad</a><ul></ul><li /><a href="#Default+Key+Assignments%01Family+Keyboard">Family Keyboard</a><ul></ul><li /><a href="#Default+Key+Assignments%01HyperShot+Controller">HyperShot Controller</a><ul></ul><li /><a href="#Default+Key+Assignments%01Mahjong+Controller">Mahjong Controller</a><ul></ul><li /><a href="#Default+Key+Assignments%01Party+Tap+Controller">Party Tap Controller</a><ul></ul></ul><li /><a href="#Game-specific+Emulation+Hacks">Game-specific Emulation Hacks</a><ul></ul><li /><a href="#Settings+Reference">Settings Reference</a><ul></ul></ul></p><hr width="100%" />
+<a name="Introduction"><h2>Introduction</h2></a><p><p>
+Mednafen's NES/Famicom emulation is based off of <a href="http://fceultra.sourceforge.net/">FCE Ultra</a>.
+</p>
+<a name="Introduction%01Custom+Palettes"><h3>Custom Palettes</h3></a><p><p>
+Custom palettes should contain 64 8-bit-per-color-component RGB triplets.
+</p>
+</p><hr width="75%">
+<a name="Introduction%01Input"><h3>Input</h3></a><p> <p>
+  Mednafen emulates the standard NES gamepad, the Four-Score multiplayer
+  adapter, the Zapper, the Power Pad,  and the Arkanoid controller.  The 
+  Famicom version of the Arkanoid controller, the "Space Shadow" gun, the 
+  Famicom 4-player adapter, the Family Keyboard, the HyperShot controller, the Mahjong controller,
+  the Oeka Kids tablet, the Party Tap, the Family Trainer, and the Barcode World barcode
+  reader are also emulated.
+ </p>
+
+<a name="Introduction%01Input%01Zapper"><h4>Zapper</h4></a><p> <p>
+        Most Zapper NES games expect the Zapper to be plugged into port 2.
+        and most VS Unisystem games expect the Zapper to be plugged
+        into port 1.
+ </p><p>
+        The left mouse button is the emulated trigger button for the
+        Zapper.  The right mouse button is also emulated as the trigger,
+        but as long as you have the right mouse button held down, no color
+        detection will take place, which is effectively like pulling the
+        trigger while the Zapper is pointed away from the television screen.
+        Note that you must hold the right button down for a short
+        time to have the desired effect.
+ </p>
+</p><hr width="50%">
+</p><hr width="50%">
+<a name="Introduction%01File+Formats"><h3>File Formats</h3></a><p> <p>
+ Mednafen supports the iNES, FDS(raw and with a header), UNIF, and NSF file
+ formats.  FDS ROM images in the iNES format are not supported; it would
+ be silly to do so and storing them in that format is nonsensical.
+ </p>
+
+<a name="Introduction%01File+Formats%01iNES+Format"><h4>iNES Format</h4></a><p> <p>
+ The battery-backed RAM, vertical/horizontal mirroring, four-screen
+ name table layout, and 8-bit mapper number capabilities of the iNES
+ format are supported.  The 512-byte trainer capability is also supported,
+ but it is deprecated.  Common header corruption conditions are cleaned(let's
+ go on a DiskDude hunt), though not all conditions can be automatically
+ detected and fixed.  In addition, a few common header inaccuracies for
+ games are also corrected(detected by CRC32 value).  Note that these
+ fixes are not written back to the storage medium.
+ </p>
+ <p>
+ Support for the recent VS System bit and "number of 8kB RAM banks" 
+ is not implemented.  Too many iNES headers are corrupt where this new data
+ is stored, causing problems for those games.
+ </p>
+ <p>
+ The following table lists iNES-format "mappers" supported well in Mednafen.
+ </p><p>
+ <table width="100%" border>
+ <tr><th>Number:</th><th>Description:</th><th>Game Examples:</th></tr>
+ <tr><td>0</td><td>No bankswitching</td><td>Donkey Kong, Mario Bros</td></tr>
+ <tr><td>1</td><td>Nintendo MMC1</td><td>MegaMan 2, Final Fantasy</td></tr>
+ <tr><td>2</td><td>UNROM</td><td>MegaMan, Archon, 1944</td></tr>
+ <tr><td>3</td><td>CNROM</td><td>Spy Hunter, Gradius</td></tr>
+ <tr><td>4</td><td>Nintendo MMC3</td><td>Super Mario Bros. 3, Recca, Final Fantasy 3</td></tr>
+ <tr><td>5</td><td>Nintendo MMC5</td><td>Castlevania 3, Just Breed, Bandit Kings of Ancient China</td></tr>
+ <tr><td>6</td><td>FFE F4 Series(hacked, bootleg)</td><td></td></tr>
+ <tr><td>7</td><td>AOROM</td><td>Battle Toads, Time Lord</td></tr>
+ <tr><td>8</td><td>FFE F3 Series(hacked, bootleg)</td><td></td></tr>
+ <tr><td>9</td><td>Nintendo MMC2</td><td>Punchout!</td></tr>
+ <tr><td>10</td><td>Nintendo MMC4</td><td>Fire Emblem, Fire Emblem Gaiden</td></tr>
+ <tr><td>11</td><td>Color Dreams</td><td>Crystal Mines, Bible Adventures</td></tr>
+ <tr><td>12</td><td>??</td><td>Dragon Ball Z 5 ("bootleg" original)</td></tr>
+ <tr><td>13</td><td>CPROM</td><td>Videomation</td></tr>
+ <tr><td>15</td><td>Multi-cart(bootleg)</td><td>100-in-1: Contra Function 16</td></tr>
+ <tr><td>16</td><td>Bandai ??</td><td>Dragon Ball Z, SD Gundam Gaiden **EEPROM is not emulated</td></tr>
+ <tr><td>17</td><td>FFE F8 Series(hacked, bootleg)</td><td></td></tr>
+ <tr><td>18</td><td>Jaleco SS806</td><td>Pizza Pop, Plasma Ball</td></tr>
+ <tr><td>19</td><td>Namco 106</td><td>Splatter House, Mappy Kids</td></tr>
+ <tr><td>21</td><td>Konami VRC4 2A</td><td>WaiWai World 2, Ganbare Goemon Gaiden 2</td></tr>
+ <tr><td>22</td><td>Konami VRC4 1B</td><td>Twinbee 3</td></tr>
+ <tr><td>23</td><td>Konami VRC2B</td><td>WaiWai World, Crisis Force</td></tr>
+ <tr><td>24</td><td>Konami VRC6</td><td>Akumajou Densetsu</td></tr>
+ <tr><td>25<td>Konami VRC4</td><td>Gradius 2, Bio Miracle:Boku tte Upa</td></tr>
+ <tr><td>26</td><td>Konami VRC6 A0-A1 Swap</td><td>Esper Dream 2, Madara</td></tr>
+ <tr><td>32</td><td>IREM G-101</td><td>Image Fight 2, Perman</td></tr>
+ <tr><td>33</td><td>Taito TC0190/TC0350</td><td>Don Doko Don</td></tr>
+ <tr><td>34</td><td>NINA-001 and BNROM</td><td>Impossible Mission 2, Deadly Towers, Bug Honey</td></tr>
+ <tr><td>41</td><td>Caltron 6-in-1</td><td>Caltron 6-in-1</td></tr>
+ <tr><td>42</td><td>(bootleg)</td><td>Mario Baby</td></tr>
+ <tr><td>44</td><td>Multi-cart(bootleg)</td><td>Super HiK 7 in 1</td></tr>
+ <tr><td>45</td><td>Multi-cart(bootleg)</td><td>Super 1000000 in 1</td></tr>
+ <tr><td>46</td><td>Game Station</td><td>Rumble Station</td></tr>
+ <tr><td>47</td><td>NES-QJ</td><td>Nintendo World Cup/Super Spike V-Ball</td></tr>
+ <tr><td>48</td><td>Taito TC190V</td><td>Flintstones</td></tr>
+ <tr><td>49</td><td>Multi-cart(bootleg)</td><td>Super HiK 4 in 1</td></tr>
+ <tr><td>51</td><td>Multi-cart(bootleg)</td><td>11 in 1 Ball Games</td></tr>
+ <tr><td>52</td><td>Multi-cart(bootleg)</td><td>Mario Party 7 in 1</td></tr>
+ <tr><td>64</td><td>Tengen RAMBO 1</td><td>Klax, Rolling Thunder, Skull and Crossbones</td></tr>
+ <tr><td>65</td><td>IREM H-3001</td><td>Daiku no Gensan 2</td></tr>
+ <tr><td>66</td><td>GNROM</td><td>SMB/Duck Hunt</td></tr>
+ <tr><td>67</td><td>Sunsoft ??</td><td>Fantasy Zone 2</td></tr>
+ <tr><td>68</td><td>Sunsoft ??</td><td>After Burner 2, Nantetta Baseball</td></tr>
+ <tr><td>69</td><td>Sunsoft FME-7</td><td>Batman: Return of the Joker, Hebereke</td>
+ <tr><td>70</td><td>??</td><td>Kamen Rider Club</td></tr>
+ <tr><td>71</td><td>Camerica</td><td>Fire Hawk, Linus Spacehead</td></tr>
+ <tr><td>72</td><td>Jaleco ??</td><td>Pinball Quest</td></tr>
+ <tr><td>73</td><td>Konami VRC3</td><td>Salamander</td></tr>
+ <tr><td>74</td><td>Taiwanese MMC3 CHR ROM w/ VRAM</td><td>Super Robot Wars 2</td></tr>
+ <tr><td>75</td><td>Jaleco SS8805/Konami VRC1</td><td>Tetsuwan Atom, King Kong 2</td></tr>
+ <tr><td>76</td><td>Namco 109</td><td>Megami Tensei</td></tr>
+ <tr><td>77</td><td>IREM ??</td><td>Napoleon Senki</td></tr>
+ <tr><td>78</td><td>Irem 74HC161/32</td><td>Holy Diver</td></tr>
+ <tr><td>79</td><td>NINA-06/NINA-03</td><td>F15 City War, Krazy Kreatures, Tiles of Fate</td></tr>
+ <tr><td>80</td><td>Taito X-005</td><td>Minelvation Saga</td></tr>
+ <tr><td>82</td><td>Taito ??</td><td>Kyuukyoku Harikiri Stadium - Heisei Gannen Ban</td><tr/>
+ <tr><td>85</td><td>Konami VRC7</td><td>Lagrange Point</td></tr>
+ <tr><td>86</td><td>Jaleco JF-13</td><td>More Pro Baseball</td></tr>
+ <tr><td>87</td><td>??</td><td>Argus</td></tr>
+ <tr><td>88</td><td>Namco 118</td><td>Dragon Spirit</td></tr>
+ <tr><td>89</td><td>Sunsoft ??</td><td>Mito Koumon</td></tr>
+ <tr><td>90</td><td>??</td><td>Super Mario World, Mortal Kombat 3, Tekken 2</td></tr>
+ <tr><td>92</td><td>Jaleco ??</td><td>MOERO Pro Soccer</td></tr>
+ <tr><td>93</td><td>??</td><td>Fantasy Zone</td></tr>
+ <tr><td>94</td><td>??</td><td>Senjou no Ookami</td></tr>
+ <tr><td>95</td><td>Namco 118</td><td>Dragon Buster</td></tr>
+ <tr><td>96</td><td>Bandai ??</td><td>Oeka Kids</td></tr>
+ <tr><td>97</td><td>??</td><td>Kaiketsu Yanchamaru</td></tr>
+ <tr><td>99</td><td>VS System 8KB VROM Switch</td><td>VS SMB, VS Excite Bike</td></tr>
+ <tr><td>105</td><td>NES-EVENT</td><td>Nintendo World Championships</td></tr>
+ <tr><td>107</td><td>??</td><td>Magic Dragon</td></tr>
+ <tr><td>112</td><td>Asder</td><td>Sango Fighter, Hwang Di</td></tr>
+ <tr><td>113</td><td>MB-91</td><td>Deathbots</td></tr>
+ <tr><td>114</td><td>??</td><td>The Lion King</td></tr>
+ <tr><td>115</td><td>??</td><td>Yuu Yuu Hakusho Final, Thunderbolt 2, Shisen Mahjian 2</td></tr>
+ <tr><td>117</td><td>??</td><td>San Guo Zhi 4</td></tr>
+ <tr><td>118</td><td>MMC3-TLSROM/TKSROM Board</td><td>Ys 3, Goal! 2, NES Play Action Football</td></tr>
+ <tr><td>119</td><td>MMC3-TQROM Board</td><td>High Speed, Pin*Bot</td></tr>
+ <tr><td>133</td><td>Sachen SA72008</td><td>Jovial Race</td></tr>
+ <tr><td>134</td><td>Sachen 74LS374N</td><td>Olympic IQ</td></tr>
+ <tr><td>135</td><td>Sachen 8259A</td><td>Super Pang</td></tr>
+ <tr><td>140</td><td>Jaleco ??</td><td>Bio Senshi Dan</td></tr>
+ <tr><td>144</td><td>AGCI 50282</td><td>Death Race</td></tr>
+ <tr><td>150</td><td>Camerica BF9097</td><td>FireHawk</td></tr>
+ <tr><td>151</td><td>Konami VS System Expansion</td><td>VS The Goonies, VS Gradius</td></tr>
+ <tr><td>152</td><td>??</td><td>Arkanoid 2, Saint Seiya Ougon Densetsu</td></tr>
+ <tr><td>153</td><td>Bandai ??</td><td>Famicom Jump 2</td></tr>
+ <tr><td>154</td><td>Namco ??</td><td>Devil Man</td></tr>
+ <tr><td>155</td><td>MMC1 w/o normal WRAM disable</td><td>The Money Game, Tatakae!! Rahmen Man</td></tr>
+ <tr><td>156</td><td>??</td><td>Buzz and Waldog</td></tr>
+ <tr><td>157</td><td>Bandai Datach ??</td><td>Datach DBZ, Datach SD Gundam Wars, **EEPROM is not emulated</td></tr>
+ <tr><td>158</td><td nowrap>RAMBO 1 Derivative</td><td>Alien Syndrome</td></tr>
+ <tr><td>160</td><td>(same as mapper 90)</td><td>(same as mapper 90)</td></tr>
+ <tr><td>180</td><td>??</td><td>Crazy Climber</td></tr>
+ <tr><td>182</td><td>??</td><td>Super Donkey Kong</td></tr>
+ <tr><td>184</td><td>??</td><td>Wing of Madoola, The</td></tr>
+ <tr><td>185</td><td>CNROM w/ CHR ROM unmapping</td><td>Banana, Mighty Bomb Jack, Spy vs Spy(Japanese)</td></tr>
+ <tr><td>189</td><td>??</td><td>Thunder Warrior, Street Fighter 2 (Yoko)</td></tr>
+ <tr><td>193</td><td>Mega Soft</td><td>Fighting Hero</td></tr>
+ <tr><td>206</td><td>DEIROM</td><td>Karnov</td></tr>
+ <tr><td>207</td><td>Taito ??</td><td>Fudou Myouou Den</td></tr>
+ <tr><td>208</td><td>??</td><td>Street Fighter IV (by Gouder)</td></tr>
+ <tr><td>209</td><td>(mapper 90 w/ name-table control mode enabled)</td><td>Shin Samurai Spirits 2, Power Rangers III</td></tr>
+ <tr><td>210</td><td>Namco ??</td><td>Famista '92, Famista '93, Wagyan Land 2</td></tr>
+ <tr><td>215</td><td>Bootleg multi-cart ??</td><td>Super\ 308\ 3-in-1\</td></tr>
+ <tr><td>217</td><td>Bootleg multi-cart ??</td><td>Golden Card 6-in-1</td></tr>
+ <tr><td>222</td><td>Bootleg ??</td><td>Dragon Ninja</td></tr>
+ <tr><td>228</td><td>Action 52</td><td>Action 52, Cheetahmen 2</td></tr>
+ <tr><td>232</td><td>BIC-48</td><td>Quattro Arcade, Quattro Sports</td></tr>
+ <tr><td>234</td><td>Multi-cart ??</td><td>Maxi-15</td></tr>
+ <tr><td>240</td><td>??</td><td>Gen Ke Le Zhuan, Shen Huo Le Zhuan</td></tr>
+ <tr><td>241</td><td>??</td><td>Journey to the West</td></tr>
+ <tr><td>242</td><td>??</td><td>Wai Xing Zhan Shi</td></tr>
+ <tr><td>244</td><td>??</td><td>Decathalon</td></tr>
+ <tr><td>246</td><td>??</td><td>Fong Shen Ban</td></tr>
+ <tr><td>248</td><td>??</td><td>Bao Qing Tian</td></tr>
+ <tr><td>249</td><td>Waixing ??</td><td>??</td></tr>
+ <tr><td>250</td><td>??</td><td>Time Diver Avenger</td></tr>
+ </table>
+ </p>
+</p><hr width="50%">
+
+<a name="Introduction%01File+Formats%01UNIF"><h4>UNIF</h4></a><p> <p>
+ Mednafen supports the following UNIF boards.  The prefixes HVC-, NES-, BTL-, and BMC- are omitted, since they are currently ignored in Mednafen's UNIF loader.
+ </p>
+ <p>
+ <table border width="100%">
+ <tr><th colspan="2">Group:</th></tr>
+ <tr><th>Name:</th><th>Game Examples:</th></tr>
+ <tr><th colspan="2">Bootleg:</th></tr>
+ <tr><td>BioMiracleA</td><td>Mario Baby</td></tr>
+ <tr><td>MARIO1-MALEE2</td><td>Super Mario Bros. Malee 2</td></tr>
+ <tr><td>NovelDiamond9999999in1</td><td>Novel Diamond 999999 in 1</td></tr>
+ <tr><td>Super24in1SC03</td><td>Super 24 in 1</td></tr>
+ <tr><td>Supervision16in1</td><td>Supervision 16-in-1</td></tr>
+ <tr><th colspan="2">Unlicensed:</th></tr>
+ <tr><td>UNL-603-5052</td><td>Contra Fighter</td></tr>
+ <tr><td>NINA-06</td><td>F-15 City War</td></tr>
+ <tr><td>Sachen-8259A</td><td>Super Cartridge Version 1</td></tr>
+ <tr><td>Sachen-8259B</td><td>Silver Eagle</td></tr>
+ <tr><td>Sachen-74LS374N</td><td>Auto Upturn</td></tr>
+ <tr><td>SA-016-1M</td><td>Master Chu and the Drunkard Hu</td></tr>
+ <tr><td>SA-72007</td><td>Sidewinder</td></tr>
+ <tr><td>SA-72008</td><td>Jovial Race</td></tr>
+ <tr><td>SA-0036</td><td>Mahjong 16</td></tr>
+ <tr><td>SA-0037</td><td>Mahjong Trap</td></tr>
+ <tr><td>TC-U01-1.5M</td><td>Challenge of the Dragon</td></tr>
+ <tr><td>8237</td><td>Pocahontas Part 2</td></tr>
+ <tr><th colspan="2">MMC1:</th></tr>
+ <tr><td>SAROM</td><td>Dragon Warrior</td></tr>
+ <tr><td>SBROM</td><td>Dance Aerobics</td></tr>
+ <tr><td>SCROM</td><td>Orb 3D</td></tr>
+ <tr><td>SEROM</td><td>Boulderdash</td></tr>
+ <tr><td>SGROM</td><td>Defender of the Crown</td></tr>
+ <tr><td>SKROM</td><td>Dungeon Magic</td></tr>
+ <tr><td>SLROM</td><td>Castlevania 2</td></tr>
+ <tr><td>SL1ROM</td><td>Sky Shark</td></tr>
+ <tr><td>SNROM</td><td>Shingen the Ruler</td></tr>
+ <tr><td>SOROM</td><td>Nobunaga's Ambition</td></tr>
+ <tr><th colspan="2">MMC2:</th></tr>
+ <tr><td>PEEOROM</td><td>Mike Tyson's Punch Out</td></tr>
+ <tr><td>PNROM</td><td>Punch Out</td></tr>
+ <tr><th colspan="2">MMC3:</th></tr>
+ <tr><td>TFROM</td><td>Legacy of the Wizard</td></tr>
+ <tr><td>TGROM</td><td>Megaman 4</td></tr>
+ <tr><td>TKROM</td><td>Kirby's Adventure</td></tr>
+ <tr><td>TKSROM</td><td>Ys 3</td></tr>
+ <tr><td>TLROM</td><td>Super Spike V'Ball</td></tr>
+ <tr><td>TLSROM</td><td>Goal! 2</td></tr>
+ <tr><td>TR1ROM</td><td>Gauntlet</td></tr>
+ <tr><td>TQROM</td><td>Pinbot</td></tr>
+ <tr><td>TSROM</td><td>Super Mario Bros. 3</td></tr>
+ <tr><td>TVROM</td><td>Rad Racer 2</td></tr>
+ <tr><th colspan="2">MMC5:</th></tr>
+ <tr><td>EKROM</td><td>Gemfire</td></tr>
+ <tr><td>ELROM</td><td>Castlevania 3</td></tr>
+ <tr><td>ETROM</td><td>Nobunaga's Ambition 2</td></tr>
+ <tr><td>EWROM</td><td>Romance of the Three Kingdoms 2</td></tr>
+ <tr><th colspan="2">MMC6:</th></tr>
+ <tr><td>HKROM</td><td>Star Tropics</td></tr>
+ <tr><th colspan="2">FME7:</th></tr>
+ <tr><td>BTR</td><td>Batman: Return of the Joker</td></tr>
+ <tr><th colspan="2">Nintendo Discrete Logic:</th></tr>
+ <tr><td>CNROM</td><td>Gotcha</td></tr>
+ <tr><td>CPROM</td><td>Videomation</td></tr>
+ <tr><td>GNROM</td><td>Super Mario Bros./Duck Hunt</td></tr>
+ <tr><td>MHROM</td><td></td></tr>
+ <tr><td>NROM-128</td><td>Mario Bros.</td></tr>
+ <tr><td>NROM-256</td><td>Super Mario Bros.</td></tr>
+ <tr><td>RROM-128</td><td></td></tr>
+ <tr><td>UNROM</td><td>Megaman</td></tr>
+ </table>
+ </p>
+</p><hr width="50%">
+</p><hr width="50%">
+<a name="Introduction%01Famicom+Disk+System"><h3>Famicom Disk System</h3></a><p> <p>
+        You will need the FDS BIOS ROM image in the base Mednafen directory.
+        It must be named "disksys.rom".  Mednafen will not load FDS games
+	without this file.
+ </p>
+        Two types of FDS disk images are supported:  disk images with the
+        FWNES-style header, and disk images with no header.  The number
+	of sides on headerless disk images is calculated by the total file
+	size, so don't put extraneous data at the end of the file.
+ <p>
+	If a loaded disk image is written to during emulation, Mednafen will store the modified 
+	disk image in the save games directory, which is by default "sav" under the base 
+	directory.
+ </p>
+</p><hr width="75%">
+<a name="Introduction%01Game+Genie"><h3>Game Genie</h3></a><p>
+ <p>
+        The Game Genie ROM image is loaded from the path specified by the setting "nes.ggrom", or, if that string is not set, the file "gg.rom" in the
+        base directory when Game Genie emulation is enabled.
+</p><p>
+        The ROM image may either be the 24592 byte iNES-format image, or
+        the 4352 byte raw ROM image.
+</p>
+</p><hr width="75%">
+
+<a name="Introduction%01VS+Unisystem"><h3>VS Unisystem</h3></a><p> <p>
+Mednafen currently only supports VS Unisystem ROM images in the
+iNES format.  DIP switches and coin insertion are both emulated.  
+The following games are supported, and have palettes provided(though not 
+necessarily 100% accurate or complete):
+	<ul>
+	 <li />Battle City
+         <li />Castlevania
+	 <li />Clu Clu Land
+	 <li />Dr. Mario
+	 <li />Duck Hunt
+	 <li />Excitebike
+	 <li />Excitebike (Japanese)
+	 <li />Freedom Force
+         <li />Goonies, The
+         <li />Gradius
+         <li />Gumshoe
+	 <li />Hogan's Alley
+	 <li />Ice Climber
+	 <li />Ladies Golf
+	 <li />Mach Rider
+	 <li />Mach Rider (Japanese)
+	 <li />Mighty Bomb Jack	(Japanese)
+	 <li />Ninja Jajamaru Kun (Japanese)
+	 <li />Pinball
+	 <li />Pinball (Japanese)
+	 <li />Platoon
+	 <li />RBI Baseball
+         <li />Slalom
+	 <li />Soccer
+	 <li />Star Luster
+         <li />Stroke and Match Golf
+         <li />Stroke and Match Golf - Ladies
+         <li />Stroke and Match Golf (Japanese)
+         <li />Super Mario Bros.
+	 <li />Super Sky Kid
+	 <li />Super Xevious
+	 <li />Tetris
+         <li />TKO Boxing
+	 <li />Top Gun
+	</ul>
+ </p>
+</p><hr width="75%">
+</p><hr width="75%">
+
+<a name="Default+Key+Assignments"><h2>Default Key Assignments</h2></a><p>
+ <table border>
+ <tr><th>Key(s):</th><th>Action:</th><th>Configuration String:</th></tr>
+ <tr><td>ALT + SHIFT + 1</td><td>Activate in-game input configuration process for input port 1.</td><td>input_config1</td></tr>
+ <tr><td>ALT + SHIFT + 2</td><td>Activate in-game input configuration process for input port 2.</td><td>input_config2</td></tr>
+ <tr><td>ALT + SHIFT + 3</td><td>Activate in-game input configuration process for input port 3.</td><td>input_config3</td></tr>
+ <tr><td>ALT + SHIFT + 4</td><td>Activate in-game input configuration process for input port 4.</td><td>input_config4</td></tr>
+ <tr><td>ALT + SHIFT + 5</td><td>Activate in-game input configuration process for the Famicom expansion port.</td><td>input_config5</td></tr>
+ </table>
+
+<a name="Default+Key+Assignments%01VS+Unisystem"><h3>VS Unisystem</h3></a><p> <table border>
+ <tr><th>Key:</th><th>Action:</th><th>Configuration String:</th></tr>
+ <tr><td>F8</td><td>Insert coin.</td><td>insert_coin</td></tr>
+ <tr><td>F6</td><td>Show/Hide dip switches.</td><td>toggle_dipview</td></tr>
+ <tr><td>1-8</td><td>Toggle dip switches(when dip switches are shown).</td><td>"1" through "8"</td></tr>
+ </table>
+</p><hr width="75%">
+
+<a name="Default+Key+Assignments%01Famicom+Disk+System"><h3>Famicom Disk System</h3></a><p> <table border>
+ <tr><th>Key:</th><th>Action:</th><th>Configuration String:</th></tr>
+ <tr><td>F6</td><td>Select disk and disk side.</td><td>select_disk</td></tr>
+ <tr><td>F8</td><td>Eject or Insert disk.</td><td>insert_eject_disk</td></tr>
+ </table>
+</p><hr width="75%">
+
+<a name="Default+Key+Assignments%01Barcode+Readers"><h3>Barcode Readers</h3></a><p> <table border>
+ <tr><th>Key:</th><th>Action:</th><th>Configuration String:</th></tr>
+ <tr><td>0-9</td><td>Barcode digits(after activating barcode input).</td><td>"0" through "9"</tr>
+ <tr><td>F8</td><td>Activate barcode input/scan barcode.</td><td>activate_barcode</td></tr>
+ </table>
+</p><hr width="75%">
+
+<a name="Default+Key+Assignments%01Game+Pad"><h3>Game Pad</h3></a><p><table border>
+ <tr><th>Key:</th><th nowrap>Button on Emulated Gamepad:</th></tr>
+ <tr><td>Keypad 2</td><td>B</td></tr>
+ <tr><td>Keypad 3</td><td>A</td></tr>
+ <tr><td>Enter/Return</td><td>Start</td></tr>
+ <tr><td>Tab</td><td>Select</td></tr>
+ <tr><td>S</td><td>Down</td></tr>
+ <tr><td>W</td><td>Up</td></tr>
+ <tr><td>A</td><td>Left</td></tr>
+ <tr><td>D</td><td>Right</td></tr>
+ </table>
+</p><hr width="75%">
+
+<a name="Default+Key+Assignments%01Power+Pad"><h3>Power Pad</h3></a><p> <table border>
+  <tr><th colspan="4">Side B</th></tr>
+  <tr><td width="25%">O</td><td width="25%">P</td>
+	<td width="25%">[</td><td width="25%">]</td></tr>
+  <tr><td>K</td><td>L</td><td>;</td><td>'</td></tr>
+  <tr><td>M</td><td>,</td><td>.</td><td>/</td></tr>
+ </table>
+ <br />
+ <table border>
+  <tr><th colspan="4">Side A</th></tr>           
+  <tr><td width="25%"></td><td width="25%">P</td>
+        <td width="25%">[</td><td width="25%"></td></tr>
+  <tr><td>K</td><td>L</td><td>;</td><td>'</td></tr>
+  <tr><td></td><td>,</td><td>.</td><td></td></tr>
+ </table>
+</p><hr width="75%">
+<a name="Default+Key+Assignments%01Family+Keyboard"><h3>Family Keyboard</h3></a><p> <p>
+         All emulated keys are mapped to the closest open key on the PC
+          keyboard, with a few exceptions.  The emulated "@" key is
+          mapped to the "`"(grave) key, and the emulated "kana" key
+          is mapped to the "Insert" key(in the 3x2 key block above the
+          cursor keys).
+ </p> 
+ <p>
+ To use the Family Keyboard emulation properly, press <b>SHIFT</b> + <b>Scroll Lock</b>, which
+ will cause input to be grabbed from the window manager(if present) and disable Mednafen's other internal command processing.
+ </p>
+</p><hr width="75%">
+<a name="Default+Key+Assignments%01HyperShot+Controller"><h3>HyperShot Controller</h3></a><p> <table border>
+  <tr><td></td><th>Run</th><th>Jump</th></tr>
+  <tr><th>Controller I</th><td>Q</td><td>W</td></tr>
+  <tr><th>Controller II</th><td>E</td><td>R</td></tr>
+ </table>
+</p><hr width="75%">
+<a name="Default+Key+Assignments%01Mahjong+Controller"><h3>Mahjong Controller</h3></a><p> <p>
+  <table border>
+   <tr><th>Emulated Mahjong Controller:</th><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>N</td></tr>
+   <tr><th>PC Keyboard:</th><td>Q</td><td>W</td><td>E</td><td>R</td><td>T</td><td>A</td><td>S</td><td>D</td><td>F</td><td>G</td><td>H</td><td>J</td><td>K</td><td>L</td></tr>
+  </table>
+  <br />
+  <table border>
+   <tr><th>Emulated Mahjong Controller:</th><td>SEL</td><td>ST</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+   <tr><th>PC Keyboard:</th><td>Z</td><td>X</td><td>C</td><td>V</td><td>B</td><td>N</td><td>M</td>
+  </table>
+ </p>
+</p><hr width="75%">
+<a name="Default+Key+Assignments%01Party+Tap+Controller"><h3>Party Tap Controller</h3></a><p> <p>
+  <table border>
+   <tr><th>Emulated Buzzer:</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+   <tr><th>PC Keyboard:</th><td>Q</td><td>W</td><td>E</td><td>R</td><td>T</td><td>Y</td></tr>
+  </table>
+ </p>
+</p><hr width="75%">
+</p><hr width="75%">
+
+<a name="Game-specific+Emulation+Hacks"><h2>Game-specific Emulation Hacks</h2></a><p> <table border width="100%">
+  <tr><th>Title:</th><th>Description:</th><th>Source code files affected:</th></tr>
+  <tr><td>KickMaster</td>
+  <td>KickMaster relies on the low-level behavior of the MMC3(PPU A12 low->high transition)
+      to work properly in certain parts.  If an IRQ begins at the "normal" time on the
+      last visible scanline(239), the game will crash after beating the second boss and retrieving
+      the item.  The hack is simple, to clock the IRQ counter twice on scanline 238.
+  </td>
+  <td>src/nes/boards/mmc3.cpp</td></tr>
+  <tr><td nowrap>Shougi Meikan '92<br>Shougin Meikan '93</td>
+  <td>The hack for these games is identical to the hack for KickMaster.</td>
+  <td>src/nes/boards/mmc3.cpp</td></tr>
+  <tr><td>Star Wars (PAL/European Version)</td>
+  <td>This game probably has the same(or similar) problem on Mednafen as KickMaster.  The
+   hack is to clock the IRQ counter twice on the "dummy" scanline(scanline before the first
+   visible scanline).</td><td>src/nes/boards/mmc3.c</td></tr>
+  </table>
+</p><hr width="100%">
+
+
+<a name="Settings+Reference"><h2>Settings Reference</h2></a><p><p>
+<b>Caution:</b> Any settings that change emulation behavior as seen from the emulated game are shown with the setting name bolded in the table. One should be conscious of these settings if one has changed them from the default values when using network play or movies, as they can cause desychronizations if not set the same among hosts(or between the recording emulator and the playing emulator). 
+</p>
+<p><table border><tr class="TableHeader"><th>Setting:</th><th>Value Type:</th><th>Possible Values:</th><th>Default Value:</th><th>Description:</th></tr><tr class="RowA"><td class="ColA"><a name="nes.clipsides">nes.clipsides</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Clip left+right 8 pixel columns.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.fnscan"><b>nes.fnscan</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">1</td><td class="ColE">Scan filename for (U),(J),(E),etc. strings to en/dis-able PAL emulation.<p>Warning: This option may break NES network play when enabled IF the players are using ROM images with different filenames.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.gg"><b>nes.gg</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable Game Genie emulation.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ggrom"><b>nes.ggrom</b></a></td><td class="ColB">string</td><td class="ColC">&nbsp;</td><td class="ColD">gg.rom</td><td class="ColE">Path to Game Genie ROM image.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.input.fcexp"><b>nes.input.fcexp</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />arkanoid<br />shadow<br />4player<br />fkb<br />hypershot<br />mahjong<br />partytap<br />ftrainera<br />ftrainerb<br />oekakids<br />bworld</td><td class="ColD">none</td><td class="ColE">Input device for Famicom Expansion Port<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>arkanoid</b> - Arkanoid Paddle<br></li><br /><li><b>shadow</b> - Space Shadow Gun<br></li><br /><li><b>4player</b> - 4-player Adapter<br></li><br /><li><b>fkb</b> - Family Keyboard<br></li><br /><li><b>hypershot</b> - Hypershot Paddles<br></li><br /><li><b>mahjong</b> - Mahjong Controller<br></li><br /><li><b>partytap</b> - Party Tap<br></li><br /><li><b>ftrainera</b> - Family Trainer Side A<br></li><br /><li><b>ftrainerb</b> - Family Trainer Side B<br></li><br /><li><b>oekakids</b> - Oeka Kids Tablet<br></li><br /><li><b>bworld</b> - Barcode World Scanner<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.input.port1"><b>nes.input.port1</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />zapper<br />powerpada<br />powerpadb<br />arkanoid</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 1<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>zapper</b> - Zapper<br></li><br /><li><b>powerpada</b> - Power Pad Side A<br></li><br /><li><b>powerpadb</b> - Power Pad Side B<br></li><br /><li><b>arkanoid</b> - Arkanoid Paddle<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.input.port2"><b>nes.input.port2</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad<br />zapper<br />powerpada<br />powerpadb<br />arkanoid</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 2<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li><br /><li><b>zapper</b> - Zapper<br></li><br /><li><b>powerpada</b> - Power Pad Side A<br></li><br /><li><b>powerpadb</b> - Power Pad Side B<br></li><br /><li><b>arkanoid</b> - Arkanoid Paddle<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.input.port3"><b>nes.input.port3</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 3<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.input.port4"><b>nes.input.port4</b></a></td><td class="ColB">enum</td><td class="ColC">none<br />gamepad</td><td class="ColD">gamepad</td><td class="ColE">Input device for Port 4<p></p><ul><li><b>none</b> - none<br></li><br /><li><b>gamepad</b> - Gamepad<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.n106bs">nes.n106bs</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable less-accurate, but better sounding, Namco 106(mapper 19) sound emulation.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.no8lim">nes.no8lim</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Remove 8-sprites-per-scanline hardware limit.<p>WARNING: Enabling this option will cause graphical glitches in some games, including "Solstice".</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.nofs"><b>nes.nofs</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Disable four-score emulation.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.brightness">nes.ntsc.brightness</a></td><td class="ColB">real</td><td class="ColC">-1 <i>through</i> 1</td><td class="ColD">0</td><td class="ColE">NTSC composite blitter brightness.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.contrast">nes.ntsc.contrast</a></td><td class="ColB">real</td><td class="ColC">-1 <i>through</i> 1</td><td class="ColD">0</td><td class="ColE">NTSC composite blitter contrast.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.hue">nes.ntsc.hue</a></td><td class="ColB">real</td><td class="ColC">-1 <i>through</i> 1</td><td class="ColD">0</td><td class="ColE">NTSC composite blitter hue.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.matrix">nes.ntsc.matrix</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable NTSC custom decoder matrix.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.matrix.0">nes.ntsc.matrix.0</a></td><td class="ColB">real</td><td class="ColC">-2 <i>through</i> 2</td><td class="ColD">1.539</td><td class="ColE">NTSC custom decoder matrix element 0(red, value * V).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.matrix.1">nes.ntsc.matrix.1</a></td><td class="ColB">real</td><td class="ColC">-2 <i>through</i> 2</td><td class="ColD">-0.622</td><td class="ColE">NTSC custom decoder matrix element 1(red, value * U).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.matrix.2">nes.ntsc.matrix.2</a></td><td class="ColB">real</td><td class="ColC">-2 <i>through</i> 2</td><td class="ColD">-0.571</td><td class="ColE">NTSC custom decoder matrix element 2(green, value * V).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.matrix.3">nes.ntsc.matrix.3</a></td><td class="ColB">real</td><td class="ColC">-2 <i>through</i> 2</td><td class="ColD">-0.185</td><td class="ColE">NTSC custom decoder matrix element 3(green, value * U).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.matrix.4">nes.ntsc.matrix.4</a></td><td class="ColB">real</td><td class="ColC">-2 <i>through</i> 2</td><td class="ColD">0.000</td><td class="ColE">NTSC custom decoder matrix element 4(blue, value * V).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.matrix.5">nes.ntsc.matrix.5</a></td><td class="ColB">real</td><td class="ColC">-2 <i>through</i> 2</td><td class="ColD">2.000</td><td class="ColE">NTSC custom decoder matrix element 5(blue, value * U.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.mergefields">nes.ntsc.mergefields</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Merge fields to partially work around !=60.1Hz refresh rates.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.preset">nes.ntsc.preset</a></td><td class="ColB">enum</td><td class="ColC">disabled<br />composite<br />svideo<br />rgb<br />monochrome</td><td class="ColD">none</td><td class="ColE">Video quality/type preset.<p></p><ul><li><b>disabled</b> - Disabled<br></li><br /><li><b>composite</b> - Composite Video<br></li><br /><li><b>svideo</b> - S-Video<br></li><br /><li><b>rgb</b> - RGB<br></li><br /><li><b>monochrome</b> - Monochrome<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntsc.saturation">nes.ntsc.saturation</a></td><td class="ColB">real</td><td class="ColC">-1 <i>through</i> 1</td><td class="ColD">0</td><td class="ColE">NTSC composite blitter saturation.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.ntsc.sharpness">nes.ntsc.sharpness</a></td><td class="ColB">real</td><td class="ColC">-1 <i>through</i> 1</td><td class="ColD">0</td><td class="ColE">NTSC composite blitter sharpness.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.ntscblitter">nes.ntscblitter</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable NTSC color generation and blitter.<p>NOTE: If your refresh rate isn't very close to 60.1Hz(+-0.1), you will need to set the nes.ntsc.mergefields setting to "1" to avoid excessive flickering.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.pal"><b>nes.pal</b></a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable PAL(50Hz) NES emulation.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.slend">nes.slend</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 239</td><td class="ColD">231</td><td class="ColE">Last displayed scanlines in NTSC mode.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.slendp">nes.slendp</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 239</td><td class="ColD">239</td><td class="ColE">Last displayedscanlines in PAL mode.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.slstart">nes.slstart</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 239</td><td class="ColD">8</td><td class="ColE">First displayed scanline in NTSC mode.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.slstartp">nes.slstartp</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 239</td><td class="ColD">0</td><td class="ColE">First displayed scanline in PAL mode.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.sound_rate_error">nes.sound_rate_error</a></td><td class="ColB">real</td><td class="ColC">0.0000001 <i>through</i> 0.01</td><td class="ColD">0.00004</td><td class="ColE">Output rate tolerance.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.soundq">nes.soundq</a></td><td class="ColB">integer</td><td class="ColC">-2 <i>through</i> 3</td><td class="ColD">0</td><td class="ColE">Sound quality.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+</table></p><p><table border><tr class="TableHeader"><th>Setting:</th><th>Value Type:</th><th>Possible Values:</th><th>Default Value:</th><th>Description:</th></tr><tr class="RowA"><td class="ColA"><a name="nes.debugger.disfontsize">nes.debugger.disfontsize</a></td><td class="ColB">enum</td><td class="ColC"></td><td class="ColD">small</td><td class="ColE">Disassembly font size.<p></p><ul></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.debugger.memcharenc">nes.debugger.memcharenc</a></td><td class="ColB">string</td><td class="ColC">&nbsp;</td><td class="ColD">cp437</td><td class="ColE">Character encoding for the debugger's memory editor.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.enable">nes.enable</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">1</td><td class="ColE">Enable (automatic) usage of this module.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.pixshader">nes.pixshader</a></td><td class="ColB">enum</td><td class="ColC">none<br />autoip<br />autoipsharper<br />scale2x<br />ipsharper<br />ipxnoty<br />ipynotx<br />ipxnotysharper<br />ipynotxsharper</td><td class="ColD">none</td><td class="ColE">Enable specified OpenGL pixel shader.<p>Obviously, this will only work with the OpenGL "video.driver" setting, and only on cards and OpenGL implementations that support pixel shaders, otherwise you will get a black screen, or Mednafen may display an error message when starting up. Bilinear interpolation is disabled with pixel shaders, and any interpolation, if present, will be noted in the description of each pixel shader.</p><ul><li><b>none</b> - None/Disabled<br></li><br /><li><b>autoip</b> - Auto Interpolation<br>Will automatically interpolate on each axis if the corresponding effective scaling factor is not an integer.</li><br /><li><b>autoipsharper</b> - Sharper Auto Interpolation<br>Same as "autoip", but when interpolation is done, it is done in a manner that will reduce blurriness if possible.</li><br /><li><b>scale2x</b> - Scale2x<br></li><br /><li><b>ipsharper</b> - Sharper bilinear interpolation.<br></li><br /><li><b>ipxnoty</b> - Linear interpolation on X axis only.<br></li><br /><li><b>ipynotx</b> - Linear interpolation on Y axis only.<br></li><br /><li><b>ipxnotysharper</b> - Sharper version of "ipxnoty".<br></li><br /><li><b>ipynotxsharper</b> - Sharper version of "ipynotx".<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.scanlines">nes.scanlines</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 100</td><td class="ColD">0</td><td class="ColE">Enable scanlines with specified opacity.<p>Opacity is specified in %; IE a value of "100" will give entirely black scanlines.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.special">nes.special</a></td><td class="ColB">enum</td><td class="ColC">none<br />hq2x<br />hq3x<br />hq4x<br />scale2x<br />scale3x<br />scale4x<br />2xsai<br />super2xsai<br />supereagle<br />nn2x<br />nn3x<br />nn4x<br />nny2x<br />nny3x<br />nny4x</td><td class="ColD">none</td><td class="ColE">Enable specified special video scaler.<p>The destination rectangle is NOT altered by this setting, so if you have xscale and yscale set to "2", and try to use a 3x scaling filter like hq3x, the image is not going to look that great. The nearest-neighbor scalers are intended for use with bilinear interpolation enabled, at high resolutions(such as 1280x1024; nn2x(or nny2x) + bilinear interpolation + fullscreen stretching at this resolution looks quite nice).</p><ul><li><b>none</b> - None/Disabled<br></li><br /><li><b>hq2x</b> - hq2x<br></li><br /><li><b>hq3x</b> - hq3x<br></li><br /><li><b>hq4x</b> - hq4x<br></li><br /><li><b>scale2x</b> - scale2x<br></li><br /><li><b>scale3x</b> - scale3x<br></li><br /><li><b>scale4x</b> - scale4x<br></li><br /><li><b>2xsai</b> - 2xSaI<br></li><br /><li><b>super2xsai</b> - Super 2xSaI<br></li><br /><li><b>supereagle</b> - Super Eagle<br></li><br /><li><b>nn2x</b> - Nearest-neighbor 2x<br></li><br /><li><b>nn3x</b> - Nearest-neighbor 3x<br></li><br /><li><b>nn4x</b> - Nearest-neighbor 4x<br></li><br /><li><b>nny2x</b> - Nearest-neighbor 2x, y axis only<br></li><br /><li><b>nny3x</b> - Nearest-neighbor 3x, y axis only<br></li><br /><li><b>nny4x</b> - Nearest-neighbor 4x, y axis only<br></li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.stretch">nes.stretch</a></td><td class="ColB">enum</td><td class="ColC">0<br />full<br />aspect<br />aspect_int<br />aspect_mult2</td><td class="ColD">aspect_mult2</td><td class="ColE">Stretch to fill screen.<p></p><ul><li><b>0</b> - Disabled<br></li><br /><li><b>full</b> - Full<br>Full-screen stretch, disregarding aspect ratio.</li><br /><li><b>aspect</b> - Aspect Preserve<br>Full-screen stretch as far as the aspect ratio(in this sense, the equivalent xscalefs == yscalefs) can be maintained.</li><br /><li><b>aspect_int</b> - Aspect Preserve + Integer Scale<br>Full-screen stretch, same as "aspect" except that the equivalent xscalefs and yscalefs are rounded down to the nearest integer.</li><br /><li><b>aspect_mult2</b> - Aspect Preserve + Integer Multiple-of-2 Scale<br>Full-screen stretch, same as "aspect_int", but rounds down to the nearest multiple of 2.</li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.tblur">nes.tblur</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Enable video temporal blur(50/50 previous/current frame by default).<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.tblur.accum">nes.tblur.accum</a></td><td class="ColB">boolean</td><td class="ColC">0<br>1</td><td class="ColD">0</td><td class="ColE">Accumulate color data rather than discarding it.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.tblur.accum.amount">nes.tblur.accum.amount</a></td><td class="ColB">real</td><td class="ColC">0 <i>through</i> 100</td><td class="ColD">50</td><td class="ColE">Blur amount in accumulation mode, specified in percentage of accumulation buffer to mix with the current frame.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.videoip">nes.videoip</a></td><td class="ColB">enum</td><td class="ColC">0<br />1<br />x<br />y</td><td class="ColD">0</td><td class="ColE">Enable (bi)linear interpolation.<p></p><ul><li><b>0</b> - Disabled<br></li><br /><li><b>1</b> - Bilinear<br></li><br /><li><b>x</b> - Linear (X)<br>Interpolation only on the X axis.</li><br /><li><b>y</b> - Linear (Y)<br>Interpolation only on the Y axis.</li></ul></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.xres">nes.xres</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 65536</td><td class="ColD">0</td><td class="ColE">Full-screen horizontal resolution.<p>A value of "0" will cause the desktop horizontal resolution to be used.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.xscale">nes.xscale</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">3.000000</td><td class="ColE">Scaling factor for the X axis.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.xscalefs">nes.xscalefs</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">1.000000</td><td class="ColE">Scaling factor for the X axis in fullscreen mode.<p>For this settings to have any effect, the "<system>.stretch" setting must be set to "0".</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.yres">nes.yres</a></td><td class="ColB">integer</td><td class="ColC">0 <i>through</i> 65536</td><td class="ColD">0</td><td class="ColE">Full-screen vertical resolution.<p>A value of "0" will cause the desktop vertical resolution to be used.</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowB"><td class="ColA"><a name="nes.yscale">nes.yscale</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">3.000000</td><td class="ColE">Scaling factor for the Y axis.<p></p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+<tr class="RowA"><td class="ColA"><a name="nes.yscalefs">nes.yscalefs</a></td><td class="ColB">real</td><td class="ColC">0.01 <i>through</i> 256</td><td class="ColD">1.000000</td><td class="ColE">Scaling factor for the Y axis in fullscreen mode.<p>For this settings to have any effect, the "<system>.stretch" setting must be set to "0".</p></td></tr><tr><td class="RowSpacer" colspan="5">&nbsp</td></tr>
+</table></p></p><hr width="100%">
+ </body>
+</html>

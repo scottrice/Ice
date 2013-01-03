@@ -39,17 +39,17 @@ windows_emulators = {
 }
 
 osx_emulators = {
-    # "NES":          "",
+    "NES":          "mednafen/mednafen",
     "SNES":         "Snes9x/Snes9x.app",
     "N64":          "mupen64plus/ice_run.sh",
     # "Gamecube":     "",
     # "Wii":          "",
     # "PS1":          "",
     # "PS2":          "",
-    # "Genesis":      "",
+    "Genesis":      "mednafen/mednafen",
     # "Dreamcast":    "",
-    # "Gameboy":      "",
-    # "GBA":          "",
+    "Gameboy":      "mednafen/mednafen",
+    "GBA":          "mednafen/mednafen",
     # "DS":           "",
 }
 
