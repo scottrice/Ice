@@ -143,8 +143,6 @@ supported_consoles = [
 for console in list(supported_consoles):
     if not IceSettings.emulator_exists(IceSettings.platform_string(),console):
         supported_consoles.remove(console)
-        
-print supported_consoles
 
 # console_mapping is a map between the shortname (which is also used as the
 # the folder name) of a console to the console object itself. For example,
