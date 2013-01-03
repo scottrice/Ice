@@ -28,6 +28,9 @@ class Console():
         self.emulator_path = self.__find_emulator__()
         self.__create_directories_if_needed__()
         
+    def __repr__(self):
+        return self.shortname
+        
     def __find_emulator__(self):
         """
         Uses the settings to determine the emulator path for a given console
@@ -42,6 +45,10 @@ class Console():
         """
         Creates directories that the console will need if they don't exist yet
         """
+        # If the emulator doesn't exist, don't even bother creating the folders
+        # for the console
+        if not IceSettings.emulator_exists(IceSettings.platform_string(),self):
+            return
         def create_directory_if_needed(dir):
             if not os.path.exists(dir):
                 os.makedirs(dir)
@@ -130,6 +137,14 @@ supported_consoles = [
 # manage ROMs, but for now I will ignore DS support
     # ds
 ]
+
+# Remove any consoles from supported_consoles if there does not exist an
+# emulator for them
+for console in list(supported_consoles):
+    if not IceSettings.emulator_exists(IceSettings.platform_string(),console):
+        supported_consoles.remove(console)
+        
+print supported_consoles
 
 # console_mapping is a map between the shortname (which is also used as the
 # the folder name) of a console to the console object itself. For example,
