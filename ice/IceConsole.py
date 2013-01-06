@@ -19,13 +19,14 @@ import os
 
 import IceSettings
 import IceFilesystemHelper
+import IceEmulatorManager
 from IceROM import ROM
 
 class Console():
     def __init__(self,shortname,fullname):
         self.shortname = shortname
         self.fullname = fullname
-        self.emulator_path = self.__find_emulator__()
+        self.emulator = self.__find_emulator__()
         self.__create_directories_if_needed__()
         
     def __repr__(self):
@@ -36,10 +37,11 @@ class Console():
         Uses the settings to determine the emulator path for a given console
         """
         platform = IceSettings.platform_string()
-        if not IceSettings.emulator_exists(platform,self):
+        if not IceEmulatorManager.emulator_exists(platform,self):
             return None
-        emulators_dir = IceFilesystemHelper.emulators_directory(platform)
-        return os.path.join(emulators_dir,IceSettings.relative_emulator_path(platform,self))
+        return IceEmulatorManager.lookup_emulator(platform,self)
+        # emulators_dir = IceFilesystemHelper.bundled_emulators_directory(platform)
+        # return os.path.join(emulators_dir,IceSettings.relative_emulator_path(platform,self))
         
     def __create_directories_if_needed__(self):
         """
@@ -47,12 +49,15 @@ class Console():
         """
         # If the emulator doesn't exist, don't even bother creating the folders
         # for the console
-        if not IceSettings.emulator_exists(IceSettings.platform_string(),self):
+        if not IceEmulatorManager.emulator_exists(IceSettings.platform_string(),self):
             return
         def create_directory_if_needed(dir):
             if not os.path.exists(dir):
                 os.makedirs(dir)
         create_directory_if_needed(self.roms_directory())
+        # I don't like this, but the console is creating the directory where
+        # the emulator is throwing any exes it needs.
+        # TODO: Figure out a decent way to put this in the emulator object
         create_directory_if_needed(self.executables_directory())
         
     def roms_directory(self):
@@ -91,7 +96,10 @@ class Console():
         for filename in os.listdir(self.roms_directory()):
             file_path = os.path.join(self.roms_directory(),filename)
             if not os.path.isdir(file_path):
-                roms.append(ROM(file_path,self))
+                # On Linux/OSX, we want to make sure hidden files don't get
+                # accidently added as well
+                if IceSettings.platform_string() != "Windows" and not filename.startswith('.'):
+                    roms.append(ROM(file_path,self))
         return roms
 
 def find_all_roms():
@@ -141,7 +149,7 @@ supported_consoles = [
 # Remove any consoles from supported_consoles if there does not exist an
 # emulator for them
 for console in list(supported_consoles):
-    if not IceSettings.emulator_exists(IceSettings.platform_string(),console):
+    if not IceEmulatorManager.emulator_exists(IceSettings.platform_string(),console):
         supported_consoles.remove(console)
 
 # console_mapping is a map between the shortname (which is also used as the

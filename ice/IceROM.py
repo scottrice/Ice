@@ -50,12 +50,12 @@ class ROM:
             return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
         elif platform == "OSX":
             # Check if we are running an application or a shell script
-            if self.console.emulator_path.endswith(".app"):
+            if self.console.emulator.location.endswith(".app"):
                 # If we are running an app, we need to do 'open -a {app_path}'
-                return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator_path, self.path)
+                return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator.location, self.path)
             else:
                 # If we are running a script, we just execute the script
-                return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator_path,self.path)
+                return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
                 
         else:
             # TODO: Figure out how to make this string on Linux

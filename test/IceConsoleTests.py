@@ -60,3 +60,12 @@ class IceConsoleTests(unittest.TestCase):
         gba_dir = self.console.executables_directory()
         self.assertEqual(os.path.dirname(gba_dir),IceFilesystemHelper.executables_directory())
         self.assertEqual(os.path.basename(gba_dir),self.console.shortname)
+        
+    def test_icon_path(self):
+        """
+        The icon path for a console should be in the icons directory, and the
+        file should be named the shortname of the console with a .png extension
+        """
+        gba_path = self.console.icon_path()
+        self.assertEqual(os.path.dirname(gba_path),IceFilesystemHelper.icons_directory())
+        self.assertEqual(os.path.basename(gba_path),self.console.shortname + ".png")

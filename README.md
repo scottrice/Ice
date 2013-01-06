@@ -16,9 +16,6 @@ allowing all Steam features to be accessible (community etc)
 - Figure out possible issues with modifying shortcuts.vdf while Steam is
   currently running. Will we need a restart? This could very much alter our
   current 'ideal' user experience
-- Figure out a new location to store emulators to avoid having to push them to
-  github. My first inclination would be to put them in my Dropbox, and instead
-  distribute a script to download them all from there. Look into it.
   
 ##Goal Updates
 

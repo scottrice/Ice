@@ -23,6 +23,10 @@ import appdirs
 
 import IceSettings
 
+def create_directory_if_needed(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
 def app_data_directory():
     """
     Should return a decent path for Ice to store any kind of settings/data it
@@ -66,19 +70,43 @@ def resources_directory():
     """
     this_dir, this_filename = os.path.split(__file__)
     return os.path.join(this_dir,"resources")
-
-def emulators_directory(platform):
-    """
-    Should return the path for the emulators directory in the package for a
-    given platform
-    """
-    return os.path.join(resources_directory(), "emulators",platform)
     
 def icons_directory():
     """
     Should return the path for the icons directory
     """
     return os.path.join(resources_directory(),"images","icons")
+    
+def bundled_emulators_directory(platform):
+    """
+    Should return the path for the emulators directory in the package for a
+    given platform
+    """
+    return os.path.join(resources_directory(), "emulators",platform)
+
+def downloaded_emulators_directory():
+    """
+    Should return the path for a directory suitable to store downloaded 
+    emulators. This will be in the app data directory, in a folder called
+    'Emulators'
+    
+    Example...
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\Emulators
+    Max OS X: ~/Library/Application Support/Ice/Emulators
+    """
+    return os.path.join(app_data_directory(),"Emulators")
+    
+def downloaded_zips_directory():
+    """
+    Should return the path for a directory suitable to store downloaded 
+    zip files (so we know if we have downloaded a zip before). This will be in
+    the app data directory, in a folder called 'Downloaded Zips'
+    
+    Example...
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\Downloaded Zips
+    Max OS X: ~/Library/Application Support/Ice/Downloaded Zips
+    """
+    return os.path.join(app_data_directory(),"Downloaded Zips")
 
 def cache_directory():
     """
