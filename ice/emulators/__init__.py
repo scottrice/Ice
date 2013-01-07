@@ -13,5 +13,8 @@ __all__ = [
     "bundled_emulator",
     "macsnes9x",
     "macmednafen",
-    "windolphin"
+    "windolphin",
+    "winproject64",
+    "winbsnes",
+    "winvisualboyadvance"
 ]

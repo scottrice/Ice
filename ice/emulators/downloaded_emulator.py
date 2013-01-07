@@ -29,11 +29,23 @@ import emulator
 
 class DownloadedEmulator(emulator.Emulator):
     __metaclass__ = abc.ABCMeta    
+    
     # Should be overwritten by a subclass
+    #
+    # Describes the URL at which the emulator zip file can be found
     _download_location_ = None
+    
     # Should be overwritten by a subclass
+    #
+    # Describes a list of relative paths inside the zip file which should have
+    # their executable bit set. This is only applicable on Mac and Linux.
     _executable_files_ = []
+    
     # Should be overwritten by a subclass
+    #
+    # Describes the location inside of the zip file of the emulator executable.
+    # This will be used to set the final location variable after unzipping has
+    # finished
     _relative_exe_path_ = None
     
     def __init__(self,console_name):

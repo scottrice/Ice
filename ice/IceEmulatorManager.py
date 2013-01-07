@@ -15,22 +15,22 @@ from emulators import *
 # List of emulators to use for each conole
 
 windows_emulators = {
-    # "NES":          ,
-    # "SNES":         ,
-    # "N64":          ,
-    # "Gamecube":     ,
+    "NES":          winbsnes.Winbsnes("NES"),
+    "SNES":         winbsnes.Winbsnes("SNES"),
+    "N64":          winproject64.WinProject64("N64"),
+    "Gamecube":     windolphin.WinDolphin("Gamecube"),
     # "Wii":          ,
     # "PS1":          ,
     # "PS2":          ,
     # "Genesis":      ,
     # "Dreamcast":    ,
-    # "Gameboy":      ,
-    # "GBA":          ,
+    "Gameboy":      winbsnes.Winbsnes("Gameboy"),
+    "GBA":          winvisualboyadvance.WinVisualBoyAdvance("GBA"),
 }
 
 osx_emulators = {
     "NES":          macmednafen.MacMednafen("NES"),
-    "SNES":         macsnes9x.MacSnes9x(),
+    "SNES":         macsnes9x.MacSnes9x("SNES"),
     # "N64":          ,
     # "Gamecube":     ,
     # "Wii":          ,

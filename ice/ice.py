@@ -36,18 +36,5 @@ def main():
         # Generate a new shortcuts.vdf file with all of the new additions
         shortcuts_manager.save()
 
-def emulator_test():
-    nes = IceConsole.console_lookup("NES")
-    snes = IceConsole.console_lookup("SNES")
-    genesis = IceConsole.console_lookup("Genesis")
-    zelda = ROM("/Users/scottrice/ROMs/NES/The Legend of Zelda.nes",nes)
-    print nes.emulator.command_string(zelda)
-    chrono_trigger = ROM("/Users/scottrice/ROMs/SNES/Chrono Trigger.sfc",snes)
-    print snes.emulator.command_string(chrono_trigger)
-    sonic = ROM("/Users/scottrice/ROMs/Genesis/Sonic the Hedgehog.md",genesis)
-    print genesis.emulator.command_string(sonic)
-    
-
 if __name__ == "__main__":
     main()
-    # emulator_test()
