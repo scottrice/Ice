@@ -10,8 +10,8 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import os,sys
 import unittest
 
-from ice import SteamInstallationLocationManager
-from ice.SteamUserManager import *
+import SteamInstallationLocationManager
+from SteamUserManager import *
 
 class SteamUserManagerTests(unittest.TestCase):
     def setUp(self):

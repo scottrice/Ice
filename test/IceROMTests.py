@@ -10,8 +10,8 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import sys, os
 import unittest
 
-from ice.IceROM import ROM
-from ice.IceConsole import Console,console_lookup
+from IceROM import ROM
+from IceConsole import Console,console_lookup
 
 class IceROMTests(unittest.TestCase):
     def setUp(self):

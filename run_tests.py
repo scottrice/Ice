@@ -19,7 +19,10 @@ from test import run_tests
 # Get a reference to the current directory, without using __file__, which fails
 # in certain situations based on how you call the script in Windows
 cmd_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0]))
+ice_folder = os.path.join(cmd_folder,"ice")
 if cmd_folder not in sys.path:
     sys.path.insert(0,cmd_folder)
+if ice_folder not in sys.path:
+    sys.path.insert(1,ice_folder)
 
 run_tests()

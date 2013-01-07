@@ -10,8 +10,8 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import sys,os
 import unittest
 
-from ice import IceFilesystemHelper
-from ice.IceConsole import Console, supported_consoles, console_lookup, gba
+import IceFilesystemHelper
+from IceConsole import Console, supported_consoles, console_lookup, gba
 
 class IceConsoleTests(unittest.TestCase):
     def setUp(self):
