@@ -98,8 +98,12 @@ class Console():
             if not os.path.isdir(file_path):
                 # On Linux/OSX, we want to make sure hidden files don't get
                 # accidently added as well
-                if IceSettings.platform_string() != "Windows" and not filename.startswith('.'):
-                    roms.append(ROM(file_path,self))
+                if IceSettings.platform_string() != "Windows" and filename.startswith('.'):
+                    continue
+                if self.emulator is not None and not self.emulator.valid_rom(file_path):
+                    print "Ignoring Non-ROM file: %s" % file_path
+                    continue
+                roms.append(ROM(file_path,self))
         return roms
 
 def find_all_roms():

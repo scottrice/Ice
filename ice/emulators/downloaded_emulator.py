@@ -77,12 +77,19 @@ class DownloadedEmulator(emulator.Emulator):
         print "Unzipping %s to %s" % (file,destdir)
         z = zipfile.ZipFile(file)
         for f in z.namelist():
-            destfile = os.path.join(destdir,f)
-            if f.endswith(os.path.sep):
+            # Zipfiles store paths internally using a forward slash. If os.sep
+            # is not a forward slash, then we will compute an incorrect path.
+            # Fix that by replacing all forward slashes with backslashes if
+            # os.sep is a backslash
+            if os.sep == "\\" and "/" in f:
+                destfile = os.path.join(destdir,f.replace("/","\\"))
+            else:
+                destfile = os.path.join(destdir,f)
+            if destfile.endswith(os.sep):
                 if not os.path.exists(destfile):
                     os.makedirs(destfile)
             else:
-                file = open(destfile,"w")
+                file = open(destfile,"wb")
                 file.write(z.read(f))
                 file.close()
         z.close()

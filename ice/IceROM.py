@@ -25,6 +25,9 @@ class ROM:
     def __init__(self,path,console):
         self.path = path
         self.console = console
+
+    def __repr__(self):
+        return self.name()
         
     def name(self):
         name_with_ext = os.path.basename(self.path)

@@ -29,6 +29,16 @@ class Emulator(object):
     # we specify which console we are having the emulator handle currently
     def __init__(self,console_name):
         self._console_name_ = console_name
+        
+    def valid_rom(self,path):
+        """
+        This function determines if a given path is actually a valid ROM file.
+        There are many different file extensions that could be used as ROMs,
+        and it would be a pretty bad user experience if a valid rom got ignored
+        by Ice, so I will err on the side of "Valid". The exception to this is
+        bsnes, whose functionality should be described in it's class
+        """
+        return True
     
     @abc.abstractmethod
     def command_string(self):
