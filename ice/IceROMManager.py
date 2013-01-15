@@ -75,25 +75,13 @@ class IceROMManager():
         # Don't add a ROM if we don't have a supported emulator for it
         if rom.console.emulator is None:
             return
-        formatted_executable_path = "\"%s\"" % rom.executable_path()
-        # Only add the ROM if it isn't already in Steam
-        # if formatted_executable_path not in self.managed_roms:
-        
-        # We are going to do a funny way of doing this. We will first figure
-        # out what the command string would be for this rom, and then we will
-        # check to see if there currently exists an identicle string in the
-        # shortcuts manager
-        command_string = rom.console.emulator.command_string(rom)
         if not self.rom_already_in_steam(rom):
             print "Adding %s to Steam" % rom.name()
             generated_shortcut = self.__shortcut_for_rom__(rom)
             self.managed_shortcuts.add(generated_shortcut)
-            # Since we are about to add a shortcut for a ROM, we better make
-            # sure the executable it needs exists
             self.shortcut_manager.add(generated_shortcut)
             
-    def sync_roms(self,roms):
-        # First off, remove any ROMs which have been deleted.
+    def remove_deleted_roms_from_steam(self,roms):
         # We define 'has been deleted' by checking whether we have a shortcut
         # that was managed by Ice in Steam that is no longer in our ROM folders
         rom_shortcuts = set()
@@ -103,7 +91,15 @@ class IceROMManager():
         for shortcut in deleted_rom_shortcuts:
             print "Deleting: %s" % shortcut.appname
             self.shortcut_manager.shortcuts.remove(shortcut)
-        # After we have gotten rid of all deleted ROMs, next we add to Steam
-        # any ROMs which have been added to the ROMs folder since the last run
+            
+    def sync_roms(self,roms):
+        """
+        Two parts to syncing. 
+        1) Remove any ROMs which have been deleted
+        2) Add any new ROMs
+        """
+        # 1)
+        self.remove_deleted_roms_from_steam(roms)
+        # 2)
         for rom in roms:
             self.add_rom(rom)
