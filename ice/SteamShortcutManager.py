@@ -37,6 +37,12 @@ class SteamShortcut:
     
     def __ne__(self,other):
         return not self.__eq__(other)
+        
+    def __hash__(self):
+        return "__STEAMSHORTCUT{0}{1}{2}{3}{4}__".format(self.appname,self.exe,self.startdir,self.icon,self.tag).__hash__()
+        
+    def __repr__(self):
+        return "Steam Shortcut: %s" % self.appname
 
 
 # This class is in charge of outputting a valid shortcuts.vdf file given an
@@ -157,12 +163,12 @@ class SteamShortcutFileParser():
 class SteamShortcutManager():
     
     def __init__(self,file=None):
-        self.games = []
+        self.shortcuts = []
         if file != None:
             self.__load_shortcuts__(file)
             
     def __eq__(self,other):
-        return (isinstance(other,self.__class__) and self.games == other.games)
+        return (isinstance(other,self.__class__) and self.shortcuts == other.shortcuts)
         
     def __ne__(self,other):
         return not self.__eq__(other)
@@ -170,10 +176,10 @@ class SteamShortcutManager():
     def __load_shortcuts__(self,file):
         self.shortcuts_file = file
         file_contents = open(file,"r").read()
-        parsed_games = SteamShortcutFileParser().parse(file_contents)
-        if parsed_games == None:
+        parsed_shortcuts = SteamShortcutFileParser().parse(file_contents)
+        if parsed_shortcuts == None:
             print "Parsing error on file: %s" % file
-        self.games = parsed_games
+        self.shortcuts = parsed_shortcuts
         # self.games = SteamShortcutFileParser().parse(file_contents)
         
     def save(self,file=None):
@@ -191,11 +197,11 @@ class SteamShortcutManager():
         open(file,"w").write(self.to_shortcuts_string())
     
     def add(self,shortcut):
-        self.games.append(shortcut) 
+        self.shortcuts.append(shortcut) 
             
     def add_shortcut(self,appname,exe,startdir,icon="",tag=""):
         shortcut = SteamShortcut(appname,exe,startdir,icon,tag)
         self.add(shortcut)
         
     def to_shortcuts_string(self):
-        return SteamShortcutFileFormatter().generate_string(self.games)
+        return SteamShortcutFileFormatter().generate_string(self.shortcuts)

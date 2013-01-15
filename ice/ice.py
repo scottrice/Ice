@@ -21,10 +21,7 @@ def main():
         # Find all of the ROMs that are currently in the designated folders
         roms = IceConsole.find_all_roms()
         # Add the new ROMs in each folder to our Shortcut Manager
-        for rom in roms:
-            # The ROM manager will take care of only adding missing ROMs and
-            # such. All changes should be reflected in the shortcuts_manager
-            rom_manager.add_rom(rom)
+        rom_manager.sync_roms(roms)
         # For testing purposes, uncomment this code, which will save the new
         # shortcuts.vdf file in updated_shortcuts.vdf instead of overwriting
         # the old file

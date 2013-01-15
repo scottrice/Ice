@@ -33,8 +33,8 @@ def app_data_directory():
     needs. One example of this would be the exes directory.
     
     Example...
-    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\Exes
-    Mac OS X: ~/Library/Application Support/Ice/Exes
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\\
+    Mac OS X: ~/Library/Application Support/Ice/
     """
     return appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor)
 
