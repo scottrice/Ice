@@ -19,7 +19,7 @@ windows_emulators = {
     "SNES":         winbsnes.Winbsnes("SNES"),
     "N64":          winproject64.WinProject64("N64"),
     "Gamecube":     windolphin.WinDolphin("Gamecube"),
-    # "Wii":          ,
+    # "Wii":          windolphin.WinDolphin("Wii"),
     # "PS1":          ,
     # "PS2":          ,
     # "Genesis":      ,
