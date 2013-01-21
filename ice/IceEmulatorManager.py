@@ -22,7 +22,7 @@ windows_emulators = {
     # "Wii":          windolphin.WinDolphin("Wii"),
     # "PS1":          ,
     # "PS2":          ,
-    # "Genesis":      ,
+    "Genesis":      wingens.WinGens("Genesis"),
     # "Dreamcast":    ,
     "Gameboy":      winbsnes.Winbsnes("Gameboy"),
     "GBA":          winvisualboyadvance.WinVisualBoyAdvance("GBA"),

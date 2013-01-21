@@ -13,6 +13,7 @@ import os
 import downloaded_emulator
 
 class WinDolphin(downloaded_emulator.DownloadedEmulator):
+    
     _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinDolphin.zip"
     _relative_exe_path_ = os.path.join("Dolphin","Dolphin.exe")
     

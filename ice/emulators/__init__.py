@@ -8,13 +8,17 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
 __all__ = [
+    # Emulator Base Classes
     "emulator",
     "downloaded_emulator",
     "bundled_emulator",
+    # Mac Emulators
     "macsnes9x",
     "macmednafen",
+    # Windows Emulators
     "windolphin",
     "winproject64",
     "winbsnes",
-    "winvisualboyadvance"
+    "winvisualboyadvance",
+    "wingens"
 ]
