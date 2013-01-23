@@ -15,7 +15,7 @@ import downloaded_emulator
 class WinProject64(downloaded_emulator.DownloadedEmulator):
     
     _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinProject64.zip"
-    _relative_exe_path_ = os.path.join("WinProject64","Project 64.exe")
+    _relative_exe_path_ = os.path.join("WinProject64","Project64.exe")
     
     def __init__(self,console_name):
         super(WinProject64,self).__init__(console_name)
