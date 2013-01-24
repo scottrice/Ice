@@ -108,22 +108,13 @@ def downloaded_zips_directory():
     """
     return os.path.join(app_data_directory(),"Downloaded Zips")
 
-def cache_directory():
+def log_file():
     """
-    Returns the path to a directory where Ice can store persistant data without
-    worry of user interference
+    Should return the path for the log file. The log file should be located in
+    the app's data directory and should be called 'log.txt'
     
     Example...
-    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\_cache
-    Max OS X: ~/Library/Application Support/Ice/_cache
+    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\log.txt
+    Max OS X: ~/Library/Application Support/Ice/log.txt
     """
-    return os.path.join(appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor),"_cache")    
-    
-def cache_file(filename):
-    """
-    Returns the path to a file in the caches directory such that Ice can easily
-    save/store persistant data for the next run
-    """
-    # TODO: Automatically save cache files when python exits, so I can write to
-    # these files without worrying about having to save when I am done
-    return os.path.join(cache_directory(),filename)    
+    return os.path.join(app_data_directory(),"log.txt")

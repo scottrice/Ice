@@ -9,6 +9,7 @@ import SteamUserManager
 import IceConsole
 from IceROM import ROM
 from IceROMManager import IceROMManager
+from IceLogging import log
 
 def main():
     # Find the Steam Account that the user would like to add ROMs for
