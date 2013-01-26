@@ -4,8 +4,10 @@ import sys
 import os
 
 from SteamShortcutManager import SteamShortcutManager
+
 import SteamInstallationLocationManager
 import SteamUserManager
+import IceSettings
 import IceConsole
 from IceROM import ROM
 from IceROMManager import IceROMManager
@@ -35,5 +37,4 @@ def main():
         shortcuts_manager.save()      
         
 if __name__ == "__main__":
-    pass
-    # main()
+    main()
