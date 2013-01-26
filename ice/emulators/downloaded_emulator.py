@@ -24,6 +24,7 @@ import urllib
 import zipfile
 
 import IceFilesystemHelper
+from IceLogging import log
 
 import emulator
 
@@ -49,11 +50,12 @@ class DownloadedEmulator(emulator.Emulator):
     _relative_exe_path_ = None
     
     def __init__(self,console_name):
-        super(DownloadedEmulator,self).__init__(console_name)
         assert self._download_location_, "Download Location must be defined for all subclasses of DownloadedEmulator"
         assert self._relative_exe_path_, "Relative Exe Path must be defined for all subclasses of DownloadedEmulator"
+        self._directory_name_ = IceFilesystemHelper.highest_directory_in_path(self._relative_exe_path_)
         # Download the emulator
         self._download_()
+        super(DownloadedEmulator,self).__init__(console_name)
         
     def _download_(self):
         emulators_dir = IceFilesystemHelper.downloaded_emulators_directory()
@@ -66,15 +68,16 @@ class DownloadedEmulator(emulator.Emulator):
         # If we have downloaded (and therefore extracted) the zip file before,
         # there is no reason to do it again
         if not os.path.exists(zip_path):
-            print "Downloading %s" % url
+            log("Downloading %s" % url)
             (downloaded_path,headers) = urllib.urlretrieve(url)
-            print "Finished downloading %s" % url
+            log("Finished downloading %s" % url)
             shutil.copyfile(downloaded_path,zip_path)
             self._unzip_(downloaded_path,emulators_dir)
         self.location = os.path.join(emulators_dir,self._relative_exe_path_)
+        self.directory = os.path.join(emulators_dir,self._directory_name_)
 
     def _unzip_(self,file,destdir):
-        print "Unzipping %s to %s" % (file,destdir)
+        log("Unzipping %s to %s" % (file,destdir))
         z = zipfile.ZipFile(file)
         for f in z.namelist():
             # Zipfiles store paths internally using a forward slash. If os.sep
@@ -93,12 +96,17 @@ class DownloadedEmulator(emulator.Emulator):
                 file.write(z.read(f))
                 file.close()
         z.close()
-        # This is here because permissions aren't preserved in the zip files,
-        # so I need to manually make sure that the exectuable has the +x bit
-        # set. This section is completely unnecessary on Windows, and Windows
-        # emulators should leave _executable_files_ empty
+        self._set_execute_permissions_()
+        
+    def _set_execute_permissions_(self):
+        """
+        Apparently permissions aren't preserved in zip files, so I need to
+        manually make sure that the executable has the +x bit set. This section
+        is completely unnecessary on Windows, and Windows emulators should leave
+        _executable_files_ empty
+        """
         for x_file in self._executable_files_:
-            print "Setting executable permission on %s" % x_file
+            log("Setting executable permission on %s" % x_file)
             # Get the full path
             file_path = os.path.join(destdir,x_file)
             # Taken from StackOverflow answer: 

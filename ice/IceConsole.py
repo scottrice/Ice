@@ -20,6 +20,7 @@ import os
 import IceSettings
 import IceFilesystemHelper
 import IceEmulatorManager
+from IceLogging import log
 from IceROM import ROM
 
 class Console():
@@ -93,6 +94,10 @@ class Console():
         console
         """
         roms = []
+        # If the emulator is not functional, we pretend it doesn't have any
+        # ROMs
+        if not self.emulator.is_functional():
+            return roms
         for filename in os.listdir(self.roms_directory()):
             file_path = os.path.join(self.roms_directory(),filename)
             if not os.path.isdir(file_path):
@@ -101,7 +106,7 @@ class Console():
                 if IceSettings.platform_string() != "Windows" and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.emulator.valid_rom(file_path):
-                    print "Ignoring Non-ROM file: %s" % file_path
+                    log("Ignoring Non-ROM file: %s" % file_path)
                     continue
                 roms.append(ROM(file_path,self))
         return roms

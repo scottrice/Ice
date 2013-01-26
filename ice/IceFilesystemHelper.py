@@ -23,7 +23,34 @@ import appdirs
 
 import IceSettings
 
+def highest_directory_in_path(path):
+    """
+    Returns the 'highest' directory in a path, which is defined as the first
+    path component
+    
+    Example In => Out
+    (Mac)
+    /Users/scottrice/Documents/Resume.pdf => /
+    Users/scottrice/Documents/Resume.pdf => Users
+    (Windows)
+    C:\\Users\Scott\Documents\Resume.pdf => C:\
+    bsnes\\bsnes.exe => bsnes
+    """
+    # We don't support absolute paths because of how os.path.split handles the
+    # path = "/" case
+    if path.startswith("/"):
+        return "/"
+    (head,tail) = os.path.split(path)
+    # Empty string is falsy, so this is checking for "if head is not empty"
+    if head:
+        return highest_directory_in_path(head)
+    else:
+        return tail
+
 def create_directory_if_needed(dir):
+    """
+    Checks to see if a directory exists and, if not, creates it
+    """
     if not os.path.exists(dir):
         os.makedirs(dir)
 

@@ -32,7 +32,8 @@ def main():
         # shortcuts_manager.save(my_path)
         # 
         # Generate a new shortcuts.vdf file with all of the new additions
-        shortcuts_manager.save()
-
+        shortcuts_manager.save()      
+        
 if __name__ == "__main__":
-    main()
+    pass
+    # main()

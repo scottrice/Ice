@@ -18,6 +18,7 @@ import sys
 import os
 
 import IceFilesystemHelper
+from IceLogging import log
 from SteamShortcutManager import SteamShortcutManager,SteamShortcut
 
 # Check to see if the directory we are going to use to Store ROMs exists. If it
@@ -76,7 +77,7 @@ class IceROMManager():
         if rom.console.emulator is None:
             return
         if not self.rom_already_in_steam(rom):
-            print "Adding %s to Steam" % rom.name()
+            log("Adding %s to Steam" % rom.name())
             generated_shortcut = self.__shortcut_for_rom__(rom)
             self.managed_shortcuts.add(generated_shortcut)
             self.shortcut_manager.add(generated_shortcut)
@@ -89,7 +90,7 @@ class IceROMManager():
             rom_shortcuts.add(self.__shortcut_for_rom__(rom))
         deleted_rom_shortcuts = self.managed_shortcuts - rom_shortcuts
         for shortcut in deleted_rom_shortcuts:
-            print "Deleting: %s" % shortcut.appname
+            log("Deleting: %s" % shortcut.appname)
             self.shortcut_manager.shortcuts.remove(shortcut)
             
     def sync_roms(self,roms):

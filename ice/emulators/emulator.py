@@ -21,6 +21,10 @@ import abc
 class Emulator(object):
     __metaclass__ = abc.ABCMeta
     
+    # directory should be set by any subclasses which manage where emulators
+    # are stored (such as the Downloaded Emulator class)
+    directory = ""
+    
     # Location should be set by any subclasses which manage where emulators
     # are stored (such as the Downloaded Emulator class)
     location = ""
@@ -29,6 +33,12 @@ class Emulator(object):
     # we specify which console we are having the emulator handle currently
     def __init__(self,console_name):
         self._console_name_ = console_name
+        
+    def is_functional(self):
+        """
+        A basic emulator is always functional.
+        """
+        return True
         
     def valid_rom(self,path):
         """
