@@ -31,10 +31,12 @@ def log(s,level=1):
     printed to the console
     Level 1 is something that should be noted, but mainly for reference later.
     In the case of a level 1 log, the string should be put in a log file
+
+    If 'level' is 2, then both print the message and make note in the file
     """
-    if level == 0:
-        print "%s %s" % (log_timestamp_str(),s)
-    if level == 1:
+    if level is 0 or level is 2:
+        print "%s" % s
+    if level is 1 or level is 2:
         f = open(IceFilesystemHelper.log_file(),"a")
         f.write("%s %s\n" % (log_timestamp_str(),s))
         f.close()

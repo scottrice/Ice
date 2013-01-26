@@ -67,7 +67,9 @@ class DownloadedEmulator(emulator.Emulator):
         zip_path = os.path.join(IceFilesystemHelper.downloaded_zips_directory(),os.path.basename(url))
         # If we have downloaded (and therefore extracted) the zip file before,
         # there is no reason to do it again
-        if not os.path.exists(zip_path):
+        if os.path.exists(zip_path):
+            log("Found zip file %s" % os.path.basename(url))
+        else:
             log("Downloading %s" % url)
             (downloaded_path,headers) = urllib.urlretrieve(url)
             log("Finished downloading %s" % url)

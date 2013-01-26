@@ -20,5 +20,7 @@ __all__ = [
     "winproject64",
     "winbsnes",
     "winvisualboyadvance",
-    "wingens"
+    "wingens",
+    "winepsxe",
+    "winpcsx2"
 ]

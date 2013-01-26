@@ -43,7 +43,7 @@ class BiosEmulator(emulator.Emulator):
         if os.path.exists(self.emulator_bios_location()):
             log("Found bios in emulator already")
             return
-        if os.path.exists(user_supplied_bios_location()):
+        if os.path.exists(self.user_supplied_bios_location()):
             # The user has given us a bios, we should copy the file to the 
             # correct location
             log("Found bios in ROMs directory, copying it to emulator location")
@@ -57,13 +57,13 @@ class BiosEmulator(emulator.Emulator):
         """
         # We will do a check for the bios before we do anything else
         self.__check_for_user_supplied_bios__()
-        return True if os.path.exists(self.emulator_bios_location())
+        # If there is a bios set up for the emulator, then we are in good shape
+        if os.path.exists(self.emulator_bios_location()):
+            return True
         # If we get to this point, then the file doesn't exist. We should make
         # a note that this emulator isn't available, and return False
-        missing_bios_message = "\
-        %s emulator is missing a required BIOS. Please find the bios named \
-        '%s' and put it in the %s roms directory under the name %s" % 
-        (self._console_name,self._bios_name_,self._console_name_,self.user_supplied_bios_filename)
+        missing_bios_options = (self._console_name_,self._bios_name_,self._console_name_,self.user_supplied_bios_filename())
+        missing_bios_message = "%s emulator is missing a required BIOS. Please find the bios named '%s' and put it in the %s roms directory under the name '%s'" % missing_bios_options
         log(missing_bios_message,0)
         
     def valid_rom(self,path):
@@ -72,22 +72,28 @@ class BiosEmulator(emulator.Emulator):
         so we need to make sure that Ice doesn't accidently add it as a
         playable game. That would be super awkward.
         """
-        romname, romext = os.path.splitext(path)
-        if romext == ".bios":
+        filename = os.path.basename(path)
+        if filename == self.user_supplied_bios_filename():
             return False
         return True
         
     def user_supplied_bios_filename(self):
         """
-        The user supplied bios should be named "{shortname}.bios"
+        The user supplied bios should be named "{shortname}_bios.bin"
         
         Example...
-        PS1.bios
-        PS2.bios
-        GBA.bios
+        PS1_bios.bin
+        PS2_bios.bin
+        GBA_bios.bin
         etc...
+
+        Originally the file was shortname.bios, to make sure the user realized
+        that the file was a bios file, but when you change a file extension in
+        Windows it brings up a popup asking if you are sure, which I find to be
+        a bad user experience (a normal user might think they did something 
+        wrong), so I am changing it to shortname_bios.bin
         """
-        return "%s.bios" % self._console_name_
+        return "%s_bios.bin" % self._console_name_
 
     def user_supplied_bios_location(self):
         """
@@ -95,8 +101,8 @@ class BiosEmulator(emulator.Emulator):
         and should be named what user_supplied_bios_filename describes
         
         Example...
-        Windows: C:\Users\Scott\ROMs\PS1\PS1.bios
-        Mac OS X: /Users/scottrice/ROMs/PS1/PS1.bios
+        Windows: C:\Users\Scott\ROMs\PS1\PS1_bios.bin
+        Mac OS X: /Users/scottrice/ROMs/PS1/PS1_bios.bin
         """
         return os.path.join(IceFilesystemHelper.roms_directory(),self._console_name_,self.user_supplied_bios_filename())
         

@@ -14,9 +14,11 @@ from IceROMManager import IceROMManager
 from IceLogging import log
 
 def main():
+    log("=========================Starting Ice")
     # Find the Steam Account that the user would like to add ROMs for
     user_ids = SteamUserManager.user_ids_on_this_machine()
     for user_id in user_ids:
+        log("---------------Running for user %s" % str(user_id),2)
         # Load their shortcuts into a SteamShortcutManager object
         shortcuts_path = SteamUserManager.shortcuts_file_for_user_id(user_id)
         shortcuts_manager = SteamShortcutManager(shortcuts_path)
