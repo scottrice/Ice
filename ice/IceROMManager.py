@@ -18,8 +18,10 @@ import sys
 import os
 
 import IceFilesystemHelper
+import SteamUserManager
 from IceLogging import log
 from SteamShortcutManager import SteamShortcutManager,SteamShortcut
+from steam_grid import SteamGrid
 
 # Check to see if the directory we are going to use to Store ROMs exists. If it
 # does not, then create it.
@@ -62,15 +64,8 @@ class IceROMManager():
         Shortcut for that ROM, and then figure out whether an equal ROM exists
         in our Shortcut Manager.
         """
-        generated_shortcut = self.__shortcut_for_rom__(rom)
+        generated_shortcut = rom.to_shortcut()
         return generated_shortcut in self.managed_shortcuts
-    
-    def __shortcut_for_rom__(self,rom):
-        command_string = rom.console.emulator.command_string(rom)
-        startdir = rom.console.emulator.startdir(rom)
-        # Each shortcut should have an icon set based on the console for which
-        # it belongs
-        return SteamShortcut(rom.name(),command_string,startdir,rom.console.icon_path(),rom.console.fullname)
         
     def add_rom(self,rom):
         # Don't add a ROM if we don't have a supported emulator for it
@@ -78,7 +73,7 @@ class IceROMManager():
             return
         if not self.rom_already_in_steam(rom):
             log("Adding %s to Steam" % rom.name(),2)
-            generated_shortcut = self.__shortcut_for_rom__(rom)
+            generated_shortcut = rom.to_shortcut()
             self.managed_shortcuts.add(generated_shortcut)
             self.shortcut_manager.add(generated_shortcut)
             
@@ -87,7 +82,7 @@ class IceROMManager():
         # that was managed by Ice in Steam that is no longer in our ROM folders
         rom_shortcuts = set()
         for rom in roms:
-            rom_shortcuts.add(self.__shortcut_for_rom__(rom))
+            rom_shortcuts.add(rom.to_shortcut())
         deleted_rom_shortcuts = self.managed_shortcuts - rom_shortcuts
         for shortcut in deleted_rom_shortcuts:
             log("Deleting: %s" % shortcut.appname,2)
@@ -104,3 +99,8 @@ class IceROMManager():
         # 2)
         for rom in roms:
             self.add_rom(rom)
+            
+    def update_artwork(self,user_id,roms):
+        grid = SteamGrid(SteamUserManager.userdata_directory_for_user_id(user_id))
+        for rom in roms:
+            pass
