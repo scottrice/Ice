@@ -140,13 +140,16 @@ supported_consoles = [
     snes,
     n64,
     gamecube,
-    wii,
     ps1,
     ps2,
     genesis,
     dreamcast,
     gameboy,
     gba,
+# I originally planned Wii support, but given the massive differences between
+# Wii input devices and input devices for basically every other console, I am
+# going to remove it for now
+    # wii,
 # I orginally planned DS support, but didn't think it though, as the point
 # of this project was to make something controller friendly, and I have no
 # idea how someone would use a controller to emulate a Nintendo DS. I can see

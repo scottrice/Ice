@@ -20,6 +20,7 @@ import stat
 
 import IceSettings
 import IceFilesystemHelper
+from SteamShortcutManager import SteamShortcut
 
 class ROM:
     def __init__(self,path,console):
@@ -45,6 +46,13 @@ class ROM:
     def executable_path(self):
         suffix = ".cmd" if sys.platform.startswith('win') else ".sh"
         return os.path.join(self.console.executables_directory(),self.name()+suffix)
+        
+    def to_shortcut(self):
+        command_string = self.console.emulator.command_string(self)
+        startdir = self.console.emulator.startdir(self)
+        # Each shortcut should have an icon set based on the console for which
+        # it belongs
+        return SteamShortcut(self.name(),command_string,startdir,self.console.icon_path(),self.console.fullname)
         
     def executable_string(self):
         """
