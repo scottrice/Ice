@@ -2,14 +2,14 @@
 
 import sys
 import os
+import inspect
+
+sys.stdout = open("stdout.log","w")
+sys.stderr = open("stderr.log","w")
 
 from SteamShortcutManager import SteamShortcutManager
-
-import SteamInstallationLocationManager
 import SteamUserManager
-import IceSettings
 import IceConsole
-from IceROM import ROM
 from IceROMManager import IceROMManager
 from IceLogging import log
 

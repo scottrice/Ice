@@ -6,49 +6,50 @@ setup.py
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 
-This code is heavily based off of code found at
-http://www.py2exe.org/index.cgi/data_files
-
-Thanks!
+I have no idea what I'm doing...
 """
 
 import os
 import glob
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
-def find_data_files(source,target,patterns):
-    """Locates the specified data-files and returns the matches
-    in a data_files compatible format.
+import py2exe
 
-    source is the root of the source data tree.
-        Use '' or '.' for current directory.
-    target is the root of the target data tree.
-        Use '' or '.' for the distribution directory.
-    patterns is a sequence of glob-patterns for the
-        files you want to copy.
-    """
-    if glob.has_magic(source) or glob.has_magic(target):
-        raise ValueError("Magic not allowed in src, target")
-    ret = {}
-    for pattern in patterns:
-        pattern = os.path.join(source,pattern)
-        for filename in glob.glob(pattern):
-            if os.path.isfile(filename):
-                targetpath = os.path.join(target,os.path.relpath(filename,source))
-                path = os.path.dirname(targetpath)
-                ret.setdefault(path,[]).append(filename)
-    return sorted(ret.items())
+# py2exe options. The tutorial I used is here:
+# http://www.blog.pythonlibrary.org/2010/07/31/a-py2exe-tutorial-build-a-binary-series/
+includes = []
+excludes = []
+#packages = ["ice","ice.emulators","ice.resources","ice.resources.images","ice.resources.images.icons"]
+packages = []
+dll_excludes = []
+
+SRC_DIR = 'ice'
 
 setup(
     name="Ice",
     version="0.01",
     description="ROM Manager for Steam",
     author="Scott Rice",
+    console=["ice/ice.py"],
     include_package_data=True,
-    packages=["ice"],
-    package_dir={'ice':'ice'},
-    package_data={'ice':['resources/*']}
+    package_dir={'':SRC_DIR},
+    packages=find_packages(SRC_DIR),
+    package_data={'ice':['resources/images/icons/*']},
+    options = {"py2exe": {"compressed": 2, 
+                          "optimize": 2,
+                          "includes": includes,
+                          "excludes": excludes,
+                          "packages": packages,
+                          "dll_excludes": dll_excludes,
+                          "bundle_files": 3,
+                          "dist_dir": "dist",
+                          "xref": False,
+                          "skip_archive": False,
+                          "ascii": False,
+                          "custom_boot_script": '',
+                         }
+              },
 )
 
 # Will copy data/README to dist/README, and all files in data/images/ to dist/images/
