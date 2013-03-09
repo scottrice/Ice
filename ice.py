@@ -49,3 +49,6 @@ def main():
         
 if __name__ == "__main__":
     main()
+    # Keeps the console from closing (until the user hits enter) so they can
+    # read any console output
+    raw_input()

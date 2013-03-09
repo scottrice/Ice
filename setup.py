@@ -22,8 +22,8 @@ if sys.platform.startswith("win"):
 # http://www.blog.pythonlibrary.org/2010/07/31/a-py2exe-tutorial-build-a-binary-series/
 includes = []
 excludes = []
-#packages = ["ice","ice.emulators","ice.resources","ice.resources.images","ice.resources.images.icons"]
-packages = []
+packages = ["ice","ice.emulators","ice.resources","ice.resources.images","ice.resources.images.icons"]
+# packages = []
 dll_excludes = []
 
 SRC_DIR = 'ice'
@@ -35,8 +35,8 @@ setup(
     author="Scott Rice",
     console=["ice.py"],
     include_package_data=True,
-    package_dir={'':SRC_DIR},
-    packages=find_packages(SRC_DIR),
+    # package_dir={'':'.'},
+    packages=packages,
     package_data={'ice':['resources/images/icons/*']},
     options = {"py2exe": {"compressed": 2, 
                           "optimize": 2,
