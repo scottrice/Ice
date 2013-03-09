@@ -10,11 +10,13 @@ I have no idea what I'm doing...
 """
 
 import os
+import sys
 import glob
 
 from setuptools import setup, find_packages
 
-import py2exe
+if sys.platform.startswith("win"):
+  import py2exe
 
 # py2exe options. The tutorial I used is here:
 # http://www.blog.pythonlibrary.org/2010/07/31/a-py2exe-tutorial-build-a-binary-series/
@@ -31,7 +33,7 @@ setup(
     version="0.01",
     description="ROM Manager for Steam",
     author="Scott Rice",
-    console=["ice/ice.py"],
+    console=["ice.py"],
     include_package_data=True,
     package_dir={'':SRC_DIR},
     packages=find_packages(SRC_DIR),

@@ -23,8 +23,8 @@ import shutil
 import urllib
 import zipfile
 
-import filesystem_helper
-from ice_logging import log
+from ice import filesystem_helper
+from ice.ice_logging import log
 
 import emulator
 

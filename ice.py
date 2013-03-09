@@ -4,19 +4,19 @@ import sys
 import os
 import inspect
 
-sys.stdout = open("stdout.log","w")
-sys.stderr = open("stderr.log","w")
+# sys.stdout = open("stdout.log","w")
+# sys.stderr = open("stderr.log","w")
 
-from steam_shortcut_manager import SteamShortcutManager
+from ice.steam_shortcut_manager import SteamShortcutManager
 
-import steam_installation_location_manager
-import steam_user_manager
-import settings
-import console
-from rom import ROM
-from rom_manager import IceROMManager
-from grid_image_manager import IceGridImageManager
-from ice_logging import log
+from ice import steam_installation_location_manager
+from ice import steam_user_manager
+from ice import settings
+from ice import console
+from ice.rom import ROM
+from ice.rom_manager import IceROMManager
+from ice.grid_image_manager import IceGridImageManager
+from ice.ice_logging import log
 
 def main():
     log("=========================Starting Ice")

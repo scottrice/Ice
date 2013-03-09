@@ -17,7 +17,7 @@ import sys
 import os
 import abc
 
-import filesystem_helper
+from ice import filesystem_helper
 
 import emulator
 
