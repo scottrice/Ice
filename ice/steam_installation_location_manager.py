@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-SteamInstallationLocationManager.py
+steam_installation_location_manager.py
 
 Created by Scott on 2012-12-20.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -13,7 +13,9 @@ shortcuts.vdf file, which is obviously useful for Ice
 import sys
 import os
 
-import SteamUserManager
+# TODO: Removed what I think is an unused import, but it is very possible that I
+# will be getting a bunch of errors pretty soon, so just putting this TODO here
+# to remind me
 
 # As of right now, I'm not sure why I will need this, but I think it will be useful
 default_steam_directory = {}

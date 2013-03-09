@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-IceConsoleTests.py
+console_tests.py
 
 Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -10,10 +10,10 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import sys,os
 import unittest
 
-import IceFilesystemHelper
-from IceConsole import Console, supported_consoles, console_lookup, gba
+import filesystem_helper
+from console import Console, supported_consoles, console_lookup, gba
 
-class IceConsoleTests(unittest.TestCase):
+class ConsoleTests(unittest.TestCase):
     def setUp(self):
         self.console = Console("Test","Test Console")
         
@@ -44,11 +44,11 @@ class IceConsoleTests(unittest.TestCase):
     def test_roms_directory(self):
         """
         The ROMs directory for a console should be the ROMs directory from
-        IceFilesystemHelper, except the directory name should be equal to the
+        filesystem_helper, except the directory name should be equal to the
         shortname for the console
         """
         gba_dir = self.console.roms_directory()
-        self.assertEqual(os.path.dirname(gba_dir),IceFilesystemHelper.roms_directory())
+        self.assertEqual(os.path.dirname(gba_dir),filesystem_helper.roms_directory())
         self.assertEqual(os.path.basename(gba_dir),self.console.shortname)
         
     def test_executables_directory(self):
@@ -58,7 +58,7 @@ class IceConsoleTests(unittest.TestCase):
         named the same as the shortname of the console
         """
         gba_dir = self.console.executables_directory()
-        self.assertEqual(os.path.dirname(gba_dir),IceFilesystemHelper.executables_directory())
+        self.assertEqual(os.path.dirname(gba_dir),filesystem_helper.executables_directory())
         self.assertEqual(os.path.basename(gba_dir),self.console.shortname)
         
     def test_icon_path(self):
@@ -67,5 +67,5 @@ class IceConsoleTests(unittest.TestCase):
         file should be named the shortname of the console with a .png extension
         """
         gba_path = self.console.icon_path()
-        self.assertEqual(os.path.dirname(gba_path),IceFilesystemHelper.icons_directory())
+        self.assertEqual(os.path.dirname(gba_path),filesystem_helper.icons_directory())
         self.assertEqual(os.path.basename(gba_path),self.console.shortname + ".png")

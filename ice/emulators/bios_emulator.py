@@ -12,8 +12,8 @@ import os
 import abc
 import shutil
 
-import IceFilesystemHelper
-from IceLogging import log
+import filesystem_helper
+from ice_logging import log
 
 import emulator
 
@@ -104,7 +104,7 @@ class BiosEmulator(emulator.Emulator):
         Windows: C:\Users\Scott\ROMs\PS1\PS1_bios.bin
         Mac OS X: /Users/scottrice/ROMs/PS1/PS1_bios.bin
         """
-        return os.path.join(IceFilesystemHelper.roms_directory(),self._console_name_,self.user_supplied_bios_filename())
+        return os.path.join(filesystem_helper.roms_directory(),self._console_name_,self.user_supplied_bios_filename())
         
     def emulator_bios_location(self):
         """

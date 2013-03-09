@@ -11,7 +11,7 @@ import sys
 import os
 import time
 
-import IceFilesystemHelper
+import filesystem_helper
 
 def log_timestamp_str():
     """
@@ -37,6 +37,6 @@ def log(s,level=1):
     if level is 0 or level is 2:
         print "%s" % s
     if level is 1 or level is 2:
-        f = open(IceFilesystemHelper.log_file(),"a")
+        f = open(filesystem_helper.log_file(),"a")
         f.write("%s %s\n" % (log_timestamp_str(),s))
         f.close()

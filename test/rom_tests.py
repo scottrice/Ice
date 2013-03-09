@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-IceROMTest.py
+rom_test.py
 
 Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -10,10 +10,10 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import sys, os
 import unittest
 
-from IceROM import ROM
-from IceConsole import Console,console_lookup
+from rom import ROM
+from console import Console,console_lookup
 
-class IceROMTests(unittest.TestCase):
+class ROMTests(unittest.TestCase):
     def setUp(self):
         gba = console_lookup("GBA")
         self.roms_console = gba

@@ -23,8 +23,8 @@ import shutil
 import urllib
 import zipfile
 
-import IceFilesystemHelper
-from IceLogging import log
+import filesystem_helper
+from ice_logging import log
 
 import emulator
 
@@ -52,19 +52,19 @@ class DownloadedEmulator(emulator.Emulator):
     def __init__(self,console_name):
         assert self._download_location_, "Download Location must be defined for all subclasses of DownloadedEmulator"
         assert self._relative_exe_path_, "Relative Exe Path must be defined for all subclasses of DownloadedEmulator"
-        self._directory_name_ = IceFilesystemHelper.highest_directory_in_path(self._relative_exe_path_)
+        self._directory_name_ = filesystem_helper.highest_directory_in_path(self._relative_exe_path_)
         # Download the emulator
         self._download_()
         super(DownloadedEmulator,self).__init__(console_name)
         
     def _download_(self):
-        emulators_dir = IceFilesystemHelper.downloaded_emulators_directory()
-        zips_dir = IceFilesystemHelper.downloaded_zips_directory()
+        emulators_dir = filesystem_helper.downloaded_emulators_directory()
+        zips_dir = filesystem_helper.downloaded_zips_directory()
         # Make sure the directorys exists
-        IceFilesystemHelper.create_directory_if_needed(emulators_dir)
-        IceFilesystemHelper.create_directory_if_needed(zips_dir)
+        filesystem_helper.create_directory_if_needed(emulators_dir)
+        filesystem_helper.create_directory_if_needed(zips_dir)
         url = self._download_location_
-        zip_path = os.path.join(IceFilesystemHelper.downloaded_zips_directory(),os.path.basename(url))
+        zip_path = os.path.join(filesystem_helper.downloaded_zips_directory(),os.path.basename(url))
         # If we have downloaded (and therefore extracted) the zip file before,
         # there is no reason to do it again
         if os.path.exists(zip_path):

@@ -17,16 +17,16 @@ between ROMs and Steam Shortcuts.
 import sys
 import os
 
-import IceFilesystemHelper
-import SteamUserManager
-from IceLogging import log
-from SteamShortcutManager import SteamShortcutManager,SteamShortcut
+import filesystem_helper
+import steam_user_manager
+from ice_logging import log
+from steam_shortcut_manager import SteamShortcutManager,SteamShortcut
 from steam_grid import SteamGrid
 
 # Check to see if the directory we are going to use to Store ROMs exists. If it
 # does not, then create it.
-if not os.path.exists(IceFilesystemHelper.roms_directory()):
-    os.makedirs(IceFilesystemHelper.roms_directory())
+if not os.path.exists(filesystem_helper.roms_directory()):
+    os.makedirs(filesystem_helper.roms_directory())
 
 class IceROMManager():
     def __init__(self,shortcut_manager):
@@ -56,7 +56,7 @@ class IceROMManager():
         in the Ice dir). Obviously if we add a method of executing roms which
         doesn't involve the app dir, this method will need to be rethought.
         """
-        return IceFilesystemHelper.app_data_directory() in shortcut.exe
+        return filesystem_helper.app_data_directory() in shortcut.exe
         
     def rom_already_in_steam(self,rom):
         """
@@ -101,6 +101,6 @@ class IceROMManager():
             self.add_rom(rom)
             
     def update_artwork(self,user_id,roms):
-        grid = SteamGrid(SteamUserManager.userdata_directory_for_user_id(user_id))
+        grid = SteamGrid(steam_user_manager.userdata_directory_for_user_id(user_id))
         for rom in roms:
             pass

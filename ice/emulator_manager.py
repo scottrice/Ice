@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-IceEmulatorManager.py
+emulator_manager.py
 
 Created by Scott on 2013-01-04.
 Copyright (c) 2013 Scott Rice. All rights reserved.

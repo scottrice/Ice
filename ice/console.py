@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-IceConsole.py
+console.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -17,11 +17,11 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 import sys
 import os
 
-import IceSettings
-import IceFilesystemHelper
-import IceEmulatorManager
-from IceLogging import log
-from IceROM import ROM
+import settings
+import filesystem_helper
+import emulator_manager
+from ice_logging import log
+from rom import ROM
 
 class Console():
     def __init__(self,shortname,fullname):
@@ -37,12 +37,12 @@ class Console():
         """
         Uses the settings to determine the emulator path for a given console
         """
-        platform = IceSettings.platform_string()
-        if not IceEmulatorManager.emulator_exists(platform,self):
+        platform = settings.platform_string()
+        if not emulator_manager.emulator_exists(platform,self):
             return None
-        return IceEmulatorManager.lookup_emulator(platform,self)
-        # emulators_dir = IceFilesystemHelper.bundled_emulators_directory(platform)
-        # return os.path.join(emulators_dir,IceSettings.relative_emulator_path(platform,self))
+        return emulator_manager.lookup_emulator(platform,self)
+        # emulators_dir = filesystem_helper.bundled_emulators_directory(platform)
+        # return os.path.join(emulators_dir,settings.relative_emulator_path(platform,self))
         
     def __create_directories_if_needed__(self):
         """
@@ -50,7 +50,7 @@ class Console():
         """
         # If the emulator doesn't exist, don't even bother creating the folders
         # for the console
-        if not IceEmulatorManager.emulator_exists(IceSettings.platform_string(),self):
+        if not emulator_manager.emulator_exists(settings.platform_string(),self):
             return
         def create_directory_if_needed(dir):
             if not os.path.exists(dir):
@@ -68,7 +68,7 @@ class Console():
         or
         C:\Users\Scott\Documents\ROMs\PS2
         """
-        return os.path.join(IceFilesystemHelper.roms_directory(),self.shortname)
+        return os.path.join(filesystem_helper.roms_directory(),self.shortname)
         
     def executables_directory(self):
         """
@@ -77,7 +77,7 @@ class Console():
         or
         C:\Users\Scott\Documents\ROMs\PS2
         """
-        return os.path.join(IceFilesystemHelper.executables_directory(),self.shortname)
+        return os.path.join(filesystem_helper.executables_directory(),self.shortname)
         
     def icon_path(self):
         """
@@ -86,7 +86,7 @@ class Console():
         be named the same as the emulator shortname with a .png extension
         """
         icon_filename = self.shortname + ".png"
-        return os.path.join(IceFilesystemHelper.icons_directory(),icon_filename)
+        return os.path.join(filesystem_helper.icons_directory(),icon_filename)
         
     def find_all_roms(self):
         """
@@ -103,7 +103,7 @@ class Console():
             if not os.path.isdir(file_path):
                 # On Linux/OSX, we want to make sure hidden files don't get
                 # accidently added as well
-                if IceSettings.platform_string() != "Windows" and filename.startswith('.'):
+                if settings.platform_string() != "Windows" and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.emulator.valid_rom(file_path):
                     log("Ignoring Non-ROM file: %s" % file_path)
@@ -161,7 +161,7 @@ supported_consoles = [
 # Remove any consoles from supported_consoles if there does not exist an
 # emulator for them
 for console in list(supported_consoles):
-    if not IceEmulatorManager.emulator_exists(IceSettings.platform_string(),console):
+    if not emulator_manager.emulator_exists(settings.platform_string(),console):
         supported_consoles.remove(console)
 
 # console_mapping is a map between the shortname (which is also used as the

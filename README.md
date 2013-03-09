@@ -46,7 +46,7 @@ Most of the emulators use permissive licenses. The most common are MIT and GPL.
 A few include clauses that they are only to be used for personal use, so if you
 want to use my code for commercial use you need to get different emulators.
 
-To switch out an emulator, check the IceEmulatorManager.
+To switch out an emulator, check the emulator_manager.
 
 ##BIOS Issues
 

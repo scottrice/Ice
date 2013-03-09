@@ -17,7 +17,7 @@ import sys
 import os
 import abc
 
-import IceFilesystemHelper
+import filesystem_helper
 
 import emulator
 
@@ -27,4 +27,4 @@ class BundledEmulator(emulator.Emulator):
     def __init__(self,console_name,emulator_location):
         super(BundledEmulator,self).__init__(console_name)
         assert self._relative_exe_path_, "Relative Exe Path must be defined for all subclasses of BundledEmulator"
-        self.location = os.path.join(IceFilesystemHelper.bundled_emulators_directory(),self._relative_exe_path_)
+        self.location = os.path.join(filesystem_helper.bundled_emulators_directory(),self._relative_exe_path_)

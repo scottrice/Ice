@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-IceSettings.py
+settings.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.

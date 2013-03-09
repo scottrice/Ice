@@ -18,9 +18,9 @@ import sys
 import os
 import stat
 
-import IceSettings
-import IceFilesystemHelper
-from SteamShortcutManager import SteamShortcut
+import settings
+import filesystem_helper
+from steam_shortcut_manager import SteamShortcut
 
 class ROM:
     def __init__(self,path,console):
@@ -59,7 +59,7 @@ class ROM:
         The command string which should go in the executable. This command
         should, when executed, launch the correct emulator and open the ROM.
         """
-        platform = IceSettings.platform_string()
+        platform = settings.platform_string()
         if platform == "Windows":
             return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
         elif platform == "OSX":

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-IceFilesystemHelper.py
+filesystem_helper.py
 
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -21,7 +21,7 @@ import os
 
 import appdirs
 
-import IceSettings
+import settings
 
 def highest_directory_in_path(path):
     """
@@ -63,7 +63,7 @@ def app_data_directory():
     Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\\
     Mac OS X: ~/Library/Application Support/Ice/
     """
-    return appdirs.user_data_dir(IceSettings.appname,IceSettings.appauthor)
+    return appdirs.user_data_dir(settings.appname,settings.appauthor)
 
 def roms_directory():
     """

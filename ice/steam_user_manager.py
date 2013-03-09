@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-SteamUserManager.py
+steam_user_manager.py
 
 Created by Scott on 2012-12-23.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -10,12 +10,12 @@ The purpose of this class is to handle anything related to Steam user accounts
 A big part of that is abstracting away the conversion between Steam usernames
 and Steam IDs. It should also be able to determine the path to the userdata 
 folder for a given user (finding the directory containing all of the different
-userdata folders should be the job of the SteamInstallationLocationManager) 
+userdata folders should be the job of the steam_installation_location_manager) 
 
 Functionality should be added to this module if two conditions are met. The
 first is if it is related at all to Steam User accounts, and the second is if
 it doesn't involve Ice in any way. If there is functionality related to Steam
-Users, but it involves Ice, it should most likely go in the IceFilesystemHelper
+Users, but it involves Ice, it should most likely go in the filesystem_helper
 (as the filesystem is a big reason Ice needs to know about Steam users)
 """
 
@@ -24,7 +24,7 @@ import os
 
 import httplib
 
-import SteamInstallationLocationManager
+import steam_installation_location_manager
 
 name_to_id_cache = {}
 id_to_name_cache = {}
@@ -152,7 +152,7 @@ def userdata_directory_for_user_id(user_id):
     users. Of special note for Ice is the config/shortcuts.vdf file, which
     contains all of the 'Non-Steam Games' shortcuts.
     """
-    return os.path.join(SteamInstallationLocationManager.steam_userdata_location(),str(user_id))
+    return os.path.join(steam_installation_location_manager.steam_userdata_location(),str(user_id))
     
 def shortcuts_file_for_user_id(user_id):
     """
@@ -175,7 +175,7 @@ def user_ids_on_this_machine():
     list of subfolders inside the userdata folder
     """
     ids = []
-    userdata_dir = SteamInstallationLocationManager.steam_userdata_location()
+    userdata_dir = steam_installation_location_manager.steam_userdata_location()
     for entry in os.listdir(userdata_dir):
         if os.path.isdir(os.path.join(userdata_dir,entry)):
             ids.append(int(entry))

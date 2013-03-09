@@ -25,7 +25,7 @@ sys.path[0:0] = [
 ]
 
 all_tests = [f[:-3] for f in os.listdir(tests_path)
-             if f.endswith("Tests.py")]
+             if f.endswith("tests.py")]
 
 def get_suite(tests):
   tests = sorted(tests)

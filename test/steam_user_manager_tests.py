@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-SteamUserManagerTests.py
+steam_user_manager_tests.py
 
 Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
@@ -10,8 +10,8 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 import os,sys
 import unittest
 
-import SteamInstallationLocationManager
-from SteamUserManager import *
+import steam_installation_location_manager
+from steam_user_manager import *
 
 class SteamUserManagerTests(unittest.TestCase):
     def setUp(self):
@@ -51,7 +51,7 @@ class SteamUserManagerTests(unittest.TestCase):
         ud_dir = userdata_directory_for_user_id(self.community_id_32)
         # dirname removes the trailing /, which I keep in 
         # steam_userdata_location, so I add that back on for the equality check
-        self.assertEqual(os.path.dirname(ud_dir)+os.sep,SteamInstallationLocationManager.steam_userdata_location())
+        self.assertEqual(os.path.dirname(ud_dir)+os.sep,steam_installation_location_manager.steam_userdata_location())
         self.assertEqual(int(os.path.basename(ud_dir)),self.community_id_32)
         
         

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-SteamShortcutManager.py
+steam_shortcut_manager.py
 
 Created by Scott on 2012-12-20.
 Copyright (c) 2012 Scott Rice. All rights reserved.
