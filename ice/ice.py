@@ -2,6 +2,10 @@
 
 import sys
 import os
+import inspect
+
+sys.stdout = open("stdout.log","w")
+sys.stderr = open("stderr.log","w")
 
 from steam_shortcut_manager import SteamShortcutManager
 
