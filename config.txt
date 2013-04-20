@@ -1,0 +1,2 @@
+[Grid Images]
+Source=localhost:3000
