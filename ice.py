@@ -4,9 +4,6 @@ import sys
 import os
 import inspect
 
-# sys.stdout = open("stdout.log","w")
-# sys.stderr = open("stderr.log","w")
-
 from ice.steam_shortcut_manager import SteamShortcutManager
 
 from ice import steam_installation_location_manager

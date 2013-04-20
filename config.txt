@@ -1,2 +1,7 @@
+[Steam]
+# This option is not needed or used for OS X. 
+# Windows users should make sure to set this to the correct value.
+location=C:\Program Files (x86)\Steam\
+
 [Grid Images]
 Source=localhost:3000
