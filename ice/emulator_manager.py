@@ -9,6 +9,7 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 
 import sys
 import os
+import settings
 
 from emulators import *
 
@@ -24,53 +25,49 @@ from emulators import *
 # application was using an Xbox 360 controller with Steam Big Picture, and
 # since Wii emulation would require a Wiimote, I figured it didn't make sense
 # to include it.
-windows_emulators = {
-    "NES":          winbsnes.Winbsnes("NES"),
-    "SNES":         winbsnes.Winbsnes("SNES"),
-    "N64":          winproject64.WinProject64("N64"),
-    "Gamecube":     windolphin.WinDolphin("Gamecube"),
-    "PS1":          winepsxe.WinePSXe("PS1"),
-    "PS2":          winpcsx2.WinPCSX2("PS2"),
-    "Genesis":      wingens.WinGens("Genesis"),
-    "Gameboy":      winbsnes.Winbsnes("Gameboy"),
-    "GBA":          winvisualboyadvance.WinVisualBoyAdvance("GBA"),
-}
-
-osx_emulators = {
-    "NES":          macmednafen.MacMednafen("NES"),
-    "SNES":         macsnes9x.MacSnes9x("SNES"),
-    # "N64":          ,
-    # "Gamecube":     ,
-    # "PS1":          ,
-    # "PS2":          ,
-    "Genesis":      macmednafen.MacMednafen("Genesis"),
-    "Gameboy":      macmednafen.MacMednafen("Gameboy"),
-    "GBA":          macmednafen.MacMednafen("GBA"),
-}
-
-linux_emulators = {
-    # "NES":          ,
-    # "SNES":         ,
-    # "N64":          ,
-    # "Gamecube":     ,
-    # "PS1":          ,
-    # "PS2":          ,
-    # "Genesis":      ,
-    # "Gameboy":      ,
-    # "GBA":          ,
-}
-
-emulators = {
-    "Windows":  windows_emulators,
-    "OSX":      osx_emulators,
-    "Linux":    linux_emulators
-}
+platform = settings.platform_string()
+if platform == "Windows":
+    emulators = {
+        "NES":          winbsnes.Winbsnes("NES"),
+        "SNES":         winbsnes.Winbsnes("SNES"),
+        "N64":          winproject64.WinProject64("N64"),
+        "Gamecube":     windolphin.WinDolphin("Gamecube"),
+        "PS1":          winepsxe.WinePSXe("PS1"),
+        "PS2":          winpcsx2.WinPCSX2("PS2"),
+        "Genesis":      wingens.WinGens("Genesis"),
+        "Gameboy":      winbsnes.Winbsnes("Gameboy"),
+        "GBA":          winvisualboyadvance.WinVisualBoyAdvance("GBA"),
+    }
+if platform == "OSX":
+    emulators = {
+        "NES":          macmednafen.MacMednafen("NES"),
+        "SNES":         macsnes9x.MacSnes9x("SNES"),
+        # "N64":          ,
+        # "Gamecube":     ,
+        # "PS1":          ,
+        # "PS2":          ,
+        "Genesis":      macmednafen.MacMednafen("Genesis"),
+        "Gameboy":      macmednafen.MacMednafen("Gameboy"),
+        "GBA":          macmednafen.MacMednafen("GBA"),
+    }
+if platform == "Linux":
+    emulators = {
+        # "NES":          ,
+        # "SNES":         ,
+        # "N64":          ,
+        # "Gamecube":     ,
+        # "PS1":          ,
+        # "PS2":          ,
+        # "Genesis":      ,
+        # "Gameboy":      ,
+        # "GBA":          ,
+    }
 
 def emulator_exists(platform,console):
     return lookup_emulator(platform,console) is not None
         
 def lookup_emulator(platform,console):
     try:
-        return emulators[platform][console.shortname]
+        return emulators[console.shortname]
     except KeyError:
         return None
