@@ -58,18 +58,18 @@ full list of shortnames is below
 
 #Supported Consoles
 
-NES - Nintendo Entertainment System
-SNES - Super Nintendo
-N64 - Nintendo 64
-Gamecube - Nintendo Gamecube
-PS1 - Sony Playstation
-PS2 - Sony Playstation 2
-Genesis - Sega Genesis
-Gameboy - Nintendo Gameboy
-GBA - Nintendo Gameboy Advance
+* NES - Nintendo Entertainment System
+* SNES - Super Nintendo
+* N64 - Nintendo 64
+* Gamecube - Nintendo Gamecube
+* PS1 - Sony Playstation
+* PS2 - Sony Playstation 2
+* Genesis - Sega Genesis
+* Gameboy - Nintendo Gameboy
+* GBA - Nintendo Gameboy Advance
 
 #Unsupported Consoles (which may be supported later)
 
-Wii - Nintendo Wii
-Dreamcast - Sega Dreamcast
-DS - Nintendo DS
+* Wii - Nintendo Wii
+* Dreamcast - Sega Dreamcast
+* DS - Nintendo DS
