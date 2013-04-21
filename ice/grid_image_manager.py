@@ -15,23 +15,50 @@ images.
 
 import os
 import sys
+import urllib
+import urllib2
+import urlparse
+import shutil
 import steam_user_manager
 import steam_grid
+import settings
 from ice_logging import log
 
 class IceGridImageManager():
     def __init__(self):
         pass
+    
+    def provider_with_protocol(self):
+        host = settings.config()["Grid Images"]["source"]
+        if not host.startswith("http://"):
+          host = "http://" + host
+        return host
+    
+    def host_for_image_source(self):
+        return urlparse.urlparse(self.provider_with_protocol()).hostname
+        
+    def url_for_rom(self,rom):
+        host = self.provider_with_protocol()
+        quoted_name = urllib.quote(rom.name())
+        return "%s?console=%s&game=%s" % (host,rom.console.shortname,quoted_name)
         
     def find_image_for_rom(self,rom):
         """
         Determines a suitable grid image for a given ROM.
         """
-        # Right now this method can't find any games, but if you give it a path
-        # you will see Ice set that image for all of your games.
-        #
-        # TODO: Make this method find images online
-        return None
+        response = urllib2.urlopen(self.url_for_rom(rom))
+        if response.getcode() == 204:
+          return None
+        else:
+          return response.read()
+          
+    def download_image(self,image_url):
+        """
+        Downloads the image at 'image_url' and returns the path to the image on
+        the local filesystem
+        """
+        (path,headers) = urllib.urlretrieve("http://i.imgur.com/RVBa34h.png")
+        return path
         
     def update_user_images(self,user_id,roms):
         """
@@ -43,9 +70,16 @@ class IceGridImageManager():
             shortcut = rom.to_shortcut()
             if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname,shortcut.exe)):
                 image = self.find_image_for_rom(rom)
-                if image:
-                    log("Setting custom image for %s" % rom.name(),1)
-                    grid.set_image_for_shortcut(self.find_image_for_rom(rom),shortcut.appname,shortcut.exe)
-                else:
+                # Game not found
+                if image is None:
+                    log("No game found for %s on %s" % (rom.name(),rom.console.fullname))
+                    log("The image provider has no game called %s for %s. Try going to the provider and submittng the game yourself" % (rom.name(),rom.console.fullname),2)
+                # Game found, but there is no picture
+                elif image == "":
                     log("No image found for %s on %s" % (rom.name(),rom.console.fullname))
-                    log("We couldn't find an image for %s. If you find one you like, upload it to something.com, and next time Ice runs it will use it" % rom.name(),2)
+                    log("We couldn't find an image for %s. If you find one you like, upload it to %s, and next time Ice runs it will use it" % (rom.name(),self.host_for_image_source()),2)
+                # Game found, AND there is a picture there
+                else:
+                    log("Setting custom image for %s" % rom.name(),1)
+                    image_path = self.download_image(image)
+                    grid.set_image_for_shortcut(image_path,shortcut.appname,shortcut.exe)
