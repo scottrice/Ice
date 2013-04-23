@@ -56,7 +56,7 @@ Shortnames are used in many places. They are used as the folder names where the
 user puts ROMs, and are used in the URL of the Grid Image Source request. The
 full list of shortnames is below
 
-#Supported Consoles
+###Supported Consoles
 
 * NES - Nintendo Entertainment System
 * SNES - Super Nintendo
@@ -68,7 +68,7 @@ full list of shortnames is below
 * Gameboy - Nintendo Gameboy
 * GBA - Nintendo Gameboy Advance
 
-#Unsupported Consoles (which may be supported later)
+###Unsupported Consoles (which may be supported later)
 
 * Wii - Nintendo Wii
 * Dreamcast - Sega Dreamcast
