@@ -43,26 +43,29 @@ D-Left=
 D-Right=
 
 [Gamecube]
-Up=
-Down=
-Left=
-Right=
-Start=
-A=
-B=
-X=
-Y=
-L=
-R=
-Z=
-C-Up=
-C-Down=
-C-Left=
-C-Right=
-D-Up=
-D-Down=
-D-Left=
-D-Right=
+# Device is needed by Dolphin. For Xbox 360 it is XInput/0/Gamepad. I have no
+# idea if this is different (or if this is needed) for other controllers
+Device=XInput/0/Gamepad
+Up=Left Y+
+Down=Left Y-
+Left=Left X-
+Right=Left X+
+Start=Start
+A=Button A
+B=Button B
+X=Button X
+Y=Button Y
+L=Trigger L
+R=Trigger R
+Z=Shoulder R
+C-Up=Right Y+
+C-Down=Right Y-
+C-Left=Right X-
+C-Right=Right X+
+D-Up=Pad N
+D-Down=Pad S
+D-Left=Pad W
+D-Right=Pad E
 
 [PS1]
 Up=
