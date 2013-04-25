@@ -55,6 +55,3 @@ def controls():
   if controls_dict == None:
     controls_dict = _config_file_to_dictionary(user_controls_path())
   return controls_dict
-        
-def controls_for_console(console):
-  return controls_dict()[console.shortname]
