@@ -59,7 +59,8 @@ class Winbsnes(downloaded_emulator.DownloadedEmulator):
                 try:
                     control = control_map[identifier]
                     control_value = controls[control]
-                    return "%s = \"%s\"\n" % (identifier,control_value)
+                    if control_value != "":
+                        return "%s = \"%s\"\n" % (identifier,control_value)
                 # We have an identifier which starts with the prefix, but isn't
                 # managed by Ice. Use the current value
                 except KeyError:

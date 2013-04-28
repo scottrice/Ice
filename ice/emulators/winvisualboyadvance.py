@@ -54,7 +54,8 @@ class WinVisualBoyAdvance(downloaded_emulator.DownloadedEmulator):
                 control_identifier = line[:line.index('=')]
                 control = control_map[control_identifier]
                 control_value = controls[control]
-                return "%s=%s\n" % (control_identifier,control_value)
+                if control_value != "":
+                    return "%s=%s\n" % (control_identifier,control_value)
             except:
                 return line
         self.replace_contents_of_file(self.config_path(),replacement_function)

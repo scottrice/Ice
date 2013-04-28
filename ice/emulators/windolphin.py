@@ -44,7 +44,8 @@ class WinDolphin(downloaded_emulator.DownloadedEmulator):
                     current_id = line[:second_space]
                 control = controls_map[current_id]
                 control_value = controls[control]
-                return "%s = %s\n" % (current_id,control_value)
+                if control_value != "":
+                    return "%s = %s\n" % (current_id,control_value)
             except:
                 return line
             return line
