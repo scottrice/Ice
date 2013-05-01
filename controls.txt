@@ -71,20 +71,28 @@ D-Left=Pad W
 D-Right=Pad E
 
 [PS1]
-Up=
-Down=
-Left=
-Right=
-Select=
-Start=
-X=
-Circle=
-Square=
-Triangle=
-L1=
-L2=
-R1=
-R2=
+# For anyone editing this to use their own controller: ePSXe stores it's config
+# in HKEY_CURRENT_USER\epsxe\config in a key called Pad1. It is a string, and
+# the string is a bunch of numbers joined by commas. From my testing, the string
+# is of the form
+#
+# Left,Right,Up,Down,Triangle,Circle,X,Square,L1,L2,R1,R2,Start,Select,16,21
+#
+# I have no idea what the 16 and 21 do...
+Up=259
+Down=258
+Left=257
+Right=256
+Select=278
+Start=279
+X=272
+Circle=273
+Square=274
+Triangle=275
+L1=276
+L2=260
+R1=277
+R2=261
 
 [PS2]
 Up=
