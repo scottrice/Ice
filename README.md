@@ -1,3 +1,5 @@
+![Example of Ice](ice-example.png "Example")
+
 ##Description
 
 The purpose of this project is to leverage Steam's Big Picture mode to turn it
