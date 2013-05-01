@@ -23,24 +23,27 @@ L=JP0::Axis2.Hi
 R=JP0::Axis2.Lo
 
 [N64]
-Up=
-Down=
-Left=
-Right=
-Start=
-A=
-B=
-L=
-R=
-Z=
-C-Up=
-C-Down=
-C-Left=
-C-Right=
-D-Up=
-D-Down=
-D-Left=
-D-Right=
+# Must be a hexadecimal string with each byte escaped with \x.
+Device=\x40\xED\x6F\x35\xFF\xCC\xE1\x11\x80\x01\x44\x45\x53\x54\x00\x00
+# Control Data must be entered as base 10 integers.
+Up=65824
+Down=65840
+Left=65792
+Right=65808
+Start=65543
+A=65536
+B=65537
+L=65540
+R=66048
+Z=66064
+C-Up=65984
+C-Down=66000
+C-Left=65952
+C-Right=65968
+D-Up=65920
+D-Down=65936
+D-Left=65888
+D-Right=65904
 
 [Gamecube]
 # Device is needed by Dolphin. For Xbox 360 it is XInput/0/Gamepad. I have no
