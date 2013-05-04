@@ -10,7 +10,8 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 import sys
 import os
 
-import _winreg as registry
+if sys.platform.startswith('win'):
+    import _winreg as registry
 
 import downloaded_emulator
 
