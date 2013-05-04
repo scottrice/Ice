@@ -69,7 +69,11 @@ class IceGridImageManager():
         for rom in roms:
             shortcut = rom.to_shortcut()
             if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname,shortcut.exe)):
-                image = self.find_image_for_rom(rom)
+                try:
+                    image = self.find_image_for_rom(rom)
+                except:
+                    log("There was an error downloading an image for %s" % rom.name(),2)
+                    continue
                 # Game not found
                 if image is None:
                     log("No game found for %s on %s" % (rom.name(),rom.console.fullname))
