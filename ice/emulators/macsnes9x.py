@@ -15,10 +15,8 @@ import os
 import downloaded_emulator
 
 class MacSnes9x(downloaded_emulator.DownloadedEmulator):
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/MacSnes9x.zip"
     # Information specific to DownloadedEmulator
     _executable_files_ = [os.path.join("MacSnes9x","Snes9x.app","Contents","MacOS","Snes9x")]
-    _relative_exe_path_ = os.path.join("MacSnes9x","Snes9x.app")
     
     def __init__(self,console_name="SNES"):
         super(MacSnes9x,self).__init__(console_name)
@@ -39,3 +37,6 @@ class MacSnes9x(downloaded_emulator.DownloadedEmulator):
         for the StartDir
         """
         return rom.console.executables_directory()
+        
+    def set_control_scheme(self,controls):
+        pass

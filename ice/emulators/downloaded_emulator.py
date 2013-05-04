@@ -23,7 +23,7 @@ import shutil
 import urllib
 import zipfile
 
-from ice import filesystem_helper
+from ice import filesystem_helper, settings
 from ice.ice_logging import log
 
 import emulator
@@ -50,12 +50,25 @@ class DownloadedEmulator(emulator.Emulator):
     _relative_exe_path_ = None
     
     def __init__(self,console_name):
-        assert self._download_location_, "Download Location must be defined for all subclasses of DownloadedEmulator"
-        assert self._relative_exe_path_, "Relative Exe Path must be defined for all subclasses of DownloadedEmulator"
+        self.__retrieve_download_information_from_settings__()
+        assert self._download_location_, "Download Location must be defined for all downloaded emulators"
+        assert self._relative_exe_path_, "Relative Exe Path must be defined for all downloaded emulators"
         self._directory_name_ = filesystem_helper.highest_directory_in_path(self._relative_exe_path_)
         # Download the emulator
         self._download_()
         super(DownloadedEmulator,self).__init__(console_name)
+        
+    def __retrieve_download_information_from_settings__(self):
+        try:
+            settings_dll = settings.config()[self.__class__.__name__]["download-location"]
+            settings_rxp = settings.config()[self.__class__.__name__]["relative-exe-path"]
+        except:
+            settings_dll = None
+            settings_rxp = None
+        if self._download_location_ is None and settings_dll is not None:
+            self._download_location_ = settings_dll
+        if self._relative_exe_path_ is None and settings_rxp is not None:
+            self._relative_exe_path_ = settings_rxp
         
     def _download_(self):
         emulators_dir = filesystem_helper.downloaded_emulators_directory()

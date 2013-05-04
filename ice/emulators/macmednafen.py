@@ -15,10 +15,8 @@ import os
 import downloaded_emulator
 
 class MacMednafen(downloaded_emulator.DownloadedEmulator):
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/MacMednafen.zip"
-    # Information specific to DownloadedEmulator
+    # # Information specific to DownloadedEmulator
     _executable_files_ = [os.path.join("MacMednafen","mednafen")]
-    _relative_exe_path_ = os.path.join("MacMednafen","mednafen")
     
     def __init__(self,console_name):
         super(MacMednafen,self).__init__(console_name)
@@ -29,3 +27,6 @@ class MacMednafen(downloaded_emulator.DownloadedEmulator):
         \"/Location/Of/mednafen\" \"/Location/Of/Rom\"
         """
         return "\"%s\" \"%s\"" % (self.location,rom.path)
+
+    def set_control_scheme(self,controls):
+        pass
