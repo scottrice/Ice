@@ -13,9 +13,6 @@ import os
 import downloaded_emulator
 
 class WinVisualBoyAdvance(downloaded_emulator.DownloadedEmulator):
-    
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinVisualBoyAdvance.zip"
-    _relative_exe_path_ = os.path.join("WinVisualBoyAdvance","VisualBoyAdvance.exe")
 
     __invalid_extensions__ = [
         ".sav", # GBA save file

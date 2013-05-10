@@ -14,9 +14,6 @@ import downloaded_emulator
 
 class WinGens(downloaded_emulator.DownloadedEmulator):
     
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinGens.zip"
-    _relative_exe_path_ = os.path.join("WinGens","gens-launcher.exe")
-    
     def __init__(self,console_name):
         super(WinGens,self).__init__(console_name)
         

@@ -14,9 +14,6 @@ import downloaded_emulator
 
 class WinDolphin(downloaded_emulator.DownloadedEmulator):
     
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinDolphin.zip"
-    _relative_exe_path_ = os.path.join("Dolphin","Dolphin.exe")
-    
     def __init__(self,console_name):
         super(WinDolphin,self).__init__(console_name)
     

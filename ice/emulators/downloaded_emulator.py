@@ -83,9 +83,9 @@ class DownloadedEmulator(emulator.Emulator):
         if os.path.exists(zip_path):
             log("Found zip file %s" % os.path.basename(url))
         else:
-            log("Downloading %s" % url)
+            log("Downloading %s" % url,2)
             (downloaded_path,headers) = urllib.urlretrieve(url)
-            log("Finished downloading %s" % url)
+            log("Finished downloading %s" % url,2)
             shutil.copyfile(downloaded_path,zip_path)
             self._unzip_(downloaded_path,emulators_dir)
         self.location = os.path.join(emulators_dir,self._relative_exe_path_)

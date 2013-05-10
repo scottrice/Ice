@@ -15,8 +15,6 @@ import bios_emulator
 
 class WinPCSX2(downloaded_emulator.DownloadedEmulator,bios_emulator.BiosEmulator):
     
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinPCSX2.zip"
-    _relative_exe_path_ = os.path.join("WinPCSX2","pcsx2-launcher.exe")
     _bios_directory_ = "bios"
     _bios_name_ = "scph39001.bin"
     

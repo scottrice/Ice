@@ -18,8 +18,6 @@ import bios_emulator
 
 class WinePSXe(downloaded_emulator.DownloadedEmulator,bios_emulator.BiosEmulator):
     
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/WinePSXe.zip"
-    _relative_exe_path_ = os.path.join("WinePSXe","ePSXe.exe")
     _bios_directory_ = "bios"
     _bios_name_ = "SCPH1001.BIN"
     

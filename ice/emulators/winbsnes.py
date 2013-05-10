@@ -14,9 +14,6 @@ import downloaded_emulator
 
 class Winbsnes(downloaded_emulator.DownloadedEmulator):
 
-    _download_location_ = "https://dl.dropbox.com/u/2862706/ice_emulators/Winbsnes.zip"
-    _relative_exe_path_ = os.path.join("Winbsnes","bsnes.exe")
-
     __invalid_extensions__ = [
         ".sav", # NES and Gameboy save file
         ".srm"  # SNES save file
