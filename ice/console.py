@@ -20,7 +20,7 @@ import os
 import settings
 import filesystem_helper
 import emulator_manager
-from ice_logging import log
+from ice_logging import log_user
 from rom import ROM
 
 class Console():
@@ -106,7 +106,7 @@ class Console():
                 if settings.platform_string() != "Windows" and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.emulator.valid_rom(file_path):
-                    log("Ignoring Non-ROM file: %s" % file_path)
+                    log_file("Ignoring Non-ROM file: %s" % file_path)
                     continue
                 roms.append(ROM(file_path,self))
         return roms

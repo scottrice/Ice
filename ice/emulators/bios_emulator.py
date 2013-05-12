@@ -13,7 +13,7 @@ import abc
 import shutil
 
 from ice import filesystem_helper
-from ice.ice_logging import log
+from ice.ice_logging import log_user,log_file
 
 import emulator
 
@@ -41,15 +41,15 @@ class BiosEmulator(emulator.Emulator):
     def __check_for_user_supplied_bios__(self):
         # If the bios already exists, we don't need to do anything
         if os.path.exists(self.emulator_bios_location()):
-            log("Found bios in emulator already")
+            log_file("Found bios in emulator already")
             return
         if os.path.exists(self.user_supplied_bios_location()):
             # The user has given us a bios, we should copy the file to the 
             # correct location
-            log("Found bios in ROMs directory, copying it to emulator location")
+            log_file("Found bios in ROMs directory, copying it to emulator location")
             shutil.copyfile(self.user_supplied_bios_location(),self.emulator_bios_location())
             return
-        log("No bios found")
+        log_file("No bios found")
         
     def is_functional(self):
         """
@@ -64,7 +64,7 @@ class BiosEmulator(emulator.Emulator):
         # a note that this emulator isn't available, and return False
         missing_bios_options = (self._console_name_,self._bios_name_,self._console_name_,self.user_supplied_bios_filename())
         missing_bios_message = "%s emulator is missing a required BIOS. Please find the bios named '%s' and put it in the %s roms directory under the name '%s'" % missing_bios_options
-        log(missing_bios_message,0)
+        log_user(missing_bios_message)
         
     def valid_rom(self,path):
         """

@@ -13,17 +13,17 @@ from ice import console
 from ice.rom import ROM
 from ice.rom_manager import IceROMManager
 from ice.grid_image_manager import IceGridImageManager
-from ice.ice_logging import log
+from ice.ice_logging import log_both
 
 def main():
-    log("=========================Starting Ice",2)
+    log_both("=========================Starting Ice")
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
     # Find the Steam Account that the user would like to add ROMs for
     user_ids = steam_user_manager.user_ids_on_this_machine()
     grid_manager = IceGridImageManager()
     for user_id in user_ids:
-        log("---------------Running for user %s" % str(user_id),2)
+        log_both("---------------Running for user %s" % str(user_id))
         # Load their shortcuts into a SteamShortcutManager object
         shortcuts_path = steam_user_manager.shortcuts_file_for_user_id(user_id)
         shortcuts_manager = SteamShortcutManager(shortcuts_path)
@@ -32,12 +32,13 @@ def main():
         rom_manager.sync_roms(roms)
         # Generate a new shortcuts.vdf file with all of the new additions
         shortcuts_manager.save()
-        log("---Downloading grid images",2)
+        log_both("---Downloading grid images")
         grid_manager.update_user_images(user_id,roms)
-    log("=========================Finished",2)
+    log_both("=========================Finished")
         
 if __name__ == "__main__":
     main()
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
+    print "Close the window, or hit enter to exit..."
     raw_input()

@@ -24,7 +24,7 @@ import urllib
 import zipfile
 
 from ice import filesystem_helper, settings
-from ice.ice_logging import log
+from ice.ice_logging import log_file,log_both
 
 import emulator
 
@@ -81,18 +81,18 @@ class DownloadedEmulator(emulator.Emulator):
         # If we have downloaded (and therefore extracted) the zip file before,
         # there is no reason to do it again
         if os.path.exists(zip_path):
-            log("Found zip file %s" % os.path.basename(url))
+            log_file("Found zip file %s" % os.path.basename(url))
         else:
-            log("Downloading %s" % url,2)
+            log_both("Downloading %s" % url)
             (downloaded_path,headers) = urllib.urlretrieve(url)
-            log("Finished downloading %s" % url,2)
+            log_both("Finished downloading %s" % url)
             shutil.copyfile(downloaded_path,zip_path)
             self._unzip_(downloaded_path,emulators_dir)
         self.location = os.path.join(emulators_dir,self._relative_exe_path_)
         self.directory = os.path.join(emulators_dir,self._directory_name_)
 
     def _unzip_(self,file,destdir):
-        log("Unzipping %s to %s" % (file,destdir))
+        log_file("Unzipping %s to %s" % (file,destdir))
         z = zipfile.ZipFile(file)
         for f in z.namelist():
             # Zipfiles store paths internally using a forward slash. If os.sep
@@ -121,7 +121,7 @@ class DownloadedEmulator(emulator.Emulator):
         _executable_files_ empty
         """
         for x_file in self._executable_files_:
-            log("Setting executable permission on %s" % x_file)
+            log_file("Setting executable permission on %s" % x_file)
             # Get the full path
             file_path = os.path.join(destdir,x_file)
             # Taken from StackOverflow answer: 

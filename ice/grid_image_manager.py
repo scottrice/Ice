@@ -22,7 +22,7 @@ import shutil
 import steam_user_manager
 import steam_grid
 import settings
-from ice_logging import log
+from ice_logging import log_user,log_file,log_both
 
 class IceGridImageManager():
     def __init__(self):
@@ -72,18 +72,18 @@ class IceGridImageManager():
                 try:
                     image = self.find_image_for_rom(rom)
                 except:
-                    log("There was an error downloading an image for %s" % rom.name(),2)
+                    log_both("There was an error downloading an image for %s" % rom.name())
                     continue
                 # Game not found
                 if image is None:
-                    log("No game found for %s on %s" % (rom.name(),rom.console.fullname))
-                    log("The image provider has no game called %s for %s. Try going to the provider and submittng the game yourself" % (rom.name(),rom.console.fullname),2)
+                    log_file("No game found for %s on %s" % (rom.name(),rom.console.fullname))
+                    log_user("The image provider has no game called %s for %s. Try going to the provider and submittng the game yourself" % (rom.name(),rom.console.fullname))
                 # Game found, but there is no picture
                 elif image == "":
-                    log("No image found for %s on %s" % (rom.name(),rom.console.fullname))
-                    log("We couldn't find an image for %s. If you find one you like, upload it to %s, and next time Ice runs it will use it" % (rom.name(),self.host_for_image_source()),2)
+                    log_file("No image found for %s on %s" % (rom.name(),rom.console.fullname))
+                    log_user("We couldn't find an image for %s. If you find one you like, upload it to %s, and next time Ice runs it will use it" % (rom.name(),self.host_for_image_source()))
                 # Game found, AND there is a picture there
                 else:
-                    log("Setting custom image for %s" % rom.name(),1)
+                    log_file("Setting custom image for %s" % rom.name())
                     image_path = self.download_image(image)
                     grid.set_image_for_shortcut(image_path,shortcut.appname,shortcut.exe)

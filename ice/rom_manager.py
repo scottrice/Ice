@@ -19,7 +19,7 @@ import os
 
 import filesystem_helper
 import steam_user_manager
-from ice_logging import log
+from ice_logging import log_both
 from steam_shortcut_manager import SteamShortcutManager,SteamShortcut
 from steam_grid import SteamGrid
 
@@ -72,7 +72,7 @@ class IceROMManager():
         if rom.console.emulator is None:
             return
         if not self.rom_already_in_steam(rom):
-            log("Adding %s to Steam" % rom.name(),2)
+            log_both("Adding %s to Steam" % rom.name())
             generated_shortcut = rom.to_shortcut()
             self.managed_shortcuts.add(generated_shortcut)
             self.shortcut_manager.add(generated_shortcut)
@@ -85,7 +85,7 @@ class IceROMManager():
             rom_shortcuts.add(rom.to_shortcut())
         deleted_rom_shortcuts = self.managed_shortcuts - rom_shortcuts
         for shortcut in deleted_rom_shortcuts:
-            log("Deleting: %s" % shortcut.appname,2)
+            log_both("Deleting: %s" % shortcut.appname)
             self.shortcut_manager.shortcuts.remove(shortcut)
             
     def sync_roms(self,roms):
