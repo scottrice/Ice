@@ -30,14 +30,6 @@ def main():
         rom_manager = IceROMManager(shortcuts_manager)
         # Add the new ROMs in each folder to our Shortcut Manager
         rom_manager.sync_roms(roms)
-        # For testing purposes, uncomment this code, which will save the new
-        # shortcuts.vdf file in updated_shortcuts.vdf instead of overwriting
-        # the old file
-        # 
-        # shortcuts_dir = os.path.dirname(shortcuts_path)
-        # my_path = os.path.join(shortcuts_dir,"updated_shortcuts.vdf")
-        # shortcuts_manager.save(my_path)
-        # 
         # Generate a new shortcuts.vdf file with all of the new additions
         shortcuts_manager.save()
         log("---Downloading grid images",2)
