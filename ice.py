@@ -13,9 +13,10 @@ from ice import console
 from ice.rom import ROM
 from ice.rom_manager import IceROMManager
 from ice.grid_image_manager import IceGridImageManager
-from ice.ice_logging import log_both
+from ice.ice_logging import log_both, log_file, log_exception
 
 def main():
+    raise NameError('Name Error')
     log_both("=========================Starting Ice")
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
@@ -37,7 +38,14 @@ def main():
     log_both("=========================Finished")
         
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except StandardError as error:
+        log_both("####################################")
+        log_both("An Error has occurred:")
+        log_both(error)
+        log_exception()
+        log_both("####################################")
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
     print "Close the window, or hit enter to exit..."

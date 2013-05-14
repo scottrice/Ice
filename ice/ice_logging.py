@@ -10,6 +10,7 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 import sys
 import os
 import time
+import traceback
 
 import filesystem_helper
 
@@ -61,3 +62,6 @@ def log_both(s):
     """
     log_user(s)
     log_file(s)
+    
+def log_exception():
+    traceback.print_exc(file=open(filesystem_helper.log_file(),"a"))
