@@ -26,7 +26,11 @@ def main():
         log_both("---------------Running for user %s" % str(user_id))
         # Load their shortcuts into a SteamShortcutManager object
         shortcuts_path = steam_user_manager.shortcuts_file_for_user_id(user_id)
-        shortcuts_manager = SteamShortcutManager(shortcuts_path)
+        try:
+            shortcuts_manager = SteamShortcutManager(shortcuts_path)
+        except IOError:
+            log_both('No previous shortcuts file found for this user. Skipping them.')
+            continue
         rom_manager = IceROMManager(shortcuts_manager)
         # Add the new ROMs in each folder to our Shortcut Manager
         rom_manager.sync_roms(roms)
