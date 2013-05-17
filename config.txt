@@ -1,6 +1,7 @@
 [Steam]
-# This option is not needed or used for OS X. 
-# Windows users should make sure to set this to the correct value.
+# This option is not needed or used for Mac OS X. 
+# For Windows users, this should be set to the directory that contains Steam.exe
+# This setting is required for Ice to run properly
 Location=C:\Program Files (x86)\Steam\
 
 [Grid Images]
