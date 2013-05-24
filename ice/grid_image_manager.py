@@ -57,7 +57,7 @@ class IceGridImageManager():
         Downloads the image at 'image_url' and returns the path to the image on
         the local filesystem
         """
-        (path,headers) = urllib.urlretrieve("http://i.imgur.com/RVBa34h.png")
+        (path,headers) = urllib.urlretrieve(image_url)
         return path
         
     def update_user_images(self,user_id,roms):
