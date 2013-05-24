@@ -4,6 +4,8 @@ import sys
 import os
 import inspect
 
+from ice.error.config_error import ConfigError
+
 from ice.steam_shortcut_manager import SteamShortcutManager
 
 from ice import steam_installation_location_manager
@@ -13,7 +15,7 @@ from ice import console
 from ice.rom import ROM
 from ice.rom_manager import IceROMManager
 from ice.grid_image_manager import IceGridImageManager
-from ice.ice_logging import log_both, log_file, log_exception
+from ice.ice_logging import log_both, log_file, log_user, log_exception
 
 def main():
     log_both("=========================Starting Ice")
@@ -43,6 +45,12 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+    except ConfigError as error:
+        log_user("=========================Stopping\n")
+        log_file("!!!Error was Users' fault. Don't worry about it")
+        log_both("There was a problem with '%s' in config.txt" % error.referenced_config)
+        log_both(error.fix_instructions)
+        log_file("!!!")
     except StandardError as error:
         log_both("####################################")
         log_both("An Error has occurred:")
@@ -51,5 +59,6 @@ if __name__ == "__main__":
         log_both("####################################")
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
+    print ""
     print "Close the window, or hit enter to exit..."
     raw_input()

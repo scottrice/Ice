@@ -15,13 +15,15 @@ import os
 
 import settings
 
+from error.config_error import ConfigError
+
 # Used to find the shortcuts.vdf file
 osx_userdata_directory = "~/Library/Application Support/Steam/userdata/"
 
 def steam_location():
     location = settings.config()["Steam"]["location"]
     if not os.path.exists(os.path.join(location,"Steam.exe")):
-        raise StandardError("Steam not found at specified location. Make sure that the Steam Location in config.txt is set to the directory containing your Steam installation")
+        raise ConfigError("Steam was not found at the given location.","[Steam] Location")
     return settings.config()["Steam"]["location"]
 
 def steam_userdata_location():
