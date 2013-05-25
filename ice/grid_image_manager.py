@@ -23,6 +23,7 @@ import steam_user_manager
 import steam_grid
 import settings
 from ice_logging import log_user,log_file,log_both
+from error.config_error import ConfigError
 
 class IceGridImageManager():
     def __init__(self):
@@ -46,11 +47,16 @@ class IceGridImageManager():
         """
         Determines a suitable grid image for a given ROM.
         """
-        response = urllib2.urlopen(self.url_for_rom(rom))
-        if response.getcode() == 204:
-          return None
-        else:
-          return response.read()
+        try:
+            response = urllib2.urlopen(self.url_for_rom(rom))
+            if response.getcode() == 204:
+              return None
+            else:
+              return response.read()
+        except urllib2.URLError as error:
+            # Connection was refused. The config was incorrect. Let the user
+            # know to change it
+            raise ConfigError("The source of game images is unavailable.","[Grid Images] Source")
           
     def download_image(self,image_url):
         """
@@ -69,11 +75,7 @@ class IceGridImageManager():
         for rom in roms:
             shortcut = rom.to_shortcut()
             if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname,shortcut.exe)):
-                try:
-                    image = self.find_image_for_rom(rom)
-                except:
-                    log_both("There was an error downloading an image for %s" % rom.name())
-                    continue
+                image = self.find_image_for_rom(rom)
                 # Game not found
                 if image is None:
                     log_file("No game found for %s on %s" % (rom.name(),rom.console.fullname))
