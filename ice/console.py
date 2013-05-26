@@ -20,7 +20,7 @@ import os
 import settings
 import filesystem_helper
 import emulator_manager
-from ice_logging import log_user
+from ice_logging import log_user, log_file
 from rom import ROM
 
 class Console():
