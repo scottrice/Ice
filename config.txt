@@ -5,7 +5,7 @@
 Location=C:\Program Files (x86)\Steam\
 
 [Grid Images]
-Source=localhost:3000/api/top_picture
+Source=consolegrid.com/api/top_picture
 
 [MacSnes9x]
 download-location=https://dl.dropbox.com/u/2862706/ice_emulators/MacSnes9x.zip
