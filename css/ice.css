@@ -1,5 +1,4 @@
 body {
-  color: white;
 /*  background-color:#292929;*/
   padding-top: 20px;
   padding-bottom: 60px;
@@ -15,6 +14,7 @@ body {
 }
 
 .hero-unit {
+  color: white;
   background: url('../img/ice-example.png');
   background-size: cover;
   background-position: center;
@@ -28,24 +28,6 @@ body {
   background-color:#292929;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  margin: 80px 0;
-  text-align: center;
-}
-.jumbotron h1 {
-  font-size: 100px;
-  line-height: 1;
-}
-.jumbotron .lead {
-  font-size: 24px;
-  line-height: 1.25;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
 /* Supporting marketing content */
 .marketing {
   margin: 60px 0;
@@ -54,6 +36,31 @@ body {
   margin-top: 28px;
 }
 
+.featurette-heading {
+  font-size: 50px;
+}
+
+.featurette-image-wrapper {
+  display: table;
+}
+
+.featurette-image-wrapper div {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* Give some space on the sides of the floated elements so text doesn't run right into it. */
+.featurette-image-wrapper.pull-left {
+  margin-right: 40px;
+}
+.featurette-image-wrapper.pull-right {
+  margin-left: 40px;
+}
+
+.featurette-image {
+  width: 470px;
+  height: auto;
+}
 
 /* Customize the navbar links to be fill the entire space of the .navbar */
 .navbar .navbar-inner {
@@ -82,4 +89,8 @@ body {
 .navbar .nav li:last-child a {
   border-right: 0;
   border-radius: 0 3px 3px 0;
+}
+
+.clear {
+  clear:both;
 }
