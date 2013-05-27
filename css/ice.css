@@ -38,6 +38,9 @@ body {
 
 .featurette-heading {
   font-size: 50px;
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: -1px;
 }
 
 .featurette-image-wrapper {
