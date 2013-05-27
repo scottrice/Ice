@@ -1,5 +1,4 @@
 body {
-/*  background-color:#292929;*/
   padding-top: 20px;
   padding-bottom: 60px;
 }
@@ -22,10 +21,10 @@ body {
 }
 
 .hero-unit-content {
-  padding:10px 0;
-  margin-left:-60px;
-  margin-right:-60px;
-  background-color:#292929;
+  padding: 10px 0;
+  margin-left: -60px;
+  margin-right: -60px;
+  background-color: #292929;
 }
 
 /* Supporting marketing content */
@@ -95,5 +94,5 @@ body {
 }
 
 .clear {
-  clear:both;
+  clear: both;
 }
