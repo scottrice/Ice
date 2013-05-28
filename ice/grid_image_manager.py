@@ -82,7 +82,7 @@ class IceGridImageManager():
                     log_user("The image provider has no game called %s for %s. Try going to the provider and submittng the game yourself" % (rom.name(),rom.console.fullname))
                 # Game found, but there is no picture
                 elif image == "":
-                    log_file("No image found for %s on %s" % (rom.name(),rom.console.fullname))
+                    log_file("No image found for %s. The URL checked was '%s'" % (rom.name(),self.url_for_rom(rom)))
                     log_user("We couldn't find an image for %s. If you find one you like, upload it to %s, and next time Ice runs it will use it" % (rom.name(),self.host_for_image_source()))
                 # Game found, AND there is a picture there
                 else:
