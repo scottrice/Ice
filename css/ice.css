@@ -27,6 +27,23 @@ body {
   background-color: #292929;
 }
 
+.hero-unit-links {
+  margin: 0;
+  margin-top:5px;
+  list-style: none;
+  font-size: 14px;
+}
+
+.hero-unit-links li {
+  display: inline;
+  padding: 0 10px;
+  color: rgba(255,255,255,.25);
+}
+
+.hero-unit-links a {
+  color: rgba(255,255,255,.5);
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 60px 0;
