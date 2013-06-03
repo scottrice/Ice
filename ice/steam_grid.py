@@ -42,6 +42,9 @@ class SteamGrid(object):
     """
     self.user_directory = user_directory
     self.grid_image_directory = os.path.join(self.user_directory,"config","grid")
+    # Make sure that the Grid Image directory exists
+    if not os.path.exists(self.grid_image_directory):
+        os.makedirs(self.grid_image_directory)
     
   def filename_for_shortcut(self,name,target):
     """
