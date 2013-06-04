@@ -67,15 +67,12 @@ def app_data_directory():
 
 def roms_directory():
     """
-    Should return a decent path in which to store ROMs. This path should be
-    good for the user on any operating system. The path should be as follows
-    on each OS...
-    Windows XP: C:\Documents and Settings\Scott\My Documents\ROMs
-    Windows 7: C:\Users\Scott\Documents\ROMs
-    Mac OS X: /Users/scott/ROMs
-    Linux: /home/scott/ROMs
+    Returns the path to the ROMs directory, as specified by config.txt.
     """
-    return os.path.join(os.path.expanduser("~"),"ROMs")
+    path = os.path.expanduser(settings.config()['Storage']['roms directory'])
+    if not os.access(path, os.W_OK):
+        path = os.path.expanduser("~")
+    return os.path.join(path,"ROMs")
 
 def executables_directory():
     """
