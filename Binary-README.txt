@@ -1,8 +1,5 @@
 Setup:
 
-Make sure that "[Steam] Location" in config.txt is correctly set to your Steam
-installation directory.
-
 Run Ice for the first time to add your ROMs directory and to download the
 emulators.
 
