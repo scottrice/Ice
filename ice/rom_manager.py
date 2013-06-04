@@ -72,7 +72,7 @@ class IceROMManager():
         if rom.console.emulator is None:
             return
         if not self.rom_already_in_steam(rom):
-            log_both("Adding %s to Steam" % rom.name())
+            log_both("Adding %s" % rom.name())
             generated_shortcut = rom.to_shortcut()
             self.managed_shortcuts.add(generated_shortcut)
             self.shortcut_manager.add(generated_shortcut)
