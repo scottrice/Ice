@@ -38,8 +38,6 @@ class Console():
         Uses the settings to determine the emulator path for a given console
         """
         platform = settings.platform_string()
-        if not emulator_manager.emulator_exists(platform,self):
-            return None
         return emulator_manager.lookup_emulator(platform,self)
         # emulators_dir = filesystem_helper.bundled_emulators_directory(platform)
         # return os.path.join(emulators_dir,settings.relative_emulator_path(platform,self))
@@ -50,7 +48,7 @@ class Console():
         """
         # If the emulator doesn't exist, don't even bother creating the folders
         # for the console
-        if not emulator_manager.emulator_exists(settings.platform_string(),self):
+        if self.emulator is not None:
             return
         def create_directory_if_needed(dir):
             if not os.path.exists(dir):
@@ -148,7 +146,7 @@ supported_consoles = [
 # Remove any consoles from supported_consoles if there does not exist an
 # emulator for them
 for console in list(supported_consoles):
-    if not emulator_manager.emulator_exists(settings.platform_string(),console):
+    if console.emulator is None:
         supported_consoles.remove(console)
 
 # console_mapping is a map between the shortname (which is also used as the

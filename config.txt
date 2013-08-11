@@ -16,6 +16,90 @@ ROMs Directory=~
 [Grid Images]
 Source=consolegrid.com/api/top_picture
 
+[Windows Emulators]
+# Available Emulators:
+#   bsnes
+NES=bsnes
+
+# Available Emulators:
+#   bsnes
+SNES=bsnes
+
+# Available Emulators:
+#   Project64
+N64=Project64
+
+# Available Emulators:
+#   Dolphin
+Gamecube=Dolphin
+
+# Available Emulators:
+#   ePSXe
+PS1=ePSXe
+
+# Available Emulators:
+#   PCSX2
+PS2=PCSX2
+
+# Available Emulators:
+#   Gens
+Genesis=Gens
+
+# Available Emulators:
+#   None
+Dreamcast=
+
+# Available Emulators:
+#   bsnes
+#   VisualBoyAdvance
+Gameboy=bsnes
+
+# Available Emulators:
+#   VisualBoyAdvance
+GBA=VisalBoyAdvance
+
+[OSX Emulators]
+# Available Emulators:
+#   Mednafen
+NES=Mednafen
+
+# Available Emulators:
+#   Mednafen
+#   Snes9x
+SNES=Snes9x
+
+# Available Emulators:
+#   None
+N64=
+
+# Available Emulators:
+#   None
+Gamecube=
+
+# Available Emulators:
+#   None
+PS1=
+
+# Available Emulators:
+#   None
+PS2=
+
+# Available Emulators:
+#   Mednafen
+Genesis=Mednafen
+
+# Available Emulators:
+#   None
+Dreamcast=
+
+# Available Emulators:
+#   Mednafen
+Gameboy=Mednafen
+
+# Available Emulators:
+#   Mednafen
+GBA=Mednafen
+
 [MacSnes9x]
 download-location=https://dl.dropbox.com/u/2862706/ice_emulators/MacSnes9x.zip
 relative-exe-path=MacSnes9x/Snes9x.app
