@@ -14,10 +14,14 @@ from ice import settings
 from ice import console
 from ice.rom import ROM
 from ice.rom_manager import IceROMManager
+from ice.process_helper import steam_is_running
 from ice.grid_image_manager import IceGridImageManager
 from ice.ice_logging import log_both, log_file, log_user, log_exception
 
 def main():
+    if steam_is_running():
+        log_both("Ice cannot be run while Steam is open. Please close Steam and try again")
+        return
     log_both("=========================Starting Ice")
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
