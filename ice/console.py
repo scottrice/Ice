@@ -122,40 +122,27 @@ def find_all_roms():
 
 # Emulator should be the path leading to the emulator application. Creating an
 # exe for a rom then will basically look like "{emulator_path} {rom_path}"
-nes = Console("NES","Nintendo Entertainment System")
-snes = Console("SNES","Super Nintendo")
-n64 = Console("N64","Nintendo 64")
-gamecube = Console("Gamecube","Nintendo Gamecube")
-wii = Console("Wii", "Nintendo Wii")
-ps1 = Console("PS1", "Playstation")
-ps2 = Console("PS2", "Playstation 2")
-genesis = Console("Genesis", "Sega Genesis")
-dreamcast = Console("Dreamcast", "Sega Dreamcast")
-gameboy = Console("Gameboy", "Gameboy")
-gba = Console("GBA","Gameboy Advance")
-ds = Console("DS","Nintendo DS")
-
 supported_consoles = [
-    nes,
-    snes,
-    n64,
-    gamecube,
-    ps1,
-    ps2,
-    genesis,
-    dreamcast,
-    gameboy,
-    gba,
-# I originally planned Wii support, but given the massive differences between
-# Wii input devices and input devices for basically every other console, I am
-# going to remove it for now
-    # wii,
-# I orginally planned DS support, but didn't think it though, as the point
-# of this project was to make something controller friendly, and I have no
-# idea how someone would use a controller to emulate a Nintendo DS. I can see
-# my application being useful without a controller, as a way to get Steam to
-# manage ROMs, but for now I will ignore DS support
-    # ds
+    Console("NES","Nintendo Entertainment System"),
+    Console("SNES","Super Nintendo"),
+    Console("N64","Nintendo 64"),
+    Console("Gamecube","Nintendo Gamecube"),
+    # I originally planned Wii support, but given the massive differences between
+    # Wii input devices and input devices for basically every other console, I am
+    # going to remove it for now
+    # Console("Wii", "Nintendo Wii"),
+    Console("PS1", "Playstation"),
+    Console("PS2", "Playstation 2"),
+    Console("Genesis", "Sega Genesis"),
+    Console("Dreamcast", "Sega Dreamcast"),
+    Console("Gameboy", "Gameboy"),
+    Console("GBA","Gameboy Advance"),
+    # I orginally planned DS support, but didn't think it though, as the point
+    # of this project was to make something controller friendly, and I have no
+    # idea how someone would use a controller to emulate a Nintendo DS. I can see
+    # my application being useful without a controller, as a way to get Steam to
+    # manage ROMs, but for now I will ignore DS support
+    # Console("DS","Nintendo DS"),
 ]
 
 # Remove any consoles from supported_consoles if there does not exist an
