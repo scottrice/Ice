@@ -48,7 +48,7 @@ class Console():
         """
         # If the emulator doesn't exist, don't even bother creating the folders
         # for the console
-        if self.emulator is not None:
+        if self.emulator is None:
             return
         def create_directory_if_needed(dir):
             if not os.path.exists(dir):
