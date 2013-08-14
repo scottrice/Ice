@@ -114,51 +114,32 @@ def find_all_roms():
     Gets the roms for every console in the list of supported consoles
     """
     all_roms = []
-    for console in supported_consoles:
+    for console in supported_consoles():
         all_roms.extend(console.find_all_roms())
     return all_roms
 
-# Emulator should be the path leading to the emulator application. Creating an
-# exe for a rom then will basically look like "{emulator_path} {rom_path}"
-supported_consoles = [
-    Console("NES","Nintendo Entertainment System"),
-    Console("SNES","Super Nintendo"),
-    Console("N64","Nintendo 64"),
-    Console("Gamecube","Nintendo Gamecube"),
-    # I originally planned Wii support, but given the massive differences between
-    # Wii input devices and input devices for basically every other console, I am
-    # going to remove it for now
-    # Console("Wii", "Nintendo Wii"),
-    Console("PS1", "Playstation"),
-    Console("PS2", "Playstation 2"),
-    Console("Genesis", "Sega Genesis"),
-    Console("Dreamcast", "Sega Dreamcast"),
-    Console("Gameboy", "Gameboy"),
-    Console("GBA","Gameboy Advance"),
-    # I orginally planned DS support, but didn't think it though, as the point
-    # of this project was to make something controller friendly, and I have no
-    # idea how someone would use a controller to emulate a Nintendo DS. I can see
-    # my application being useful without a controller, as a way to get Steam to
-    # manage ROMs, but for now I will ignore DS support
-    # Console("DS","Nintendo DS"),
-]
-
-# Remove any consoles from supported_consoles if there does not exist an
-# emulator for them
-for console in list(supported_consoles):
-    if console.emulator is None:
-        supported_consoles.remove(console)
-
-# console_mapping is a map between the shortname (which is also used as the
-# the folder name) of a console to the console object itself. For example,
-# console_mapping["N64"] should return the n64 instance variable (which 
-# contains the longname, shortname, emulator path, etc)
-console_mapping = {}
-for console in supported_consoles:
-    console_mapping[console.shortname] = console
-    
-def console_lookup(name):
-    try:
-        return console_mapping[name]
-    except KeyError:
-        return None
+def supported_consoles():
+    if supported_consoles.cached is None:
+        sc = [
+            Console("NES","Nintendo Entertainment System"),
+            Console("SNES","Super Nintendo"),
+            Console("N64","Nintendo 64"),
+            Console("Gamecube","Nintendo Gamecube"),
+            Console("Wii", "Nintendo Wii"),
+            Console("PS1", "Playstation"),
+            Console("PS2", "Playstation 2"),
+            Console("Genesis", "Sega Genesis"),
+            Console("Dreamcast", "Sega Dreamcast"),
+            Console("Gameboy", "Gameboy"),
+            Console("GBA","Gameboy Advance"),
+            Console("DS","Nintendo DS"),
+        ]
+        # Remove any consoles from supported_consoles if there does not exist an
+        # emulator for them
+        for console in list(sc):
+            if console.emulator is None:
+                sc.remove(console)
+        # Cache it for next time
+        supported_consoles.cached = sc
+    return supported_consoles.cached
+supported_consoles.cached = None

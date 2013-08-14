@@ -11,11 +11,11 @@ import sys, os
 import unittest
 
 from rom import ROM
-from console import Console,console_lookup
+from console import Console
 
 class ROMTests(unittest.TestCase):
     def setUp(self):
-        gba = console_lookup("GBA")
+        gba = Console("GBA", "Gameboy Advance")
         self.roms_console = gba
         self.rom = ROM("/Users/scottrice/ROMs/GBA/Pokemon Emerald.gba",gba)
         self.noext_rom = ROM("/Users/scottrice/ROMs/GBA/Pokemon Emerald",gba)
