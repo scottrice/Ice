@@ -25,8 +25,10 @@ from steam_grid import SteamGrid
 
 # Check to see if the directory we are going to use to Store ROMs exists. If it
 # does not, then create it.
-if not os.path.exists(filesystem_helper.roms_directory()):
-    os.makedirs(filesystem_helper.roms_directory())
+roms_dir = filesystem_helper.roms_directory()
+if not os.path.exists(roms_dir):
+    log_both("Creating ROMs directory at %s" % roms_dir)
+    os.makedirs(roms_dir)
 
 class IceROMManager():
     def __init__(self,shortcut_manager):
