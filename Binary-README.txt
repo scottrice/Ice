@@ -1,6 +1,6 @@
 Setup:
 
-Run Ice for the first time to add your ROMs directory and to download the
+Run Ice for the first time to create your ROMs directory and to download the
 emulators.
 
 ================================================================================
