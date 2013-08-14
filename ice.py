@@ -48,7 +48,7 @@ if __name__ == "__main__":
     except ConfigError as error:
         log_user("=========================Stopping\n")
         log_file("!!!Error was Users' fault. Don't worry about it")
-        log_both("There was a problem with '%s' in config.txt" % error.referenced_config)
+        log_both("There was a problem with '[%s] %s' in config.txt" % (error.section, error.key))
         log_both(error.fix_instructions)
         log_file("!!!")
     except StandardError as error:

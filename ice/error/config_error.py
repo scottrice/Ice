@@ -11,9 +11,10 @@ import sys
 import os
 
 class ConfigError(StandardError):
-    def __init__(self,fix_instructions,referenced_config):
+    def __init__(self, section, key, fix_instructions):
+        self.section = section
+        self.key = key
         self.fix_instructions = fix_instructions
-        self.referenced_config = referenced_config
         
     def __str__(self):
-        return repr("%s || %s" % (self.fix_instructions, self.referenced_config))
+        return repr("[%s] %s || %s" % (self.section, self.key, self.fix_instructions))

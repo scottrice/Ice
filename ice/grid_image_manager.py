@@ -56,7 +56,7 @@ class IceGridImageManager():
         except urllib2.URLError as error:
             # Connection was refused. The config was incorrect. Let the user
             # know to change it
-            raise ConfigError("The source of game images is unavailable.","[Grid Images] Source")
+            raise ConfigError("Grid Images", "Source", "The source of game images is unavailable.")
           
     def download_image(self,image_url):
         """

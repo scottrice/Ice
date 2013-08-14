@@ -47,4 +47,4 @@ def lookup_emulator(platform,console):
         return emulator_from_name(name)(console.shortname)
     except (KeyError, AttributeError) as e:
         message = "Could not load emulator. Check your spelling, and make sure the emulator is supported for your console"
-        raise ConfigError(message, "[%s] %s" % (emulators_key, console.shortname))
+        raise ConfigError(emulators_key, console.shortname, message)
