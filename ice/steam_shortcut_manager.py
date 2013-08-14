@@ -122,15 +122,16 @@ class SteamShortcutFileParser():
         # One side effect of matching this way is we are throwing away the
         # array index. I dont think that it is that important though, so I am
         # ignoring it for now
-        match = re.match(ur"(.*)\u0000[0-9]+\u0000(.*)\u0008",string)
-        groups = match.groups()
-        if match:
-            # Recursivly find the previous shortcuts
-            shortcuts = self.match_array_string(groups[0])
-            shortcuts.append(self.match_shortcut_string(groups[1]))
-            return shortcuts
-        else:
-            return []
+        shortcuts = []
+        while True:
+            match = re.match(ur"(.*)\u0000[0-9]+\u0000(.*)\u0008",string)
+            if match:
+                groups = match.groups()
+                string = groups[0]
+                shortcuts.append(self.match_shortcut_string(groups[1]))
+            else:
+                shortcuts.reverse()
+                return shortcuts
             
     def match_shortcut_string(self,string):
         # I am going to cheat a little here. I am going to match specifically
