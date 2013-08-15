@@ -38,8 +38,11 @@ def main():
         rom_manager.sync_roms(roms)
         # Generate a new shortcuts.vdf file with all of the new additions
         shortcuts_manager.save()
-        log_both("---Downloading grid images")
-        grid_manager.update_user_images(user_id,roms)
+        if IceGridImageManager.should_download_images():
+            log_both("---Downloading grid images")
+            grid_manager.update_user_images(user_id,roms)
+        else:
+            log_both("Skipping 'Download Image' step")
     log_both("=========================Finished")
         
 if __name__ == "__main__":

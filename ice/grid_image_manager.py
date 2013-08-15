@@ -26,6 +26,15 @@ from ice_logging import log_user,log_file,log_both
 from error.config_error import ConfigError
 
 class IceGridImageManager():
+    @staticmethod
+    def should_download_images():
+        try:
+            should_download = settings.config()["Grid Images"]["source"] != ""
+            return should_download
+        except KeyError:
+            log_both("Could not find '[Grid Images] Source' in config.txt.")
+            return False
+
     def __init__(self):
         pass
     
