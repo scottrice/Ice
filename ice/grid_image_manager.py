@@ -88,7 +88,7 @@ class IceGridImageManager():
                 # Game not found
                 if image is None:
                     log_file("No game found for %s on %s" % (rom.name(),rom.console.fullname))
-                    log_user("The image provider has no game called %s for %s. Try going to the provider and submittng the game yourself" % (rom.name(),rom.console.fullname))
+                    log_user("The image provider has no game called %s for %s. Try going to %s and submittng the game yourself" % (rom.name(),rom.console.fullname, self.host_for_image_source()))
                 # Game found, but there is no picture
                 elif image == "":
                     log_file("No image found for %s. The URL checked was '%s'" % (rom.name(),self.url_for_rom(rom)))
