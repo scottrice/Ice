@@ -138,7 +138,7 @@ class SteamShortcutFileParser():
         # for the shortcut string (Appname, Exe, StartDir, etc), as oppposed
         # to matching for general Key-Value pairs. This could possibly create a
         # lot of work for me later, but for now it will get the job done
-        match = re.match(ur"\u0001AppName\u0000(.*)\u0000\u0001Exe\u0000(.*)\u0000\u0001StartDir\u0000(.*)\u0000\u0001icon\u0000(.*)\u0000\u0000tags\u0000(.*)\u0008",string)
+        match = re.match(ur"\u0001AppName\u0000(.*)\u0000\u0001Exe\u0000(.*)\u0000\u0001StartDir\u0000(.*)\u0000\u0001icon\u0000(.*)\u0000\u0000tags\u0000(.*)\u0008",string, re.IGNORECASE)
         if match:
             # The 'groups' that are returned by the match should be the data
             # contained in the file. Now just make a SteamShortcut out of that
