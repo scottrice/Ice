@@ -16,7 +16,8 @@ class Winbsnes(downloaded_emulator.DownloadedEmulator):
 
     __invalid_extensions__ = [
         ".sav", # NES and Gameboy save file
-        ".srm"  # SNES save file
+        ".srm", # SNES save file
+        ".bst", # bsnes Save State
     ]
 
     def __init__(self,console_name):
