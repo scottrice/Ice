@@ -107,37 +107,37 @@ Gameboy=Mednafen
 GBA=Mednafen
 
 [MacSnes9x]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/MacSnes9x.zip
+download-location=http://consolegrid.com/ice_emulators/MacSnes9x.zip
 relative-exe-path=MacSnes9x/Snes9x.app
 
 [MacMednafen]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/MacMednafen.zip
+download-location=http://consolegrid.com/ice_emulators/MacMednafen.zip
 relative-exe-path=MacMednafen/mednafen
 
 [Winbsnes]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/Winbsnes.zip
+download-location=http://consolegrid.com/ice_emulators/Winbsnes.zip
 relative-exe-path=Winbsnes\bsnes.exe
 
 [WinProject64]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/WinProject64.zip
+download-location=http://consolegrid.com/ice_emulators/WinProject64.zip
 relative-exe-path=WinProject64\Project64-launcher.exe
 
 [WinDolphin]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/WinDolphin.zip
+download-location=http://consolegrid.com/ice_emulators/WinDolphin.zip
 relative-exe-path=Dolphin\Dolphin.exe
 
 [WinePSXe]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/WinePSXe.zip
+download-location=http://consolegrid.com/ice_emulators/WinePSXe.zip
 relative-exe-path=WinePSXe\ePSXe.exe
 
 [WinPCSX2]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/WinPCSX2.zip
+download-location=http://consolegrid.com/ice_emulators/WinPCSX2.zip
 relative-exe-path=WinPCSX2\pcsx2-launcher.exe
 
 [WinGens]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/WinGens.zip
+download-location=http://consolegrid.com/ice_emulators/WinGens.zip
 relative-exe-path=WinGens\gens-launcher.exe
 
 [WinVisualBoyAdvance]
-download-location=https://dl.dropbox.com/u/2862706/ice_emulators/WinVisualBoyAdvance.zip
+download-location=http://consolegrid.com/ice_emulators/WinVisualBoyAdvance.zip
 relative-exe-path=WinVisualBoyAdvance\VisualBoyAdvance.exe
