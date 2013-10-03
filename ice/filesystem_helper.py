@@ -142,3 +142,5 @@ def log_file():
     Max OS X: ~/Library/Application Support/Ice/log.txt
     """
     return os.path.join(app_data_directory(),"log.txt")
+
+create_directory_if_needed(app_data_directory())
