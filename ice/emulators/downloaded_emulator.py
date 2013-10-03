@@ -111,9 +111,9 @@ class DownloadedEmulator(emulator.Emulator):
                 file.write(z.read(f))
                 file.close()
         z.close()
-        self._set_execute_permissions_()
+        self._set_execute_permissions_(destdir)
         
-    def _set_execute_permissions_(self):
+    def _set_execute_permissions_(self, destdir):
         """
         Apparently permissions aren't preserved in zip files, so I need to
         manually make sure that the executable has the +x bit set. This section
