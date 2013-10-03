@@ -62,7 +62,7 @@ Gameboy=bsnes
 
 # Available Emulators:
 #   VisualBoyAdvance
-GBA=VisalBoyAdvance
+GBA=VisualBoyAdvance
 
 [OSX Emulators]
 # Available Emulators:
