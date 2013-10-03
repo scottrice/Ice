@@ -13,7 +13,7 @@ shortcuts.vdf file, which is obviously useful for Ice
 import sys
 import os
 
-import settings
+import platform
 
 from error.config_error import ConfigError
 
@@ -26,15 +26,17 @@ def windows_steam_location():
     key = registry.CreateKey(registry.HKEY_CURRENT_USER,"Software\Valve\Steam")
     return registry.QueryValueEx(key,"SteamPath")[0]
 
-def steam_userdata_location():
-    platform = settings.platform_string()
-    if platform == "Windows":
-        # On Windows, the userdata directory is the steam installation directory
-        # with 'userdata' appeneded
-        return os.path.join(windows_steam_location(),"userdata")
-    elif platform == "OSX":
-        # I'm pretty sure the user can't change this on OS X. I think it always
-        # goes to the same location
-        return os.path.expanduser(osx_userdata_directory)
-    elif platform == "Linux":
-        return os.path.expanduser(linux_userdata_directory)
+def windows_userdata_location():
+    # On Windows, the userdata directory is the steam installation directory
+    # with 'userdata' appeneded
+    return os.path.join(windows_steam_location(),"userdata")
+
+def osx_userdata_location():
+    # I'm pretty sure the user can't change this on OS X. I think it always
+    # goes to the same location
+    return os.path.expanduser(osx_userdata_directory)
+
+def linux_userdata_location():
+    return os.path.expanduser(linux_userdata_directory)
+
+steam_userdata_location = platform.platform_specific(windows=windows_userdata_location, osx=osx_userdata_location, linux=linux_userdata_directory)

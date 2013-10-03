@@ -19,6 +19,7 @@ import os
 import stat
 
 import settings
+import platform
 import filesystem_helper
 from steam_shortcut_manager import SteamShortcut
 
@@ -54,28 +55,24 @@ class ROM:
         # Each shortcut should have an icon set based on the console for which
         # it belongs
         # return SteamShortcut(self.name(),command_string,startdir,self.console.icon_path(),self.console.fullname)
-        
-    def executable_string(self):
-        """
-        The command string which should go in the executable. This command
-        should, when executed, launch the correct emulator and open the ROM.
-        """
-        platform = settings.platform_string()
-        if platform == "Windows":
-            return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
-        elif platform == "OSX":
-            # Check if we are running an application or a shell script
-            if self.console.emulator.location.endswith(".app"):
-                # If we are running an app, we need to do 'open -a {app_path}'
-                return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator.location, self.path)
-            else:
-                # If we are running a script, we just execute the script
-                return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
-                
+
+    def windows_executable_string(self):
+        return "\"%s\" \"%s\"" % (self.console.emulator_path, self.path)
+
+    def osx_executable_string(self):
+        # Check if we are running an application or a shell script
+        if self.console.emulator.location.endswith(".app"):
+            # If we are running an app, we need to do 'open -a {app_path}'
+            return "#!/usr/bin/env bash\nopen -a \"%s\" \"%s\"\n" % (self.console.emulator.location, self.path)
         else:
             # If we are running a script, we just execute the script
             return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
-            # TODO: Figure out how to make this string on Linux
+
+    def linux_executable_string(self):
+        # If we are running a script, we just execute the script
+        return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
+
+    executable_string = platform.platform_specific(windows=windows_executable_string, osx=osx_executable_string, linux=linux_executable_string)
         
     def ensure_exe_file_exists(self):
         """

@@ -20,14 +20,6 @@ appauthor = "Scott Rice"
 config_dict = None
 controls_dict = None
 
-def platform_string():
-    if sys.platform.startswith('win'):
-        return "Windows"
-    elif sys.platform.startswith('darwin'):
-        return "OSX"
-    else:
-        return "Linux"
-
 def user_settings_path():
   return "config.txt"
 
