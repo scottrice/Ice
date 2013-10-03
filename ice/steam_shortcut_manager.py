@@ -176,10 +176,14 @@ class SteamShortcutManager():
             
     def __load_shortcuts__(self,file):
         self.shortcuts_file = file
-        file_contents = open(file,"r").read()
-        parsed_shortcuts = SteamShortcutFileParser().parse(file_contents)
-        if parsed_shortcuts == None:
-            print "Parsing error on file: %s" % file
+        try:
+            file_contents = open(file,"r").read()
+            parsed_shortcuts = SteamShortcutFileParser().parse(file_contents)
+            if parsed_shortcuts == None:
+                print "Parsing error on file: %s" % file
+        except IOError:
+            file_contents = ""
+            parsed_shortcuts = []
         self.shortcuts = parsed_shortcuts
         # self.games = SteamShortcutFileParser().parse(file_contents)
         
