@@ -73,8 +73,9 @@ class ROM:
                 return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
                 
         else:
+            # If we are running a script, we just execute the script
+            return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
             # TODO: Figure out how to make this string on Linux
-            return ""
         
     def ensure_exe_file_exists(self):
         """
