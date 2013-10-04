@@ -13,6 +13,7 @@ import sys
 import os
 
 import subprocess
+import datetime
 import zipfile
 import shutil
 
@@ -51,6 +52,25 @@ def add_extra_files():
 	add_file("Binary-README.txt",ice_dir,"README.txt")
 	add_file("ExitCombo.cfg",os.path.join(ice_dir,"config"),"ExitCombination.cfg")
 
+def add_version_file():
+	pfgit = os.path.join("C:/", "Program Files (x86)","Git","bin","git.exe")
+	pfgit_exists = os.path.exists(pfgit)
+	pfx86git = os.path.join("C:/", "Program Files (x86)","Git","bin","git.exe")
+	pfx86git_exists = os.path.exists(pfx86git)
+	if not pfgit_exists and not pfx86git_exists:
+		# Whoever is building this doesn't have git installed, so I can't get
+		# the revision. In that case, bail.
+		return
+	if pfgit_exists:
+		git = pfgit
+	else:
+		git = pfx86git
+	git_rev = subprocess.check_output("%s rev-parse --short HEAD" % git).strip()
+	current_time = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+	version_path = os.path.join(zip_dir,"version.txt")
+	version_file = open(version_path,"w+")
+	version_file.write("Built at %s\n\nRevision %s" % (current_time, git_rev))
+
 def zip_everything():
 	# Taken from http://stackoverflow.com/questions/1855095/how-to-create-a-zip-archive-of-a-directory-in-python
 	ice_zip = zipfile.ZipFile(os.path.join(dist_dir,'ice.zip'), 'w')
@@ -64,6 +84,7 @@ def main():
 	create_zip_directory()
 	build_exe()
 	add_extra_files()
+	add_version_file()
 	zip_everything()
 
 if __name__ == "__main__":
