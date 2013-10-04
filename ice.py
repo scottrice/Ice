@@ -19,6 +19,12 @@ from ice.ice_logging import log_both, log_file, log_user, log_exception
 
 def main():
     log_both("=========================Starting Ice")
+    if steam_running():
+        log_both("####################################")
+        log_both("An Error has occurred:")
+        log_both("Steam seems to be running. Please shutdown Steam before running Ice!")
+        sys.exit()
+
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
     # Find the Steam Account that the user would like to add ROMs for
@@ -40,7 +46,20 @@ def main():
         else:
             log_both("Skipping 'Download Image' step")
     log_both("=========================Finished")
-        
+
+def steam_running():
+    # use psutil to loop through all processes and see if steam is running
+    try:
+        import psutil
+
+        for process in psutil.process_iter():
+            if process.name.lower() == "steam.exe" or process.name.lower() == "steam": # Windows, Linux process name - need Mac
+                return True
+
+    except ImportError:
+        # psutil isnt installed, dont check
+        return
+
 if __name__ == "__main__":
     try:
         main()
