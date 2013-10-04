@@ -19,6 +19,7 @@ from error.config_error import ConfigError
 
 # Used to find the shortcuts.vdf file
 osx_userdata_directory = "~/Library/Application Support/Steam/userdata/"
+linux_userdata_directory = "~/.local/share/Steam/userdata/"
 
 def windows_steam_location():
     import _winreg as registry
@@ -35,3 +36,5 @@ def steam_userdata_location():
         # I'm pretty sure the user can't change this on OS X. I think it always
         # goes to the same location
         return os.path.expanduser(osx_userdata_directory)
+    elif platform == "Linux":
+        return os.path.expanduser(linux_userdata_directory)

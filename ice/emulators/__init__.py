@@ -12,6 +12,9 @@ __all__ = [
     "emulator",
     "downloaded_emulator",
     "bundled_emulator",
+    # GNU/Linux emulators
+    "linsnes9x",
+    "linmednafen",
     # Mac Emulators
     "macsnes9x",
     "macmednafen",

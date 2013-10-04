@@ -106,6 +106,56 @@ Gameboy=Mednafen
 #   Mednafen
 GBA=Mednafen
 
+[Linux Emulators]
+# Available Emulators:
+#   Mednafen
+NES=Mednafen
+
+# Available Emulators:
+#   Mednafen
+#   Snes9x
+SNES=Snes9x
+
+# Available Emulators:
+#   None
+N64=
+
+# Available Emulators:
+#   None
+Gamecube=
+
+# Available Emulators:
+#   None
+PS1=
+
+# Available Emulators:
+#   None
+PS2=
+
+# Available Emulators:
+#   Mednafen
+Genesis=Mednafen
+
+# Available Emulators:
+#   None
+Dreamcast=
+
+# Available Emulators:
+#   Mednafen
+Gameboy=Mednafen
+
+# Available Emulators:
+#   Mednafen
+GBA=Mednafen
+
+[LinSnes9x]
+download-location=http://powrtoch.org/public/linsnes9x.zip
+relative-exe-path=linsnes9x/snes9x
+
+[LinMednafen]
+download-location=http://powrtoch.org/public/linmednafen.zip
+relative-exe-path=linmednafen/mednafen
+
 [MacSnes9x]
 download-location=http://consolegrid.com/ice_emulators/MacSnes9x.zip
 relative-exe-path=MacSnes9x/Snes9x.app
