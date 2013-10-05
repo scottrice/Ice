@@ -124,7 +124,7 @@ class SteamShortcutFileParser():
         # ignoring it for now
         shortcuts = []
         while True:
-            match = re.match(ur"(.*)\u0000[0-9]+\u0000(.*)\u0008",string)
+            match = re.match(ur"(.*)\u0000[0-9]+\u0000(\u0001AppName.*)\u0008",string, re.IGNORECASE)
             if match:
                 groups = match.groups()
                 string = groups[0]
