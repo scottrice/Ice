@@ -27,14 +27,14 @@ def is_osx():
 	return sys.platform.startswith('darwin')
 
 def is_linux():
-	return not (is_windows() or is_osx())
+    return str(sys.platform).startswith('lin')
 
 def to_string():
     if is_windows():
         return "Windows"
     elif is_osx():
         return "OSX"
-    else:
+    elif is_linux():
         return "Linux"
 
 def _platform_specific_default():
@@ -45,5 +45,5 @@ def platform_specific(windows=_platform_specific_default, osx=_platform_specific
 		return windows
 	elif is_osx():
 		return osx
-	else:
+	elif is_linux():
 		return linux
