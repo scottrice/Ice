@@ -12,7 +12,11 @@ import os
 import time
 import traceback
 
-import filesystem_helper
+def log_file_path():
+    """Directory to store the log file"""
+    # http://stackoverflow.com/questions/279237/python-import-a-module-from-a-folder
+    current_directory = os.path.dirname(sys.modules['__main__'].__file__)
+    return os.path.join(current_directory,"log.txt")
 
 def log_timestamp_str():
     """
@@ -23,24 +27,6 @@ def log_timestamp_str():
     """
     time_str = time.strftime("%m/%d/%y %H:%M:%S")
     return "[%s]" % time_str
-
-# def log(s,level=1):
-#     """
-#     Logs the string s to a certain location, depending on the level.
-#     
-#     Level 0 is something that should be shown to the user immediately, normally
-#     printed to the console
-#     Level 1 is something that should be noted, but mainly for reference later.
-#     In the case of a level 1 log, the string should be put in a log file
-# 
-#     If 'level' is 2, then both print the message and make note in the file
-#     """
-#     if level is 0 or level is 2:
-#         print "%s" % s
-#     if level is 1 or level is 2:
-#         f = open(filesystem_helper.log_file(),"a")
-#         f.write("%s %s\n" % (log_timestamp_str(),s))
-#         f.close()
         
 def log_user(s):
     """
@@ -52,7 +38,7 @@ def log_file(s):
     """
     Logs the string s in a file, defined in filesystem_helper
     """
-    f = open(filesystem_helper.log_file(),"a")
+    f = open(log_file_path(),"a")
     f.write("%s %s\n" % (log_timestamp_str(),s))
     f.close()
     
@@ -64,4 +50,4 @@ def log_both(s):
     log_file(s)
     
 def log_exception():
-    traceback.print_exc(file=open(filesystem_helper.log_file(),"a"))
+    traceback.print_exc(file=open(log_file_path(),"a"))

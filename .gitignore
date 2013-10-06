@@ -49,3 +49,4 @@ nosetests.xml
 .project
 .pydevproject
 
+log.txt
