@@ -65,14 +65,16 @@ def app_data_directory():
     """
     return appdirs.user_data_dir(settings.appname,settings.appauthor)
 
+
 def roms_directory():
     """
     Returns the path to the ROMs directory, as specified by config.txt.
     """
     path = os.path.expanduser(settings.config()['Storage']['roms directory'])
     if not os.access(path, os.W_OK):
-        path = os.path.expanduser("~/ROMs")
+        path = os.path.join(os.path.expanduser('~'),'ROMs')
     return path
+
 
 def executables_directory():
     """

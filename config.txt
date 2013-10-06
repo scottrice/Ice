@@ -3,15 +3,12 @@
 # as long as the full path is specified. Use ~ to represent your home folder
 # (for example, C:\Users\Scott\)
 #
-# Set a directory where the ROMs are stored. If no Directory is provided, "~/ROms" is used.
-# 
+# Set a directory where the ROMs are stored. Please make sure, the directory exists.
+# If no directory is provided, "~/ROMs" is used.
+#
 # Example:
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
-# C:\ROMs                    => C:\ROMs
-# C:\Program Files\ROMs      => C:\Program Files\ROMs
-# D:\Steam\ROMs              => D:\Steam\ROMs
-# D:\ROMs\ROMs               => D:\ROMs\ROMs
-ROMs Directory=~\ROMs
+ROMs Directory=
 
 [Grid Images]
 # The website listed should provide the grid images used by Ice. This URL will
