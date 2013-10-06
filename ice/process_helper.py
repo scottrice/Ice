@@ -24,7 +24,7 @@ def osx_steam_is_running():
 
 def linux_steam_is_running():
     """(Linux) Checks if Steam is currently running."""
-    return False
+    return "steam" in subprocess.check_output("ps -A", shell=True)
 
 # Sets 'steam_is_running' to be the correct method based on platform
 platform = settings.platform_string()
