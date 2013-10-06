@@ -39,4 +39,4 @@ def osx_userdata_location():
 def linux_userdata_location():
     return os.path.expanduser(linux_userdata_directory)
 
-steam_userdata_location = platform.platform_specific(windows=windows_userdata_location, osx=osx_userdata_location, linux=linux_userdata_directory)
+steam_userdata_location = platform.platform_specific(windows=windows_userdata_location, osx=osx_userdata_location, linux=linux_userdata_location)
