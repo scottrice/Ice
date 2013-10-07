@@ -11,6 +11,7 @@ import sys
 import os
 import time
 import traceback
+import settings
 
 def log_file_path():
     """Directory to store the log file"""
@@ -48,6 +49,18 @@ def log_both(s):
     """
     log_user(s)
     log_file(s)
+
+def log_config_error(error):
+    log_both("There was a problem with '[%s] %s' in %s" % (error.section, error.key, error.file))
+    config = settings.settings_for_file(error.file)
+    try:
+      log_file("The current value is set to '%s'" % config[error.section][error.key.lower()])
+    except KeyError as e:
+      if e.message == error.section:
+        log_file("No section found named '[%s]'" % e.message)
+      else:
+        log_file("The key '%s' is missing" % e.message)
+    log_both(error.fix_instructions)
     
 def log_exception():
     traceback.print_exc(file=open(log_file_path(),"a"))

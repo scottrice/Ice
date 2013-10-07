@@ -17,6 +17,7 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 import sys
 import os
 
+import settings
 import platform
 import filesystem_helper
 import emulator_manager
@@ -24,20 +25,27 @@ from ice_logging import log_user, log_file
 from rom import ROM
 
 class Console():
+    @classmethod
+    def settings_consoles(self):
+        consoles = []
+        consoles_dict = settings.consoles()
+        for name in consoles_dict.keys():
+            console_data = consoles_dict[name]
+            nickname = name
+            if 'nickname' in console_data:
+                nickname = console_data['nickname']
+            console = Console(nickname, name)
+            consoles.append(console)
+        return consoles
+
     def __init__(self,shortname,fullname):
         self.shortname = shortname
         self.fullname = fullname
-        self.emulator = self.__find_emulator__()
+        self.emulator = emulator_manager.lookup_emulator(self)
         self.__create_directories_if_needed__()
         
     def __repr__(self):
         return self.shortname
-        
-    def __find_emulator__(self):
-        """
-        Uses the platform to determine the emulator path for a given console
-        """
-        return emulator_manager.lookup_emulator(platform.to_string(),self)
         
     def __create_directories_if_needed__(self):
         """
@@ -117,20 +125,7 @@ def find_all_roms():
 
 def supported_consoles():
     if supported_consoles.cached is None:
-        sc = [
-            Console("NES","Nintendo Entertainment System"),
-            Console("SNES","Super Nintendo"),
-            Console("N64","Nintendo 64"),
-            Console("Gamecube","Nintendo Gamecube"),
-            Console("Wii", "Nintendo Wii"),
-            Console("PS1", "Playstation"),
-            Console("PS2", "Playstation 2"),
-            Console("Genesis", "Sega Genesis"),
-            Console("Dreamcast", "Sega Dreamcast"),
-            Console("Gameboy", "Gameboy"),
-            Console("GBA","Gameboy Advance"),
-            Console("DS","Nintendo DS"),
-        ]
+        sc = Console.settings_consoles()
         # Remove any consoles from supported_consoles if there does not exist an
         # emulator for them
         for console in list(sc):

@@ -16,7 +16,7 @@ from ice.rom import ROM
 from ice.rom_manager import IceROMManager
 from ice.process_helper import steam_is_running
 from ice.grid_image_manager import IceGridImageManager
-from ice.ice_logging import log_both, log_file, log_user, log_exception
+from ice.ice_logging import log_both, log_file, log_user, log_exception, log_config_error
 
 def main():
     if steam_is_running():
@@ -50,9 +50,8 @@ if __name__ == "__main__":
         main()
     except ConfigError as error:
         log_user("=========================Stopping\n")
-        log_both("There was a problem with '[%s] %s' in config.txt" % (error.section, error.key))
-        log_file("*The current value is set to '%s'" % settings.config()[error.section][error.key.lower()])
-        log_both(error.fix_instructions)
+        log_config_error(error)
+        log_exception()
         log_file("!!!")
     except StandardError as error:
         log_both("####################################")

@@ -1,0 +1,49 @@
+[Nintendo Entertainment System]
+nickname=NES
+emulator=Mednafen
+
+[Super Nintendo]
+nickname=SNES
+emulator=Mednafen
+
+[Nintendo 64]
+nickname=N64
+emulator=
+
+[Nintendo Gamecube]
+nickname=Gamecube
+emulator=
+
+[Nintendo Wii]
+nickname=wii
+emulator=
+
+[Playstation 1]
+nickname=PS1
+emulator=
+
+[Playstation 2]
+nickname=PS2
+emulator=
+
+[Sega Genesis]
+nickname=Genesis
+emulator=
+
+[Sega Dreamcast]
+nickname=Dreamcast
+
+[Nintendo Gameboy]
+nickname=Gameboy
+emulator=Mednafen
+
+[Gameboy Advance]
+nickname=GBA
+emulator=
+
+[Nintendo DS]
+nickname=DS
+
+[Atari Lynx]
+nickname=Lynx
+emulator=Mednafen

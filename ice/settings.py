@@ -18,9 +18,13 @@ appdescription = "ROM Manager for Steam"
 appauthor = "Scott Rice"
 
 config_dict = None
+consoles_dict = None
 
 def user_settings_path():
   return "config.txt"
+
+def user_consoles_path():
+  return "consoles.txt"
 
 def _config_file_to_dictionary(path):
   config = ConfigParser.ConfigParser()
@@ -37,3 +41,15 @@ def config():
   if config_dict == None:
     config_dict = _config_file_to_dictionary(user_settings_path())
   return config_dict
+
+def consoles():
+  global consoles_dict
+  if consoles_dict == None:
+    consoles_dict = _config_file_to_dictionary(user_consoles_path())
+  return consoles_dict
+
+def settings_for_file(file):
+  return {
+    "config.txt": config(),
+    "consoles.txt": consoles(),
+  }[file]
