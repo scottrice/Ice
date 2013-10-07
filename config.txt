@@ -8,7 +8,7 @@
 #
 # Example:
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
-ROMs Directory=~/test
+ROMs Directory=
 
 [Grid Images]
 # The website listed should provide the grid images used by Ice. This URL will
