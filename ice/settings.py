@@ -19,12 +19,16 @@ appauthor = "Scott Rice"
 
 config_dict = None
 consoles_dict = None
+emulators_dict = None
 
 def user_settings_path():
   return "config.txt"
 
 def user_consoles_path():
   return "consoles.txt"
+
+def user_emulators_path():
+  return "emulators.txt"
 
 def _config_file_to_dictionary(path):
   config = ConfigParser.ConfigParser()
@@ -48,8 +52,15 @@ def consoles():
     consoles_dict = _config_file_to_dictionary(user_consoles_path())
   return consoles_dict
 
+def emulators():
+  global emulators_dict
+  if emulators_dict == None:
+    emulators_dict = _config_file_to_dictionary(user_emulators_path())
+  return emulators_dict
+
 def settings_for_file(file):
   return {
     "config.txt": config(),
     "consoles.txt": consoles(),
+    "emulators.txt": emulators(),
   }[file]

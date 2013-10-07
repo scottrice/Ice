@@ -1,0 +1,12 @@
+# Example Windows Configuration
+[bsnes]
+location=
+command=
+
+# Example Mac Configuration
+# [Mednafen]
+# location=/Emulators/mednafen/mednafen
+# command=%l %r
+
+# Example Linux Configuration
+# TODO(#44)

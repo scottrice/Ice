@@ -58,7 +58,7 @@ class IceROMManager():
         in the Ice dir). Obviously if we add a method of executing roms which
         doesn't involve the app dir, this method will need to be rethought.
         """
-        return filesystem_helper.app_data_directory() in shortcut.exe
+        return filesystem_helper.roms_directory() in shortcut.exe
         
     def rom_already_in_steam(self,rom):
         """
