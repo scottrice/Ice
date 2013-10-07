@@ -3,8 +3,8 @@
 # as long as the full path is specified. Use ~ to represent your home folder
 # (for example, C:\Users\Scott\)
 #
-# Ice will place a folder called ROMs at the specified location. 
-# 
+# Set a directory where the ROMs are stored. Please make sure, the directory exists.
+# If no directory is provided, "~/ROMs" is used.
 # Example:
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
 ROMs Directory=
