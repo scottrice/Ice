@@ -6,12 +6,8 @@
 # Ice will place a folder called ROMs at the specified location. 
 # 
 # Example:
-# ~                     => C:\Users\<YOUR USERNAME>\ROMs
-# C:\                   => C:\ROMs
-# C:\Program Files      => C:\Program Files\ROMs
-# D:\Steam              => D:\Steam\ROMs
-# D:\ROMs               => D:\ROMs\ROMs <-- It will work, but looks awful
-ROMs Directory=~
+# ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
+ROMs Directory=
 
 [Grid Images]
 # The website listed should provide the grid images used by Ice. This URL will
