@@ -71,8 +71,9 @@ def roms_directory():
     """
     path = os.path.expanduser(settings.config()['Storage']['roms directory'])
     if not os.access(path, os.W_OK):
-        path = os.path.expanduser("~")
-    return os.path.join(path,"ROMs")
+        path = os.path.join(os.path.expanduser('~'),'ROMs')
+    return path
+
 
 def executables_directory():
     """
