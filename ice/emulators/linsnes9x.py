@@ -8,7 +8,6 @@ Created by Marcus Møller.
 Represents the GNU/Linux version of the Snes9x emulator
 """
 
-import sys
 import os
 
 import downloaded_emulator
