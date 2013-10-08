@@ -15,6 +15,8 @@ __all__ = [
     # GNU/Linux emulators
     "linsnes9x",
     "linmednafen",
+    "linepsxe",
+    "linmupen64plus",
     # Mac Emulators
     "macsnes9x",
     "macmednafen",
