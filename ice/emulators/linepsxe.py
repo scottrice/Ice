@@ -5,7 +5,7 @@ linepsxe.py
 
 Created by Marcus Møller.
 
-Represents the GNU/Linux version of the Snes9x emulator
+Represents the GNU/Linux version of the ePSXe emulator
 """
 
 import os

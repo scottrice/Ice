@@ -113,8 +113,8 @@ NES=Mednafen
 SNES=Snes9x
 
 # Available Emulators:
-#   None
-N64=
+#   Mupen64Plus
+N64=Mupen64Plus
 
 # Available Emulators:
 #   None
@@ -155,6 +155,10 @@ relative-exe-path=linmednafen/mednafen
 [LinePSXe]
 download-location=http://powrtoch.org/public/linepsxe.zip
 relative-exe-path=linepsxe/epsxe
+
+[LinMupen64Plus]
+download-location=http://powrtoch.org/public/linmupen64plus.zip
+relative-exe-path=linmupen64plus/mupen64plus
 
 [MacSnes9x]
 download-location=http://consolegrid.com/ice_emulators/MacSnes9x.zip
