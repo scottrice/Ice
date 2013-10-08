@@ -1,10 +1,10 @@
 [Nintendo Entertainment System]
 nickname=NES
-emulator=Mednafen
+emulator=
 
 [Super Nintendo]
 nickname=SNES
-emulator=Mednafen
+emulator=
 
 [Nintendo 64]
 nickname=N64
@@ -32,10 +32,11 @@ emulator=
 
 [Sega Dreamcast]
 nickname=Dreamcast
+emulator=
 
 [Nintendo Gameboy]
 nickname=Gameboy
-emulator=Mednafen
+emulator=
 
 [Gameboy Advance]
 nickname=GBA
@@ -43,7 +44,4 @@ emulator=
 
 [Nintendo DS]
 nickname=DS
-
-[Atari Lynx]
-nickname=Lynx
-emulator=Mednafen
+emulator=
