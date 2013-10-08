@@ -27,6 +27,3 @@ class MacMednafen(downloaded_emulator.DownloadedEmulator):
         \"/Location/Of/mednafen\" \"/Location/Of/Rom\"
         """
         return "\"%s\" \"%s\"" % (self.location,rom.path)
-
-    def set_control_scheme(self,controls):
-        pass

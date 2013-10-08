@@ -48,7 +48,6 @@ def add_file(name, directory, new_name=None):
 def add_extra_files():
 	shutil.move(os.path.join(dist_dir,"ice.exe"),os.path.join(zip_dir,"Ice.exe"))
 	add_file("config.txt",ice_dir)
-	add_file("controls.txt",ice_dir)
 	add_file("Binary-README.txt",ice_dir,"README.txt")
 	add_file("ExitCombo.cfg",os.path.join(ice_dir,"config"),"ExitCombination.cfg")
 

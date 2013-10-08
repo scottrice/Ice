@@ -36,17 +36,6 @@ class Emulator(object):
     # we specify which console we are having the emulator handle currently
     def __init__(self,console_name):
         self._console_name_ = console_name
-        self.set_control_scheme(settings.controls()[console_name])
-    
-    @abc.abstractmethod
-    def set_control_scheme(self,controls):
-        """
-        Sets the control scheme of the emulator to be the one designated by
-        'controls'. This method should avoid doing any serious work on the value
-        of 'controls' at a given point, so that the user can specify exactly
-        what they want.
-        """
-        pass
         
     def is_functional(self):
         """

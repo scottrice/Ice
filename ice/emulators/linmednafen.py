@@ -30,6 +30,3 @@ class LinMednafen(downloaded_emulator.DownloadedEmulator):
         for the StartDir
         """
         return rom.console.executables_directory()
-        
-    def set_control_scheme(self,controls):
-        pass

@@ -25,6 +25,3 @@ class LinePSXe(downloaded_emulator.DownloadedEmulator):
 
         # ePSXe requires some parameters, add them as well
         return "\"%s\" -nogui -loadiso \"%s\"" % (self.location,rom.path)
-        
-    def set_control_scheme(self,controls):
-        pass

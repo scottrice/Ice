@@ -25,6 +25,3 @@ class LinMupen64Plus(downloaded_emulator.DownloadedEmulator):
 
         # Mupen64Plus requires some parameters, add them as well
         return "\"%s\" \"%s\"" % (self.location,rom.path)
-        
-    def set_control_scheme(self,controls):
-        pass
