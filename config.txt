@@ -121,8 +121,8 @@ N64=
 Gamecube=
 
 # Available Emulators:
-#   None
-PS1=
+#   ePSXe
+PS1=ePSXe
 
 # Available Emulators:
 #   None
@@ -151,6 +151,10 @@ relative-exe-path=linsnes9x/snes9x
 [LinMednafen]
 download-location=http://powrtoch.org/public/linmednafen.zip
 relative-exe-path=linmednafen/mednafen
+
+[LinePSXe]
+download-location=http://powrtoch.org/public/linepsxe.zip
+relative-exe-path=linepsxe/epsxe
 
 [MacSnes9x]
 download-location=http://consolegrid.com/ice_emulators/MacSnes9x.zip
