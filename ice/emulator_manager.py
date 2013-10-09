@@ -7,11 +7,7 @@ Created by Scott on 2013-01-04.
 Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
-import sys
-import os
-
 import settings
-import platform
 from emulators import custom_emulator
 from ice_logging import log_file, log_both
 

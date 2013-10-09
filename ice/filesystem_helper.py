@@ -16,7 +16,6 @@ doesn't heavily involve any of the other datatypes used by this app (Consoles,
 ROMs, etc)
 """
 
-import sys
 import os
 
 import appdirs

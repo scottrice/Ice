@@ -13,7 +13,6 @@ Functionality should be added here if it involves only emulators which have
 been bundled
 """
 
-import sys
 import os
 import abc
 

@@ -16,7 +16,6 @@ or if it involves managing the downloaded emulators
 """
 
 import os
-import sys
 import abc
 import stat
 import shutil

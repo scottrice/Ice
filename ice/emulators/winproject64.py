@@ -8,7 +8,6 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
 import sys
-import os
 
 if sys.platform.startswith('win'):
     import _winreg as registry

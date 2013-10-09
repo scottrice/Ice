@@ -7,9 +7,6 @@ Created by Scott on 2012-12-20.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
-import sys
-import os
-
 import re
 
 x00 = u'\x00'

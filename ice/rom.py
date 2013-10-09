@@ -19,9 +19,7 @@ import os
 import stat
 import unicodedata
 
-import settings
 import platform
-import filesystem_helper
 from steam_shortcut_manager import SteamShortcut
 
 class ROM:

@@ -7,7 +7,6 @@ Created by Scott on 2013-01-07.
 Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
-import sys
 import os
 
 import downloaded_emulator

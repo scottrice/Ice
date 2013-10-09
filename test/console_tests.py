@@ -7,7 +7,7 @@ Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
-import sys,os
+import os
 import unittest
 
 import filesystem_helper

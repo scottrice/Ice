@@ -12,12 +12,9 @@ Functionality should be added here if every single emulator (whether downloaded
 or not) would use it
 """
 
-import sys
 import os
-import urllib
 import tempfile
 import shutil
-from ice import settings
 
 import abc
 

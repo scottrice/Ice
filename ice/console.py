@@ -14,14 +14,13 @@ Functionality should be added to this class/module if it deals with Consoles or
 their emulators. This includes finding a list of ROMs in this console's folder.
 """
 
-import sys
 import os
 
 import settings
 import platform
 import filesystem_helper
 import emulator_manager
-from ice_logging import log_user, log_file
+from ice_logging import log_file
 from rom import ROM
 
 class Console():

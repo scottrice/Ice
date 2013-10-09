@@ -18,7 +18,7 @@ select the correct one
 """
 
 import sys
-import os
+
 
 def is_windows():
 	return sys.platform.startswith('win')
