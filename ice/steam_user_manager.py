@@ -19,7 +19,6 @@ Users, but it involves Ice, it should most likely go in the filesystem_helper
 (as the filesystem is a big reason Ice needs to know about Steam users)
 """
 
-import sys
 import os
 
 import httplib

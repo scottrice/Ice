@@ -7,8 +7,12 @@ Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
-import sys, os, inspect
+import sys
+import os
+import inspect
+
 from test import run_tests
+
 
 # The code below is to allow test cases to import the class they are testing by
 # using the syntax 'import ice.******'.

@@ -9,8 +9,6 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 Basic settings to be used by the app.
 """
 
-import sys
-import os
 import ConfigParser
 
 appname = "Ice"

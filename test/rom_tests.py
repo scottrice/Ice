@@ -7,11 +7,13 @@ Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
-import sys, os
+import sys
+import os
 import unittest
 
 from rom import ROM
 from console import Console
+
 
 class ROMTests(unittest.TestCase):
     def setUp(self):

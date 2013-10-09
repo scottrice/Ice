@@ -7,8 +7,6 @@ Created by Scott on 2013-06-03.
 Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
-import sys
-import os
 import subprocess
 
 import platform

@@ -9,7 +9,6 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 Code to generate an exe file out of Ice, along with any extra metadata needed.
 """
 
-import sys
 import os
 
 import subprocess
