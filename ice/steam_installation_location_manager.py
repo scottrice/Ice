@@ -10,12 +10,9 @@ location of Steam. A corrolary of this is that it should be easy to find the
 shortcuts.vdf file, which is obviously useful for Ice
 """
 
-import sys
 import os
 
 import platform
-
-from error.config_error import ConfigError
 
 # Used to find the shortcuts.vdf file
 osx_userdata_directory = "~/Library/Application Support/Steam/userdata/"

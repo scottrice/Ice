@@ -7,7 +7,7 @@ Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
-import os,sys
+import os
 import unittest
 
 import steam_installation_location_manager

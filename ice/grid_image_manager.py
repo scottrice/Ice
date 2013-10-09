@@ -13,12 +13,9 @@ Functionality should be added to this class if it involves Steam App Grid
 images.
 """
 
-import os
-import sys
 import urllib
 import urllib2
 import urlparse
-import shutil
 import steam_user_manager
 import steam_grid
 import settings

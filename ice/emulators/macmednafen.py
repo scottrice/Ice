@@ -9,7 +9,6 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 Represents the Mac version of the mednafen emulator
 """
 
-import sys
 import os
 
 import downloaded_emulator

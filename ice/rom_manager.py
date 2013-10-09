@@ -14,13 +14,11 @@ Functionality should be added to this class if it involves the interaction
 between ROMs and Steam Shortcuts.
 """
 
-import sys
 import os
 
 import filesystem_helper
 import steam_user_manager
 from ice_logging import log_both
-from steam_shortcut_manager import SteamShortcutManager,SteamShortcut
 from steam_grid import SteamGrid
 
 # Check to see if the directory we are going to use to Store ROMs exists. If it

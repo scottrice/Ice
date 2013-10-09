@@ -9,11 +9,9 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 I have no idea what I'm doing...
 """
 
-import os
 import sys
-import glob
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 if sys.platform.startswith("win"):
   import py2exe

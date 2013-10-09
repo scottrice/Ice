@@ -7,9 +7,6 @@ Created by Scott on 2013-01-05.
 Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
-import sys
-import os
-
 import downloaded_emulator
 
 class WinDolphin(downloaded_emulator.DownloadedEmulator):

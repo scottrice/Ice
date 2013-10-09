@@ -7,9 +7,11 @@ Created by Scott on 2012-12-26.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
-import os,sys
+import os
+import sys
 import unittest
-    
+
+
 #
 # The code below is based off of gorakhargosh's watchdog, which is graciously
 # provided at https://github.com/gorakhargosh/watchdog. It is licensed under

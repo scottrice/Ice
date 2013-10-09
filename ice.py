@@ -1,18 +1,11 @@
 #!/usr/bin/env python
 
-import sys
-import os
-import inspect
-
 from ice.error.config_error import ConfigError
 
 from ice.steam_shortcut_manager import SteamShortcutManager
 
-from ice import steam_installation_location_manager
 from ice import steam_user_manager
-from ice import settings
 from ice import console
-from ice.rom import ROM
 from ice.rom_manager import IceROMManager
 from ice.process_helper import steam_is_running
 from ice.grid_image_manager import IceGridImageManager
