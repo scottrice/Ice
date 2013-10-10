@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>windowSettings</class>
+ <widget class="QMainWindow" name="windowSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>770</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Ice - Settings</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tabNES">
+         <attribute name="title">
+          <string>NES</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="openBinNES">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="cmdNES"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="pathNES"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabSNES">
+         <attribute name="title">
+          <string>SNES</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathSNES"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinSNES">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdSNES"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabN64">
+         <attribute name="title">
+          <string>N64</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathN64"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinN64">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdN64"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabGC">
+         <attribute name="title">
+          <string>GameCube</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathGameCube"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinGameCube">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdGameCube"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabWii">
+         <attribute name="title">
+          <string>Wii</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathWii"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinWii">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdWii"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabPS1">
+         <attribute name="title">
+          <string>PS 1</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathPS1"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinPS1">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdPS1"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabPS2">
+         <attribute name="title">
+          <string>PS 2</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathPS2"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinPS2">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdPS2"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabGenesis">
+         <attribute name="title">
+          <string>Genesis</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_9">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathGenesis"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinGenesis">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdGenesis"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabDreamcast">
+         <attribute name="title">
+          <string>Dreamcast</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_10">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathDreamcast"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinDreamcast">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdDreamcast"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabGameBoy">
+         <attribute name="title">
+          <string>GameBoy</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_11">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathGameBoy"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinGameBoy">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_23">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdGameBoy"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabGBA">
+         <attribute name="title">
+          <string>GBA</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_12">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathGBA"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinGBA">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_25">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdGBA"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabNDS">
+         <attribute name="title">
+          <string>NDS</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_13">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_26">
+            <property name="text">
+             <string>Path to emulator binary:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="pathNDS"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="openBinNDS">
+            <property name="text">
+             <string>Open binary...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_27">
+            <property name="text">
+             <string>Custom commands:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cmdNDS"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnSave">
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCancel">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>770</width>
+     <height>28</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
