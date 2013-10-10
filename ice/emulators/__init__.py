@@ -10,22 +10,5 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 __all__ = [
     # Emulator Base Classes
     "emulator",
-    "downloaded_emulator",
-    "bundled_emulator",
-    # GNU/Linux emulators
-    "linsnes9x",
-    "linmednafen",
-    "linepsxe",
-    "linmupen64plus",
-    # Mac Emulators
-    "macsnes9x",
-    "macmednafen",
-    # Windows Emulators
-    "windolphin",
-    "winproject64",
-    "winbsnes",
-    "winvisualboyadvance",
-    "wingens",
-    "winepsxe",
-    "winpcsx2"
+    "custom_emulator",
 ]

@@ -58,10 +58,6 @@ class Console():
             if not os.path.exists(dir):
                 os.makedirs(dir)
         create_directory_if_needed(self.roms_directory())
-        # I don't like this, but the console is creating the directory where
-        # the emulator is throwing any exes it needs.
-        # TODO: Figure out a decent way to put this in the emulator object
-        create_directory_if_needed(self.executables_directory())
         
     def roms_directory(self):
         """
@@ -71,24 +67,6 @@ class Console():
         C:\Users\Scott\Documents\ROMs\PS2
         """
         return os.path.join(filesystem_helper.roms_directory(),self.shortname)
-        
-    def executables_directory(self):
-        """
-        Should return a directory with a decent name for each emulator, such as
-        C:\Users\Scott\Documents\ROMs\N64
-        or
-        C:\Users\Scott\Documents\ROMs\PS2
-        """
-        return os.path.join(filesystem_helper.executables_directory(),self.shortname)
-        
-    def icon_path(self):
-        """
-        Should return the path to the icon for the given console. This icon
-        should be located in the resources/images/icons directory, and should
-        be named the same as the emulator shortname with a .png extension
-        """
-        icon_filename = self.shortname + ".png"
-        return os.path.join(filesystem_helper.icons_directory(),icon_filename)
         
     def find_all_roms(self):
         """

@@ -30,21 +30,3 @@ class ROMTests(unittest.TestCase):
         """
         self.assertEqual(self.rom.name(),"Pokemon Emerald")
         self.assertEqual(self.noext_rom.name(),"Pokemon Emerald")
-        
-    def test_executable(self):
-        """
-        The executable should be a file in the executables directory with the
-        same name as the ROM. On Windows, this file should end with a .cmd file
-        extension. On Mac/Linux systems, it should end with a .sh
-        """
-        rom_exe_location = self.rom.executable_path()
-        # Assert that the exe is in the exe directory for it's console
-        self.assertEqual(os.path.dirname(rom_exe_location),self.roms_console.executables_directory())
-        # Assert that the exe name is the same as the ROM name with the correct
-        # extension for the current platform
-        if sys.platform.startswith('win'):
-            self.assertEqual(os.path.basename(rom_exe_location),self.rom.name() + ".cmd")
-        else:
-            self.assertEqual(os.path.basename(rom_exe_location),self.rom.name() + ".sh")
-    
-	    

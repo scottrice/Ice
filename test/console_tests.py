@@ -34,22 +34,3 @@ class ConsoleTests(unittest.TestCase):
         gba_dir = self.console.roms_directory()
         self.assertEqual(os.path.dirname(gba_dir),filesystem_helper.roms_directory())
         self.assertEqual(os.path.basename(gba_dir),self.console.shortname)
-        
-    def test_executables_directory(self):
-        """
-        The executables directory for a console should be a directory located
-        in the main executables directory, and the consoles directory should be
-        named the same as the shortname of the console
-        """
-        gba_dir = self.console.executables_directory()
-        self.assertEqual(os.path.dirname(gba_dir),filesystem_helper.executables_directory())
-        self.assertEqual(os.path.basename(gba_dir),self.console.shortname)
-        
-    def test_icon_path(self):
-        """
-        The icon path for a console should be in the icons directory, and the
-        file should be named the shortname of the console with a .png extension
-        """
-        gba_path = self.console.icon_path()
-        self.assertEqual(os.path.dirname(gba_path),filesystem_helper.icons_directory())
-        self.assertEqual(os.path.basename(gba_path),self.console.shortname + ".png")

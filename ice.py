@@ -5,6 +5,7 @@ from ice.error.config_error import ConfigError
 from ice.steam_shortcut_manager import SteamShortcutManager
 
 from ice import steam_user_manager
+from ice import filesystem_helper as fs
 from ice import console
 from ice.rom_manager import IceROMManager
 from ice.process_helper import steam_is_running
@@ -16,6 +17,7 @@ def main():
         log_both("Ice cannot be run while Steam is open. Please close Steam and try again")
         return
     log_both("=========================Starting Ice")
+    fs.create_directory_if_needed(fs.roms_directory(), log="Creating ROMs directory at %s" % fs.roms_directory())
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
     # Find the Steam Account that the user would like to add ROMs for
