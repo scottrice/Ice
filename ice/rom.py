@@ -19,7 +19,7 @@ import os
 import stat
 import unicodedata
 
-import platform
+import platform_helper as pf
 from steam_shortcut_manager import SteamShortcut
 
 class ROM:
@@ -75,7 +75,7 @@ class ROM:
         # If we are running a script, we just execute the script
         return "#!/usr/bin/env bash\n\"%s\" \"%s\"\n" % (self.console.emulator.location,self.path)
 
-    executable_string = platform.platform_specific(windows=windows_executable_string, osx=osx_executable_string, linux=linux_executable_string)
+    executable_string = pf.platform_specific(windows=windows_executable_string, osx=osx_executable_string, linux=linux_executable_string)
         
     def ensure_exe_file_exists(self):
         """

@@ -17,7 +17,7 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 import os
 
 import settings
-import platform
+import platform_helper as pf
 import filesystem_helper
 import emulator_manager
 from ice_logging import log_file, log_both
@@ -105,7 +105,7 @@ class Console():
             if not os.path.isdir(file_path):
                 # On Linux/OSX, we want to make sure hidden files don't get
                 # accidently added as well
-                if not platform.is_windows() and filename.startswith('.'):
+                if not pf.is_windows() and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.emulator.valid_rom(file_path):
                     log_file("Ignoring Non-ROM file: %s" % file_path)

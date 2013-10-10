@@ -9,7 +9,7 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 
 import subprocess
 
-import platform
+import platform_helper as pf
 
 def windows_steam_is_running():
     """(Windows) Checks if Steam is currently running. Adapted from:
@@ -24,4 +24,4 @@ def linux_steam_is_running():
     """(Linux) Checks if Steam is currently running."""
     return "steam" in subprocess.check_output("ps -A", shell=True)
 
-steam_is_running = platform.platform_specific(windows=windows_steam_is_running, osx=osx_steam_is_running, linux=linux_steam_is_running)
+steam_is_running = pf.platform_specific(windows=windows_steam_is_running, osx=osx_steam_is_running, linux=linux_steam_is_running)
