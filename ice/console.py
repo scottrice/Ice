@@ -20,7 +20,7 @@ import settings
 import platform
 import filesystem_helper
 import emulator_manager
-from ice_logging import log_file
+from ice_logging import log_file, log_both
 from rom import ROM
 
 class Console():
@@ -130,6 +130,8 @@ def supported_consoles():
         for console in list(sc):
             if console.emulator is None:
                 sc.remove(console)
+            else:
+                log_both("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
         # Cache it for next time
         supported_consoles.cached = sc
     return supported_consoles.cached
