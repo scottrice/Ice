@@ -4,8 +4,7 @@ emulator=
 
 [Super Nintendo]
 nickname=SNES
-emulator=snes9x
-extensions=smc sfc
+emulator=
 
 [Nintendo 64]
 nickname=N64
@@ -21,12 +20,11 @@ emulator=
 
 [Playstation 1]
 nickname=PS1
-emulator=pcsx2
+emulator=
 
 [Playstation 2]
 nickname=PS2
-emulator=pcsx2
-extensions=iso
+emulator=
 
 [Sega Genesis]
 nickname=Genesis
