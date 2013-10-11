@@ -34,9 +34,9 @@ class Console():
             nickname = name
             if 'nickname' in console_data:
                 nickname = console_data['nickname']
-	    extensions = ""
-	    if 'extensions' in console_data:
-		extensions = console_data['extensions']
+	        extensions = ""
+	        if 'extensions' in console_data:
+		        extensions = console_data['extensions']
             console = Console(nickname, name, extensions)
             consoles.append(console)
         return consoles
