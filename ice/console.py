@@ -44,7 +44,7 @@ class Console():
     def __init__(self,shortname,fullname,extensions):
         self.shortname = shortname
         self.fullname = fullname
-	    self.extensions = extensions
+        self.extensions = extensions
         self.emulator = emulator_manager.lookup_emulator(self)
         self.__create_directories_if_needed__()
         
@@ -79,11 +79,10 @@ class Console():
         If a list of extensions is supplied for this console, we check if the path has a valid extension
         If no extensions are defined for this console, we just accept any file
         """
-	log_both("valid extensions are %s" % self.extensions)
 
-	if self.extensions == "":
-	        return True
-	return any(path.lower().endswith('.'+x) for x in self.extensions.split(' '))
+        if self.extensions == "":
+            return True
+        return any(path.lower().endswith('.'+x) for x in self.extensions.split(' '))
   
     def find_all_roms(self):
         """
