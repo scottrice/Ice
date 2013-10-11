@@ -39,16 +39,6 @@ class Emulator(object):
         A basic emulator is always functional.
         """
         return True
-        
-    def valid_rom(self,path):
-        """
-        This function determines if a given path is actually a valid ROM file.
-        There are many different file extensions that could be used as ROMs,
-        and it would be a pretty bad user experience if a valid rom got ignored
-        by Ice, so I will err on the side of "Valid". The exception to this is
-        bsnes, whose functionality should be described in it's class
-        """
-        return True
     
     @abc.abstractmethod
     def command_string(self):
