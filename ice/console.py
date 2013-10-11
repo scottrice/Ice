@@ -77,7 +77,7 @@ class Console():
         """
         This function determines if a given path is actually a valid ROM file.
         If a list of extensions is supplied for this console, we check if the path has a valid extension
-	    If no extensions are defined for this console, we just accept any file
+        If no extensions are defined for this console, we just accept any file
         """
 	log_both("valid extensions are %s" % self.extensions)
 
