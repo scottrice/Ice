@@ -7,7 +7,7 @@
 # If no directory is provided, "~/ROMs" is used.
 # Example:
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
-ROMs Directory=~/Desktop/ice-temp/roms
+ROMs Directory=
 
 [Grid Images]
 # The website listed should provide the grid images used by Ice. This URL will
