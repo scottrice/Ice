@@ -24,8 +24,6 @@ from ice_logging import log_file, log_both
 from rom import ROM
 
 class Console():
-	
-    extensions = ""
 
     @classmethod
     def settings_consoles(self):
