@@ -69,4 +69,3 @@ relative-exe-path=WinGens\gens-launcher.exe
 [WinVisualBoyAdvance]
 download-location=http://consolegrid.com/ice_emulators/WinVisualBoyAdvance.zip
 relative-exe-path=WinVisualBoyAdvance\VisualBoyAdvance.exe
-
