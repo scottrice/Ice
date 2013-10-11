@@ -35,8 +35,8 @@ class Console():
             if 'nickname' in console_data:
                 nickname = console_data['nickname']
 	        extensions = ""
-	        if 'extensions' in console_data:
-		        extensions = console_data['extensions']
+            if 'extensions' in console_data:
+    	        extensions = console_data['extensions']
             console = Console(nickname, name, extensions)
             consoles.append(console)
         return consoles
@@ -44,7 +44,7 @@ class Console():
     def __init__(self,shortname,fullname,extensions):
         self.shortname = shortname
         self.fullname = fullname
-	self.extensions = extensions
+	    self.extensions = extensions
         self.emulator = emulator_manager.lookup_emulator(self)
         self.__create_directories_if_needed__()
         
