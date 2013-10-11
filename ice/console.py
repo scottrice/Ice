@@ -82,7 +82,8 @@ class Console():
 
         if self.extensions == "":
             return True
-        return any(path.lower().endswith('.'+x) for x in self.extensions.split(' '))
+        extension = os.path.splitext(path)[1].lower()
+        return any(extension == ('.'+x.strip().lower()) for x in self.extensions.split(','))
   
     def find_all_roms(self):
         """
