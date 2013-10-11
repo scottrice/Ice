@@ -12,3 +12,11 @@
 # [SNES9X-GTK]
 # location=/usr/bin/snes9x-gtk
 # command=%l %r
+
+[snes9x]
+location=/usr/games/snes9x\-gtk
+command=%l %r
+
+[pcsx2]
+location=/usr/games/pcsx2
+command=%l %r

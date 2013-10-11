@@ -24,6 +24,9 @@ from ice_logging import log_file, log_both
 from rom import ROM
 
 class Console():
+	
+    extensions = ""
+
     @classmethod
     def settings_consoles(self):
         consoles = []
@@ -33,13 +36,17 @@ class Console():
             nickname = name
             if 'nickname' in console_data:
                 nickname = console_data['nickname']
-            console = Console(nickname, name)
+	    extensions = ""
+	    if 'extensions' in console_data:
+		extensions = console_data['extensions']
+            console = Console(nickname, name, extensions)
             consoles.append(console)
         return consoles
 
-    def __init__(self,shortname,fullname):
+    def __init__(self,shortname,fullname,extensions):
         self.shortname = shortname
         self.fullname = fullname
+	self.extensions = extensions
         self.emulator = emulator_manager.lookup_emulator(self)
         self.__create_directories_if_needed__()
         
@@ -67,7 +74,19 @@ class Console():
         C:\Users\Scott\Documents\ROMs\PS2
         """
         return os.path.join(filesystem_helper.roms_directory(),self.shortname)
-        
+      
+    def valid_rom(self,path):
+        """
+        This function determines if a given path is actually a valid ROM file.
+        If a list of extensions is supplied for this console, we check if the path has a valid extension
+	If no extensions are defined for this console, we just accept any file
+        """
+	log_both("valid extensions are %s" % self.extensions)
+
+	if self.extensions == "":
+	        return True
+	return any(path.lower().endswith('.'+x) for x in self.extensions.split(' '))
+  
     def find_all_roms(self):
         """
         Reads a list of all the ROMs from the appropriate directory for the
@@ -85,7 +104,7 @@ class Console():
                 # accidently added as well
                 if not pf.is_windows() and filename.startswith('.'):
                     continue
-                if self.emulator is not None and not self.emulator.valid_rom(file_path):
+                if self.emulator is not None and not self.valid_rom(file_path):
                     log_file("Ignoring Non-ROM file: %s" % file_path)
                     continue
                 roms.append(ROM(file_path,self))
