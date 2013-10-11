@@ -1,0 +1,49 @@
+[Nintendo Entertainment System]
+nickname=NES
+emulator=
+
+[Super Nintendo]
+nickname=SNES
+emulator=snes9x
+extensions=smc sfc
+
+[Nintendo 64]
+nickname=N64
+emulator=
+
+[Nintendo Gamecube]
+nickname=Gamecube
+emulator=
+
+[Nintendo Wii]
+nickname=wii
+emulator=
+
+[Playstation 1]
+nickname=PS1
+emulator=pcsx2
+
+[Playstation 2]
+nickname=PS2
+emulator=pcsx2
+extensions=iso
+
+[Sega Genesis]
+nickname=Genesis
+emulator=
+
+[Sega Dreamcast]
+nickname=Dreamcast
+emulator=
+
+[Nintendo Gameboy]
+nickname=Gameboy
+emulator=
+
+[Gameboy Advance]
+nickname=GBA
+emulator=
+
+[Nintendo DS]
+nickname=DS
+emulator=

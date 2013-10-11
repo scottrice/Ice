@@ -1,0 +1,14 @@
+# Example Windows Configuration
+# [bsnes]
+# location=
+# command=
+
+# Example Mac Configuration
+# [Mednafen]
+# location=/Emulators/mednafen/mednafen
+# command=%l %r
+
+# Example GNU/Linux Configuration
+# [SNES9X-GTK]
+# location=/usr/bin/snes9x-gtk
+# command=%l %r
