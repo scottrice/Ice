@@ -1,0 +1,37 @@
+# In this file, all possible extensions for rom-files should be defined
+[Nintendo Entertainment System]
+extensions=
+
+[Super Nintendo]
+extensions=smc
+
+[Nintendo 64]
+extensions=
+
+[Nintendo Gamecube]
+extensions=
+
+[Nintendo Wii]
+extensions=iso
+
+[Playstation 1]
+extensions=
+
+[Playstation 2]
+extensions=
+
+[Sega Genesis]
+extensions=
+
+[Sega Dreamcast]
+extensions=
+
+[Nintendo Gameboy]
+extensions=
+
+[Gameboy Advance]
+extensions=
+
+[Nintendo DS]
+extensions=
+

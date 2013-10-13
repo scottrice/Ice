@@ -29,14 +29,16 @@ class Console():
     def settings_consoles(self):
         consoles = []
         consoles_dict = settings.consoles()
+        extensions_dict = settings.extensions()
         for name in consoles_dict.keys():
             console_data = consoles_dict[name]
+            extension_data = extensions_dict[name]
             nickname = name
             if 'nickname' in console_data:
                 nickname = console_data['nickname']
             extensions = ""
-            if 'extensions' in console_data:
-    	        extensions = console_data['extensions']
+            if 'extensions' in extension_data:
+                extensions = extension_data['extensions']
             console = Console(nickname, name, extensions)
             consoles.append(console)
         return consoles
