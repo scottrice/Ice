@@ -1,0 +1,44 @@
+{% capture emulator_id_prefix %}{{ emulator.name | downcase | replace:' ', '_' }}{% endcapture %}
+<li class="span10 clearfix">
+  <div class="thumbnail emulator clearfix">
+    <div class="emulator-icon span2 pull-left">
+      <img src="/img/emulators/{{ emulator.name }}.png" class="clearfix" />
+    </div>
+    <div class="caption pull-left span7">
+      <h4 class="emulator-name">
+        <a href="{{ emulator.url }}">{{ emulator.name }}</a><br />
+      </h4>
+      <p><a href="{{ emulator.url }}">Download</a></p>
+      <p><b>Supported Consoles: </b>{{ emulator.supports }}</p>
+      <p><b>Supported Platforms:</b></p>
+      <div id="{{ emulator_id_prefix }}-accordion" class="accordian">
+        {% for platform in emulator.platforms %}
+          <div class="accordion-group">
+            <div class="accordion-heading" data-toggle="collapse" data-parent="#{{ emulator_id_prefix }}-accordion" href="#{{ emulator_id_prefix }}-{{ platform.name }}-collapse">
+              <a class="accordion-toggle">
+                {% capture imagename %}support-{{ platform.name }}{% if platform.known_issues != null %}-issue{% endif %}{% endcapture %}
+                <img src="/img/{{ imagename }}.png">
+                {{ platform.name | capitalize }}
+              </a>
+            </div>
+            <div class="accordion-body collapse" id="{{ emulator_id_prefix }}-{{ platform.name }}-collapse">
+              <div class="accordion-inner">
+                <b>Example Configuration</b><br />
+                {% if platform.config %}
+                  <pre>{{ platform.config }}</pre>
+                {% else %}
+                  <pre>No configuration was found for {{ emulator.name }} on {{ platform.name | capitalize }}.
+If you create a working configuration, please share
+it using Github Issues and we will replace this message</pre>
+                {% endif %}
+                {% if platform.known_issues != null %}
+                  <p><b>Known Issues:</b> {{ platform.known_issues }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</li>

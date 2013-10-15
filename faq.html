@@ -1,0 +1,114 @@
+---
+title: FAQ
+layout: default
+
+sections:
+  - name: Setup
+    questions:
+      - question: How do I set up *insert emulator here*
+        answer: |
+          Before trying to set up an emulator on your own, try checking out the
+          <a href="/emulators/">Emulators</a> page to see if someone has created
+          a working configuration for you. If not, then you can follow the steps
+          below to try configuring it yourself.
+
+          <ol>
+            <li>
+              Use the emulator outside of Steam. Make sure it works correctly
+            </li>
+            <li>
+              Open the emulator from the <a href="http://en.wikipedia.org/wiki/Command_Prompt">Command Prompt</a>
+              (on Windows), or from the <a href="http://en.wikipedia.org/wiki/System_console">Terminal</a>
+              (on Mac OS X/Linux). Can you run a game from here? What command
+              was used? You can normally figure out how to use an emulator from
+              the command line by googling "<b>*Emulator Name* Command Line</b>"
+            </li>
+            <li>
+              Open Steam and add a 'Non-Steam Game' (it can be anything). Right
+              click on the game and hit properties. Set the command of the
+              shortcut to be the same command used in the last step. Set the
+              'StartDir' to be the directory containing the emulator executable
+              (if the emulator is C:\Emulators\Dolphin\Dolphin.exe, the StartDir
+              should be C:\Emulators\Dolphin). Hit the 'Play' button in Steam to
+              confirm it works.
+            </li>
+            <li>
+              Enter the command you ran into emulators.txt. The location should
+              be set to the emulators path (C:\Emulators\Dolphin\Dolphin.exe in
+              the previous example), and the command should be the command you
+              used in the previous step. In the command, replace the location of
+              the emulator with '%l' and the location of the ROM with '%r'.
+            </li>
+            <li>
+              Run Ice, and confirm that it works. If it does, then
+              congratulations, you are done!
+            </li>
+          </ol>
+          If you create a working configuration, consider posting it in a
+          <a href="http://github.com/scottrice/Ice/issues">Github issue</a> so
+          I can post it on the emulators page for others to use.
+      - question: How do I set up *insert console here*
+        answer: |
+          To set up a console, there are three bits of information you need<br />
+          <ul>
+            <li>A name - Used as the Steam category</li>
+            <li>A 'nickname' - Used to name the ROMs folder for the console</li>
+            <li>An emulator, which Steam uses to play the game. This must be the
+            name of an emulator inside emulators.txt</li>
+          </ul>
+          Once you have all of those things, you put them in consoles.txt using
+          the following format
+          <br />
+          <pre>[*NAME*]
+          nickname=*NICKNAME*
+          emulator=*EMULATOR NAME*</pre>
+          where you replace anything surrounded by *'s with what you determined
+          above. For example, if I was doing 'Nintendo Entertainment System',
+          with nickname 'NES' and emulator 'Nestopia' (which is already set up
+          in <em>emulators.txt</em>), the entry would look like this:
+          <br />
+          <pre>[Nintendo Entertainment System]
+          nickname=NES
+          emulator=Nestopia</pre>
+  - name: Troubleshooting
+    questions:
+      - question: SNES games start in black
+        answer: >
+          This is a common issue with bsnes and certain ROMs ( normally .smc
+          files. To fix this, you can either download the same ROM in a
+          different format, or use <a href="http://helmet.kafuka.org/thepile/SNESPurify">SNESPurify</a>
+          to turn the .smc file into a .sfc file. Alternatively, you can switch
+          to an emulator other than bsnes.<br />
+          <br />
+          If you aren't using bsnes or are using a non-smc file and are still
+          having this issue, please post a <a href="http://github.com/scottrice/Ice/issues">Github Issue</a>
+  - name: Other
+    questions:
+      - question: Where can I download ROMs?
+        answer: >
+          You don't. Downloading commercial ROMs is illegal. The only legal way to get ROMs
+          it to dump them from a game cartidge that you own. I won't go into detail
+          on how to do that though, as a quick google search should turn up plenty
+          of guides written by people much more qualified than myself.
+---
+{% for section in page.sections %}
+  {% assign section_id_prefix = section.name | downcase | replace:' ', '_' %}
+  <h3>{{ section.name }}</h3>
+  <div id="{{ section_id_prefix }}-accordion" class="accordion">
+    {% for faq in section.questions %}
+      <div class="accordion-group">
+       <div class="accordion-heading">
+         <a class="accordion-toggle" data-toggle="collapse" href="#{{ section_id_prefix }}-{{ forloop.index }}">
+           <h5><i class="icon-plus"></i> {{ faq.question }}</h5>
+         </a>
+       </div>
+       <div id="{{ section_id_prefix }}-{{ forloop.index }}" class="accordion-body collapse">
+         <div class="accordion-inner">
+           <p>{{ faq.answer }}</p>
+         </div>
+       </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}
+<small>Is something important missing? Let us know with a <a href="http://github.com/scottrice/Ice/issues">Github issue</a> and it will be added here.</small>

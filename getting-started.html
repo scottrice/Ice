@@ -1,0 +1,143 @@
+---
+title: Getting Started
+layout: default
+skip_navigation: true
+---
+<div class="row">
+  <div class="span3">
+    <div class="well sidebar-nav">
+      <ul class="nav nav-list">
+        <li><a href="#video-tutorials">Video Tutorials</a></li>
+        <li><a href="#setup-instructions">Setup Instructions</a></li>
+        <li><a href="#adding-roms">Adding ROMs</a></li>
+        <li><a href="#custom-images">Adding Custom Images</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="span9">
+    <a name="video-tutorials"></a>
+    <h3>Video Tutorials</h3>
+    <!-- TODO: Add video tutorials -->
+    Coming Soon!
+    <hr class="featurette-divider" />
+    <a name="setup-instructions"></a>
+    <h3>Setup Instructions</h3>
+    <ol>
+      <li>
+        Open <em>consoles.txt</em> in Notepad and make an entry for every
+        console you want to support, leaving 'emulator' blank for now. For full
+        details on how to set up an entry in <em>consoles.txt</em>, check out
+        the <a href="/faq/">FAQ</a>
+      </li>
+      <li>
+        Install an emulator for each console you listed. If you aren't
+        familiar with any emulators that support a console, check the
+        <a href="/emulators/">Emulators</a> page, or Wikipedia's fantastic
+        <a href="http://en.wikipedia.org/wiki/List_of_video_game_emulators">List of Video Game Emulators</a>
+      </li>
+      <li>
+        Make an entry in <em>emulators.txt</em> for each emulator you installed.
+        For full details on how to set up an emulator in <em>emulators.txt</em>,
+        check out the <a href="/faq/">FAQ</a>.
+      </li>
+      <li>
+        Go back to <em>consoles.txt</em>, and for each console, list the
+        name of the emulator you want to use under 'emulator'.
+      </li>
+    </ol>
+    For example, if I wanted to set up Dolphin with the Nintendo Gamecube and
+    Nintendo Wii, and ZSNES with the Super Nintendo, I might have a setup like this...
+    <br />
+    <br />
+    <b>emulators.txt</b>
+<pre>[Dolphin]
+location=C:\Emulators\Dolphin\dolphin.exe
+command=%l --batch --exec=%r
+
+[ZSNES]
+location=C:\Emulators\ZSNES\zsnesw.exe
+command=%l %r</pre>
+    <br />
+    <b>consoles.txt</b>
+<pre>[Super Nintendo]
+nickname=SNES
+emulator=ZSNES
+
+[Nintendo Gamecube]
+nickname=Gamecube
+emulator=Dolphin
+
+[Nintendo Wii]
+nickname=Wii
+emulator=Dolphin</pre>
+    <hr class="featurette-divider" />
+    <a name="adding-roms"></a>
+    <h3>Adding ROMs</h3>
+      Once you have all of your consoles/emulators set up, you are ready to start
+      adding ROMs to Steam. To do so, follow these steps.
+      <ol>
+        <li>
+          Run Ice. This will create a 'ROM's directory, where you place any ROMs
+          you want added to Steam.<br /><br />
+          <div class="alert alert-info">
+            By default, your ROMs directory is in <b>C:\Users\*username*\ROMs</b> on Windows,
+            <b>/Users/*username*/ROMs</b> on Mac, or <b>/home/*username*/ROMs</b> on Linux.
+            If you would prefer it somewhere else, you can change this location in
+            <em>config.txt</em>
+          </div>
+        </li>
+        <li>
+          Open your ROMs folder. It should contain a single folder for each console,
+          named with the consoles 'nickname'. In the example above, the ROMs
+          directory would look like this.
+<pre>|--ROMs
+   |--Gamecube
+   |--SNES
+   |--Wii</pre>
+        </li>
+        <li>
+          Put your ROMs in the folder representing the console. If I wanted to
+          add 'Mega Man X' (for Super Nintendo), the ROM would go in <em>ROMs\SNES</em>
+        </li>
+        <li>
+          Run Ice again. You should see messages confirming that Ice detected
+          the emulators/consoles, and messages confirming that Ice added your
+          ROMs to Steam
+        </li>
+      </ol>
+    <hr class="featurette-divider" />
+    <a name="custom-images"></a>
+    <h3>Adding Custom Images</h3>
+    By default, Ice attempts to download artwork for every game that you add.
+    This isn't perfect though, and if you aren't happy with the artwork that Ice
+    finds, you can replace it with your own by following these steps.
+    <ol>
+      <li>
+        Go online, and find an image for your game. This image needs to be 460x215.
+        If you are unsure of where to look, I recommend checking out
+        <ul>
+          <li><a href="http://steambanners.booru.org">http://steambanners.booru.org</a></li>
+          <li><a href="http://reddit.com/r/steamgrid">/r/SteamGrid</a></li>
+        </ul>
+      </li>
+      <li>
+        Open Steam, and switch to the 'grid' view. You can switch views by clicking
+        the buttons next to 'Big Picture'. Grid is the one on the far right.
+      </li>
+      <li>
+        Right click on the game whose image you want to change, and hit 'Remove
+        Custom Image'. If the game had no image to begin with, you can skip this
+        step.
+      </li>
+      <li>
+        Right click on the game again, and hit 'Set Custom Image'. A dialog box
+        will pop up, and you can choose the image you would like to use. Select
+        the image you acquired in Step 1, and hit 'OK'.
+      </li>
+      <li>
+        Congratulations, you are done! Enjoy your nice new image
+      </li>
+    </ol>
+    <hr class="featurette-divider" />
+  </div>
+</div>

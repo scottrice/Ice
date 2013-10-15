@@ -1,96 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Ice - Add ROMs to Steam automatically</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/ice.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-  </head>
-  <body>
-    <div class="container">
-      <div class="hero-unit">
-        <div class="hero-unit-content">
-          <h1>Ice</h1>
-          <p class="lead">Run your old school games, right from Steam</p>
-          <a class="btn btn-large btn-success" href="http://consolegrid.com/ice.zip" onclick="ga('send', 'event', 'download-button', 'click', 'download button');">Download</a>
-          <!-- <a class="btn btn-large btn-success" disabled>Download</a> -->
-          <ul class="hero-unit-links">
-            <li><a href="http://github.com/scottrice/Ice">View on Github</a></li>
-          </ul>
-        </div>
-      </div>
-      <hr class="featurette-divider" />
-      <!-- Description -->
-      <div class="featurette">
-        <div class="featurette-image-wrapper pull-right">
-          <div>
-            <img class="featurette-image" src="img/ice-example.png" />
-          </div>
-        </div>
-        <h2 class="featurette-heading">Use Steam to play all your old games</h2>
-        <p class="lead">
-          Just because old consoles aren't sold anymore doesn't mean you can't
-          enjoy their games.
-        </p>
-      </div>
-      <div class="clear"></div>
-      <hr class="featurette-divider" />
-      <!-- Setup Section -->
-      <div class="featurette">
-        <div class="featurette-image-wrapper pull-left">
-          <div>
-            <img class="featurette-image" src="img/ROMsFolder.png" />
-          </div>
-        </div>
-        <h2 class="featurette-heading">Setup is easy</h2>
-        <p class="lead">
-          Just download Ice from the link above and run it. That will put a ROMs
-          folder in your home directory.
-        </p>
-      </div>
-      <div class="clear" style="height:40px"></div>
-      <div class="featurette">
-        <div class="featurette-image-wrapper pull-right">
-          <div>
-            <img class="featurette-image" src="img/RunningIce.png" />
-          </div>
-        </div>
-        <!-- <h2 class="featurette-heading">Setup is easy</h2> -->
-        <p class="lead">
-          Put your ROMs in the correct folder, make sure Steam is closed, and
-          run Ice again. Open Steam again, and you are done!
-        </p>
-      </div>
-      <div class="clear"></div>
-      <hr class="featurette-divider" />
-      <!-- Exiting Games -->
-      <div class="featurette">
-        <div class="featurette-image-wrapper pull-left">
-          <div>
-            <img class="featurette-image" src="img/XboxController.png" />
-          </div>
-        </div>
-        <h2 class="featurette-heading">Preconfigured for 360 controllers</h2>
-        <p class="lead">
-          All emulators are preconfigured to work well with an Xbox 360 controller.
-          To exit an emulator, hit the ESC key, or use the included 
-          <a href="http://www.electracode.com/4/joy2key/JoyToKey%20English%20Version.htm">JoyToKey</a> 
-          setup and press SELECT then START on your controller.
-        </p>
-      </div>
-      <div class="clear"></div>
+---
+layout: default
+skip_navigation: true
+---
+<div class="hero-unit">
+  <div class="hero-unit-content">
+    <h1>Ice</h1>
+    <p class="lead">Run your old school games, right from Steam</p>
+    <a class="btn btn-large btn-success" href="http://consolegrid.com/ice.zip" onclick="ga('send', 'event', 'downloads', 'executable download', 'green button');">Download</a>
+    <ul class="hero-unit-links">
+      <li><a href="https://github.com/scottrice/Ice/archive/master.zip" onclick="ga('send', 'event', 'downloads', 'source download', 'green button');">Download Source</a></li>
+      <li>&#149;</li>
+      <li><a href="http://github.com/scottrice/Ice">View on Github</a></li>
+    </ul>
+  </div>
+</div>
+<hr class="featurette-divider" />
+<!-- Description -->
+<div class="featurette">
+  <div class="featurette-image-wrapper pull-right">
+    <div>
+      <img class="featurette-image" src="/img/ice-example.png" />
     </div>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      
-      ga('create', 'UA-41223189-1', 'scottrice.github.io');
-      ga('send', 'pageview');
-    </script>
-  </body>
-</html>
+  </div>
+  <h2 class="featurette-heading">Use Steam to play all your old games</h2>
+  <p class="lead">
+    Just because old consoles aren't sold anymore doesn't mean you can't
+    enjoy their games.
+  </p>
+</div>
+<div class="clear"></div>
+<hr class="featurette-divider" />
+<div class="clear"></div>

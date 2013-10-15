@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ site.name }} - {{ site.description }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/ice.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Ice</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              {% if page.title == "Getting Started" %}
+                <li class="active">
+              {% else %}
+                <li>
+              {% endif %}
+                <a href="/getting-started/">Getting Started</a>
+              </li>
+              {% for sitepage in site.pages if not sitepage.skip_navigation %}
+                {% if sitepage.skip_navigation != true %}
+                  {% if page.title == sitepage.title %}
+                  <li class="active">
+                  {% else %}
+                  <li>
+                  {% endif %}
+                    <a href="{{ sitepage.url }}">{{ sitepage.title }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">

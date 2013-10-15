@@ -1,0 +1,191 @@
+---
+title: Emulators
+layout: default
+
+emulators:
+  # --------------------------------
+  # Dolphin
+  # --------------------------------
+  - name: Dolphin
+    url: "https://dolphin-emu.org/"
+    supports: "Gamecube, Wii, Triforce"
+    platforms:
+      - name: "windows"
+        config: |
+          [Dolphin]
+          location=C:\Emulators\Dolphin\Dolphin.exe
+          command=%l --batch --exec=%r
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
+  # ePSXe
+  # --------------------------------
+  - name: ePSXe
+    url: "http://www.epsxe.com/"
+    supports: "Playstation"
+    platforms:
+      - name: "windows"
+        config: |
+          [ePSXe]
+          location=C:\Emulators\ePSXe\ePSXe.exe
+          command=%l -nogui -loadiso %r
+      - name: "linux"
+        config: |
+          [ePSXe]
+          location=/Emulators/ePSXe/epsxe
+          command=%l -nogui -loadiso %r
+  # --------------------------------
+  # Gens
+  # --------------------------------
+  - name: Gens
+    url: "http://www.gens.me/"
+    supports: "Genesis"
+    platforms:
+      - name: "windows"
+        config: |
+          [Gens]
+          location=C:\Emulators\Gens\gens.exe
+          command=%l %r
+        known_issues: >
+          Gens has issues exiting with ESC when calling the executable directly.
+  # --------------------------------
+  # higan
+  # --------------------------------
+  - name: higan
+    url: "http://byuu.org/higan/"
+    supports: "NES, SNES, Gameboy, Gameboy Color, Gameboy Advance"
+    platforms:
+      - name: "windows"
+        config: |
+          [higan]
+          location=C:\Emulators\higan\higan-balanced.exe
+          command=%l %r
+      - name: "linux"
+        config:
+  # --------------------------------
+  # Mednafen
+  # --------------------------------
+  - name: Mednafen
+    url: "http://mednafen.sourceforge.net/"
+    supports: "Atari Lynx, Gameboy, Gameboy Color, Gameboy Advance, NES, SNES, Genesis, Playstation"
+    platforms:
+      - name: "windows"
+        config:
+      - name: "mac"
+        config: |
+          [Mednafen]
+          location=/Emulators/Mednafen/mednafen
+          command=%l %r
+      - name: "linux"
+        config: |
+          [Mednafen]
+          location=/Emulators/Mednafen/mednafen
+          command=%l %r
+  # --------------------------------
+  # Mupen64plus
+  # --------------------------------
+  - name: Mupen64plus
+    url: "https://code.google.com/p/mupen64plus/"
+    supports: "Nintendo 64"
+    platforms:
+      - name: "windows"
+        config:
+      - name: "mac"
+        config:
+      - name: "linux"
+        config: |
+          [Mupen64plus]
+          location=/Emulators/Mupen64plus/mupen64plus
+          command=%l %r
+  # --------------------------------
+  # Nestopia
+  # --------------------------------
+  - name: Nestopia
+    url: "http://nestopia.sourceforge.net/"
+    supports: "NES"
+    platforms:
+      - name: "windows"
+        config: |
+          [Nestopia]
+          location=C:\Emulators\Nestopia\nestopia.exe
+          command=%l %r
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
+  # PCSX2
+  # --------------------------------
+  - name: PCSX2
+    url: "http://pcsx2.net/"
+    supports: "Playstation 2"
+    platforms:
+      - name: "windows"
+        config: |
+          [PCSX2]
+          location=C:\Emulators\PCSX2\pcsx2.exe
+          command=%l %r
+        known_issues: >
+          PCSX2 has issues exiting with ESC when calling the executable directly.
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
+  # Project64
+  # --------------------------------
+  - name: Project64
+    url: "http://www.pj64-emu.com/"
+    supports: "Nintendo 64"
+    platforms:
+      - name: "windows"
+        config: |
+          [Project64]
+          location=C:\Emulators\Project64\Project64.exe
+          command=%l %r
+        known_issues: >
+          Older versions of Project64 require the ROM location to be passed
+          in without quotes (which no other emulator does). As such, you may
+          have problems running ROMs if there are spaces in any of your folder
+          names.
+  # --------------------------------
+  # VisualBoyAdvance
+  # --------------------------------
+  - name: VisualBoyAdvance
+    url: "http://vba.ngemu.com/"
+    supports: "Gameboy, Gameboy Color, Gameboy Advance"
+    platforms:
+      - name: "windows"
+        config: |
+          [VisualBoyAdvance]
+          location=C:\Emulators\VisualBoyAdvance\VisualBoyAdvance.exe
+          command=%l %r
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
+  # ZSNES
+  # --------------------------------
+  - name: ZSNES
+    url: "http://www.zsnes.com/"
+    supports: "SNES"
+    platforms:
+      - name: "windows"
+        config: |
+          [ZSNES]
+          location=C:\Emulators\ZSNES\zsnesw.exe
+          command=%l -m %r
+        known_issues:
+      - name: "linux"
+        config:
+---
+<div class="thumbnails-container span10 offset1">
+  <ul id="emulators" class="thumbnails">
+    {% for emulator in page.emulators %}
+      {% include emulator.html %}
+    {% endfor %}
+  </ul>
+</div>

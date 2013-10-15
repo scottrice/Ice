@@ -7,6 +7,9 @@ Icon
 # Thumbnails
 ._*
 
+# Jekyll generated site
+_site/
+
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes

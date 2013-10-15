@@ -1,5 +1,5 @@
 body {
-  padding-top: 20px;
+  padding-top: 60px;
   padding-bottom: 60px;
 }
 
@@ -82,7 +82,7 @@ body {
 }
 
 /* Customize the navbar links to be fill the entire space of the .navbar */
-.navbar .navbar-inner {
+/*.navbar .navbar-inner {
   padding: 0;
 }
 .navbar .nav {
@@ -108,6 +108,25 @@ body {
 .navbar .nav li:last-child a {
   border-right: 0;
   border-radius: 0 3px 3px 0;
+}*/
+
+.thumbnail .emulator-icon img {
+    display:block;
+    margin-top:20px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.accordion-toggle {
+    text-decoration:none !important;
+}
+
+/*  Hack to get around the bootstrap nav bar covering the header of the sections
+    I link to */
+a[name] {
+  padding-top: 40px;
+  margin-top: -40px;
+  display: inline-block; /* required for webkit browsers */
 }
 
 .clear {
