@@ -21,6 +21,7 @@ import os
 import appdirs
 
 import settings
+from error.config_error import ConfigError
 from ice_logging import log_both
 
 def highest_directory_in_path(path):
@@ -61,8 +62,11 @@ def roms_directory():
     Returns the path to the ROMs directory, as specified by config.txt.
     """
     path = os.path.expanduser(settings.config()['Storage']['roms directory'])
-    if not os.access(path, os.W_OK):
-        path = os.path.join(os.path.expanduser('~'),'ROMs')
+    if path == "":
+        path = os.path.join(os.path.expanduser("~"), "ROMs")
+    if os.path.exists(path) and not os.access(path, os.W_OK):
+        fix_instructions = "Ice does not have permission to write to your ROMs Directory, %s. Please choose a different folder or change your permissions." % path
+        raise ConfigError("Storage","ROMs Directory", fix_instructions)
     return path
 
 def log_file():
