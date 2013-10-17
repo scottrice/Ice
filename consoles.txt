@@ -15,7 +15,7 @@ nickname=Gamecube
 emulator=
 
 [Nintendo Wii]
-nickname=wii
+nickname=Wii
 emulator=
 
 [Playstation 1]
