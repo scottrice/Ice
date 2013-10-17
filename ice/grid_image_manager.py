@@ -82,7 +82,6 @@ class IceGridImageManager():
             shortcut = rom.to_shortcut()
             if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname,shortcut.exe)):
                 image = self.find_image_for_rom(rom)
-                print image
                 # Game not found
                 if image is None:
                     log_file("No game found for %s on %s" % (rom.name(),rom.console.fullname))
