@@ -93,5 +93,6 @@ class IceGridImageManager():
                 # Game found, AND there is a picture there
                 else:
                     log_file("Setting custom image for %s" % rom.name())
+                    log_user('Found grid-image for "' + rom.name() +'"')
                     image_path = self.download_image(image)
                     grid.set_image_for_shortcut(image_path,shortcut.appname,shortcut.exe)
