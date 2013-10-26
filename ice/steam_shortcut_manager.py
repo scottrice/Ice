@@ -7,6 +7,9 @@ Created by Scott on 2012-12-20.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 """
 
+import sys
+import os
+
 import re
 
 x00 = u'\x00'
@@ -106,7 +109,7 @@ class SteamShortcutFileParser():
         return self.match_base(string)
         
     def match_base(self,string):
-        match = re.match(ur"\u0000shortcuts\u0000(.*)\u0008\u0008$",string)
+        match = re.match(ur"\u0000shortcuts\u0000(.*)\u0008\u0008$",string, re.IGNORECASE)
         if match:
             return self.match_array_string(match.groups()[0])
         else:
