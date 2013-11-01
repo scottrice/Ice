@@ -18,7 +18,10 @@ emulators:
       - name: "mac"
         config:
       - name: "linux"
-        config:
+        config: |
+          [Dolphin]
+          location=/usr/bin/dolphin-emu
+          command=%l --batch --exec=%r
   # --------------------------------
   # ePSXe
   # --------------------------------
@@ -180,7 +183,10 @@ emulators:
           command=%l -m %r
         known_issues:
       - name: "linux"
-        config:
+        config: |
+          [ZSNES]
+          location=/usr/bin/zsnes
+          command=%l -m %r
 ---
 <div class="thumbnails-container span10 offset1">
   <ul id="emulators" class="thumbnails">
