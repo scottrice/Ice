@@ -24,8 +24,8 @@ def custom_emulators():
                 log_both("No location set for '%s' in emulators.txt. Ignoring emulator" % name)
                 continue
             if 'command' not in current or current['command'] == "":
-                log_both("No command set for '%s' in emulators.txt. Ignoring emulator" % name)
-                continue
+                log_both("No command set for '%s' in emulators.txt. Reverting back to default command (%%l %%r)" % name)
+                current['command'] = "%l %r"
             current_emulator = custom_emulator.CustomEmulator(name, current['location'], current['command'])
             log_both("Detected Emulator: %s" % name)
             cached_emulators[name] = current_emulator
