@@ -1,3 +1,13 @@
+#
+# Specifies the consoles for Ice to manage. Each console will have a ROMs folder
+# created for it, and can have their games added to Steam.
+#
+# To add a new console, make a new entry following this format:
+#
+# [*Full name of console, used as Steam category*]
+# nickname=*Short distinct name for console, used as folder name*
+# emulator=*name of the emulator, as defined in emulators.txt*
+#
 [Nintendo Entertainment System]
 nickname=NES
 emulator=

@@ -1,13 +1,31 @@
+#
+# Specifies the emulators that Ice can use when supporting consoles. Each
+# can be referenced (by name) in consoles.txt to tell Ice how to launch games.
+#
+# Before attempting to add a new emulator on your own, check
+# http://scottrice.github.io/Ice/emulators to see if someone has already found
+# a configuration that works for your emulator.
+#
+# To add a new emulator manually, make a new entry using the following format:
+#
+# [*Emulator name*]
+# location=*path to the emulator .exe file*
+# command=*optional, command to use to launch a game*
+#
+# The 'command' option is not necessary, and the default should work for most
+# emulators. If it does not, go to http://scottrice.github.io/Ice/faq to learn
+# how to set up your emulator.
+#
 # Example Windows Configuration
-# [bsnes]
-# location=
-# command=
-
+# [Dolphin]
+# location=C:\Emulators\Dolphin\Dolphin.exe
+# command=%l --batch --exec=%r
+#
 # Example Mac Configuration
 # [Mednafen]
 # location=/Emulators/mednafen/mednafen
 # command=%l %r
-
+#
 # Example GNU/Linux Configuration
 # [SNES9X-GTK]
 # location=/usr/bin/snes9x-gtk
