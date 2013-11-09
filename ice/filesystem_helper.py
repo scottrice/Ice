@@ -57,6 +57,11 @@ def create_directory_if_needed(dir, log=None):
             log_both(log)
         os.makedirs(dir)
 
+
+def assert_file_exists(path, exception=None):
+    if not os.path.isfile(path):
+        raise exception
+
 def roms_directory():
     """
     Returns the path to the ROMs directory, as specified by config.txt.

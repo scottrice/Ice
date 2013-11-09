@@ -16,12 +16,20 @@ import os
 import tempfile
 import shutil
 
+from error.config_error import ConfigError
+import filesystem_helper
+
 class Emulator(object):
         
     def __init__(self, name, location, format):
         self.name = name
         self.location = location
         self.format = format
+        filesystem_helper.assert_file_exists(self.location, self.__config_error_for_missing_emulator__())
+
+    def __config_error_for_missing_emulator__(self):
+        fix = "Cannot read file '%s'. Ensure that the file exists, and that the path is spelled correctly." % self.location
+        return ConfigError(self.name, "location", fix, file="emulators.txt")
 
     def __add_quotes_if_needed__(self, string):
         if string.startswith("\"") and string.endswith("\""):
