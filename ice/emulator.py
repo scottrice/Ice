@@ -28,24 +28,33 @@ class Emulator(object):
     # Location should be set by any subclasses which manage where emulators
     # are stored (such as the Downloaded Emulator class)
     location = ""
-    
-    # Since one emulator may handle many consoles, it is important to make sure
-    # we specify which console we are having the emulator handle currently
-    def __init__(self,console_name):
-        self._console_name_ = console_name
         
+    def __init__(self, name, location, format):
+        self.name = name
+        self.location = location
+        self.format = format
+
+    def __add_quotes_if_needed__(self, string):
+        if string.startswith("\"") and string.endswith("\""):
+            return string
+        else:
+            return "\"%s\"" % string
+
     def is_functional(self):
         """
         A basic emulator is always functional.
         """
         return True
     
-    @abc.abstractmethod
-    def command_string(self):
-        """
-        Returns the string which is used by Steam to launch the Emulator+ROM
-        """
-        return
+    def command_string(self, rom):
+        """Generates a command string using the format specified by the user"""
+        # We don't know if the user put quotes around the emulator location. If
+        # so, we dont want to add another pair and screw things up.
+        quoted_location = self.__add_quotes_if_needed__(os.path.expanduser(self.location))
+        # The user didnt give us the ROM information, but screw it, I already
+        # have some code to add quotes to a string, might as well use it.
+        quoted_rom = self.__add_quotes_if_needed__(rom.path)
+        return self.format.replace("%l", quoted_location).replace("%r", quoted_rom)
         
     def startdir(self,rom):
         """

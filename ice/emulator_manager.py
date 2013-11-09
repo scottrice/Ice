@@ -8,7 +8,7 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
 import settings
-from emulators import custom_emulator
+import emulator
 from ice_logging import log_file, log_both
 
 # A map of "Emulator Name" => CustomEmulator object
@@ -26,7 +26,7 @@ def custom_emulators():
             if 'command' not in current or current['command'] == "":
                 log_both("No command set for '%s' in emulators.txt. Reverting back to default command (%%l %%r)" % name)
                 current['command'] = "%l %r"
-            current_emulator = custom_emulator.CustomEmulator(name, current['location'], current['command'])
+            current_emulator = emulator.Emulator(name, current['location'], current['command'])
             log_both("Detected Emulator: %s" % name)
             cached_emulators[name] = current_emulator
     return cached_emulators
