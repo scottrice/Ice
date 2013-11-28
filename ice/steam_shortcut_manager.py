@@ -9,7 +9,7 @@ Copyright (c) 2012 Scott Rice. All rights reserved.
 
 import sys
 import os
-
+import unicodedata
 import re
 
 x00 = u'\x00'
@@ -20,7 +20,7 @@ x0a = u'\x0a'
 class SteamShortcut:
     def __init__(self,appname,exe,startdir,icon,tag):
         self.appname = appname
-        self.exe = exe
+        self.exe = unicodedata.normalize('NFKD', unicode(exe.decode('utf-8'))).encode('ascii', 'ignore')
         self.startdir = startdir
         self.icon = icon
         self.tag = tag
