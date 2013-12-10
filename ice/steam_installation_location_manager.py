@@ -26,14 +26,24 @@ def windows_steam_location():
 def windows_userdata_location():
     # On Windows, the userdata directory is the steam installation directory
     # with 'userdata' appeneded
-    return os.path.join(windows_steam_location(),"userdata")
+    try:
+        out = os.path.join(windows_steam_location(),"userdata")
+    except WindowsError, e:
+        raise IOError("Steam installation not found")
+    return out
 
 def osx_userdata_location():
     # I'm pretty sure the user can't change this on OS X. I think it always
     # goes to the same location
-    return os.path.expanduser(osx_userdata_directory)
+    out = os.path.expanduser(osx_userdata_directory)
+    if not os.path.exists(out):
+        raise IOError("Steam userdata directory not found in the default location:\n" + out)
+    return out
 
 def linux_userdata_location():
-    return os.path.expanduser(linux_userdata_directory)
+    out = os.path.expanduser(linux_userdata_directory)
+    if not os.path.exists(out):
+        raise IOError("Steam userdata directory not found in the default location:\n" + out)
+    return out
 
 steam_userdata_location = pf.platform_specific(windows=windows_userdata_location, osx=osx_userdata_location, linux=linux_userdata_location)
