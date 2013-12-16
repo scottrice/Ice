@@ -17,3 +17,15 @@ ROMs Directory=
 #
 # If this field is left blank, Ice will not attempt to download images
 Source=consolegrid.com/api/top_picture
+
+[Steam]
+# Leave this field blank unless Ice can't find Steam.
+#
+# The directory for Steam's userdata folder. This can be in any local drive or directory,
+# as long as the full path is specified. Use ~ to represent your home folder
+# (for example, C:\Users\Scott\)
+#
+# It is located in Steam's installation directory on Windows (ex. C:\Program Files\Steam\userdata).
+# It is generally located at ~/Library/Application Support/Steam/userdata/ on OSX and
+# ~/.local/share/Steam/userdata/ on Linux.
+Userdata Directory=
