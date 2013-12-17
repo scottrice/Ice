@@ -23,7 +23,7 @@ class Emulator(object):
         
     def __init__(self, name, location, format):
         self.name = name
-        self.location = location
+        self.location = os.path.expanduser(location)
         self.format = format
         filesystem_helper.assert_file_exists(self.location, self.__config_error_for_missing_emulator__())
 
@@ -47,7 +47,7 @@ class Emulator(object):
         """Generates a command string using the format specified by the user"""
         # We don't know if the user put quotes around the emulator location. If
         # so, we dont want to add another pair and screw things up.
-        quoted_location = self.__add_quotes_if_needed__(os.path.expanduser(self.location))
+        quoted_location = self.__add_quotes_if_needed__(self.location)
         # The user didnt give us the ROM information, but screw it, I already
         # have some code to add quotes to a string, might as well use it.
         quoted_rom = self.__add_quotes_if_needed__(rom.path)
