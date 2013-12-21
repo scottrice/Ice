@@ -20,6 +20,7 @@ import settings
 import platform_helper as pf
 import filesystem_helper
 import emulator_manager
+import utils
 from ice_logging import log_file, log_both
 from rom import ROM
 
@@ -31,10 +32,9 @@ class Console():
         consoles_dict = settings.consoles()
         for name in consoles_dict.keys():
             console_data = consoles_dict[name]
-            # TODO: Make an 'idx' function. Possibly add a 'utils.py' file?
-            nickname = console_data['nickname'] if 'nickname' in console_data else name
-            extensions = console_data['extensions'] if 'extensions' in console_data else ""
-            custom_roms_dir = console_data['roms directory'] if 'roms directory' in console_data else None
+            nickname = utils.idx(console_data, 'nickname', name)
+            extensions = utils.idx(console_data, 'extensions', "")
+            custom_roms_dir = utils.idx(console_data, 'roms directory', None)
             console = Console(nickname, name, extensions, custom_roms_dir)
             consoles.append(console)
         return consoles
