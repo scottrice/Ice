@@ -17,7 +17,6 @@ def main():
         log_both("Ice cannot be run while Steam is open. Please close Steam and try again")
         return
     log_both("=========================Starting Ice")
-    fs.create_directory_if_needed(fs.roms_directory(), log="Creating ROMs directory at %s" % fs.roms_directory())
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
     # Find the Steam Account that the user would like to add ROMs for

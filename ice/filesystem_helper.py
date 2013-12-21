@@ -22,7 +22,7 @@ import appdirs
 
 import settings
 from error.config_error import ConfigError
-from ice_logging import log_both
+from ice_logging import log_both, log_exception
 
 def highest_directory_in_path(path):
     """
@@ -57,10 +57,38 @@ def create_directory_if_needed(dir, log=None):
             log_both(log)
         os.makedirs(dir)
 
-
 def assert_file_exists(path, exception=None):
     if not os.path.isfile(path):
         raise exception
+
+def available_to_use(path, create_if_needed=False):
+    """
+    Checks a boolean based on whether a directory is 'available' for Ice to use.
+    This means that not only does the path exist, but Ice has write access to it
+    as well.
+
+    When create_if_needed is set to True, Ice will attempt to create a directory
+    if one does not exist at path. Any errors in this operation will be logged
+    to the log file and this function will return False
+    """
+    # Ensure the directory exists
+    try:
+        if create_if_needed:
+            create_directory_if_needed(path, log="Creating directory at %s" % path)
+        # Ensure that it worked
+        if not os.path.exists(path):
+            return False
+    # Might not be necessary, but in case create_directory_if_needed fails...
+    except:
+        return False
+
+    # Check that we have write access to the directory
+    if not os.access(path, os.W_OK):
+        return False
+
+    # Woohoo!
+    return True
+
 
 def roms_directory():
     """
@@ -69,7 +97,7 @@ def roms_directory():
     path = os.path.expanduser(settings.config()['Storage']['roms directory'])
     if path == "":
         path = os.path.join(os.path.expanduser("~"), "ROMs")
-    if os.path.exists(path) and not os.access(path, os.W_OK):
+    if not available_to_use(path, create_if_needed=True):
         fix_instructions = "Ice does not have permission to write to your ROMs Directory, %s. Please choose a different folder or change your permissions." % path
         raise ConfigError("Storage","ROMs Directory", fix_instructions)
     return path

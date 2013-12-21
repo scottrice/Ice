@@ -31,49 +31,48 @@ class Console():
         consoles_dict = settings.consoles()
         for name in consoles_dict.keys():
             console_data = consoles_dict[name]
-            nickname = name
-            if 'nickname' in console_data:
-                nickname = console_data['nickname']
-            extensions = ""
-            if 'extensions' in console_data:
-    	        extensions = console_data['extensions']
-            console = Console(nickname, name, extensions)
+            # TODO: Make an 'idx' function. Possibly add a 'utils.py' file?
+            nickname = console_data['nickname'] if 'nickname' in console_data else name
+            extensions = console_data['extensions'] if 'extensions' in console_data else ""
+            custom_roms_dir = console_data['roms directory'] if 'roms directory' in console_data else None
+            console = Console(nickname, name, extensions, custom_roms_dir)
             consoles.append(console)
         return consoles
 
-    def __init__(self,shortname,fullname,extensions):
+    def __init__(self,shortname,fullname,extensions,custom_roms_directory=None):
         self.shortname = shortname
         self.fullname = fullname
         self.extensions = extensions
         self.emulator = emulator_manager.lookup_emulator(self)
-        self.__create_directories_if_needed__()
+        self.custom_roms_directory = custom_roms_directory
         
     def __repr__(self):
         return self.shortname
-        
-    def __create_directories_if_needed__(self):
-        """
-        Creates directories that the console will need if they don't exist yet
-        """
-        # If the emulator doesn't exist, don't even bother creating the folders
-        # for the console
+
+    def is_enabled(self,verbose=False):
         if self.emulator is None:
-            return
-        def create_directory_if_needed(dir):
-            if not os.path.exists(dir):
-                os.makedirs(dir)
-        create_directory_if_needed(self.roms_directory())
-        
+            if verbose:
+                log_both("Skipping %s (No emulator provided)" % self)
+            return False
+        if self.custom_roms_directory and not filesystem_helper.available_to_use(self.custom_roms_directory, create_if_needed=True):
+            if verbose:
+                log_both("Skipping %s (ROMs directory provided either doesn't exist or is not writable)" % self)
+            return False
+        return True
+
     def roms_directory(self):
         """
-        Should return a directory with a decent name for each console, such as
-        C:\Users\Scott\Documents\ROMs\N64
-        or
-        C:\Users\Scott\Documents\ROMs\PS2
+        If the user has specified a ROMs directory in consoles.txt and it is
+        accessible to Ice, returns that.
+
+        Otherwise, appends the shortname of the console to the default ROMs
+        directory given by config.txt.
         """
+        if self.custom_roms_directory:
+            return self.custom_roms_directory
         return os.path.join(filesystem_helper.roms_directory(),self.shortname)
       
-    def valid_rom(self,path):
+    def is_valid_rom(self,path):
         """
         This function determines if a given path is actually a valid ROM file.
         If a list of extensions is supplied for this console, we check if the path has a valid extension
@@ -85,7 +84,7 @@ class Console():
         extension = os.path.splitext(path)[1].lower()
         return any(extension == ('.'+x.strip().lower()) for x in self.extensions.split(','))
   
-    def find_all_roms(self):
+    def find_roms(self):
         """
         Reads a list of all the ROMs from the appropriate directory for the
         console
@@ -102,7 +101,7 @@ class Console():
                 # accidently added as well
                 if not pf.is_windows() and filename.startswith('.'):
                     continue
-                if self.emulator is not None and not self.valid_rom(file_path):
+                if self.emulator is not None and not self.is_valid_rom(file_path):
                     log_file("Ignoring Non-ROM file: %s" % file_path)
                     continue
                 roms.append(ROM(file_path,self))
@@ -114,7 +113,7 @@ def find_all_roms():
     """
     all_roms = []
     for console in supported_consoles():
-        all_roms.extend(console.find_all_roms())
+        all_roms.extend(console.find_roms())
     return all_roms
 
 def supported_consoles():
@@ -123,10 +122,12 @@ def supported_consoles():
         # Remove any consoles from supported_consoles if there does not exist an
         # emulator for them
         for console in list(sc):
-            if console.emulator is None:
+            if not console.is_enabled(verbose=True):
                 sc.remove(console)
-            else:
-                log_both("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
+        # Print out all of the detected consoles so the user knows what is going
+        # on.
+        for console in sc:
+            log_both("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
         # Cache it for next time
         supported_consoles.cached = sc
     return supported_consoles.cached
