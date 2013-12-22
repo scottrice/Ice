@@ -32,19 +32,18 @@ class Console():
         consoles_dict = settings.consoles()
         for name in consoles_dict.keys():
             console_data = consoles_dict[name]
-            nickname = utils.idx(console_data, 'nickname', name)
-            extensions = utils.idx(console_data, 'extensions', "")
-            custom_roms_dir = utils.idx(console_data, 'roms directory', None)
-            console = Console(nickname, name, extensions, custom_roms_dir)
+            console = Console(name, console_data)
             consoles.append(console)
         return consoles
 
-    def __init__(self,shortname,fullname,extensions,custom_roms_directory=None):
-        self.shortname = shortname
-        self.fullname = fullname
-        self.extensions = extensions
+    def __init__(self, name, settings_data={}):
+        self.fullname = name
+        self.shortname = utils.idx(settings_data, 'nickname', name)
+        self.extensions = utils.idx(settings_data, 'extensions', "")
+        self.custom_roms_directory = utils.idx(settings_data, 'roms directory', None)
+        self.prefix = utils.idx(settings_data, 'prefix', None)
+
         self.emulator = emulator_manager.lookup_emulator(self)
-        self.custom_roms_directory = custom_roms_directory
         
     def __repr__(self):
         return self.shortname
