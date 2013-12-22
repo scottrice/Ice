@@ -11,8 +11,45 @@ functions, not related to Ice at all. You should be able to move this file to
 another python project and be able to use it out of the box.
 """
 
+import collections
+import functools
+
+# Convenient function to check if a key is in a dictionary. If so, uses that,
+# otherwise, uses the default.
+# Also, 'idx' stands for 'index'.
 def idx(dictionary, index, default=None):
     if index in dictionary:
         return dictionary[index]
     else:
         return default
+
+# Decorator for memoization
+# Copied from https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize
+class memoize(object):
+    '''Decorator. Caches a function's return value each time it is called.
+    If called later with the same arguments, the cached value is returned
+    (not reevaluated).
+    '''
+    def __init__(self, func):
+        self.func = func
+        self.cache = {}
+
+    def __call__(self, *args):
+        if not isinstance(args, collections.Hashable):
+            # uncacheable. a list, for instance.
+            # better to not cache than blow up.
+            return self.func(*args)
+        if args in self.cache:
+            return self.cache[args]
+        else:
+            value = self.func(*args)
+            self.cache[args] = value
+            return value
+
+    def __repr__(self):
+        '''Return the function's docstring.'''
+        return self.func.__doc__
+
+    def __get__(self, obj, objtype):
+        '''Support instance methods.'''
+        return functools.partial(self.__call__, obj)

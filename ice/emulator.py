@@ -17,14 +17,24 @@ import tempfile
 import shutil
 
 from error.config_error import ConfigError
+from ice_logging import log_both
 import filesystem_helper
+import settings
+import utils
 
 class Emulator(object):
-        
-    def __init__(self, name, location, format):
+
+    @classmethod
+    def lookup(self, name):
+        for emulator in settings_emulators():
+            if emulator.name == name:
+                return emulator
+        return None
+
+    def __init__(self, name, location, options={}):
         self.name = name
         self.location = os.path.expanduser(location)
-        self.format = format
+        self.format = utils.idx(options, 'command', "%l %r")
         filesystem_helper.assert_file_exists(self.location, self.__config_error_for_missing_emulator__())
 
     def __config_error_for_missing_emulator__(self):
@@ -37,10 +47,17 @@ class Emulator(object):
         else:
             return "\"%s\"" % string
 
-    def is_functional(self):
+    def is_enabled(self, verbose=False):
         """
-        A basic emulator is always functional.
+        Checks to see whether enough information has been entered by the user
+        to make the emulator useable
         """
+        # Right now the only thing we care about is whether a file exists where
+        # the user says the emulator is.
+        if not os.path.isfile(self.location):
+            if verbose:
+                log_both("(Emulator) File does not exist at '%s'. Ignoring %s" % (self.location, self.name))
+            return False
         return True
     
     def command_string(self, rom):
@@ -59,3 +76,19 @@ class Emulator(object):
         as the 'StartDir' option of a Steam Shortcut
         """
         return os.path.dirname(self.location)
+
+@utils.memoize
+def settings_emulators():
+    emulators = []
+    emulators_dict = settings.emulators()
+    for name in emulators_dict.keys():
+        emulator_data = emulators_dict[name]
+        location = utils.idx(emulator_data, 'location', "")
+        current_emulator = Emulator(name, location, emulator_data)
+        if current_emulator.is_enabled(verbose=True):
+            emulators.append(current_emulator)
+    # After all of the invalid emulators have been removed, let the user know
+    # which emulators have initialized successfully
+    for emulator in emulators:
+        log_both("Detected Emulator: %s" % name)
+    return emulators

@@ -19,32 +19,22 @@ import os
 import settings
 import platform_helper as pf
 import filesystem_helper
-import emulator_manager
 import utils
 from ice_logging import log_file, log_both
+from emulator import Emulator
 from rom import ROM
 
 class Console():
 
-    @classmethod
-    def settings_consoles(self):
-        consoles = []
-        consoles_dict = settings.consoles()
-        for name in consoles_dict.keys():
-            console_data = consoles_dict[name]
-            console = Console(name, console_data)
-            consoles.append(console)
-        return consoles
-
-    def __init__(self, name, settings_data={}):
+    def __init__(self, name, options={}):
         self.fullname = name
-        self.shortname = utils.idx(settings_data, 'nickname', name)
-        self.extensions = utils.idx(settings_data, 'extensions', "")
-        self.custom_roms_directory = utils.idx(settings_data, 'roms directory', None)
-        self.prefix = utils.idx(settings_data, 'prefix', None)
-        self.icon = os.path.expanduser(utils.idx(settings_data, 'icon', ""))
+        self.shortname = utils.idx(options, 'nickname', name)
+        self.extensions = utils.idx(options, 'extensions', "")
+        self.custom_roms_directory = utils.idx(options, 'roms directory', None)
+        self.prefix = utils.idx(options, 'prefix', None)
+        self.icon = os.path.expanduser(utils.idx(options, 'icon', ""))
 
-        self.emulator = emulator_manager.lookup_emulator(self)
+        self.emulator = Emulator.lookup(utils.idx(options, 'emulator', ""))
         
     def __repr__(self):
         return self.shortname
@@ -90,10 +80,6 @@ class Console():
         console
         """
         roms = []
-        # If the emulator is not functional, we pretend it doesn't have any
-        # ROMs
-        if not self.emulator.is_functional():
-            return roms
         for filename in os.listdir(self.roms_directory()):
             file_path = os.path.join(self.roms_directory(),filename)
             if not os.path.isdir(file_path):
@@ -107,6 +93,7 @@ class Console():
                 roms.append(ROM(file_path,self))
         return roms
 
+@utils.memoize
 def find_all_roms():
     """
     Gets the roms for every console in the list of supported consoles
@@ -116,19 +103,26 @@ def find_all_roms():
         all_roms.extend(console.find_roms())
     return all_roms
 
+@utils.memoize
+def settings_consoles():
+    consoles = []
+    consoles_dict = settings.consoles()
+    for name in consoles_dict.keys():
+        console_data = consoles_dict[name]
+        console = Console(name, console_data)
+        consoles.append(console)
+    return consoles
+
+@utils.memoize
 def supported_consoles():
-    if supported_consoles.cached is None:
-        sc = Console.settings_consoles()
-        # Remove any consoles from supported_consoles if there does not exist an
-        # emulator for them
-        for console in list(sc):
-            if not console.is_enabled(verbose=True):
-                sc.remove(console)
-        # Print out all of the detected consoles so the user knows what is going
-        # on.
-        for console in sc:
-            log_both("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
-        # Cache it for next time
-        supported_consoles.cached = sc
-    return supported_consoles.cached
-supported_consoles.cached = None
+    consoles = settings_consoles()
+    # Remove any consoles from supported_consoles if there does not exist an
+    # emulator for them
+    for console in list(consoles):
+        if not console.is_enabled(verbose=True):
+            consoles.remove(console)
+    # Print out all of the detected consoles so the user knows what is going
+    # on.
+    for console in consoles:
+        log_both("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
+    return consoles
