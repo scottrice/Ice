@@ -50,4 +50,4 @@ class ROM:
     def to_shortcut(self):
         command_string = self.console.emulator.command_string(self)
         startdir = self.console.emulator.startdir(self)
-        return SteamShortcut(self.name(),command_string,startdir,"",self.console.fullname)
+        return SteamShortcut(self.name(),command_string,startdir,self.console.icon,self.console.fullname)

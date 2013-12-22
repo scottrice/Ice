@@ -42,6 +42,7 @@ class Console():
         self.extensions = utils.idx(settings_data, 'extensions', "")
         self.custom_roms_directory = utils.idx(settings_data, 'roms directory', None)
         self.prefix = utils.idx(settings_data, 'prefix', None)
+        self.icon = os.path.expanduser(utils.idx(settings_data, 'icon', ""))
 
         self.emulator = emulator_manager.lookup_emulator(self)
         
