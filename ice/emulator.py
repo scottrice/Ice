@@ -17,7 +17,7 @@ import tempfile
 import shutil
 
 from error.config_error import ConfigError
-from ice_logging import log_both
+from ice_logging import ice_logger
 import filesystem_helper
 import settings
 import utils
@@ -56,7 +56,7 @@ class Emulator(object):
         # the user says the emulator is.
         if not os.path.isfile(self.location):
             if verbose:
-                log_both("(Emulator) File does not exist at '%s'. Ignoring %s" % (self.location, self.name))
+                ice_logger.log("(Emulator) File does not exist at '%s'. Ignoring %s" % (self.location, self.name))
             return False
         return True
     
@@ -90,5 +90,5 @@ def settings_emulators():
     # After all of the invalid emulators have been removed, let the user know
     # which emulators have initialized successfully
     for emulator in emulators:
-        log_both("Detected Emulator: %s" % name)
+        ice_logger.log("Detected Emulator: %s" % name)
     return emulators
