@@ -63,16 +63,9 @@ class IceLogger():
         self.logger.error(error.fix_instructions)
 
     def log_exception(self):
-        self.logger.error(traceback.format_exc())
-
+        self.logger.exception("An exception occured!")
 
 
 # create our IceLogger object
 ice_logger = IceLogger()
 
-def log_file_path():
-    """Directory to store the log file"""
-    """!! NOT USED IN IceLogger()!! - remove?"""
-    # http://stackoverflow.com/questions/279237/python-import-a-module-from-a-folder
-    current_directory = os.path.dirname(sys.modules['__main__'].__file__)
-    return os.path.join(current_directory,"log.txt")

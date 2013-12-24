@@ -49,7 +49,6 @@ if __name__ == "__main__":
         ice_logger.log_config_error(error)
         ice_logger.log_exception()
     except StandardError as error:
-        ice_logger.log_error("An Error has occurred:")
         ice_logger.log_exception()
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
