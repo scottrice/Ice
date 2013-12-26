@@ -33,7 +33,7 @@ class ROM:
     def __eq__(self,other):
         return self.path == other.path and self.console == other.console
         
-    def name(self):
+    def basename(self):
         name_with_ext = os.path.basename(self.path)
 
         # normalize the name to get rid of symbols that break the shortcuts.vdf
@@ -46,6 +46,13 @@ class ROM:
             return name_with_ext
         # Return the entire string leading up to (but not including) the period
         return name_with_ext[:dot_index]
+
+    def name(self):
+        prefix = self.console.prefix
+        if prefix:
+            return "%s %s" % (prefix, self.basename())
+        else:
+            return self.basename()
         
     def to_shortcut(self):
         command_string = self.console.emulator.command_string(self)

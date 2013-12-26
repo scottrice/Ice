@@ -31,7 +31,7 @@ class Console():
         self.shortname = utils.idx(options, 'nickname', name)
         self.extensions = utils.idx(options, 'extensions', "")
         self.custom_roms_directory = utils.idx(options, 'roms directory', None)
-        self.prefix = utils.idx(options, 'prefix', None)
+        self.prefix = utils.idx(options, 'prefix', "")
         self.icon = os.path.expanduser(utils.idx(options, 'icon', ""))
 
         self.emulator = Emulator.lookup(utils.idx(options, 'emulator', ""))
