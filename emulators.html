@@ -137,6 +137,22 @@ emulators:
       - name: "linux"
         config:
   # --------------------------------
+  # PPSSPP
+  # --------------------------------
+  - name: PPSSPP
+    url: "http://www.ppsspp.org/"
+    supports: "Playstation Portable"
+    platforms:
+      - name: "windows"
+        config: |
+          [PPSSPP]
+          location=C:\Emulators\PPSSPP\PPSSPPWindows.exe
+          command=%l %r
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
   # Project64
   # --------------------------------
   - name: Project64
