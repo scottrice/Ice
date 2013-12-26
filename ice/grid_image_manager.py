@@ -19,7 +19,7 @@ import urlparse
 import steam_user_manager
 import steam_grid
 import settings
-from ice_logging import log_user,log_file,log_both
+from ice_logging import ice_logger
 from error.config_error import ConfigError
 
 class IceGridImageManager():
@@ -29,7 +29,7 @@ class IceGridImageManager():
             should_download = settings.config()["Grid Images"]["source"] != ""
             return should_download
         except KeyError:
-            log_both("Could not find '[Grid Images] Source' in config.txt.")
+            ice_logger.warning("Could not find '[Grid Images] Source' in config.txt.")
             return False
 
     def __init__(self):
@@ -84,15 +84,15 @@ class IceGridImageManager():
                 image = self.find_image_for_rom(rom)
                 # Game not found
                 if image is None:
-                    log_file("No game found for %s on %s" % (rom.name(),rom.console.fullname))
-                    log_user("The image provider has no game called %s for %s. Try going to %s and submittng the game yourself" % (rom.name(),rom.console.fullname, self.host_for_image_source()))
+                    ice_logger.log_warning("No game found for %s on %s" % (rom.name(),rom.console.fullname))
+                    ice_logger.log("The image provider has no game called %s for %s. Try going to %s and submittng the game yourself" % (rom.name(),rom.console.fullname, self.host_for_image_source()))
                 # Game found, but there is no picture
                 elif image == "":
-                    log_file("No image found for %s. The URL checked was '%s'" % (rom.name(),self.url_for_rom(rom)))
-                    log_user("We couldn't find an image for %s. If you find one you like, upload it to %s, and next time Ice runs it will use it" % (rom.name(),self.host_for_image_source()))
+                    ice_logger.log_warning("No image found for %s. The URL checked was '%s'" % (rom.name(),self.url_for_rom(rom)))
+                    ice_logger.log("We couldn't find an image for %s. If you find one you like, upload it to %s, and next time Ice runs it will use it" % (rom.name(),self.host_for_image_source()))
                 # Game found, AND there is a picture there
                 else:
-                    log_file("Setting custom image for %s" % rom.name())
-                    log_user('Found grid-image for "' + rom.name() +'"')
+                    ice_logger.log("Setting custom image for %s" % rom.name())
+                    ice_logger.log('Found grid-image for "' + rom.name() +'"')
                     image_path = self.download_image(image)
                     grid.set_image_for_shortcut(image_path,shortcut.appname,shortcut.exe)

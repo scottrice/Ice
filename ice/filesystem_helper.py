@@ -22,7 +22,7 @@ import appdirs
 
 import settings
 from error.config_error import ConfigError
-from ice_logging import log_both, log_exception
+from ice_logging import ice_logger
 
 def highest_directory_in_path(path):
     """
@@ -54,7 +54,7 @@ def create_directory_if_needed(dir, log=None):
     """
     if not os.path.exists(dir):
         if log is not None:
-            log_both(log)
+            ice_logger.log(log)
         os.makedirs(dir)
 
 def assert_file_exists(path, exception=None):
