@@ -20,7 +20,7 @@ import settings
 import platform_helper as pf
 import filesystem_helper
 import utils
-from ice_logging import log_file, log_both
+from ice_logging import ice_logger
 from emulator import Emulator
 from rom import ROM
 
@@ -42,11 +42,11 @@ class Console():
     def is_enabled(self,verbose=False):
         if self.emulator is None:
             if verbose:
-                log_both("Skipping %s (No emulator provided)" % self)
+                ice_logger.log("Skipping %s (no emulator provided)" % self)
             return False
         if self.custom_roms_directory and not filesystem_helper.available_to_use(self.custom_roms_directory, create_if_needed=True):
             if verbose:
-                log_both("Skipping %s (ROMs directory provided either doesn't exist or is not writable)" % self)
+                ice_logger.log("Skipping %s (ROMs directory provided either doesn't exist or is not writable)" % self)
             return False
         return True
 
@@ -88,7 +88,7 @@ class Console():
                 if not pf.is_windows() and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.is_valid_rom(file_path):
-                    log_file("Ignoring Non-ROM file: %s" % file_path)
+                    ice_logger.log_warning("Ignoring Non-ROM file: %s" % file_path)
                     continue
                 roms.append(ROM(file_path,self))
         return roms
@@ -124,5 +124,5 @@ def supported_consoles():
     # Print out all of the detected consoles so the user knows what is going
     # on.
     for console in consoles:
-        log_both("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
+        ice_logger.log("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
     return consoles
