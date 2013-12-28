@@ -17,8 +17,7 @@ import console
 from rom_manager import IceROMManager
 from process_helper import steam_is_running
 from grid_image_manager import IceGridImageManager
-from ice_logging import log_both, log_file, log_user, log_exception, log_config_error
-
+from ice_logging import ice_logger
 
 class WindowSettings(QMainWindow):
     def __init__(self, parent=None):
@@ -222,9 +221,9 @@ class WindowMain(QMainWindow):
         # very similar to the one in ice.py
         try:
             if steam_is_running():
-                log_both("Ice cannot be run while Steam is open. Please close Steam and try again")
+                ice_logger.log_error("Ice cannot be run while Steam is open. Please close Steam and try again")
                 return
-            log_both("=========================Starting Ice")
+            ice_logger.log("Starting Ice")
             fs.create_directory_if_needed(fs.roms_directory(), log="Creating ROMs directory at %s" % fs.roms_directory())
             # Find all of the ROMs that are currently in the designated folders
             roms = console.find_all_roms()
@@ -232,7 +231,7 @@ class WindowMain(QMainWindow):
             user_ids = steam_user_manager.user_ids_on_this_machine()
             grid_manager = IceGridImageManager()
             for user_id in user_ids:
-                log_both("---------------Running for user %s" % str(user_id))
+                ice_logger.log("Running for user %s" % str(user_id))
                 # Load their shortcuts into a SteamShortcutManager object
                 shortcuts_path = steam_user_manager.shortcuts_file_for_user_id(user_id)
                 shortcuts_manager = SteamShortcutManager(shortcuts_path)
@@ -242,22 +241,18 @@ class WindowMain(QMainWindow):
                 # Generate a new shortcuts.vdf file with all of the new additions
                 shortcuts_manager.save()
                 if IceGridImageManager.should_download_images():
-                    log_both("---Downloading grid images")
+                    ice_logger.log("Downloading grid images")
                     grid_manager.update_user_images(user_id,roms)
                 else:
-                    log_both("Skipping 'Download Image' step")
-            log_both("=========================Finished")
+                    ice_logger.log("Skipping 'Download Image' step")
+            ice_logger.log("Finished")
         except ConfigError as error:
-            log_user("=========================Stopping\n")
-            log_config_error(error)
-            log_exception()
-            log_file("!!!")
+            ice_logger.log_error('Stopping')
+            ice_logger.log_config_error(error)
+            ice_logger.log_exception()
         except StandardError as error:
-            log_both("####################################")
-            log_both("An Error has occurred:")
-            log_both(error)
-            log_exception()
-            log_both("####################################")
+            ice_logger.log_error("An Error has occurred:")
+            ice_logger.log_exception()
 
     def showSettings(self):
         self.windowSettings.setVisible(True)
