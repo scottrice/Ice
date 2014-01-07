@@ -33,6 +33,7 @@ class Console():
         self.custom_roms_directory = utils.idx(options, 'roms directory', None)
         self.prefix = utils.idx(options, 'prefix', "")
         self.icon = os.path.expanduser(utils.idx(options, 'icon', ""))
+        self.images_directory = os.path.expanduser(utils.idx(options, 'images directory', ""))
 
         self.emulator = Emulator.lookup(utils.idx(options, 'emulator', ""))
         
