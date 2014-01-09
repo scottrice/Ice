@@ -33,7 +33,7 @@ class ROM:
     def __eq__(self,other):
         return self.path == other.path and self.console == other.console
         
-    def basename(self):
+    def name(self):
         name_with_ext = os.path.basename(self.path)
 
         # normalize the name to get rid of symbols that break the shortcuts.vdf
@@ -47,14 +47,17 @@ class ROM:
         # Return the entire string leading up to (but not including) the period
         return name_with_ext[:dot_index]
 
-    def name(self):
+    def prefixed_name(self):
         prefix = self.console.prefix
         if prefix:
-            return "%s %s" % (prefix, self.basename())
+            return "%s %s" % (prefix, self.name())
         else:
-            return self.basename()
+            return self.name()
         
     def to_shortcut(self):
-        command_string = self.console.emulator.command_string(self)
+        appname = self.prefixed_name()
+        exe = self.console.emulator.command_string(self)
         startdir = self.console.emulator.startdir(self)
-        return SteamShortcut(self.name(),command_string,startdir,self.console.icon,self.console.fullname)
+        icon = self.console.icon
+        category = self.console.fullname
+        return SteamShortcut(appname,exe,startdir,icon,category)
