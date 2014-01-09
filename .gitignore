@@ -50,3 +50,4 @@ nosetests.xml
 .pydevproject
 
 log.txt
+ice.log
