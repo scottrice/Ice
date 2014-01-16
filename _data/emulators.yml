@@ -182,6 +182,22 @@ configurations:
       - name: "linux"
         config:
   # --------------------------------
+  # Yabause
+  # --------------------------------
+  - name: Yabause
+    url: "http://yabause.org/"
+    supports: "Sega Saturn"
+    platforms:
+      - name: "windows"
+        config: |
+          [Yabause]
+          location=C:\Emulators\Yabause\yabause.exe
+          command=%l -a -f -i %r
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
   # ZSNES
   # --------------------------------
   - name: ZSNES
