@@ -25,7 +25,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
         # TODO: Return True/False based on the current network status
         return True
 
-    def url_for_rom(self,rom):
+    def consolegrid_top_picture_url(self,rom):
         host = self.api_url()
         quoted_name = urllib.quote(rom.name())
         return "%s?console=%s&game=%s" % (host,rom.console.shortname,quoted_name)
@@ -36,7 +36,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
         ConsoleGrid.com
         """
         try:
-            response = urllib2.urlopen(self.url_for_rom(rom))
+            response = urllib2.urlopen(self.consolegrid_top_picture_url(rom))
             if response.getcode() == 204:
               raise ProviderError("ConsoleGrid has no game called %s for %s. Try going to http://consolegrid.com and submitting the game yourself" % (rom.name(), rom.console.fullname))
             else:
@@ -46,19 +46,20 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
             # may have happened
             raise ConfigError("Grid Images", "Source", "The source of game images is unavailable.")
 
-    def download_image(self,image_url):
+    def download_image(self,rom):
         """
         Downloads the image at 'image_url' and returns the path to the image on
         the local filesystem
         """
+        image_url = self.find_url_for_rom(rom)
         if image_url == "":
-            raise ProviderError("We couldn't find an image for %s. If you find one you like, upload it to http://consolegrid.com, and next time Ice runs it will be used" % rom.name())
+          raise ProviderError("We couldn't find an image for %s. If you find one you like, upload it to http://consolegrid.com, and next time Ice runs it will be used" % rom.name())
         (path,headers) = urllib.urlretrieve(image_url)
         return path
 
     def image_for_rom(self, rom):
         try:
-            path = self.download_image(self.find_url_for_rom(rom))
+            path = self.download_image(rom)
             return (path, None)
         except ProviderError as e:
             return (None, e)
