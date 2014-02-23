@@ -13,6 +13,7 @@ import urllib
 import urllib2
 
 import grid_image_provider
+from ice.error.config_error import ConfigError
 from ice.error.provider_error import ProviderError
 
 class ConsoleGridProvider(grid_image_provider.GridImageProvider):
