@@ -81,6 +81,9 @@ class Console():
         console
         """
         roms = []
+        if not os.path.exists(self.roms_directory()):
+            log_both("Creating %s directory at %s" % (self.shortname,self.roms_directory()))
+            os.makedirs(self.roms_directory())
         for filename in os.listdir(self.roms_directory()):
             file_path = os.path.join(self.roms_directory(),filename)
             if not os.path.isdir(file_path):
