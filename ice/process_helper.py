@@ -18,7 +18,7 @@ def windows_steam_is_running():
 
 def osx_steam_is_running():
     """(OS X) Checks if Steam is currently running."""
-    return "Steam.app" in subprocess.check_output("ps -A", shell=True)
+    return "Steam.app\n" in subprocess.check_output("ps -A", shell=True)
 
 def linux_steam_is_running():
     """(Linux) Checks if Steam is currently running."""
