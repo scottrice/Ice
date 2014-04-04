@@ -90,5 +90,5 @@ def settings_emulators():
     # After all of the invalid emulators have been removed, let the user know
     # which emulators have initialized successfully
     for emulator in emulators:
-        ice_logger.log("Detected Emulator: %s" % name)
+        ice_logger.log("Detected Emulator: %s" % emulator.name)
     return emulators
