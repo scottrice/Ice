@@ -9,6 +9,13 @@
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
 ROMs Directory=
 
+# Set a directory to store backups of your shortcuts.vdf file. if left blank,
+# no backups will be created. The backups are created within this directory
+# in the format "/[user id]/shortcuts.[timestamp].vdf"
+#
+# Use ~ to represent your home folder (for example, C:\Users\Scott\)
+Backup Directory=~/ice/backups
+
 [Grid Images]
 # The website listed should provide the grid images used by Ice. This URL will
 # most likely need to be provided by the website itself, as it is fairly specific.

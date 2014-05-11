@@ -11,6 +11,10 @@ import sys
 import os
 import unicodedata
 import re
+from datetime import datetime
+import settings
+from ice_logging import ice_logger
+
 
 x00 = u'\x00'
 x01 = u'\x01'
@@ -200,7 +204,36 @@ class SteamShortcutManager():
             print "SteamShortcutManager Save Error: No file specified"
             return None
         open(file,"w").write(self.to_shortcuts_string())
-    
+
+    def backup(self,backup_location=None):
+        # If they just called backup(), then use the path specified in the config
+        if not backup_location:
+            backup_location = settings.config()["Storage"]["backup directory"]
+        # If backup_location is still undefined, then we have no idea where to do the backup, so
+        # we just return after printing a message
+        if not backup_location:
+            ice_logger.log("No backup location specified. Not creating backup file.")
+            return None
+
+        # If the shortcuts file is undefined, print an error and return
+        if not self.shortcuts_file:
+            print "SteamShortcutManager Backup Error: No file specified"
+            return None
+
+        # Get the user id using the location of the shortcuts file and create a directory
+        # in the backup location using the same directory structure Steam uses
+        user_id = os.path.split(os.path.dirname(os.path.dirname(self.shortcuts_file)))[1]
+        new_dir = os.path.expanduser(os.path.join(os.path.join(backup_location,user_id),"config"))
+        try:  # Handle possible race condition
+            os.makedirs(new_dir)
+        except OSError:
+            if not os.path.isdir(new_dir):
+                raise
+
+        backup_file_name = "shortcuts." + datetime.now().strftime('%Y%m%d%H%M%S') + ".vdf"
+        open(os.path.join(new_dir,backup_file_name),"w").write(open(self.shortcuts_file,"r").read())
+
+
     def add(self,shortcut):
         self.shortcuts.append(shortcut) 
             
