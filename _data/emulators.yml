@@ -187,6 +187,22 @@ configurations:
           have problems running ROMs if there are spaces in any of your folder
           names.
   # --------------------------------
+  # Snes9x
+  # --------------------------------
+  - name: Snes9x
+    url: "http://www.snes9x.com/"
+    supports: "SNES"
+    platforms:
+      - name: "windows"
+        config: |
+          [Snes9x]
+          location=C:\Emulators\Snes9x\snes9x-x64.exe
+          command=%l -fullscreen %r
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
   # VisualBoyAdvance
   # --------------------------------
   - name: VisualBoyAdvance
