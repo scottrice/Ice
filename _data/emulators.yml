@@ -71,7 +71,10 @@ configurations:
     supports: "Atari Lynx, Gameboy, Gameboy Color, Gameboy Advance, NES, SNES, Genesis, Playstation"
     platforms:
       - name: "windows"
-        config:
+        config: |
+          [Mednafen]
+          location=C:\Emulators\mednafen\mednafen.exe
+          command=%l %r
       - name: "mac"
         config: |
           [Mednafen]
