@@ -118,6 +118,24 @@ configurations:
       - name: "linux"
         config:
   # --------------------------------
+  # PCSXR
+  # --------------------------------
+  - name: PCSXR
+    url: "http://pcsxr.codeplex.com/"
+    supports: "Playstation"
+    platforms:
+      - name: "windows"
+        config: |
+          [PCSXR]
+          location=C:\Emulators\PCSXR\pcsxr.exe
+          command=%l -nogui -cdfile %r
+        known_issues: >
+          Only works for version 1.9.93 and up.
+      - name: "mac"
+        config:
+      - name: "linux"
+        config:
+  # --------------------------------
   # PCSX2
   # --------------------------------
   - name: PCSX2
