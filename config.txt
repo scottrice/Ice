@@ -14,7 +14,7 @@ ROMs Directory=
 # in the format "/[user id]/shortcuts.[timestamp].vdf"
 #
 # Use ~ to represent your home folder (for example, C:\Users\Scott\)
-Backup Directory=~/ice/backups
+Backup Directory=~/Ice/backups
 
 [Grid Images]
 # The website listed should provide the grid images used by Ice. This URL will

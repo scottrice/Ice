@@ -205,7 +205,7 @@ class SteamShortcutManager():
             return None
         open(file,"w").write(self.to_shortcuts_string())
 
-    def backup(self,backup_location=None):
+    def backup(self, user_id, backup_location=None):
         # If they just called backup(), then use the path specified in the config
         if not backup_location:
             backup_location = settings.config()["Storage"]["backup directory"]
@@ -227,10 +227,7 @@ class SteamShortcutManager():
             ice_logger.log("shortcuts.vdf does not exist. Nothing to back up")
             return
 
-        # Get the user id using the location of the shortcuts file and create a directory
-        # in the backup location using the same directory structure Steam uses
-        user_id = os.path.split(os.path.dirname(os.path.dirname(self.shortcuts_file)))[1]
-        new_dir = os.path.expanduser(os.path.join(os.path.join(backup_location,user_id),"config"))
+        new_dir = os.path.expanduser(os.path.join(backup_location, str(user_id), "config"))
         try:  # Handle possible race condition
             os.makedirs(new_dir)
         except OSError:
