@@ -213,12 +213,19 @@ class SteamShortcutManager():
         # we just return after printing a message
         if not backup_location:
             ice_logger.log("No backup location specified. Not creating backup file.")
-            return None
+            return
 
         # If the shortcuts file is undefined, print an error and return
         if not self.shortcuts_file:
-            print "SteamShortcutManager Backup Error: No file specified"
-            return None
+            ice_logger.log("SteamShortcutManager Backup Error: No file specified")
+            return
+
+        # If the shortcuts file does not exist, then there is nothing to back up
+        try:
+            shortcut_contents = open(self.shortcuts_file, "r").read()
+        except IOError as error:
+            ice_logger.log("shortcuts.vdf does not exist. Nothing to back up")
+            return
 
         # Get the user id using the location of the shortcuts file and create a directory
         # in the backup location using the same directory structure Steam uses
@@ -231,7 +238,7 @@ class SteamShortcutManager():
                 raise
 
         backup_file_name = "shortcuts." + datetime.now().strftime('%Y%m%d%H%M%S') + ".vdf"
-        open(os.path.join(new_dir,backup_file_name),"w").write(open(self.shortcuts_file,"r").read())
+        open(os.path.join(new_dir,backup_file_name),"w").write(shortcut_contents)
 
 
     def add(self,shortcut):
