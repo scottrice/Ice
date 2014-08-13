@@ -10,4 +10,11 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 import psutil
 
 def steam_is_running():
-  return True in [ psutil.Process(pid).name().lower().startswith('steam') for pid in psutil.pids() ]
+  for pid in psutil.pids():
+    try:
+      p = psutil.Process(pid)
+      if p.name().lower().startswith('steam'):
+        return True
+    except e:
+      continue
+  return False
