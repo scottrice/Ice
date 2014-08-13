@@ -45,7 +45,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
         except urllib2.URLError as error:
             # Connection was refused. ConsoleGrid may be down, or something bad
             # may have happened
-            raise ConfigError("Grid Images", "Source", "The source of game images is unavailable.")
+            raise ProviderError("No image was downloaded because an error was received from ConsoleGrid.")
 
     def download_image(self,rom):
         """
