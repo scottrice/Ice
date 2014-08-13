@@ -6,12 +6,39 @@ from distutils.sysconfig import get_python_lib
 from pip.req import parse_requirements
 from setuptools import setup, find_packages
 
-import py2exe
+WINDOWS_SPECIFIC_OPTIONS = dict(
+  setup_requires=[
+    'py2exe',
+  ],
+)
+
+MAC_SPECIFIC_OPTIONS = dict(
+  setup_requires=[
+    'py2app',
+  ],
+)
+
+LINUX_SPECIFIC_OPTIONS = dict(
+)
+
+DATA_FILES = [
+  'config.txt',
+  'consoles.txt',
+  'emulators.txt',
+]
 
 EXCLUDE_FROM_PACKAGES = [
 ]
 
 requirements = [str(ir.req) for ir in parse_requirements('requirements.txt')]
+
+def extra_options(platform):
+  if platform.startswith('win'):
+    return WINDOWS_SPECIFIC_OPTIONS
+  elif platform.startswith('darwin'):
+    return MAC_SPECIFIC_OPTIONS
+  else:
+    return LINUX_SPECIFIC_OPTIONS
 
 setup(
   name='Ice',
@@ -24,6 +51,8 @@ setup(
   license='MIT',
   packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
   include_package_data=True,
+  data_files=DATA_FILES,
+  app=['ice.py'],
   scripts=['ice.py'],
   console=['ice.py'],
   entry_points={'console_scripts': [
@@ -43,4 +72,7 @@ setup(
       'Programming Language :: Python :: 2',
       'Programming Language :: Python :: 2.7',
   ],
+  argv_emulation=False,
+
+  **extra_options(sys.platform)
 )
