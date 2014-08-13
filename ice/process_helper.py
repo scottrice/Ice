@@ -15,6 +15,6 @@ def steam_is_running():
       p = psutil.Process(pid)
       if p.name().lower().startswith('steam'):
         return True
-    except e:
+    except Exception:
       continue
   return False
