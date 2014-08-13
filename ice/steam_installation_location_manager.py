@@ -20,7 +20,7 @@ osx_userdata_directory = "~/Library/Application Support/Steam/userdata/"
 linux_userdata_directory = "~/.local/share/Steam/userdata/"
 
 def config_userdata_location():
-    return os.path.expanduser(settings.config()["Steam"]["userdata directory"])
+    return os.path.expanduser(settings.config().get('Steam', 'userdata directory'))
 
 def windows_steam_location():
     import _winreg as registry

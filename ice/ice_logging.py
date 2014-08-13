@@ -54,12 +54,9 @@ class IceLogger():
         self.logger.error("There was a problem with '[%s] %s' in %s" % (error.section, error.key, error.file))
         config = settings.settings_for_file(error.file)
         try:
-            self.logger.error("The current value is set to '%s'" % config[error.section][error.key.lower()])
+            self.logger.error("The current value is set to '%s'" % config.get(error.section, error.key))
         except KeyError as e:
-            if e.message == error.section:
-                self.logger.error("No section found named '[%s]'" % e.message)
-            else:
-                self.logger.error("The key '%s' is missing" % e.message)
+            self.logger.error(e.message)
         self.logger.error(error.fix_instructions)
 
     def log_exception(self):

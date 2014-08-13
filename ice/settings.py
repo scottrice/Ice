@@ -10,12 +10,14 @@ Basic settings to be used by the app.
 """
 
 import ConfigParser
+import utils
+
+from persistence.config_file_backing_store import ConfigFileBackingStore
 
 appname = "Ice"
 appdescription = "ROM Manager for Steam"
 appauthor = "Scott Rice"
 
-config_dict = None
 consoles_dict = None
 emulators_dict = None
 
@@ -38,11 +40,9 @@ def _config_file_to_dictionary(path):
       settings[section][option] = config.get(section,option)
   return settings
 
+@utils.memoize
 def config():
-  global config_dict
-  if config_dict == None:
-    config_dict = _config_file_to_dictionary(user_settings_path())
-  return config_dict
+  return ConfigFileBackingStore(user_settings_path())
 
 def consoles():
   global consoles_dict

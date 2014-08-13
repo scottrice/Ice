@@ -94,7 +94,7 @@ def roms_directory():
     """
     Returns the path to the ROMs directory, as specified by config.txt.
     """
-    path = os.path.expanduser(settings.config()['Storage']['roms directory'])
+    path = os.path.expanduser(settings.config().get('Storage', 'ROMs Directory'))
     if path == "":
         path = os.path.join(os.path.expanduser("~"), "ROMs")
     if not available_to_use(path, create_if_needed=True):
