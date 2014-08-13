@@ -6,6 +6,8 @@ from distutils.sysconfig import get_python_lib
 from pip.req import parse_requirements
 from setuptools import setup, find_packages
 
+import py2exe
+
 EXCLUDE_FROM_PACKAGES = [
 ]
 
@@ -23,6 +25,7 @@ setup(
   packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
   include_package_data=True,
   scripts=['ice.py'],
+  console=['ice.py'],
   entry_points={'console_scripts': [
   ]},
   install_requires=requirements,
