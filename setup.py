@@ -13,9 +13,14 @@ WINDOWS_SPECIFIC_OPTIONS = dict(
 )
 
 MAC_SPECIFIC_OPTIONS = dict(
-  setup_requires=[
+  setup_requires = [
     'py2app',
   ],
+  options = dict(
+    py2app = dict(
+      iconfile = 'icon.icns'
+    ),
+  ),
 )
 
 LINUX_SPECIFIC_OPTIONS = dict(
