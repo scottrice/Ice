@@ -19,6 +19,9 @@ class BackingStore(object):
     """
     pass
 
+  def has_identifier(self, ident):
+    return ident in self.identifiers()
+
   @abc.abstractmethod
   def add_identifier(self, ident):
     """

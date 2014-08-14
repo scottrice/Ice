@@ -18,7 +18,7 @@ import os
 
 import filesystem_helper
 import steam_user_manager
-from console import supported_consoles
+from console import Console
 from ice_logging import ice_logger
 from steam_grid import SteamGrid
 
@@ -50,7 +50,7 @@ class IceROMManager():
         in the Ice dir). Obviously if we add a method of executing roms which
         doesn't involve the app dir, this method will need to be rethought.
         """
-        for console in supported_consoles():
+        for console in Console.all_enabled():
             if console.roms_directory() in shortcut.exe:
                 return True
         return False

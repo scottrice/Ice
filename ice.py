@@ -7,6 +7,7 @@ from ice.steam_shortcut_manager import SteamShortcutManager
 from ice import steam_user_manager
 from ice import filesystem_helper as fs
 from ice import console
+from ice import emulator
 from ice.rom_manager import IceROMManager
 from ice.process_helper import steam_is_running
 from ice.grid_image_manager import IceGridImageManager
@@ -18,6 +19,7 @@ def main():
         return
 
     ice_logger.log("Starting Ice")
+    ice_logger.log_state_of_the_world(emulator.Emulator.all(), console.Console.all())
     # Find all of the ROMs that are currently in the designated folders
     roms = console.find_all_roms()
     # Find the Steam Account that the user would like to add ROMs for

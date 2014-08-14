@@ -20,25 +20,45 @@ import settings
 import platform_helper as pf
 import filesystem_helper
 import utils
+from persistence.backed_object import BackedObject
+from persistence.config_file_backing_store import ConfigFileBackingStore
 from ice_logging import ice_logger
 from emulator import Emulator
 from rom import ROM
 
-class Console():
+# TODO: Move this method into a better location
+def find_all_roms():
+    all_roms = []
+    for c in Console.all_enabled():
+      all_roms.extend(c.find_roms())
+    return all_roms
 
-    def __init__(self, name, options={}):
-        self.fullname = name
-        self.shortname = utils.idx(options, 'nickname', name)
-        self.extensions = utils.idx(options, 'extensions', "")
-        self.custom_roms_directory = utils.idx(options, 'roms directory', None)
-        self.prefix = utils.idx(options, 'prefix', "")
-        self.icon = os.path.expanduser(utils.idx(options, 'icon', ""))
-        self.images_directory = os.path.expanduser(utils.idx(options, 'images directory', ""))
+class Console(BackedObject):
 
-        self.emulator = Emulator.lookup(utils.idx(options, 'emulator', ""))
+    backing_store = ConfigFileBackingStore(settings.user_consoles_path())
+
+    @classmethod
+    def all_enabled(cls):
+        return filter(cls.is_enabled, cls.all())
+
+    def __init__(self, identifier):
+        super(Console, self).__init__(identifier)
+        self.fullname               = identifier
+        self.shortname              = self.backed_value('nickname', self.fullname)
+        self.extensions             = self.backed_value('extensions', "")
+        self.custom_roms_directory  = self.backed_value('roms directory', None)
+        self.prefix                 = self.backed_value('prefix', "")
+        self.icon                   = self.backed_value('icon', "")
+        self.images_directory       = self.backed_value('images directory', "")
+        self.emulator_identifier    = self.backed_value('emulator', "")
         
+        self.icon = os.path.expanduser(self.icon)
+        self.images_directory = os.path.expanduser(self.images_directory)
+
+        self.emulator = Emulator.find(self.emulator_identifier)
+
     def __repr__(self):
-        return self.shortname
+        return self.fullname
 
     def is_enabled(self,verbose=False):
         if self.emulator is None:
@@ -96,37 +116,3 @@ class Console():
                     continue
                 roms.append(ROM(file_path,self))
         return roms
-
-@utils.memoize
-def find_all_roms():
-    """
-    Gets the roms for every console in the list of supported consoles
-    """
-    all_roms = []
-    for console in supported_consoles():
-        all_roms.extend(console.find_roms())
-    return all_roms
-
-@utils.memoize
-def user_defined_consoles():
-    consoles = []
-    consoles_dict = settings.consoles()
-    for name in consoles_dict.keys():
-        console_data = consoles_dict[name]
-        console = Console(name, console_data)
-        consoles.append(console)
-    return consoles
-
-@utils.memoize
-def supported_consoles():
-    consoles = user_defined_consoles()
-    # Remove any consoles from supported_consoles if there does not exist an
-    # emulator for them
-    for console in list(consoles):
-        if not console.is_enabled(verbose=True):
-            consoles.remove(console)
-    # Print out all of the detected consoles so the user knows what is going
-    # on.
-    for console in consoles:
-        ice_logger.log("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
-    return consoles

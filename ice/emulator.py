@@ -18,24 +18,29 @@ import shutil
 
 from error.config_error import ConfigError
 from ice_logging import ice_logger
+from persistence.backed_object import BackedObject
+from persistence.config_file_backing_store import ConfigFileBackingStore
 import filesystem_helper
 import settings
 import utils
 
-class Emulator(object):
+class Emulator(BackedObject):
+    backing_store = ConfigFileBackingStore(settings.user_emulators_path())
 
-    @classmethod
-    def lookup(self, name):
-        for emulator in settings_emulators():
-            if emulator.name == name:
-                return emulator
-        return None
+    def __init__(self, identifier):
+        super(Emulator, self).__init__(identifier)
+        self.name     = identifier
+        self.location = self.backed_value('location')
+        self.format   = self.backed_value('command', "%l %r")
 
-    def __init__(self, name, location, options={}):
-        self.name = name
-        self.location = os.path.expanduser(location)
-        self.format = utils.idx(options, 'command', "%l %r")
+        self.location = os.path.expanduser(self.location)
+
+        assert self.location is not None, "Missing location for Emulator:`%s`" % identifier
+        # TODO: This is a terrible API. Replace this method with something else
         filesystem_helper.assert_file_exists(self.location, self.__config_error_for_missing_emulator__())
+
+    def __repr__(self):
+        return self.name
 
     def __config_error_for_missing_emulator__(self):
         fix = "Cannot read file '%s'. Ensure that the file exists, and that the path is spelled correctly." % self.location
@@ -76,19 +81,3 @@ class Emulator(object):
         as the 'StartDir' option of a Steam Shortcut
         """
         return os.path.dirname(self.location)
-
-@utils.memoize
-def settings_emulators():
-    emulators = []
-    emulators_dict = settings.emulators()
-    for name in emulators_dict.keys():
-        emulator_data = emulators_dict[name]
-        location = utils.idx(emulator_data, 'location', "")
-        current_emulator = Emulator(name, location, emulator_data)
-        if current_emulator.is_enabled(verbose=True):
-            emulators.append(current_emulator)
-    # After all of the invalid emulators have been removed, let the user know
-    # which emulators have initialized successfully
-    for emulator in emulators:
-        ice_logger.log("Detected Emulator: %s" % emulator.name)
-    return emulators

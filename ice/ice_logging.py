@@ -55,6 +55,31 @@ class IceLogger():
             self.error(e.message)
         self.error(error.fix_instructions)
 
+    def log_emulator_state(self, emulator):
+        if emulator.is_enabled():
+          self.log("Detected Emulator: %s" % emulator)
+        else:
+          self.warning("[DISABLED] Issue detected with emulator `%s`" % emulator)
+
+    def log_console_state(self, console):
+        """
+        Logs whether a console is enabled or not.
+        """
+        if console.is_enabled():
+          self.log("Detected Console: %s => %s" % (console, console.emulator))
+        # TODO: Move this logic into a function on Console which gives a
+        # stringified reason why the console is not enabled
+        elif console.emulator == None:
+          self.warning("[DISABLED] No emulator provided for console `%s`" % console)
+        else:
+          self.warning("[DISABLED] Issue detected with console `%s`" % console)
+
+    def log_state_of_the_world(self, emulators, consoles):
+        for e in emulators:
+          self.log_emulator_state(e)
+        for c in consoles:
+          self.log_console_state(c)
+
 
 # create our IceLogger object
 ice_logger = IceLogger()

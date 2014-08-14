@@ -19,7 +19,7 @@ class ConfigFileBackingStore(backing_store.BackingStore):
     self.configParser.read(self.path)
 
   def identifiers(self):
-    self.configParser.sections()
+    return self.configParser.sections()
 
   def add_identifier(self, ident):
     try:
@@ -37,7 +37,10 @@ class ConfigFileBackingStore(backing_store.BackingStore):
     return self.configParser.options(ident)
 
   def get(self, ident, key, default=None):
-    return self.configParser.get(ident, key.lower())
+    try:
+      return self.configParser.get(ident, key.lower())
+    except ConfigParser.NoOptionError:
+      return default
 
   def set(self, ident, key, value):
     self.configParser.set(ident, key.lower(), value)
