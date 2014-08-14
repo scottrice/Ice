@@ -18,29 +18,29 @@ class ConfigFileBackingStore(backing_store.BackingStore):
 
     self.configParser.read(self.path)
 
-  def sections(self):
+  def identifiers(self):
     self.configParser.sections()
 
-  def add_section(self, id):
+  def add_identifier(self, ident):
     try:
-      self.configParser.add_section(id)
+      self.configParser.add_section(ident)
     except ConfigParser.DuplicateSectionError:
       raise ValueError("A section with the id `%s` already exists" % str(id))
 
-  def remove_section(self, id):
+  def remove_identifier(self, ident):
     try:
-      self.configParser.remove_section(id)
+      self.configParser.remove_section(ident)
     except ConfigParser.NoSectionError:
       raise ValueError("Cannot remove a section with the id `%s` because none exists" % str(id))
 
-  def keys(self, section):
-    return self.configParser.options(section)
+  def keys(self, ident):
+    return self.configParser.options(ident)
 
-  def get(self, section, key):
-    return self.configParser.get(section, key.lower())
+  def get(self, ident, key, default=None):
+    return self.configParser.get(ident, key.lower())
 
-  def set(self, section, key, value):
-    self.configParser.set(section, key.lower(), value)
+  def set(self, ident, key, value):
+    self.configParser.set(ident, key.lower(), value)
 
   def save(self):
     try:
