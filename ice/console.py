@@ -92,7 +92,7 @@ class Console():
                 if not pf.is_windows() and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.is_valid_rom(file_path):
-                    ice_logger.log_warning("Ignoring Non-ROM file: %s" % file_path)
+                    ice_logger.warning("Ignoring Non-ROM file: %s" % file_path)
                     continue
                 roms.append(ROM(file_path,self))
         return roms

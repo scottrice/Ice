@@ -14,7 +14,7 @@ from ice.ice_logging import ice_logger
 
 def main():
     if steam_is_running():
-        ice_logger.log_error("Ice cannot be run while Steam is open. Please close Steam and try again")
+        ice_logger.error("Ice cannot be run while Steam is open. Please close Steam and try again")
         return
 
     ice_logger.log("Starting Ice")
@@ -42,11 +42,11 @@ if __name__ == "__main__":
     try:
         main()
     except ConfigError as error:
-        ice_logger.log_error('Stopping')
+        ice_logger.error('Stopping')
         ice_logger.log_config_error(error)
-        ice_logger.log_exception()
+        ice_logger.exception()
     except StandardError as error:
-        ice_logger.log_exception()
+        ice_logger.exception()
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
     print ""

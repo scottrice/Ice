@@ -37,30 +37,23 @@ class IceLogger():
         self.logger.addHandler(ch)
         self.logger.addHandler(fh)
 
-    def log(self, message):
-        self.logger.info(message)
+        self.log        = self.logger.info
+        self.debug      = self.logger.debug
+        self.warning    = self.logger.warning
+        self.error      = self.logger.error
 
-    def log_debug(self, message):
-        self.logger.debug(message)
-
-    def log_warning(self, message):
-        self.logger.warning(message)
-
-    def log_error(self, message):
-        self.logger.error(message)
+    def exception(self, message="An exception occurred!"):
+        self.logger.exception(message)
 
     # premade logs
     def log_config_error(self, error):
-        self.logger.error("There was a problem with '[%s] %s' in %s" % (error.section, error.key, error.file))
+        self.error("There was a problem with '[%s] %s' in %s" % (error.section, error.key, error.file))
         config = settings.settings_for_file(error.file)
         try:
-            self.logger.error("The current value is set to '%s'" % config.get(error.section, error.key))
+            self.error("The current value is set to '%s'" % config.get(error.section, error.key))
         except KeyError as e:
-            self.logger.error(e.message)
-        self.logger.error(error.fix_instructions)
-
-    def log_exception(self):
-        self.logger.exception("An exception occured!")
+            self.error(e.message)
+        self.error(error.fix_instructions)
 
 
 # create our IceLogger object

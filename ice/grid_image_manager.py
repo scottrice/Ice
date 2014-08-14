@@ -44,7 +44,7 @@ class IceGridImageManager():
             if path is not None:
                 return path
             # TODO: Log the error for the provider
-            # ice_logger.log_error(error)
+            # ice_logger.error(error)
         return None
 
     def update_user_images(self, user_id, roms):
