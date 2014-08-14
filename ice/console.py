@@ -108,7 +108,7 @@ def find_all_roms():
     return all_roms
 
 @utils.memoize
-def settings_consoles():
+def user_defined_consoles():
     consoles = []
     consoles_dict = settings.consoles()
     for name in consoles_dict.keys():
@@ -119,7 +119,7 @@ def settings_consoles():
 
 @utils.memoize
 def supported_consoles():
-    consoles = settings_consoles()
+    consoles = user_defined_consoles()
     # Remove any consoles from supported_consoles if there does not exist an
     # emulator for them
     for console in list(consoles):
