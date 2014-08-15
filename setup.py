@@ -14,7 +14,7 @@ WINDOWS_SPECIFIC_OPTIONS = dict(
 )
 
 MAC_SPECIFIC_OPTIONS = dict(
-  app=['ice.py'],
+  app=['ice-qt.py'],
   setup_requires = [
     'py2app',
   ],
