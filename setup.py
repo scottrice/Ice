@@ -7,19 +7,26 @@ from pip.req import parse_requirements
 from setuptools import setup, find_packages
 
 WINDOWS_SPECIFIC_OPTIONS = dict(
+  argv_emulation=False,
   setup_requires=[
     'py2exe',
   ],
 )
 
 MAC_SPECIFIC_OPTIONS = dict(
+  app=['ice.py'],
   setup_requires = [
     'py2app',
   ],
   options = dict(
-    py2app = dict(
-      iconfile = 'icon.icns'
-    ),
+    py2app = {
+      "argv_emulation": True,
+      "iconfile": "icon.icns",
+      "includes": [
+        "sip",
+        "PyQt4._qt",
+      ],
+    },
   ),
 )
 
@@ -57,7 +64,6 @@ setup(
   packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
   include_package_data=True,
   data_files=DATA_FILES,
-  app=['ice.py'],
   scripts=['ice.py'],
   console=['ice.py'],
   entry_points={'console_scripts': [
@@ -77,7 +83,6 @@ setup(
       'Programming Language :: Python :: 2',
       'Programming Language :: Python :: 2.7',
   ],
-  argv_emulation=False,
 
   **extra_options(sys.platform)
 )
