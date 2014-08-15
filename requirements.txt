@@ -1,1 +1,2 @@
 psutil==2.1.1
+appdirs==1.2.0
