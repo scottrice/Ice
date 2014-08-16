@@ -49,5 +49,8 @@ nosetests.xml
 .project
 .pydevproject
 
+# Logs
 log.txt
 ice.log
+stdout.log
+stderr.log
