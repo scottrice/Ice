@@ -16,7 +16,6 @@ images.
 import urllib
 import urllib2
 import urlparse
-import steam_user_manager
 import steam_grid
 import settings
 from ice_logging import ice_logger
@@ -47,12 +46,11 @@ class IceGridImageManager():
             # ice_logger.error(error)
         return None
 
-    def update_user_images(self, user_id, roms):
+    def update_user_images(self, user, roms):
         """
-        Sets a suitable grid image for every rom in 'roms' for the user
-        defined by 'user_id'
+        Sets a suitable grid image for every rom in 'roms' for `user`
         """
-        grid = steam_grid.SteamGrid(steam_user_manager.userdata_directory_for_user_id(user_id))
+        grid = steam_grid.SteamGrid(user.userdata_directory())
         for rom in roms:
             shortcut = rom.to_shortcut()
             if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname, shortcut.exe)):

@@ -17,7 +17,6 @@ between ROMs and Steam Shortcuts.
 import os
 
 import filesystem_helper
-import steam_user_manager
 from console import Console
 from ice_logging import ice_logger
 from steam_grid import SteamGrid
@@ -98,6 +97,5 @@ class IceROMManager():
             self.add_rom(rom)
             
     def update_artwork(self,user_id,roms):
-        grid = SteamGrid(steam_user_manager.userdata_directory_for_user_id(user_id))
-        for rom in roms:
-            pass
+        # TODO: Implement
+        pass

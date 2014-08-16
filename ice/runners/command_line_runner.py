@@ -5,11 +5,12 @@ Created by Scott on 2014-08-14.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
+from pysteam.steam import Steam
+
 from ice.error.config_error import ConfigError
 
 from ice.steam_shortcut_manager import SteamShortcutManager
 
-from ice import steam_user_manager
 from ice import filesystem_helper as fs
 from ice import console
 from ice import emulator
@@ -27,24 +28,24 @@ class CommandLineRunner(object):
 
         ice_logger.log("Starting Ice")
         ice_logger.log_state_of_the_world(emulator.Emulator.all(), console.Console.all())
+        steam = Steam()
         # Find all of the ROMs that are currently in the designated folders
         roms = console.find_all_roms()
         # Find the Steam Account that the user would like to add ROMs for
-        user_ids = steam_user_manager.user_ids_on_this_machine()
+        users = steam.local_users()
         grid_manager = IceGridImageManager()
-        for user_id in user_ids:
-            ice_logger.log("Running for user %s" % str(user_id))
+        for user in users:
+            ice_logger.log("Running for user %s" % str(user.id32))
             # Load their shortcuts into a SteamShortcutManager object
-            shortcuts_path = steam_user_manager.shortcuts_file_for_user_id(user_id)
-            shortcuts_manager = SteamShortcutManager(shortcuts_path)
+            shortcuts_manager = SteamShortcutManager(user.shortcuts_file())
             rom_manager = IceROMManager(shortcuts_manager)
             # Add the new ROMs in each folder to our Shortcut Manager
             rom_manager.sync_roms(roms)
             # Backup the current shortcuts.vdf file
-            shortcuts_manager.backup(user_id)
+            shortcuts_manager.backup(user.id32)
             # Generate a new shortcuts.vdf file with all of the new additions
             shortcuts_manager.save()
-            grid_manager.update_user_images(user_id,roms)
+            grid_manager.update_user_images(user,roms)
         ice_logger.log('Ice finished')
 
     def run(self, argv):

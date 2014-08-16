@@ -58,6 +58,10 @@ DATA_FILES = [
 ]
 
 EXCLUDE_FROM_PACKAGES = [
+  "tests*",
+]
+
+DEPENDENCY_LINKS = [
 ]
 
 requirements = [str(ir.req) for ir in parse_requirements('requirements.txt')]
@@ -86,6 +90,7 @@ setup(
   console=['ice.py'],
   entry_points={'console_scripts': [
   ]},
+  dependency_links = DEPENDENCY_LINKS,
   install_requires=requirements,
   extras_require={
     'tests': [
