@@ -46,11 +46,6 @@ class CommandLineRunner(object):
             shortcuts_manager.save()
             grid_manager.update_user_images(user_id,roms)
         ice_logger.log('Ice finished')
-        # Keeps the console from closing (until the user hits enter) so they can
-        # read any console output
-        print ""
-        print "Close the window, or hit enter to exit..."
-        raw_input()
 
     def run(self, argv):
       try:
@@ -61,3 +56,8 @@ class CommandLineRunner(object):
           ice_logger.exception()
       except StandardError as error:
           ice_logger.exception()
+      # Keeps the console from closing (until the user hits enter) so they can
+      # read any console output
+      print ""
+      print "Close the window, or hit enter to exit..."
+      raw_input()
