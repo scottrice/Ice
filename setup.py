@@ -6,11 +6,29 @@ from distutils.sysconfig import get_python_lib
 from pip.req import parse_requirements
 from setuptools import setup, find_packages
 
+def is_windows(platform):
+  return platform.startswith('win')
+
+def is_mac(platform):
+  return platform.startswith('darwin')
+
+if is_windows(sys.platform):
+  import py2exe
+
 WINDOWS_SPECIFIC_OPTIONS = dict(
   argv_emulation=False,
   setup_requires=[
     'py2exe',
   ],
+  options = dict(
+    py2exe = {
+      # TODO: Can we generate this list automatically from requirements.txt?
+      "includes": [
+        "appdirs",
+        "psutil",
+      ],
+    }
+  ),
 )
 
 MAC_SPECIFIC_OPTIONS = dict(
@@ -45,9 +63,9 @@ EXCLUDE_FROM_PACKAGES = [
 requirements = [str(ir.req) for ir in parse_requirements('requirements.txt')]
 
 def extra_options(platform):
-  if platform.startswith('win'):
+  if is_windows(platform):
     return WINDOWS_SPECIFIC_OPTIONS
-  elif platform.startswith('darwin'):
+  elif is_mac(platform):
     return MAC_SPECIFIC_OPTIONS
   else:
     return LINUX_SPECIFIC_OPTIONS
