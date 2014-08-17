@@ -18,10 +18,7 @@ ROMs, etc)
 
 import os
 
-import appdirs
-
 import settings
-from error.config_error import ConfigError
 from ice_logging import ice_logger
 
 def highest_directory_in_path(path):
@@ -88,27 +85,3 @@ def available_to_use(path, create_if_needed=False):
 
     # Woohoo!
     return True
-
-
-def roms_directory():
-    """
-    Returns the path to the ROMs directory, as specified by config.txt.
-    """
-    path = os.path.expanduser(settings.config().get('Storage', 'ROMs Directory'))
-    if path == "":
-        path = os.path.join(os.path.expanduser("~"), "ROMs")
-    if not available_to_use(path, create_if_needed=True):
-        fix_instructions = "Ice does not have permission to write to your ROMs Directory, %s. Please choose a different folder or change your permissions." % path
-        raise ConfigError("Storage","ROMs Directory", fix_instructions)
-    return path
-
-def log_file():
-    """
-    Should return the path for the log file. The log file should be located in
-    the app's data directory and should be called 'log.txt'
-    
-    Example...
-    Windows: C:\Users\<username>\AppData\Local\Scott Rice\Ice\log.txt
-    Max OS X: ~/Library/Application Support/Ice/log.txt
-    """
-    return os.path.join(app_data_directory(),"log.txt")

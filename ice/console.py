@@ -81,7 +81,7 @@ class Console(BackedObject):
         """
         if self.custom_roms_directory:
             return self.custom_roms_directory
-        return os.path.join(filesystem_helper.roms_directory(),self.shortname)
+        return os.path.join(settings.config.roms_directory(),self.shortname)
       
     def is_valid_rom(self,path):
         """

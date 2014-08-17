@@ -208,7 +208,7 @@ class SteamShortcutManager():
     def backup(self, user_id, backup_location=None):
         # If they just called backup(), then use the path specified in the config
         if not backup_location:
-            backup_location = settings.config().get('Storage', 'backup directory')
+            backup_location = settings.config.backup_directory()
         # If backup_location is still undefined, then we have no idea where to do the backup, so
         # we just return after printing a message
         if not backup_location:
