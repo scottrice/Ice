@@ -20,7 +20,6 @@ import filesystem_helper
 from console import Console
 from ice_logging import ice_logger
 from settings import config
-from steam_grid import SteamGrid
 
 # Providers
 from gridproviders import local_provider
@@ -112,10 +111,9 @@ class IceROMManager():
         """
         Sets a suitable grid image for every rom in 'roms' for `user`
         """
-        grid = SteamGrid(self.user.userdata_directory())
         for rom in roms:
             shortcut = rom.to_shortcut()
-            if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.name, shortcut.exe)):
+            if shortcut.custom_image(self.user) is None:
                 path = self.image_for_rom(rom)
                 if path is None:
                     # TODO: Tell the user what went wrong
@@ -123,7 +121,7 @@ class IceROMManager():
                 else:
                     # TODO: Tell the user that an image was found
                     ice_logger.log("Found grid image for %s" % shortcut.name)
-                    grid.set_image_for_shortcut(path, shortcut.name, shortcut.exe)
+                    shortcut.set_image(self.user, path)
 
     def image_for_rom(self, rom):
         """
