@@ -16,7 +16,6 @@ import os
 import tempfile
 import shutil
 
-from error.config_error import ConfigError
 from ice_logging import ice_logger
 from persistence.backed_object import BackedObject
 from persistence.config_file_backing_store import ConfigFileBackingStore
@@ -36,15 +35,10 @@ class Emulator(BackedObject):
         self.location = os.path.expanduser(self.location)
 
         assert self.location is not None, "Missing location for Emulator:`%s`" % identifier
-        # TODO: This is a terrible API. Replace this method with something else
-        filesystem_helper.assert_file_exists(self.location, self.__config_error_for_missing_emulator__())
+        assert os.path.exists(self.location), "Path `%s` does not exist."
 
     def __repr__(self):
         return self.name
-
-    def __config_error_for_missing_emulator__(self):
-        fix = "Cannot read file '%s'. Ensure that the file exists, and that the path is spelled correctly." % self.location
-        return ConfigError(self.name, "location", fix, file="emulators.txt")
 
     def __add_quotes_if_needed__(self, string):
         if string.startswith("\"") and string.endswith("\""):

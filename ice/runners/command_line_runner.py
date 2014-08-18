@@ -7,8 +7,6 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 from pysteam.steam import Steam
 
-from ice.error.config_error import ConfigError
-
 from ice import console
 from ice import emulator
 from ice import filesystem_helper as fs
@@ -44,10 +42,6 @@ class CommandLineRunner(object):
     def run(self, argv):
       try:
           self.main(argv)
-      except ConfigError as error:
-          ice_logger.error('Stopping')
-          ice_logger.log_config_error(error)
-          ice_logger.exception()
       except StandardError as error:
           ice_logger.exception()
       # Keeps the console from closing (until the user hits enter) so they can

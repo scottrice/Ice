@@ -45,16 +45,6 @@ class IceLogger():
     def exception(self, message="An exception occurred!"):
         self.logger.exception(message)
 
-    # premade logs
-    def log_config_error(self, error):
-        self.error("There was a problem with '[%s] %s' in %s" % (error.section, error.key, error.file))
-        config = settings.settings_for_file(error.file)
-        try:
-            self.error("The current value is set to '%s'" % config.get(error.section, error.key))
-        except KeyError as e:
-            self.error(e.message)
-        self.error(error.fix_instructions)
-
     def log_emulator_state(self, emulator):
         if emulator.is_enabled():
           self.log("Detected Emulator: %s" % emulator)
