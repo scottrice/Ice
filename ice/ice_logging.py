@@ -33,7 +33,7 @@ class IceLogger():
 
         # loggers
         self.logger = logging.getLogger('ice')
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
         self.logger.addHandler(ch)
         self.logger.addHandler(fh)
 
