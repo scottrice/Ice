@@ -16,15 +16,6 @@ ROMs Directory=
 # Use ~ to represent your home folder (for example, C:\Users\Scott\)
 Backup Directory=~/Ice/backups
 
-[Grid Images]
-# The website listed should provide the grid images used by Ice. This URL will
-# most likely need to be provided by the website itself, as it is fairly specific.
-#
-# The default is ConsoleGrid (consolegrid.com/api/top_picture)
-#
-# If this field is left blank, Ice will not attempt to download images
-Source=consolegrid.com/api/top_picture
-
 [Steam]
 # Leave this field blank unless Ice can't find Steam.
 #
