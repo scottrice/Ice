@@ -28,7 +28,7 @@ class IceLogger():
         # - max file size of 1mb
         # - log file is stored in root ice folder and is named 'ice.log'
         fh = logging.handlers.RotatingFileHandler(filename='ice.log', maxBytes=1048576, backupCount=5)
-        fh.setLevel(logging.INFO)
+        fh.setLevel(logging.DEBUG)
         fh.setFormatter(logging.Formatter('%(asctime)s (%(name)s) %(levelname)s: %(message)s'))
 
         # loggers
