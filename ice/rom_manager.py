@@ -19,6 +19,7 @@ import os
 import filesystem_helper
 from console import Console
 from ice_logging import ice_logger
+from settings import config
 from steam_grid import SteamGrid
 
 # Providers
@@ -26,27 +27,17 @@ from gridproviders import local_provider
 from gridproviders import consolegrid_provider
 
 class IceROMManager():
-    def __init__(self,shortcut_manager):
-        """
-        Takes an already initialized SteamShortcutsManager. Then does a O(n)
-        computation to figure out which ROMs from Ice are already present and
-        caches that result. That way, adding a ROM to the SteamShortcutsManager
-        can be a O(1) lookup to see if the ROM is already managed, and a O(1)
-        addition to the list (if it does not exist)
-        
-        Stores the managed ROMs in a set to optimize time complexity. See
-        http://wiki.python.org/moin/TimeComplexity
-        for details
-        """
-        self.shortcut_manager = shortcut_manager
-        self.managed_shortcuts = set()
-        for shortcut in self.shortcut_manager.shortcuts:
-            if self.__is_managed_by_ice__(shortcut):
-                self.managed_shortcuts.add(shortcut)
+    def __init__(self, user):
+        self.user = user
         self.providers = [
             local_provider.LocalProvider(),
             consolegrid_provider.ConsoleGridProvider(),
         ]
+
+        self.managed_shortcuts = set()
+        for shortcut in self.user.shortcuts:
+            if self.__is_managed_by_ice__(shortcut):
+                self.managed_shortcuts.add(shortcut)
     
     def __is_managed_by_ice__(self,shortcut):
         """
@@ -79,7 +70,7 @@ class IceROMManager():
             ice_logger.log("Adding %s" % rom.name())
             generated_shortcut = rom.to_shortcut()
             self.managed_shortcuts.add(generated_shortcut)
-            self.shortcut_manager.add(generated_shortcut)
+            self.user.shortcuts.append(generated_shortcut)
             
     def remove_deleted_roms_from_steam(self,roms):
         # We define 'has been deleted' by checking whether we have a shortcut
@@ -89,37 +80,50 @@ class IceROMManager():
             rom_shortcuts.add(rom.to_shortcut())
         deleted_rom_shortcuts = self.managed_shortcuts - rom_shortcuts
         for shortcut in deleted_rom_shortcuts:
-            ice_logger.log("Deleting: %s" % shortcut.appname)
-            self.shortcut_manager.shortcuts.remove(shortcut)
+            ice_logger.log("Deleting: %s" % shortcut.name)
+            self.user.shortcuts.remove(shortcut)
             
     def sync_roms(self,roms):
         """
-        Two parts to syncing. 
-        1) Remove any ROMs which have been deleted
-        2) Add any new ROMs
+        This function takes care of syncing ROMs. After this function exits,
+        Steam will contain only non-Ice shortcuts and the ROMs represented
+        by `roms`. To accomplish this, the function follows a few steps
+
+        1) Back up shortcuts.vdf file
+        2) Remove any ROMs which have been deleted
+        3) Add any new ROMs which weren't there previously
+        4) Save the changes to shortcuts.vdf
+        5) Download artwork for all of the new ROMs
         """
-        # 1)
+        # Backup the shortcuts before we touch anything
+        backup_path = config.shortcuts_backup_path(self.user)
+        self.user.save_shortcuts(backup_path)
+        # Remove old ROMs
         self.remove_deleted_roms_from_steam(roms)
-        # 2)
+        # Add new ROMs
         for rom in roms:
             self.add_rom(rom)
-            
-    def update_artwork(self,user,roms):
+        # Save our changes
+        self.user.save_shortcuts()
+        # Grab new artwork
+        self.update_artwork(roms)
+
+    def update_artwork(self,roms):
         """
         Sets a suitable grid image for every rom in 'roms' for `user`
         """
-        grid = SteamGrid(user.userdata_directory())
+        grid = SteamGrid(self.user.userdata_directory())
         for rom in roms:
             shortcut = rom.to_shortcut()
-            if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname, shortcut.exe)):
+            if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.name, shortcut.exe)):
                 path = self.image_for_rom(rom)
                 if path is None:
                     # TODO: Tell the user what went wrong
                     pass
                 else:
                     # TODO: Tell the user that an image was found
-                    ice_logger.log("Found grid image for %s" % shortcut.appname)
-                    grid.set_image_for_shortcut(path, shortcut.appname, shortcut.exe)
+                    ice_logger.log("Found grid image for %s" % shortcut.name)
+                    grid.set_image_for_shortcut(path, shortcut.name, shortcut.exe)
 
     def image_for_rom(self, rom):
         """

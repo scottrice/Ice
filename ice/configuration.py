@@ -10,6 +10,7 @@ Wrapper class around the options that a user could set to configure Ice
 """
 
 import os
+from datetime import datetime
 
 from persistence.config_file_backing_store import ConfigFileBackingStore
 from utils import app_data_directory as data_directory
@@ -63,4 +64,9 @@ class Configuration(object):
       """
       timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
       filename = "shortcuts." + timestamp + ".vdf"
-      return os.path.join(self.backup_directory(), 'config', filename)
+      return os.path.join(
+          self.backup_directory(),
+          str(user.id32),
+          'config',
+          filename
+      )

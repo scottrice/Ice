@@ -20,7 +20,7 @@ import stat
 import unicodedata
 
 import platform_helper as pf
-from steam_shortcut_manager import SteamShortcut
+from pysteam.shortcut import Shortcut
 
 class ROM:
     def __init__(self,path,console):
@@ -60,4 +60,4 @@ class ROM:
         startdir = self.console.emulator.startdir(self)
         icon = self.console.icon
         category = self.console.fullname
-        return SteamShortcut(appname,exe,startdir,icon,category)
+        return Shortcut(appname,exe,startdir,icon,category)

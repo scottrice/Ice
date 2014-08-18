@@ -9,8 +9,6 @@ from pysteam.steam import Steam
 
 from ice.error.config_error import ConfigError
 
-from ice.steam_shortcut_manager import SteamShortcutManager
-
 from ice import filesystem_helper as fs
 from ice import console
 from ice import emulator
@@ -34,16 +32,8 @@ class CommandLineRunner(object):
         users = steam.local_users()
         for user in users:
             ice_logger.log("Running for user %s" % str(user.id32))
-            # Load their shortcuts into a SteamShortcutManager object
-            shortcuts_manager = SteamShortcutManager(user.shortcuts_file())
-            rom_manager = IceROMManager(shortcuts_manager)
-            # Add the new ROMs in each folder to our Shortcut Manager
+            rom_manager = IceROMManager(user)
             rom_manager.sync_roms(roms)
-            # Backup the current shortcuts.vdf file
-            shortcuts_manager.backup(user.id32)
-            # Generate a new shortcuts.vdf file with all of the new additions
-            shortcuts_manager.save()
-            rom_manager.update_artwork(user, roms)
         ice_logger.log('Ice finished')
 
     def run(self, argv):
