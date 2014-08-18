@@ -21,6 +21,10 @@ from console import Console
 from ice_logging import ice_logger
 from steam_grid import SteamGrid
 
+# Providers
+from gridproviders import local_provider
+from gridproviders import consolegrid_provider
+
 class IceROMManager():
     def __init__(self,shortcut_manager):
         """
@@ -39,6 +43,10 @@ class IceROMManager():
         for shortcut in self.shortcut_manager.shortcuts:
             if self.__is_managed_by_ice__(shortcut):
                 self.managed_shortcuts.add(shortcut)
+        self.providers = [
+            local_provider.LocalProvider(),
+            consolegrid_provider.ConsoleGridProvider(),
+        ]
     
     def __is_managed_by_ice__(self,shortcut):
         """
@@ -96,6 +104,32 @@ class IceROMManager():
         for rom in roms:
             self.add_rom(rom)
             
-    def update_artwork(self,user_id,roms):
-        # TODO: Implement
-        pass
+    def update_artwork(self,user,roms):
+        """
+        Sets a suitable grid image for every rom in 'roms' for `user`
+        """
+        grid = SteamGrid(user.userdata_directory())
+        for rom in roms:
+            shortcut = rom.to_shortcut()
+            if not grid.existing_image_for_filename(grid.filename_for_shortcut(shortcut.appname, shortcut.exe)):
+                path = self.image_for_rom(rom)
+                if path is None:
+                    # TODO: Tell the user what went wrong
+                    pass
+                else:
+                    # TODO: Tell the user that an image was found
+                    ice_logger.log("Found grid image for %s" % shortcut.appname)
+                    grid.set_image_for_shortcut(path, shortcut.appname, shortcut.exe)
+
+    def image_for_rom(self, rom):
+        """
+        Goes through each provider until one successfully finds an image.
+        Returns None if no provider was able to find an image
+        """
+        for provider in self.providers:
+            (path, error) = provider.image_for_rom(rom)
+            if path is not None:
+                return path
+            # TODO: Log the error for the provider
+            ice_logger.debug(error)
+        return None

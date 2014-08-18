@@ -16,7 +16,6 @@ from ice import console
 from ice import emulator
 from ice.rom_manager import IceROMManager
 from ice.process_helper import steam_is_running
-from ice.grid_image_manager import IceGridImageManager
 from ice.ice_logging import ice_logger
 
 class CommandLineRunner(object):
@@ -33,7 +32,6 @@ class CommandLineRunner(object):
         roms = console.find_all_roms()
         # Find the Steam Account that the user would like to add ROMs for
         users = steam.local_users()
-        grid_manager = IceGridImageManager()
         for user in users:
             ice_logger.log("Running for user %s" % str(user.id32))
             # Load their shortcuts into a SteamShortcutManager object
@@ -45,7 +43,7 @@ class CommandLineRunner(object):
             shortcuts_manager.backup(user.id32)
             # Generate a new shortcuts.vdf file with all of the new additions
             shortcuts_manager.save()
-            grid_manager.update_user_images(user,roms)
+            rom_manager.update_artwork(user, roms)
         ice_logger.log('Ice finished')
 
     def run(self, argv):
