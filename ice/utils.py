@@ -15,6 +15,7 @@ import appdirs
 import collections
 import functools
 import psutil
+import sys
 
 # Convenient function to check if a key is in a dictionary. If so, uses that,
 # otherwise, uses the default.
@@ -39,6 +40,15 @@ def steam_is_running():
       except Exception:
         continue
     return False
+
+def is_windows():
+	  return sys.platform.startswith('win')
+
+def is_osx():
+	  return sys.platform.startswith('darwin')
+
+def is_linux():
+    return str(sys.platform).startswith('lin')
 
 # Decorator for memoization
 # Copied from https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize

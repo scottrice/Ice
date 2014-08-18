@@ -19,7 +19,6 @@ import os
 import stat
 import unicodedata
 
-import platform_helper as pf
 from pysteam.shortcut import Shortcut
 
 class ROM:
