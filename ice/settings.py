@@ -10,19 +10,27 @@ Basic settings to be used by the app.
 """
 
 import ConfigParser
+import os
+
+from configuration import Configuration
+from persistence.config_file_backing_store import ConfigFileBackingStore
 import utils
 
-from persistence.config_file_backing_store import ConfigFileBackingStore
-from configuration import Configuration
+def __in_app_data_or_local(filename):
+  app_data_path = os.path.join(utils.app_data_directory(), filename)
+  if os.path.isfile(app_data_path):
+    return app_data_path
+  else:
+    return os.path.abspath(filename)
 
 def user_settings_path():
-  return "config.txt"
+  return __in_app_data_or_local("config.txt")
 
 def user_consoles_path():
-  return "consoles.txt"
+  return __in_app_data_or_local("consoles.txt")
 
 def user_emulators_path():
-  return "emulators.txt"
+  return __in_app_data_or_local("emulators.txt")
 
 config = Configuration(user_settings_path())
 

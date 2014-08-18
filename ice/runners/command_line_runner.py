@@ -9,9 +9,10 @@ from pysteam.steam import Steam
 
 from ice.error.config_error import ConfigError
 
-from ice import filesystem_helper as fs
 from ice import console
 from ice import emulator
+from ice import filesystem_helper as fs
+from ice import settings
 from ice import utils
 from ice.rom_manager import IceROMManager
 from ice.ice_logging import ice_logger
@@ -24,6 +25,10 @@ class CommandLineRunner(object):
             return
 
         ice_logger.log("Starting Ice")
+        # TODO: Create any missing directories that Ice will need
+        ice_logger.debug("Using `config.txt` at `%s`" % settings.user_settings_path())
+        ice_logger.debug("Using `consoles.txt` at `%s`" % settings.user_consoles_path())
+        ice_logger.debug("Using `emulators.txt` at `%s`" % settings.user_emulators_path())
         ice_logger.log_state_of_the_world(emulator.Emulator.all(), console.Console.all())
         steam = Steam()
         # Find all of the ROMs that are currently in the designated folders
