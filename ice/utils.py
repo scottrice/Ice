@@ -14,6 +14,7 @@ another python project and be able to use it out of the box.
 import appdirs
 import collections
 import functools
+import psutil
 
 # Convenient function to check if a key is in a dictionary. If so, uses that,
 # otherwise, uses the default.
@@ -28,6 +29,16 @@ def app_data_directory():
     # Parameters are 'App Name' and 'App Author'
     # TODO: Get these values from the same place as setup.py
     return appdirs.user_data_dir("Ice","Scott Rice")
+
+def steam_is_running():
+    for pid in psutil.pids():
+      try:
+        p = psutil.Process(pid)
+        if p.name().lower().startswith('steam'):
+          return True
+      except Exception:
+        continue
+    return False
 
 # Decorator for memoization
 # Copied from https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize

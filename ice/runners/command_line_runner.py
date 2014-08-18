@@ -14,14 +14,14 @@ from ice.steam_shortcut_manager import SteamShortcutManager
 from ice import filesystem_helper as fs
 from ice import console
 from ice import emulator
+from ice import utils
 from ice.rom_manager import IceROMManager
-from ice.process_helper import steam_is_running
 from ice.ice_logging import ice_logger
 
 class CommandLineRunner(object):
 
     def main(self, argv):
-        if steam_is_running():
+        if utils.steam_is_running():
             ice_logger.error("Ice cannot be run while Steam is open. Please close Steam and try again")
             return
 
