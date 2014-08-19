@@ -58,7 +58,10 @@ DATA_FILES = [
 ]
 
 EXCLUDE_FROM_PACKAGES = [
-  "tests*",
+  "tests",
+  "tests.*",
+  "*.tests",
+  "*.tests.*",
 ]
 
 DEPENDENCY_LINKS = [
@@ -92,12 +95,11 @@ setup(
   ]},
   dependency_links = DEPENDENCY_LINKS,
   install_requires=requirements,
-  extras_require={
-    'tests': [
-      'mock',
-      'nose',
-    ],
-  },
+  test_suite='nose.collector',
+  tests_require=[
+    'nose',
+    'mock',
+  ],
   zip_safe=False,
   classifiers=[
       'License :: OSI Approved :: MIT License',
