@@ -6,7 +6,10 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
 from PyQt4 import QtGui
-import sip
+from ice.gui.sync_tab import SyncTab
+from ice.gui.consoles_tab import ConsolesTab
+from ice.gui.emulators_tab import EmulatorsTab
+from ice.gui.settings_tab import SettingsTab
 
 class MainWindow(QtGui.QMainWindow):
 
@@ -30,8 +33,6 @@ class MainWindow(QtGui.QMainWindow):
     self.show()
 
 
-
-
   def initUI(self):
     QtGui.QToolTip.setFont(QtGui.QFont('SansSerif',10))
     self.setGeometry(300, 300, 800, 600)
@@ -40,83 +41,27 @@ class MainWindow(QtGui.QMainWindow):
     self.layout = QtGui.QVBoxLayout(self.centralWidget)
     self.centralWidget.setLayout(self.layout)
     self.setCentralWidget(self.centralWidget)
+    self.layoutHolder = QtGui.QWidget(self)
 
   def initTabs(self):
-    self.tabs = ['Sync', 'Consoles', 'Emulators', 'Settings']
-
-    self.toolbar = QtGui.QButtonGroup()
-    self.toolbar.setExclusive(True)
-
     self.toolbarHeight = 50
     self.buttonHeight = 50
     self.buttonWidth = 90
 
-    switch = {
-        'Sync': self.showSync,
-        'Consoles': self.showConsoles,
-        'Emulators': self.showEmulators,
-        'Settings': self.showSettings
-    }
-    for index, tabName in enumerate(self.tabs):
-        myButton = QtGui.QPushButton(tabName, self)
-        myButton.resize(self.buttonWidth, self.buttonHeight)
-        myButton.clicked.connect(switch[tabName])
-        self.toolbar.addButton(myButton)
+    self.tab_widget = QtGui.QTabWidget()
 
-    self.resize()
+    self.syncTab = SyncTab()
+    self.tab_widget.addTab(self.syncTab.getWidget(), 'Sync')
+    self.layout.addWidget(self.tab_widget)
 
-  def resize(self):
-    # resize toolbar
-    for index, button in enumerate(self.toolbar.buttons()):
-        button.move(round(self.width()/7*(index+2)-self.buttonWidth/2), round(self.toolbarHeight/2-self.buttonHeight/2))
+    self.consolesTab = ConsolesTab()
+    self.tab_widget.addTab(self.consolesTab.getWidget(), 'Console')
+    self.layout.addWidget(self.tab_widget)
 
-  def clearTab(self):
-    for i in reversed(range(self.layout.count())):
-        self.layout.itemAt(i).widget().deleteLater()
+    self.emulatorsTab = EmulatorsTab()
+    self.tab_widget.addTab(self.emulatorsTab.getWidget(), 'Emulators')
+    self.layout.addWidget(self.tab_widget)
 
-  def showSync(self):
-    self.clearTab()
-    font = QtGui.QFont('SansSerif', 50)
-    header = QtGui.QLabel('Sync', self)
-    header.setFont(font)
-    header.resize(self.buttonWidth*2, self.buttonHeight*2)
-    header.move(self.width()/2-self.buttonWidth, self.height()/2-self.buttonHeight)
-    self.layout.addWidget(header)
-    self.show()
-
-  def showConsoles(self):
-    self.clearTab()
-    font = QtGui.QFont('SansSerif', 50)
-    header = QtGui.QLabel("Consoles", self)
-    header.setFont(font)
-    header.resize(self.buttonWidth*2, self.buttonHeight*2)
-    header.move(self.width()/2-self.buttonWidth, self.height()/2-self.buttonHeight)
-    self.layout.addWidget(header)
-    self.show()
-
-  def showEmulators(self):
-    self.clearTab()
-    font = QtGui.QFont('SansSerif', 50)
-    header = QtGui.QLabel("Emulators", self)
-    header.setFont(font)
-    header.resize(self.buttonWidth*2, self.buttonHeight*2)
-    header.move(self.width()/2-self.buttonWidth, self.height()/2-self.buttonHeight)
-    self.layout.addWidget(header)
-    self.show()
-
-  def showSettings(self):
-    self.clearTab()
-    font = QtGui.QFont('SansSerif', 50)
-    header = QtGui.QLabel("Settings", self)
-    header.setFont(font)
-    header.resize(self.buttonWidth*2, self.buttonHeight*2)
-    header.move(self.width()/2-self.buttonWidth, self.height()/2-self.buttonHeight)
-    self.layout.addWidget(header)
-    self.show()
-
-
-
-
-
-
-
+    self.settingsTab = SettingsTab()
+    self.tab_widget.addTab(self.settingsTab.getWidget(), 'Settings')
+    self.layout.addWidget(self.tab_widget)
