@@ -26,14 +26,14 @@ class LocalProvider(grid_image_provider.GridImageProvider):
         """
         img_dir = rom.console.images_directory
         if img_dir == "":
-            return (None, ProviderError("No images directory specified for %s" % rom.console.shortname))
+            raise ProviderError("No images directory specified for %s" % rom.console.shortname)
         for extension in self.valid_extensions():
             filename = rom.name() + extension
             path = os.path.join(img_dir, filename)
             if os.path.isfile(path):
                 # We found a valid path, return it
-                return (path, None)
+                return path
         # We went through all of the possible filenames for this ROM and a
         # file didnt exist with any of them. There is no image for this ROM in
         # the consoles image directory
-        return (None, ProviderError("No image named '%s' with a valid file extension was found in '%s'" % (rom.name(), img_dir)))
+        return None

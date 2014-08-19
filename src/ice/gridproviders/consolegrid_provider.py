@@ -38,7 +38,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
         try:
             response = urllib2.urlopen(self.consolegrid_top_picture_url(rom))
             if response.getcode() == 204:
-              raise ProviderError("ConsoleGrid has no game called %s for %s. Try going to http://consolegrid.com and submitting the game yourself" % (rom.name(), rom.console.fullname))
+              raise ProviderError("ConsoleGrid has no game called `%s` for %s." % (rom.name(), rom.console.fullname))
             else:
               return response.read()
         except urllib2.URLError as error:
@@ -46,20 +46,16 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
             # may have happened
             raise ProviderError("No image was downloaded because an error was received from ConsoleGrid.")
 
-    def download_image(self,rom):
+    def download_image(self, url):
         """
-        Downloads the image at 'image_url' and returns the path to the image on
-        the local filesystem
+        Downloads the image at 'url' and returns the path to the image on the
+        local filesystem
         """
-        image_url = self.find_url_for_rom(rom)
-        if image_url == "":
-          raise ProviderError("We couldn't find an image for %s. If you find one you like, upload it to http://consolegrid.com, and next time Ice runs it will be used" % rom.name())
-        (path,headers) = urllib.urlretrieve(image_url)
+        (path,headers) = urllib.urlretrieve(url)
         return path
 
     def image_for_rom(self, rom):
-        try:
-            path = self.download_image(rom)
-            return (path, None)
-        except ProviderError as e:
-            return (None, e)
+        image_url = self.find_url_for_rom(rom)
+        if image_url == "":
+            return None
+        return self.download_image(image_url)

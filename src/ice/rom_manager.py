@@ -18,6 +18,7 @@ import os
 
 import filesystem_helper
 from console import Console
+from error.provider_error import ProviderError
 from ice_logging import ice_logger
 from settings import config
 
@@ -129,9 +130,11 @@ class IceROMManager():
         Returns None if no provider was able to find an image
         """
         for provider in self.providers:
-            (path, error) = provider.image_for_rom(rom)
-            if path is not None:
-                return path
-            # TODO: Log the error for the provider
-            ice_logger.debug(error)
+            try:
+              path = provider.image_for_rom(rom)
+              if path is not None:
+                  return path
+            except ProviderError as error:
+              # If the provider encountered an error, print it to the debug log
+              ice_logger.debug(error)
         return None
