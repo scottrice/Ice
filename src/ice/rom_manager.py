@@ -20,6 +20,7 @@ import filesystem_helper
 from console import Console
 from error.provider_error import ProviderError
 from ice_logging import ice_logger
+from rom import ICE_FLAG_TAG
 from settings import config
 
 # Providers
@@ -41,17 +42,10 @@ class IceROMManager():
     
     def __is_managed_by_ice__(self,shortcut):
         """
-        We determine whether a shortcut is managed by ice by whether the app
-        directory location is contained in the target string. The way I see it,
-        a target that uses Ice will either point to an emulator (which is
-        contained in the app dir), or to an Ice exectuable (again, contained
-        in the Ice dir). Obviously if we add a method of executing roms which
-        doesn't involve the app dir, this method will need to be rethought.
+        We detect if a shortcut is managed by Ice by checking for Ice's flag
+        in the tags.
         """
-        for console in Console.all_enabled():
-            if console.roms_directory() in shortcut.exe:
-                return True
-        return False
+        return ICE_FLAG_TAG in shortcut.tags
         
     def rom_already_in_steam(self,rom):
         """

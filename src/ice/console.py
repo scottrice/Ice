@@ -45,13 +45,14 @@ class Console(BackedObject):
         self.fullname               = identifier
         self.shortname              = self.backed_value('nickname', self.fullname)
         self.extensions             = self.backed_value('extensions', "")
-        self.custom_roms_directory  = self.backed_value('roms directory', None)
+        self.custom_roms_directory  = self.backed_value('roms directory', "")
         self.prefix                 = self.backed_value('prefix', "")
         self.icon                   = self.backed_value('icon', "")
         self.images_directory       = self.backed_value('images directory', "")
         self.emulator_identifier    = self.backed_value('emulator', "")
         
         self.icon = os.path.expanduser(self.icon)
+        self.custom_roms_directory = os.path.expanduser(self.custom_roms_directory)
         self.images_directory = os.path.expanduser(self.images_directory)
 
         self.emulator = Emulator.find(self.emulator_identifier)

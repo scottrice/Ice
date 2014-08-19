@@ -21,6 +21,8 @@ import unicodedata
 
 from pysteam.shortcut import Shortcut
 
+ICE_FLAG_TAG = "~ManagedByIce"
+
 class ROM:
     def __init__(self,path,console):
         self.path = path
@@ -59,4 +61,5 @@ class ROM:
         startdir = self.console.emulator.startdir(self)
         icon = self.console.icon
         category = self.console.fullname
-        return Shortcut(appname,exe,startdir,icon,category)
+        tags = [ ICE_FLAG_TAG, category ]
+        return Shortcut(appname,exe,startdir,icon,tags)
