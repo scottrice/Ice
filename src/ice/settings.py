@@ -33,20 +33,3 @@ def user_emulators_path():
   return __in_app_data_or_local("emulators.txt")
 
 config = Configuration(user_settings_path())
-
-def _config_file_to_dictionary(path):
-  config = ConfigParser.ConfigParser()
-  config.read(path)
-  settings = {}
-  for section in config.sections():
-    settings[section] = {}
-    for option in config.options(section):
-      settings[section][option] = config.get(section,option)
-  return settings
-
-def settings_for_file(file):
-  return {
-    "config.txt": config(),
-    "consoles.txt": consoles(),
-    "emulators.txt": emulators(),
-  }[file]
