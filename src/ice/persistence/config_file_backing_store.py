@@ -25,21 +25,21 @@ class ConfigFileBackingStore(backing_store.BackingStore):
     try:
       self.configParser.add_section(ident)
     except ConfigParser.DuplicateSectionError:
-      raise ValueError("A section with the id `%s` already exists" % str(id))
+      raise ValueError("The identifier `%s` already exists" % str(ident))
 
   def remove_identifier(self, ident):
-    try:
-      self.configParser.remove_section(ident)
-    except ConfigParser.NoSectionError:
-      raise ValueError("Cannot remove a section with the id `%s` because none exists" % str(id))
+    self.configParser.remove_section(ident)
 
   def keys(self, ident):
-    return self.configParser.options(ident)
+    try:
+      return self.configParser.options(ident)
+    except ConfigParser.NoSectionError:
+      raise ValueError("No identifier named `%s` exists" % str(ident))
 
   def get(self, ident, key, default=None):
     try:
       val = self.configParser.get(ident, key.lower())
-      return val if val != "" else None
+      return val if val != "" else default
     except ConfigParser.NoOptionError:
       return default
 
