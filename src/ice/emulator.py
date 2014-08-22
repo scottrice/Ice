@@ -22,13 +22,13 @@ import filesystem_helper
 import utils
 
 class Emulator(BackedObject):
-    backing_store = None
 
-    def __init__(self, identifier):
-        super(Emulator, self).__init__(identifier)
-        self.name     = identifier
-        self.location = self.backed_value('location')
-        self.format   = self.backed_value('command', "%l %r")
+    def __init__(self, backing_store, identifier):
+        super(Emulator, self).__init__(backing_store, identifier)
+
+        self.name           = identifier
+        self.location       = self.backed_value('location')
+        self.format         = self.backed_value('command', "%l %r")
 
         self.location = os.path.expanduser(self.location)
 

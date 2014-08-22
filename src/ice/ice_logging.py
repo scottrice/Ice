@@ -65,12 +65,12 @@ class IceLogger():
 
     def log_configuration(self, config):
         ice_logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
-        ice_logger.debug("Using `consoles.txt` at `%s`" % config.consoles_backing_store.path)
-        ice_logger.debug("Using `emulators.txt` at `%s`" % config.emulators_backing_store.path)
-        for e in config.emulators:
-          self.log_emulator_state(e)
-        for c in config.consoles:
-          self.log_console_state(c)
+        ice_logger.debug("Using `consoles.txt` at `%s`" % config.console_manager.backing_store.path)
+        ice_logger.debug("Using `emulators.txt` at `%s`" % config.emulator_manager.backing_store.path)
+        for emulator in config.emulator_manager:
+          self.log_emulator_state(emulator)
+        for console in config.console_manager:
+          self.log_console_state(console)
 
 # create our IceLogger object
 ice_logger = IceLogger()

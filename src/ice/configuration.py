@@ -13,8 +13,8 @@ import appdirs
 import datetime
 import os
 
-from console import Console
-from emulator import Emulator
+from persistence.console_manager import ConsoleManager
+from persistence.emulator_manager import EmulatorManager
 
 class Configuration(object):
 
@@ -28,11 +28,12 @@ class Configuration(object):
       self.config_backing_store = config_store
       self.consoles_backing_store = consoles_store
       self.emulators_backing_store = emulators_store
-      # TODO: Pretty sure this is a smell
-      Console.backing_store = consoles_store
-      Emulator.backing_store = emulators_store
-      self.consoles = [Console(ident, self) for ident in consoles_store.identifiers()]
-      self.emulators = [Emulator(ident) for ident in emulators_store.identifiers()]
+      self.console_manager = ConsoleManager(consoles_store, self)
+      self.emulator_manager = EmulatorManager(emulators_store)
+      # We initialize the emulators first so that when the consoles are
+      # initialized they will be able to grab emulators using `find`
+      self.emulator_manager.initialize()
+      self.console_manager.initialize()
 
     def _get_directory_from_store(self, identifier, key, default):
       # TODO: Clean up this function and write tests for the callsites
@@ -91,7 +92,7 @@ class Configuration(object):
       is enabled
       """
       valid_roms = []
-      for c in self.consoles:
-        if c.is_enabled():
-          valid_roms.extend(c.find_roms())
+      for console in self.console_manager:
+        if console.is_enabled():
+          valid_roms.extend(console.find_roms())
       return valid_roms

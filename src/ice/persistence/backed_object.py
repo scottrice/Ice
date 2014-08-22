@@ -9,43 +9,29 @@ from ice import utils
 
 class BackedObject(object):
 
-  backing_store = None
-  find_cache = {}
-
-  @classmethod
-  def find(cls, ident):
-    if cls.backing_store.has_identifier(ident):
-      if ident not in cls.find_cache:
-        cls.find_cache[ident] = cls(ident)
-      return cls.find_cache[ident]
-    else:
-      return None
-
-  def __init__(self, identifier):
-    self.backing_store_identifier = identifier
-    self.value_changes = {}
+  def __init__(self, backing_store, identifier):
+    self.backing_store  = backing_store
+    self.identifier     = identifier
+    self.dirty_values   = {}
 
   def backed_value(self, key, default=None):
-    if key in self.value_changes:
-      return self.value_changes[key]
+    if key in self.dirty_values:
+      return self.dirty_values[key]
     else:
-      return self.backing_store.get(self.backing_store_identifier, key, default)
+      return self.backing_store.get(self.identifier, key, default)
 
   def set_backed_value(self, key, value):
-    self.value_changes[key] = value
+    self.dirty_values[key] = value
 
   def save(self):
     # If this is an entirely new object, add a section for it in the store
-    if not self.backing_store.has_identifier(self.backing_store_identifier):
-      self.backing_store.add_identifier(self.backing_store_identifier)
+    if not self.backing_store.has_identifier(self.identifier):
+      self.backing_store.add_identifier(self.identifier)
     # Modify all of the keys/values
-    for key in self.value_changes:
-      new_value = self.value_changes[key]
-      self.backing_store.set(self.backing_store_identifier, key, new_value)
+    for key in self.dirty_values:
+      new_value = self.dirty_values[key]
+      self.backing_store.set(self.identifier, key, new_value)
     # Save the store
     self.backing_store.save()
-    # After a save none of the values are `changed`
-    self.value_changes = {}
-    # We also want to ensure that `find` returns this object now, so put it
-    # in the cache
-    self.find_cache[self.backing_store_identifier] = self
+    # After a save no value is dirty
+    self.dirty_values = {}
