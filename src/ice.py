@@ -9,11 +9,13 @@ try:
     if __name__ == "__main__":
         runner = command_line_runner.CommandLineRunner()
         runner.run(sys.argv)
-except Exception:
+except Exception as e:
     stderr = sys.stderr
     with open('stderr.log', 'w') as f:
       sys.stderr = f
       traceback.print_exc()
       sys.stderr = stderr
-    print "A fatal error occurred. Check `stderr.log` for more details"
+    print "A fatal error occured:"
+    print "\"%s\"" % e
+    print "For a full stack trace, see `stderr.log`"
     raw_input()

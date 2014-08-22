@@ -15,5 +15,7 @@ except Exception:
       sys.stderr = f
       traceback.print_exc()
       sys.stderr = stderr
-    print "A fatal error occurred. Check `stderr.log` for more details"
+    print "A fatal error occured:"
+    print "\"%s\"" % e
+    print "For a full stack trace, see `stderr.log`"
     raw_input()
