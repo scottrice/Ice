@@ -11,7 +11,6 @@ functions, not related to Ice at all. You should be able to move this file to
 another python project and be able to use it out of the box.
 """
 
-import appdirs
 import collections
 import functools
 import psutil
@@ -25,11 +24,6 @@ def idx(dictionary, index, default=None):
         return dictionary[index]
     else:
         return default
-
-def app_data_directory():
-    # Parameters are 'App Name' and 'App Author'
-    # TODO: Get these values from the same place as setup.py
-    return appdirs.user_data_dir("Ice","Scott Rice")
 
 def steam_is_running():
     for pid in psutil.pids():

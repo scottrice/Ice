@@ -21,15 +21,15 @@ from console import Console
 from error.provider_error import ProviderError
 from ice_logging import ice_logger
 from rom import ICE_FLAG_TAG
-from settings import config
 
 # Providers
 from gridproviders import local_provider
 from gridproviders import consolegrid_provider
 
 class IceROMManager():
-    def __init__(self, user):
+    def __init__(self, user, config):
         self.user = user
+        self.config = config
         self.providers = [
             local_provider.LocalProvider(),
             consolegrid_provider.ConsoleGridProvider(),
@@ -90,7 +90,7 @@ class IceROMManager():
         5) Download artwork for all of the new ROMs
         """
         # Backup the shortcuts before we touch anything
-        backup_path = config.shortcuts_backup_path(self.user)
+        backup_path = self.config.shortcuts_backup_path(self.user)
         self.user.save_shortcuts(backup_path)
         # Remove old ROMs
         self.remove_deleted_roms_from_steam(roms)

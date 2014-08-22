@@ -18,13 +18,11 @@ import shutil
 
 from ice_logging import ice_logger
 from persistence.backed_object import BackedObject
-from persistence.config_file_backing_store import ConfigFileBackingStore
 import filesystem_helper
-import settings
 import utils
 
 class Emulator(BackedObject):
-    backing_store = ConfigFileBackingStore(settings.user_emulators_path())
+    backing_store = None
 
     def __init__(self, identifier):
         super(Emulator, self).__init__(identifier)

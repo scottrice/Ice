@@ -18,7 +18,6 @@ ROMs, etc)
 
 import os
 
-import settings
 from ice_logging import ice_logger
 
 def highest_directory_in_path(path):

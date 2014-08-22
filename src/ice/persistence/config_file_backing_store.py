@@ -12,10 +12,9 @@ import backing_store
 
 class ConfigFileBackingStore(backing_store.BackingStore):
 
-  def __init__(self, filename):
+  def __init__(self, path):
+    super(ConfigFileBackingStore, self).__init__(path)
     self.configParser = ConfigParser.RawConfigParser()
-    self.path = filename
-
     self.configParser.read(self.path)
 
   def identifiers(self):

@@ -11,7 +11,6 @@ import sys
 import os
 import time
 import traceback
-import settings
 
 import logging
 import logging.handlers
@@ -64,12 +63,14 @@ class IceLogger():
         else:
           self.warning("[DISABLED] Issue detected with console `%s`" % console)
 
-    def log_state_of_the_world(self, emulators, consoles):
-        for e in emulators:
+    def log_configuration(self, config):
+        ice_logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
+        ice_logger.debug("Using `consoles.txt` at `%s`" % config.consoles_backing_store.path)
+        ice_logger.debug("Using `emulators.txt` at `%s`" % config.emulators_backing_store.path)
+        for e in config.emulators:
           self.log_emulator_state(e)
-        for c in consoles:
+        for c in config.consoles:
           self.log_console_state(c)
-
 
 # create our IceLogger object
 ice_logger = IceLogger()

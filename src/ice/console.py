@@ -16,7 +16,6 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 
 import os
 
-import settings
 import filesystem_helper
 import utils
 from persistence.backed_object import BackedObject
@@ -25,23 +24,13 @@ from ice_logging import ice_logger
 from emulator import Emulator
 from rom import ROM
 
-# TODO: Move this method into a better location
-def find_all_roms():
-    all_roms = []
-    for c in Console.all_enabled():
-      all_roms.extend(c.find_roms())
-    return all_roms
-
 class Console(BackedObject):
 
-    backing_store = ConfigFileBackingStore(settings.user_consoles_path())
+    backing_store = None
 
-    @classmethod
-    def all_enabled(cls):
-        return filter(cls.is_enabled, cls.all())
-
-    def __init__(self, identifier):
+    def __init__(self, identifier, config):
         super(Console, self).__init__(identifier)
+        self.config                 = config
         self.fullname               = identifier
         self.shortname              = self.backed_value('nickname', self.fullname)
         self.extensions             = self.backed_value('extensions', "")
@@ -81,7 +70,7 @@ class Console(BackedObject):
         """
         if self.custom_roms_directory:
             return self.custom_roms_directory
-        return os.path.join(settings.config.roms_directory(),self.shortname)
+        return os.path.join(self.config.roms_directory(),self.shortname)
       
     def is_valid_rom(self,path):
         """

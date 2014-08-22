@@ -9,20 +9,34 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 Wrapper class around the options that a user could set to configure Ice
 """
 
+import appdirs
+import datetime
 import os
-from datetime import datetime
 
-from persistence.config_file_backing_store import ConfigFileBackingStore
-from utils import app_data_directory as data_directory
+from console import Console
+from emulator import Emulator
 
 class Configuration(object):
 
-    def __init__(self, config_path):
-      self.backing_store = ConfigFileBackingStore(config_path)
+    @staticmethod
+    def data_directory():
+      # Parameters are 'App Name' and 'App Author'
+      # TODO: Get these values from the same place as setup.py
+      return appdirs.user_data_dir("Ice","Scott Rice")
 
-    def _get_directory_(self, identifier, key, default):
+    def __init__(self, config_store, consoles_store, emulators_store):
+      self.config_backing_store = config_store
+      self.consoles_backing_store = consoles_store
+      self.emulators_backing_store = emulators_store
+      # TODO: Pretty sure this is a smell
+      Console.backing_store = consoles_store
+      Emulator.backing_store = emulators_store
+      self.consoles = [Console(ident, self) for ident in consoles_store.identifiers()]
+      self.emulators = [Emulator(ident) for ident in emulators_store.identifiers()]
+
+    def _get_directory_from_store(self, identifier, key, default):
       # TODO: Clean up this function and write tests for the callsites
-      path = self.backing_store.get(identifier, key, default)
+      path = self.config_backing_store.get(identifier, key, default)
       if path is not None:
         return os.path.expanduser(path)
       elif default is not None:
@@ -42,17 +56,17 @@ class Configuration(object):
       return self._directory_value_('Steam', 'Userdata Location', None)
 
     def roms_directory(self):
-      return self._get_directory_(
+      return self._get_directory_from_store(
         'Storage',
         'ROMs Directory',
         os.path.join('~', 'ROMs')
       )
 
     def backup_directory(self):
-      return self._get_directory_(
+      return self._get_directory_from_store(
         'Storage',
         'Backup Directory',
-        os.path.join(data_directory(), 'Backups')
+        os.path.join(Configuration.data_directory(), 'Backups')
       )
 
     def shortcuts_backup_path(self, user, timestamp_format="%Y%m%d%H%M%S"):
@@ -62,7 +76,7 @@ class Configuration(object):
       This path is in the designated backup directory, and includes a timestamp
       before the extension to allow many backups to exist at once.
       """
-      timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+      timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
       filename = "shortcuts." + timestamp + ".vdf"
       return os.path.join(
           self.backup_directory(),
@@ -70,3 +84,14 @@ class Configuration(object):
           'config',
           filename
       )
+
+    def valid_roms(self):
+      """
+      Returns all the `valid` ROMs. A ROM is considered valid if its console
+      is enabled
+      """
+      valid_roms = []
+      for c in self.consoles:
+        if c.is_enabled():
+          valid_roms.extend(c.find_roms())
+      return valid_roms

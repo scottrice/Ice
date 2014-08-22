@@ -13,10 +13,6 @@ class BackedObject(object):
   find_cache = {}
 
   @classmethod
-  def all(cls):
-    return [cls.find(ident) for ident in cls.backing_store.identifiers()]
-
-  @classmethod
   def find(cls, ident):
     if cls.backing_store.has_identifier(ident):
       if ident not in cls.find_cache:

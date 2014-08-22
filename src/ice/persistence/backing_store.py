@@ -11,6 +11,9 @@ import abc
 class BackingStore(object):
   __metaclass__ = abc.ABCMeta
 
+  def __init__(self, path):
+    self.path = path
+
   @abc.abstractmethod
   def identifiers(self):
     """
