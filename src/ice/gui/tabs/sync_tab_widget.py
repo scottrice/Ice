@@ -6,6 +6,8 @@ Created by Yale Thomas on 8-18-2014
 
 from PyQt4 import QtGui
 
+from ice.gui.steam_preview_widget import SteamPreviewWidget
+
 class SyncTabWidget(QtGui.QWidget):
 
   def __init__(self):
@@ -13,9 +15,7 @@ class SyncTabWidget(QtGui.QWidget):
 
     layout = QtGui.QVBoxLayout(self)
     syncButton = QtGui.QPushButton("Sync ROMs", self)
+    steamPreview = SteamPreviewWidget()
     layout.addWidget(syncButton)
-    header = QtGui.QLabel('Sync')
-    header.setFont(QtGui.QFont('SansSerif', 50))
-    layout.addWidget(syncButton)
-    layout.addWidget(header)
+    layout.addWidget(steamPreview)
     self.setLayout(layout)
