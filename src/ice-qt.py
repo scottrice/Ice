@@ -9,7 +9,7 @@ try:
     if __name__ == "__main__":
         runner = qt_runner.QtRunner()
         runner.run(sys.argv)
-except Exception:
+except Exception as e:
     stderr = sys.stderr
     with open('stderr.log', 'w') as f:
       sys.stderr = f
