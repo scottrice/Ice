@@ -6,10 +6,10 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
 from PyQt4 import QtGui
-from ice.gui.tabs.sync_tab_widget import SyncTabWidget
-from ice.gui.tabs.consoles_tab_widget import ConsolesTabWidget
-from ice.gui.tabs.emulators_tab_widget import EmulatorsTabWidget
-from ice.gui.tabs.settings_tab_widget import SettingsTabWidget
+from ice.gui.tabs.sync_tab_controller import SyncTabController
+from ice.gui.tabs.consoles_tab_controller import ConsolesTabController
+from ice.gui.tabs.emulators_tab_controller import EmulatorsTabController
+from ice.gui.tabs.settings_tab_controller import SettingsTabController
 
 class MainWindow(QtGui.QMainWindow):
 
@@ -50,11 +50,11 @@ class MainWindow(QtGui.QMainWindow):
 
     self.tabWidget = QtGui.QTabWidget()
 
-    self.tabs = {
-      "Sync":       SyncTabWidget(),
-      "Consoles":   ConsolesTabWidget(),
-      "Emulators":  EmulatorsTabWidget(),
-      "Settings":   SettingsTabWidget(),
+    self.tab_controllers = {
+      "Sync":       SyncTabController(),
+      "Consoles":   ConsolesTabController(),
+      "Emulators":  EmulatorsTabController(),
+      "Settings":   SettingsTabController(),
     }
 
     tab_order = [
@@ -65,6 +65,6 @@ class MainWindow(QtGui.QMainWindow):
     ]
 
     for tab_name in tab_order:
-      widget = self.tabs[tab_name]
-      self.tabWidget.addTab(widget, tab_name)
+      controller = self.tab_controllers[tab_name]
+      self.tabWidget.addTab(controller.widget, tab_name)
     self.layout.addWidget(self.tabWidget)
