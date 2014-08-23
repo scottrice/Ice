@@ -6,10 +6,10 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
 from PyQt4 import QtGui
-from ice.gui.sync_tab import SyncTab
-from ice.gui.consoles_tab import ConsolesTab
-from ice.gui.emulators_tab import EmulatorsTab
-from ice.gui.settings_tab import SettingsTab
+from ice.gui.tabs.sync_tab_widget import SyncTabWidget
+from ice.gui.tabs.consoles_tab_widget import ConsolesTabWidget
+from ice.gui.tabs.emulators_tab_widget import EmulatorsTabWidget
+from ice.gui.tabs.settings_tab_widget import SettingsTabWidget
 
 class MainWindow(QtGui.QMainWindow):
 
@@ -48,20 +48,23 @@ class MainWindow(QtGui.QMainWindow):
     self.buttonHeight = 50
     self.buttonWidth = 90
 
-    self.tab_widget = QtGui.QTabWidget()
+    self.tabWidget = QtGui.QTabWidget()
 
-    self.syncTab = SyncTab()
-    self.tab_widget.addTab(self.syncTab.getWidget(), 'Sync')
-    self.layout.addWidget(self.tab_widget)
+    self.tabs = {
+      "Sync":       SyncTabWidget(),
+      "Consoles":   ConsolesTabWidget(),
+      "Emulators":  EmulatorsTabWidget(),
+      "Settings":   SettingsTabWidget(),
+    }
 
-    self.consolesTab = ConsolesTab()
-    self.tab_widget.addTab(self.consolesTab.getWidget(), 'Console')
-    self.layout.addWidget(self.tab_widget)
+    tab_order = [
+      "Sync",
+      "Consoles",
+      "Emulators",
+      "Settings",
+    ]
 
-    self.emulatorsTab = EmulatorsTab()
-    self.tab_widget.addTab(self.emulatorsTab.getWidget(), 'Emulators')
-    self.layout.addWidget(self.tab_widget)
-
-    self.settingsTab = SettingsTab()
-    self.tab_widget.addTab(self.settingsTab.getWidget(), 'Settings')
-    self.layout.addWidget(self.tab_widget)
+    for tab_name in tab_order:
+      widget = self.tabs[tab_name]
+      self.tabWidget.addTab(widget, tab_name)
+    self.layout.addWidget(self.tabWidget)
