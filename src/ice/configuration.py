@@ -74,7 +74,7 @@ class Configuration(object):
       specified a directory.
       """
       # We want to return None even if the empty string is given
-      return self._directory_value_('Steam', 'Userdata Location', None)
+      return self._get_directory_from_store('Steam', 'Userdata Location', None)
 
     def roms_directory(self):
       return self._get_directory_from_store(
