@@ -11,3 +11,8 @@ class SettingsTabController(object):
   def __init__(self, config):
     self.widget = SettingsTabWidget()
     self.config = config
+
+    self.widget.romsDirectoryWidget.setText(config.roms_directory())
+    self.widget.backupDirectoryWidget.setText(config.backup_directory())
+    if config.steam_userdata_location():
+      self.widget.userdataWidget.setText(config.steam_userdata_location())
