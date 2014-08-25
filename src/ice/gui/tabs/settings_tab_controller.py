@@ -8,5 +8,6 @@ from ice.gui.tabs.settings_tab_widget import SettingsTabWidget
 
 class SettingsTabController(object):
 
-  def __init__(self):
+  def __init__(self, config):
     self.widget = SettingsTabWidget()
+    self.config = config

@@ -19,54 +19,37 @@ from ice.rom_manager import IceROMManager
 
 class CommandLineRunner(object):
 
-    def path_for_data_file(self, filename):
-        """
-        Returns the path to a data file named `filename`.
-        This function first checks to see if the data file exists in the data
-        directory. If so, it returns that.
-        Then, this function checks to see if the data file exists in the local
-        directory. If so, it returns that.
-        If neither of those things are true then this function will return the
-        path to a new file in the data directory.
-        """
-        local_path = os.path.abspath(filename)
-        data_path = os.path.join(Configuration.data_directory(), filename)
-        if os.path.isfile(data_path):
-            return data_path
-        elif os.path.isfile(local_path):
-            return local_path
-        else:
-            return data_path
-
-    def main(self, argv):
-        if utils.steam_is_running():
-            ice_logger.error("Ice cannot be run while Steam is open. Please close Steam and try again")
-            return
-
-        ice_logger.log("Starting Ice")
-        config_data_path    = self.path_for_data_file("config.txt")
-        consoles_data_path  = self.path_for_data_file("consoles.txt")
-        emulators_data_path = self.path_for_data_file("emulators.txt")
-        # TODO: Create any missing directories that Ice will need
-        config = Configuration(
+    def __init__(self):
+        config_data_path    = Configuration.path_for_data_file("config.txt")
+        consoles_data_path  = Configuration.path_for_data_file("consoles.txt")
+        emulators_data_path = Configuration.path_for_data_file("emulators.txt")
+        self.config = Configuration(
             ConfigFileBackingStore(config_data_path),
             ConfigFileBackingStore(consoles_data_path),
             ConfigFileBackingStore(emulators_data_path),
         )
-        ice_logger.log_configuration(config)
         steam = Steam()
+        self.users = steam.local_users()
+
+    def main(self, argv):
+        ice_logger.log("=========== Starting Ice ===========")
+        # TODO: Create any missing directories that Ice will need
+        ice_logger.log_configuration(self.config)
+        for user in self.users:
+            self.run_for_user(user)
+
+    def run_for_user(self, user):
+        ice_logger.log("=========== User: %s ===========" % str(user.id32))
         # Find all of the ROMs that are currently in the designated folders
-        roms = config.valid_roms()
-        # Find the Steam Account that the user would like to add ROMs for
-        users = steam.local_users()
-        for user in users:
-            ice_logger.log("=========== User: %s ===========" % str(user.id32))
-            rom_manager = IceROMManager(user, config)
-            rom_manager.sync_roms(roms)
-        ice_logger.log('Ice finished')
+        roms = self.config.valid_roms()
+        rom_manager = IceROMManager(user, self.config)
+        rom_manager.sync_roms(roms)
 
     def run(self, argv):
       try:
+          if utils.steam_is_running():
+              ice_logger.error("Ice cannot be run while Steam is open. Please close Steam and try again")
+              return
           self.main(argv)
       except Exception as error:
           ice_logger.exception()

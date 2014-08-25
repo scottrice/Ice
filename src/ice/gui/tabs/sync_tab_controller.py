@@ -8,5 +8,16 @@ from ice.gui.tabs.sync_tab_widget import SyncTabWidget
 
 class SyncTabController(object):
 
-  def __init__(self):
-    self.widget = SyncTabWidget()
+  # TODO: Runner shouldn't be passed to SyncTabWidget here, it should pass in
+  # only the data needed when the tab widget needs it. The tab widget (and steam
+  # preview widget) shouldnt be holding onto that information as state.
+  def __init__(self, runner):
+    # TODO: Will this break on machines where no user has logged into steam yet?
+    self.user   = runner.users[0]
+    self.widget = SyncTabWidget(self.user)
+    self.runner = runner
+
+    self.widget.setROMs(runner.config.valid_roms())
+
+  def sync(self):
+    self.runner.run()

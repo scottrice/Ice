@@ -8,5 +8,6 @@ from ice.gui.tabs.consoles_tab_widget import ConsolesTabWidget
 
 class ConsolesTabController(object):
 
-  def __init__(self):
+  def __init__(self, config):
     self.widget = ConsolesTabWidget()
+    self.config = config

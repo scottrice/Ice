@@ -10,11 +10,14 @@ from ice.gui.tabs.sync_tab_controller import SyncTabController
 from ice.gui.tabs.consoles_tab_controller import ConsolesTabController
 from ice.gui.tabs.emulators_tab_controller import EmulatorsTabController
 from ice.gui.tabs.settings_tab_controller import SettingsTabController
+from ice.runners.command_line_runner import CommandLineRunner
 
 class MainWindow(QtGui.QMainWindow):
 
   def __init__(self):
     super(MainWindow, self).__init__()
+
+    self.runner = CommandLineRunner()
 
     exitAction = QtGui.QAction(QtGui.QIcon('exit.png'), '&Exit', self)
     exitAction.setShortcut('Ctrl+Q')
@@ -51,10 +54,10 @@ class MainWindow(QtGui.QMainWindow):
     self.tabWidget = QtGui.QTabWidget()
 
     self.tab_controllers = {
-      "Sync":       SyncTabController(),
-      "Consoles":   ConsolesTabController(),
-      "Emulators":  EmulatorsTabController(),
-      "Settings":   SettingsTabController(),
+      "Sync":       SyncTabController(self.runner),
+      "Consoles":   ConsolesTabController(self.runner.config),
+      "Emulators":  EmulatorsTabController(self.runner.config),
+      "Settings":   SettingsTabController(self.runner.config),
     }
 
     tab_order = [

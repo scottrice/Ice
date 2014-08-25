@@ -8,5 +8,6 @@ from ice.gui.tabs.emulators_tab_widget import EmulatorsTabWidget
 
 class EmulatorsTabController(object):
 
-  def __init__(self):
+  def __init__(self, config):
     self.widget = EmulatorsTabWidget()
+    self.config = config
