@@ -13,17 +13,14 @@ class SteamPreviewWidget(QtGui.QWidget):
   def __init__(self, user):
     super(SteamPreviewWidget, self).__init__()
     self.user = user
-
-    self.numGridColumns = 3
     self.roms = []
 
     self.initUI()
+    self.resizeEvent(None)
 
   def initUI(self):
     self.grid = QtGui.QGridLayout()
     self.setLayout(self.grid)
-    # TODO: Only for debugging
-    self.setStyleSheet("QLayout { background-color: red }")
 
   def redraw(self):
     self.clear()
@@ -41,8 +38,8 @@ class SteamPreviewWidget(QtGui.QWidget):
   def drawROMs(self):
     for idx in range(0, len(self.roms)):
       rom = self.roms[idx]
-      row = idx / 3
-      col = idx % 3
+      row = idx / self.numColumns
+      col = idx % self.numColumns
       widget = SteamShortcutWidget()
       widget.setName(rom.name())
       widget.setImage(rom.to_shortcut().custom_image(self.user))
@@ -59,4 +56,8 @@ class SteamPreviewWidget(QtGui.QWidget):
 
   def setUser(self, user):
     self.user = user
+    self.redraw()
+
+  def resizeEvent(self, event):
+    self.numColumns = self.width() / (SteamShortcutWidget.IMAGE_WIDTH + 10)
     self.redraw()
