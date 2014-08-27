@@ -8,6 +8,9 @@ from PyQt4 import QtGui
 
 class SteamShortcutWidget(QtGui.QWidget):
 
+  IMAGE_WIDTH = 460
+  IMAGE_HEIGHT = 215
+
   def __init__(self):
     super(SteamShortcutWidget, self).__init__()
 
@@ -15,8 +18,8 @@ class SteamShortcutWidget(QtGui.QWidget):
 
   def initUI(self):
     picture = QtGui.QLabel(self)
-    picture.setMaximumSize(460, 215)
-    picture.setMaximumSize(460, 215)
+    picture.setMaximumSize(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
+    picture.setMinimumSize(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
 
     nameLabel = QtGui.QLabel()
     hbox = QtGui.QHBoxLayout()
@@ -39,6 +42,6 @@ class SteamShortcutWidget(QtGui.QWidget):
     pixmap = QtGui.QPixmap(path)
     # TODO: Make this handle odd aspect ratios the same way Steam does
     # TODO: Handle null paths (ideally use the same image that Steam does)
-    pixmap = pixmap.scaled(460, 215)
+    pixmap = pixmap.scaled(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
     self.pictureWidget.setPixmap(pixmap)
     
