@@ -18,6 +18,8 @@ class SyncTabController(object):
     self.runner = runner
 
     self.widget.setROMs(runner.config.valid_roms())
+    for u in runner.users:
+      self.widget.userDropdown.addItem(str(u.id32))
 
   def sync(self):
     self.runner.run()

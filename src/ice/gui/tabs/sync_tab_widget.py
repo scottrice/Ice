@@ -18,19 +18,32 @@ class SyncTabWidget(QtGui.QWidget):
 
   def initUI(self):
     layout = QtGui.QVBoxLayout(self)
-    self.initSyncButton(layout)
+    self.initTopRow(layout)
     self.initPreview(layout)
     self.setLayout(layout)
 
-  def initSyncButton(self, layout):
+  def initTopRow(self, layout):
     hbox = QtGui.QHBoxLayout()
+    leftbox = QtGui.QHBoxLayout()
+    rightbox = QtGui.QHBoxLayout()
+
+    leftbox.addStretch(1)
+
     button = QtGui.QPushButton("Sync ROMs", self)
-    hbox.addStretch(1)
+
+    rightbox.addStretch(1)
+    userDropdown = QtGui.QComboBox()
+    rightbox.addWidget(QtGui.QLabel("User: "))
+    rightbox.addWidget(userDropdown)
+
+    hbox.addLayout(leftbox)
     hbox.addWidget(button)
-    hbox.addStretch(1)
+    hbox.addLayout(rightbox)
+
     layout.addLayout(hbox)
 
     self.syncButton = button
+    self.userDropdown = userDropdown
 
   def initPreview(self, layout):
     self.previewWidget = SteamPreviewWidget(self.user)
@@ -47,9 +60,6 @@ class SyncTabWidget(QtGui.QWidget):
 
   def setROMs(self, roms):
     self.previewWidget.setROMs(roms)
-    # self.clearPreview()
-    # for rom in roms:
-    #   self.addROM(rom)
 
   def addROM(self, rom):
     pass
