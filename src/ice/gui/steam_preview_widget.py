@@ -10,9 +10,8 @@ from steam_shortcut_widget import SteamShortcutWidget
 
 class SteamPreviewWidget(QtGui.QWidget):
 
-  def __init__(self, user):
+  def __init__(self):
     super(SteamPreviewWidget, self).__init__()
-    self.user = user
     self.roms = []
 
     self.initUI()

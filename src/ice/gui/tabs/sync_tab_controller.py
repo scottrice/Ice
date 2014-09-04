@@ -12,14 +12,21 @@ class SyncTabController(object):
   # only the data needed when the tab widget needs it. The tab widget (and steam
   # preview widget) shouldnt be holding onto that information as state.
   def __init__(self, runner):
-    # TODO: Will this break on machines where no user has logged into steam yet?
-    self.user   = runner.users[0]
-    self.widget = SyncTabWidget(self.user)
+    self.widget = SyncTabWidget()
     self.runner = runner
+    self.users  = runner.users
 
+    self.widget.populateUsersDropdownWithUsers(self.users)
+    self.user = self.users[self.widget.selectedUserIndex()]
+    self.widget.setPreviewForUser(self.user)
+
+    self.widget.setUserChangedCallback(self.onUserChanged)
+    self.widget.setOnSyncCallback(self.sync)
     self.widget.setROMs(runner.config.valid_roms())
-    for u in runner.users:
-      self.widget.userDropdown.addItem(str(u.id32))
+
+  def onUserChanged(self, index):
+    self.user = self.users[index]
+    print self.user.id32
 
   def sync(self):
-    self.runner.run()
+    self.runner.run_for_user(self.user)

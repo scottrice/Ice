@@ -36,10 +36,10 @@ class CommandLineRunner(object):
         # TODO: Create any missing directories that Ice will need
         ice_logger.log_configuration(self.config)
         for user in self.users:
+            ice_logger.log("=========== User: %s ===========" % str(user.id32))
             self.run_for_user(user)
 
     def run_for_user(self, user):
-        ice_logger.log("=========== User: %s ===========" % str(user.id32))
         # Find all of the ROMs that are currently in the designated folders
         roms = self.config.valid_roms()
         rom_manager = IceROMManager(user, self.config)
