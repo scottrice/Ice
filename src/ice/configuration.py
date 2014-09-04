@@ -98,8 +98,7 @@ class Configuration(object):
         self.ROM_KEY,
         dir
       )
-      # trying to figure out where to save. I made it autosave after every change. Don't know if this is better or not.
-      # self.config_backing_store.save()
+      self.config_backing_store.save()
 
     def backup_directory(self):
       return self._get_directory_from_store(
@@ -114,7 +113,7 @@ class Configuration(object):
         self.BACKUP_KEY,
         dir
       )
-      # self.config_backing_store.save()
+      self.config_backing_store.save()
 
     def userdata_directory(self):
       return self._get_directory_from_store(
@@ -129,7 +128,7 @@ class Configuration(object):
         self.USERDATA_KEY,
         dir
       )
-      # self.config_backing_store.save()
+      self.config_backing_store.save()
 
 
     def shortcuts_backup_path(self, user, timestamp_format="%Y%m%d%H%M%S"):
