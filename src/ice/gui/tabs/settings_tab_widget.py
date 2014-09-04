@@ -50,15 +50,13 @@ class SettingsTabWidget(QtGui.QWidget):
     vbox.addWidget(userdata_explanation)
     vbox.addStretch(1)
 
-    self.userdataWidget = userdata_current
+    self.userdataButton = userdata_button
+    self.userdataDirectoryDisplayWidget = userdata_current
     self.backupButton = backup_dir_button
     self.backupDirectoryDisplayWidget = backup_dir_current
-    self.romButton = roms_dir_button
+    self.romsButton = roms_dir_button
     self.romsDirectoryDisplayWidget = roms_dir_current
     self.setLayout(vbox)
-
-  def showDirectoryDialog(self, defaultDirectory):
-    return QFileDialog.getExistingDirectory(self, "Select Directory")
 
   def getHorizontalSeperator(self):
     horizontalLine = QtGui.QFrame()

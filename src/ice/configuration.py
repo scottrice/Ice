@@ -24,6 +24,9 @@ class Configuration(object):
     BACKUP_IDENT = "Storage"
     BACKUP_KEY = "Backup Directory"
 
+    USERDATA_IDENT = "Steam"
+    USERDATA_KEY = "Userdata Directory"
+
     @staticmethod
     def data_directory():
       # Parameters are 'App Name' and 'App Author'
@@ -112,6 +115,22 @@ class Configuration(object):
         dir
       )
       # self.config_backing_store.save()
+
+    def userdata_directory(self):
+      return self._get_directory_from_store(
+        self.USERDATA_IDENT,
+        self.USERDATA_KEY,
+        os.path.join(Configuration.data_directory(), 'Userdata')
+      )
+
+    def set_userdata_directory(self, dir):
+      self.config_backing_store.set(
+        self.USERDATA_IDENT,
+        self.USERDATA_KEY,
+        dir
+      )
+      # self.config_backing_store.save()
+
 
     def shortcuts_backup_path(self, user, timestamp_format="%Y%m%d%H%M%S"):
       """
