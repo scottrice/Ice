@@ -54,7 +54,7 @@ class MainWindow(QtGui.QMainWindow):
     self.tabWidget = QtGui.QTabWidget()
 
     self.tab_controllers = {
-      "Sync":       SyncTabController(self.runner),
+      "Sync":       SyncTabController(self.runner, self.statusBar()),
       "Consoles":   ConsolesTabController(self.runner.config),
       "Emulators":  EmulatorsTabController(self.runner.config),
       "Settings":   SettingsTabController(self.runner.config),
