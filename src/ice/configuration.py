@@ -18,6 +18,12 @@ from persistence.emulator_manager import EmulatorManager
 
 class Configuration(object):
 
+    ROM_IDENT = "Storage"
+    ROM_KEY = "ROMs Directory"
+
+    BACKUP_IDENT = "Storage"
+    BACKUP_KEY = "Backup Directory"
+
     @staticmethod
     def data_directory():
       # Parameters are 'App Name' and 'App Author'
@@ -78,17 +84,34 @@ class Configuration(object):
 
     def roms_directory(self):
       return self._get_directory_from_store(
-        'Storage',
-        'ROMs Directory',
+        self.ROM_IDENT,
+        self.ROM_KEY,
         os.path.join('~', 'ROMs')
       )
 
+    def set_roms_directory(self, dir):
+      self.config_backing_store.set(
+        self.ROM_IDENT,
+        self.ROM_KEY,
+        dir
+      )
+      # trying to figure out where to save. I made it autosave after every change. Don't know if this is better or not.
+      # self.config_backing_store.save()
+
     def backup_directory(self):
       return self._get_directory_from_store(
-        'Storage',
-        'Backup Directory',
+        self.BACKUP_IDENT,
+        self.BACKUP_KEY,
         os.path.join(Configuration.data_directory(), 'Backups')
       )
+
+    def set_backup_directory(self, dir):
+      self.config_backing_store.set(
+        self.BACKUP_IDENT,
+        self.BACKUP_KEY,
+        dir
+      )
+      # self.config_backing_store.save()
 
     def shortcuts_backup_path(self, user, timestamp_format="%Y%m%d%H%M%S"):
       """

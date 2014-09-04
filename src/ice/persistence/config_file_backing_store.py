@@ -44,6 +44,7 @@ class ConfigFileBackingStore(backing_store.BackingStore):
 
   def set(self, ident, key, value):
     self.configParser.set(ident, key.lower(), value)
+    self.save()
 
   def save(self):
     try:
