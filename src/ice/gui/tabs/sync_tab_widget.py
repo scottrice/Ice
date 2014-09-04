@@ -52,7 +52,6 @@ class SyncTabWidget(QtGui.QWidget):
     layout.addWidget(self.previewWidget)
 
   def onDropdownIndexChanged(self):
-    print "onDropdownIndexChanged"
     if self.userChangedCallback is not None:
       self.userChangedCallback(self.selectedUserIndex())
 
