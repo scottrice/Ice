@@ -10,14 +10,14 @@ from ice.gui.tabs.sync_tab_controller import SyncTabController
 from ice.gui.tabs.consoles_tab_controller import ConsolesTabController
 from ice.gui.tabs.emulators_tab_controller import EmulatorsTabController
 from ice.gui.tabs.settings_tab_controller import SettingsTabController
-from ice.runners.command_line_runner import CommandLineRunner
+from ice.runners.ice_runner import IceRunner
 
 class MainWindow(QtGui.QMainWindow):
 
   def __init__(self):
     super(MainWindow, self).__init__()
 
-    self.runner = CommandLineRunner()
+    self.runner = IceRunner()
 
     exitAction = QtGui.QAction(QtGui.QIcon('exit.png'), '&Exit', self)
     exitAction.setShortcut('Ctrl+Q')
