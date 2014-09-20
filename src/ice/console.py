@@ -20,7 +20,6 @@ import filesystem_helper
 import utils
 from persistence.backed_object import BackedObject
 from persistence.config_file_backing_store import ConfigFileBackingStore
-from ice_logging import ice_logger
 from emulator import Emulator
 from rom import ROM
 
@@ -47,14 +46,10 @@ class Console(BackedObject):
     def __repr__(self):
         return self.fullname
 
-    def is_enabled(self,verbose=False):
+    def is_enabled(self):
         if self.emulator is None:
-            if verbose:
-                ice_logger.log("Skipping %s (no emulator provided)" % self)
             return False
         if self.custom_roms_directory and not filesystem_helper.available_to_use(self.custom_roms_directory, create_if_needed=True):
-            if verbose:
-                ice_logger.log("Skipping %s (ROMs directory provided either doesn't exist or is not writable)" % self)
             return False
         return True
 
@@ -89,7 +84,8 @@ class Console(BackedObject):
         """
         roms = []
         if not os.path.exists(self.roms_directory()):
-            ice_logger.log("Creating %s directory at %s" % (self.shortname,self.roms_directory()))
+            # TODO: Tell the user when we are about to create a directory for them
+            # TODO: Why the hell are we checking for and creating directories inside of `find_roms`?
             os.makedirs(self.roms_directory())
         for filename in os.listdir(self.roms_directory()):
             file_path = os.path.join(self.roms_directory(),filename)
@@ -99,7 +95,8 @@ class Console(BackedObject):
                 if not utils.is_windows() and filename.startswith('.'):
                     continue
                 if self.emulator is not None and not self.is_valid_rom(file_path):
-                    ice_logger.warning("Ignoring Non-ROM file: %s" % file_path)
+                    # TODO: Tell the user that we are ignoring this file
+                    # TODO: Again, why the hell are we logging that here?????
                     continue
                 roms.append(ROM(file_path,self))
         return roms

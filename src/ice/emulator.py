@@ -16,7 +16,6 @@ import os
 import tempfile
 import shutil
 
-from ice_logging import ice_logger
 from persistence.backed_object import BackedObject
 import filesystem_helper
 import utils
@@ -44,7 +43,7 @@ class Emulator(BackedObject):
         else:
             return "\"%s\"" % string
 
-    def is_enabled(self, verbose=False):
+    def is_enabled(self):
         """
         Checks to see whether enough information has been entered by the user
         to make the emulator useable
@@ -52,8 +51,6 @@ class Emulator(BackedObject):
         # Right now the only thing we care about is whether a file exists where
         # the user says the emulator is.
         if not os.path.isfile(self.location):
-            if verbose:
-                ice_logger.log("(Emulator) File does not exist at '%s'. Ignoring %s" % (self.location, self.name))
             return False
         return True
     

@@ -18,8 +18,6 @@ ROMs, etc)
 
 import os
 
-from ice_logging import ice_logger
-
 def highest_directory_in_path(path):
     """
     Returns the 'highest' directory in a path, which is defined as the first
@@ -49,8 +47,6 @@ def create_directory_if_needed(dir, log=None):
     Checks to see if a directory exists and, if not, creates it
     """
     if not os.path.exists(dir):
-        if log is not None:
-            ice_logger.log(log)
         os.makedirs(dir)
 
 def assert_file_exists(path, exception=None):
@@ -69,8 +65,8 @@ def available_to_use(path, create_if_needed=False):
     """
     # Ensure the directory exists
     try:
-        if create_if_needed:
-            create_directory_if_needed(path, log="Creating directory at %s" % path)
+        if create_if_needed and not os.path.exists(path):
+            create_directory_if_needed(path)
         # Ensure that it worked
         if not os.path.exists(path):
             return False

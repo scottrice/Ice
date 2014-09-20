@@ -19,7 +19,6 @@ import os
 import filesystem_helper
 from console import Console
 from error.provider_error import ProviderError
-from ice_logging import ice_logger
 from rom import ICE_FLAG_TAG
 
 # Providers
@@ -27,9 +26,10 @@ from gridproviders import local_provider
 from gridproviders import consolegrid_provider
 
 class IceROMManager():
-    def __init__(self, user, config):
+    def __init__(self, user, config, logger):
         self.user = user
         self.config = config
+        self.logger = logger
         self.providers = [
             local_provider.LocalProvider(),
             consolegrid_provider.ConsoleGridProvider(),
@@ -61,7 +61,7 @@ class IceROMManager():
         if rom.console.emulator is None:
             return
         if not self.rom_already_in_steam(rom):
-            ice_logger.log("Adding %s" % rom.name())
+            self.logger.log("Adding %s" % rom.name())
             generated_shortcut = rom.to_shortcut()
             self.managed_shortcuts.add(generated_shortcut)
             self.user.shortcuts.append(generated_shortcut)
@@ -74,7 +74,7 @@ class IceROMManager():
             rom_shortcuts.add(rom.to_shortcut())
         deleted_rom_shortcuts = self.managed_shortcuts - rom_shortcuts
         for shortcut in deleted_rom_shortcuts:
-            ice_logger.log("Deleting: %s" % shortcut.name)
+            self.logger.log("Deleting: %s" % shortcut.name)
             self.user.shortcuts.remove(shortcut)
             
     def sync_roms(self,roms):
@@ -115,7 +115,7 @@ class IceROMManager():
                     pass
                 else:
                     # TODO: Tell the user that an image was found
-                    ice_logger.log("Found grid image for %s" % shortcut.name)
+                    self.logger.log("Found grid image for %s" % shortcut.name)
                     shortcut.set_image(self.user, path)
 
     def image_for_rom(self, rom):
@@ -130,5 +130,5 @@ class IceROMManager():
                   return path
             except ProviderError as error:
               # If the provider encountered an error, print it to the debug log
-              ice_logger.debug(error)
+              self.logger.debug(error)
         return None

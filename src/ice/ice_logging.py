@@ -40,9 +40,7 @@ class IceLogger():
         self.debug      = self.logger.debug
         self.warning    = self.logger.warning
         self.error      = self.logger.error
-
-    def exception(self, message="An exception occurred!"):
-        self.logger.exception(message)
+        self.exception  = self.logger.exception
 
     def log_emulator_state(self, emulator):
         if emulator.is_enabled():
@@ -64,14 +62,10 @@ class IceLogger():
           self.warning("[DISABLED] Issue detected with console `%s`" % console)
 
     def log_configuration(self, config):
-        ice_logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
-        ice_logger.debug("Using `consoles.txt` at `%s`" % config.console_manager.backing_store.path)
-        ice_logger.debug("Using `emulators.txt` at `%s`" % config.emulator_manager.backing_store.path)
+        self.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
+        self.debug("Using `consoles.txt` at `%s`" % config.console_manager.backing_store.path)
+        self.debug("Using `emulators.txt` at `%s`" % config.emulator_manager.backing_store.path)
         for emulator in config.emulator_manager:
           self.log_emulator_state(emulator)
         for console in config.console_manager:
           self.log_console_state(console)
-
-# create our IceLogger object
-ice_logger = IceLogger()
-
