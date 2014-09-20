@@ -34,11 +34,11 @@ class IceRunner(object):
       self.users = self.steam.local_users()
 
   def main(self):
-      self.logger.log("=========== Starting Ice ===========")
+      self.logger.info("=========== Starting Ice ===========")
       # TODO: Create any missing directories that Ice will need
       self.logger.log_configuration(self.config)
       for user in self.users:
-          self.logger.log("=========== User: %s ===========" % str(user.id32))
+          self.logger.info("=========== User: %s ===========" % str(user.id32))
           self.run_for_user(user)
 
   def run_for_user(self, user):
