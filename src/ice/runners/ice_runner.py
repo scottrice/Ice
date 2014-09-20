@@ -21,6 +21,7 @@ class IceRunner(object):
 
   def __init__(self):
       self.logger = IceLogger()
+      self.logger.debug("Initializing Ice")
       config_data_path    = Configuration.path_for_data_file("config.txt")
       consoles_data_path  = Configuration.path_for_data_file("consoles.txt")
       emulators_data_path = Configuration.path_for_data_file("emulators.txt")
