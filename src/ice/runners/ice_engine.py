@@ -1,8 +1,8 @@
 """
-ice_runner.py
+IceEngine
 
-Created by Scott on 2014-09-19.
-Copyright (c) 2014 Scott Rice. All rights reserved.
+The job of this class is to perform the functionality that Ice is defined by.
+By that I mean the high level goal of `Adding ROMs to Steam`.
 """
 
 import os
@@ -17,7 +17,7 @@ from ice.ice_logging import IceLogger
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_manager import IceROMManager
 
-class IceRunner(object):
+class IceEngine(object):
 
   def __init__(self):
       self.logger = IceLogger()
