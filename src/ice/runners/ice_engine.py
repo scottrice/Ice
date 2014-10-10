@@ -11,8 +11,9 @@ from pysteam.steam import Steam
 from ice import console
 from ice import emulator
 from ice import filesystem_helper as fs
-from ice import utils
 from ice.configuration import Configuration
+from ice.error.env_checker_error import EnvCheckerError
+from ice.environment_checker import EnvironmentChecker
 from ice.ice_logging import IceLogger
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_manager import IceROMManager
@@ -34,6 +35,22 @@ class IceEngine(object):
       # TODO: Query the list of users some other way
       self.users = self.steam.local_users()
 
+  def validate_base_environment(self):
+      """
+      Validate that the current environment meets all of Ice's requirements.
+      """
+      with EnvironmentChecker() as env_checker:
+        env_checker.require_program_not_running("Steam")
+        env_checker.require_directory_exists(self.steam.userdata_location())
+
+  def validate_user_environment(self, user):
+      """
+      Validate that the current environment for a given user meets all of
+      Ice's requirements.
+      """
+      with EnvironmentChecker() as env_checker:
+        env_checker.require_directory_exists(user.grid_directory())
+
   def main(self):
       self.logger.info("=========== Starting Ice ===========")
       # TODO: Create any missing directories that Ice will need
@@ -43,6 +60,12 @@ class IceEngine(object):
           self.run_for_user(user)
 
   def run_for_user(self, user):
+      try:
+        self.validate_base_environment()
+        self.validate_user_environment(user)
+      except EnvCheckerError as e:
+        self.logger.exception("Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
+        return
       # Find all of the ROMs that are currently in the designated folders
       roms = self.config.valid_roms()
       rom_manager = IceROMManager(user, self.config, self.logger)
@@ -50,9 +73,6 @@ class IceEngine(object):
 
   def run(self):
     try:
-        if utils.steam_is_running():
-            self.logger.error("Ice cannot be run while Steam is open. Please close Steam and try again")
-            return
         self.main()
     except Exception as error:
         self.logger.exception("An exception occurred while running Ice")

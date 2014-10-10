@@ -13,7 +13,6 @@ another python project and be able to use it out of the box.
 
 import collections
 import functools
-import psutil
 import sys
 
 # Convenient function to check if a key is in a dictionary. If so, uses that,
@@ -24,16 +23,6 @@ def idx(dictionary, index, default=None):
         return dictionary[index]
     else:
         return default
-
-def steam_is_running():
-    for pid in psutil.pids():
-      try:
-        p = psutil.Process(pid)
-        if p.name().lower().startswith('steam'):
-          return True
-      except Exception:
-        continue
-    return False
 
 def is_windows():
 	  return sys.platform.startswith('win')

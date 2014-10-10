@@ -1,0 +1,13 @@
+import os
+
+from env_checker_error import EnvCheckerError
+
+class PathExistanceError(StandardError):
+  def __init__(self, path):
+    self.path = path
+
+  def resolve(self):
+    try:
+      os.makedirs(self.path)
+    except EnvironmentError as e:
+      raise EnvCheckerError("Could not create necessary directory `%s`" % self.path, self, e)
