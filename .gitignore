@@ -54,3 +54,4 @@ log.txt
 ice.log
 stdout.log
 stderr.log
+error.log

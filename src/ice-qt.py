@@ -11,11 +11,12 @@ try:
         runner.run(sys.argv)
 except Exception as e:
     stderr = sys.stderr
-    with open('stderr.log', 'w') as f:
+    with open('error.log', 'w') as f:
       sys.stderr = f
       traceback.print_exc()
       sys.stderr = stderr
-    print "A fatal error occured:"
-    print "\"%s\"" % e
-    print "For a full stack trace, see `stderr.log`"
+    traceback.print_exc()
+    print ""
+    print "An error has occurred! A copy of the crash report has been saved to 'error.log'."
+    print "If this continues please submit an issue on our Github page (http://github.com/scottrice/Ice)"
     raw_input()
