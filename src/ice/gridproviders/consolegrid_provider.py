@@ -9,6 +9,7 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 
 import sys
 import os
+import re
 import urllib
 import urllib2
 
@@ -27,7 +28,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
 
     def consolegrid_top_picture_url(self,rom):
         host = self.api_url()
-        quoted_name = urllib.quote(rom.name())
+        quoted_name = urllib.quote(re.sub("(\(.*\)|(\[.*\])", "", rom.name()).strip())
         return "%s?console=%s&game=%s" % (host,rom.console.shortname,quoted_name)
 
     def find_url_for_rom(self,rom):
