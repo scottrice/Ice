@@ -40,13 +40,17 @@ class IceEngine(object):
       Validate that the current environment meets all of Ice's requirements.
       """
       with EnvironmentChecker() as env_checker:
+        # If Steam is running then any changes we make will be overwritten
         env_checker.require_program_not_running("Steam")
+        # I'm not sure if there are situations where this won't exist, but I
+        # assume that it does everywhere and better safe than sorry
         env_checker.require_directory_exists(self.steam.userdata_location())
 
   def validate_configuration(self, configuration):
       with EnvironmentChecker() as env_checker:
         for console in configuration.console_manager:
           if console.is_enabled():
+            # Consoles assume they have a ROMs directory
             env_checker.require_directory_exists(console.roms_directory())
 
   def validate_user_environment(self, user):
@@ -55,7 +59,11 @@ class IceEngine(object):
       Ice's requirements.
       """
       with EnvironmentChecker() as env_checker:
+        # If the user hasn't added any grid images on their own then this
+        # directory wont exist, so we require it explicitly here
         env_checker.require_directory_exists(user.grid_directory())
+        # And it needs to be writable if we are going to save images there
+        env_checker.require_path_writable(user.grid_directory())
 
   def main(self):
       self.logger.info("=========== Starting Ice ===========")
