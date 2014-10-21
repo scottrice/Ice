@@ -62,7 +62,7 @@ class IceEngine(object):
         # directory wont exist, so we require it explicitly here
         env_checker.require_directory_exists(user.grid_directory())
         # And it needs to be writable if we are going to save images there
-        env_checker.require_path_writable(user.grid_directory())
+        env_checker.require_writable_path(user.grid_directory())
 
   def main(self):
       self.logger.info("=========== Starting Ice ===========")
