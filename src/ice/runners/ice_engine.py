@@ -10,7 +10,6 @@ from pysteam.steam import Steam
 
 from ice import console
 from ice import emulator
-from ice import filesystem_helper as fs
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker

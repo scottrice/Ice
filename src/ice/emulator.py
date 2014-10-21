@@ -17,7 +17,6 @@ import tempfile
 import shutil
 
 from persistence.backed_object import BackedObject
-import filesystem_helper
 import utils
 
 class Emulator(BackedObject):

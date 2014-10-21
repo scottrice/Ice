@@ -16,7 +16,6 @@ between ROMs and Steam Shortcuts.
 
 import os
 
-import filesystem_helper
 from console import Console
 from error.provider_error import ProviderError
 from rom import ICE_FLAG_TAG

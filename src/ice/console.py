@@ -16,7 +16,6 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 
 import os
 
-import filesystem_helper
 import utils
 from persistence.backed_object import BackedObject
 from persistence.config_file_backing_store import ConfigFileBackingStore
