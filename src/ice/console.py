@@ -47,11 +47,7 @@ class Console(BackedObject):
         return self.fullname
 
     def is_enabled(self):
-        if self.emulator is None:
-            return False
-        if self.custom_roms_directory and not filesystem_helper.available_to_use(self.custom_roms_directory, create_if_needed=True):
-            return False
-        return True
+        return self.emulator is not None
 
     def roms_directory(self):
         """

@@ -43,6 +43,12 @@ class IceEngine(object):
         env_checker.require_program_not_running("Steam")
         env_checker.require_directory_exists(self.steam.userdata_location())
 
+  def validate_configuration(self, configuration):
+      with EnvironmentChecker() as env_checker:
+        for console in configuration.console_manager:
+          if console.is_enabled():
+            env_checker.require_directory_exists(console.roms_directory())
+
   def validate_user_environment(self, user):
       """
       Validate that the current environment for a given user meets all of
@@ -62,6 +68,7 @@ class IceEngine(object):
   def run_for_user(self, user):
       try:
         self.validate_base_environment()
+        self.validate_configuration(self.config)
         self.validate_user_environment(user)
       except EnvCheckerError as e:
         self.logger.exception("Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
