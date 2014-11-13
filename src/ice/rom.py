@@ -16,6 +16,7 @@ ROMs
 
 import sys
 import os
+import re
 import stat
 import unicodedata
 
@@ -48,15 +49,19 @@ class ROM:
         # Return the entire string leading up to (but not including) the period
         return name_with_ext[:dot_index]
 
-    def prefixed_name(self):
+    def prefixed_name(self, clean=False):
         prefix = self.console.prefix
+        name = self.clean_name() if clean else self.name()
         if prefix:
-            return "%s %s" % (prefix, self.name())
+            return "%s %s" % (prefix, name)
         else:
-            return self.name()
+            return name
+
+    def clean_name(self):
+        return re.sub("(\(.*\)|(\[.*\])", "", self.name()).strip()
         
     def to_shortcut(self):
-        appname = self.prefixed_name()
+        appname = self.prefixed_name(clean=True)
         exe = self.console.emulator.command_string(self)
         startdir = self.console.emulator.startdir(self)
         icon = self.console.icon

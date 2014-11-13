@@ -40,7 +40,7 @@ class SteamPreviewWidget(QtGui.QWidget):
       row = idx / self.numColumns
       col = idx % self.numColumns
       widget = SteamShortcutWidget()
-      widget.setName(rom.name())
+      widget.setName(rom.clean_name())
       widget.setImage(rom.to_shortcut().custom_image(self.user))
       self.grid.addWidget(widget, row, col)
 
