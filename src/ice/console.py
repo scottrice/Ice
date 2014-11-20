@@ -30,6 +30,7 @@ class Console(BackedObject):
         self.fullname               = identifier
         self.shortname              = self.backed_value('nickname', self.fullname)
         self.extensions             = self.backed_value('extensions', "")
+        self.whitelist              = self.backed_value('whitelist', "")
         self.custom_roms_directory  = self.backed_value('roms directory', "")
         self.prefix                 = self.backed_value('prefix', "")
         self.icon                   = self.backed_value('icon', "")
@@ -71,6 +72,19 @@ class Console(BackedObject):
             return True
         extension = os.path.splitext(path)[1].lower()
         return any(extension == ('.'+x.strip().lower()) for x in self.extensions.split(','))
+    
+    def is_wanted_rom(self,path):
+        """
+        This function determines if a ROM is actually wanted.
+        If there aren't any entries in an console's whitelist, then it is assumed
+        all the ROMs are wanted.
+        Otherwise, only the files in the whitelist are managed by Ice.
+        """
+
+        if self.whitelist == "":
+            return True
+        whitelist = os.path.split(path)[1].lower()
+        return any(whitelist == (x.strip().lower()) for x in self.whitelist.split(','))
   
     def find_roms(self):
         """
@@ -89,7 +103,7 @@ class Console(BackedObject):
                 # accidently added as well
                 if not utils.is_windows() and filename.startswith('.'):
                     continue
-                if self.emulator is not None and not self.is_valid_rom(file_path):
+                if self.emulator is not None and not self.is_valid_rom(file_path) or not self.is_wanted_rom(file_path):
                     # TODO: Tell the user that we are ignoring this file
                     # TODO: Again, why the hell are we logging that here?????
                     continue

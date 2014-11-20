@@ -24,6 +24,11 @@
 #   that ended with '.sfc' or '.smc' will be added to Steam. If not provided,
 #   Ice will add every file in the ROMs directory to Steam.
 #
+# Whitelist: *optional* A (comma separated) list of file names (including extensions) to 
+#   assume are ROMs. For example, if the value was set to ‘game1.zip, game2.zip’ then only
+#   files that are named ‘game1.zip’ or ‘game2.zip’ will be added to Steam. If not
+#   provided, Ice will add every file in the ROMs directory to Steam.
+#
 # ROMs Directory: *optional* If given a path, Ice will look in the specified
 #   directory for ROMs (instead of the one it generates).
 #
@@ -46,6 +51,7 @@
 # nickname=SNES
 # emulator=ZSNES
 # extensions=sfc, smc
+# whitelist=game1.zip, game2.zip
 # roms directory=C:\Games\Super Nintendo\ROMs
 # prefix=[SNES]
 # icon=C:\Games\Super Nintendo\icon.png
