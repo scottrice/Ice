@@ -25,7 +25,7 @@
 #   Ice will add every file in the ROMs directory to Steam.
 #
 # Whitelist: *optional* A (comma separated) list of file names (including extensions) to 
-#   are ROMs. For example, if the value was set to ‘game1.zip, game2.zip’ then only
+#   assume are ROMs. For example, if the value was set to ‘game1.zip, game2.zip’ then only
 #   files that are named ‘game1.zip’ or ‘game2.zip’ will be added to Steam. If not
 #   provided, Ice will add every file in the ROMs directory to Steam.
 #
