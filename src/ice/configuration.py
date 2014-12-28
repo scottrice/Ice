@@ -146,14 +146,3 @@ class Configuration(object):
           'config',
           filename
       )
-
-    def valid_roms(self):
-      """
-      Returns all the `valid` ROMs. A ROM is considered valid if its console
-      is enabled
-      """
-      valid_roms = []
-      for console in self.console_manager:
-        if console.is_enabled():
-          valid_roms.extend(console.find_roms())
-      return valid_roms

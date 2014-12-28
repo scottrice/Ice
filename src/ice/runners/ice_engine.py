@@ -13,8 +13,10 @@ from ice import emulator
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
+from ice.filesystem import Filesystem
 from ice.ice_logging import IceLogger
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
+from ice.rom_finder import ROMFinder
 from ice.rom_manager import IceROMManager
 
 class IceEngine(object):
@@ -33,6 +35,7 @@ class IceEngine(object):
       self.steam = Steam()
       # TODO: Query the list of users some other way
       self.users = self.steam.local_users()
+      self.rom_finder = ROMFinder(Filesystem())
 
   def validate_base_environment(self):
       """
@@ -81,7 +84,7 @@ class IceEngine(object):
         self.logger.exception("Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
         return
       # Find all of the ROMs that are currently in the designated folders
-      roms = self.config.valid_roms()
+      roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
       rom_manager = IceROMManager(user, self.config, self.logger)
       rom_manager.sync_roms(roms)
 
