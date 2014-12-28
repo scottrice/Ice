@@ -21,18 +21,19 @@ from error.provider_error import ProviderError
 from rom import ICE_FLAG_TAG
 
 # Providers
-from gridproviders import local_provider
+from gridproviders import combined_provider
 from gridproviders import consolegrid_provider
+from gridproviders import local_provider
 
 class IceROMManager():
     def __init__(self, user, config, logger):
         self.user = user
         self.config = config
         self.logger = logger
-        self.providers = [
-            local_provider.LocalProvider(),
-            consolegrid_provider.ConsoleGridProvider(),
-        ]
+        self.provider = combined_provider.CombinedProvider(
+          local_provider.LocalProvider(),
+          consolegrid_provider.ConsoleGridProvider(),
+        )
 
         self.managed_shortcuts = set()
         for shortcut in self.user.shortcuts:
@@ -105,29 +106,15 @@ class IceROMManager():
         """
         Sets a suitable grid image for every rom in 'roms' for `user`
         """
-        for rom in roms:
-            shortcut = rom.to_shortcut()
-            if shortcut.custom_image(self.user) is None:
-                path = self.image_for_rom(rom)
-                if path is None:
-                    # TODO: Tell the user what went wrong
-                    pass
-                else:
-                    # TODO: Tell the user that an image was found
-                    self.logger.info("Found grid image for %s" % shortcut.name)
-                    shortcut.set_image(self.user, path)
-
-    def image_for_rom(self, rom):
-        """
-        Goes through each provider until one successfully finds an image.
-        Returns None if no provider was able to find an image
-        """
-        for provider in self.providers:
-            try:
-              path = provider.image_for_rom(rom)
-              if path is not None:
-                  return path
-            except ProviderError as error:
-              # If the provider encountered an error, print it to the debug log
-              self.logger.debug(error)
-        return None
+        shortcuts = map(lambda rom: rom.to_shortcut(), roms)
+        shortcuts_to_update = filter(lambda shortcut: shortcut.custom_image(self.user) is None, shortcuts)
+        for shortcut in shortcuts_to_update:
+          try:
+            path = self.provider.image_for_rom(rom)
+          except ProviderError as error:
+            self.logger.debug(error)
+          if path:
+            self.logger.info("Found grid image for %s" % shortcut.name)
+            shortcut.set_image(self.user, path)
+          else:
+            self.logger.info("No image found for %s" % shortcut.name)
