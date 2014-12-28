@@ -10,6 +10,7 @@ import ConfigParser
 
 import backing_store
 
+
 class ConfigFileBackingStore(backing_store.BackingStore):
 
   def __init__(self, path):

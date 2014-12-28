@@ -1,8 +1,11 @@
 
 from console import Console
 from rom import ROM
+from functools import reduce
+
 
 class ROMFinder(object):
+
   def __init__(self, filesystem):
     self.filesystem = filesystem
 
@@ -29,10 +32,12 @@ class ROMFinder(object):
     @param consoles - An iterable list of consoles
     @returns A list of all of the ROMs for all of the consoles in `consoles`
 
-    Equivalent to calling `roms_for_console` on every element of `consoles` 
+    Equivalent to calling `roms_for_console` on every element of `consoles`
     and combining the results
     """
-    assert hasattr(consoles, '__iter__'), "Expecting an iterable list of consoles"
+    assert hasattr(
+        consoles, '__iter__'), "Expecting an iterable list of consoles"
+
     def rom_collector(roms, console):
       roms.extend(self.roms_for_console(console))
       return roms

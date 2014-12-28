@@ -18,17 +18,22 @@ import sys
 # Convenient function to check if a key is in a dictionary. If so, uses that,
 # otherwise, uses the default.
 # Also, 'idx' stands for 'index'.
+
+
 def idx(dictionary, index, default=None):
-    if index in dictionary:
-        return dictionary[index]
-    else:
-        return default
+  if index in dictionary:
+    return dictionary[index]
+  else:
+    return default
+
 
 def is_windows():
-	  return sys.platform.startswith('win')
+  return sys.platform.startswith('win')
+
 
 def is_osx():
-	  return sys.platform.startswith('darwin')
+  return sys.platform.startswith('darwin')
+
 
 def is_linux():
-    return str(sys.platform).startswith('lin')
+  return str(sys.platform).startswith('lin')

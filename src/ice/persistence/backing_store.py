@@ -8,6 +8,7 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 import abc
 
+
 class BackingStore(object):
   __metaclass__ = abc.ABCMeta
 

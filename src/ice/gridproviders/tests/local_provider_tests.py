@@ -15,7 +15,9 @@ import unittest
 from ice.error.provider_error import ProviderError
 from ice.gridproviders.local_provider import LocalProvider
 
+
 class LocalProviderTests(unittest.TestCase):
+
   def setUp(self):
     self.provider = LocalProvider()
     self.temp_directory = tempfile.mkdtemp()
@@ -49,7 +51,7 @@ class LocalProviderTests(unittest.TestCase):
     rom = self.create_mock_rom("Megaman")
     self.make_temp_image("Megaman.png")
     self.assertIsNotNone(self.provider.image_for_rom(rom))
-  
+
   def test_returns_image_with_jpg_extension(self):
     rom = self.create_mock_rom("Megaman")
     self.make_temp_image("Megaman.jpg")

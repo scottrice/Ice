@@ -23,84 +23,86 @@ from ice.rom_finder import ROMFinder
 from ice.rom_manager import IceROMManager
 from ice.steam_grid_updater import SteamGridUpdater
 
+
 class IceEngine(object):
 
   def __init__(self):
-      self.logger = IceLogger()
-      self.logger.debug("Initializing Ice")
-      config_data_path    = Configuration.path_for_data_file("config.txt")
-      consoles_data_path  = Configuration.path_for_data_file("consoles.txt")
-      emulators_data_path = Configuration.path_for_data_file("emulators.txt")
-      self.config = Configuration(
-          ConfigFileBackingStore(config_data_path),
-          ConfigFileBackingStore(consoles_data_path),
-          ConfigFileBackingStore(emulators_data_path),
-      )
-      self.steam = Steam()
-      # TODO: Query the list of users some other way
-      self.users = self.steam.local_users()
-      self.rom_finder = ROMFinder(Filesystem())
+    self.logger = IceLogger()
+    self.logger.debug("Initializing Ice")
+    config_data_path = Configuration.path_for_data_file("config.txt")
+    consoles_data_path = Configuration.path_for_data_file("consoles.txt")
+    emulators_data_path = Configuration.path_for_data_file("emulators.txt")
+    self.config = Configuration(
+        ConfigFileBackingStore(config_data_path),
+        ConfigFileBackingStore(consoles_data_path),
+        ConfigFileBackingStore(emulators_data_path),
+    )
+    self.steam = Steam()
+    # TODO: Query the list of users some other way
+    self.users = self.steam.local_users()
+    self.rom_finder = ROMFinder(Filesystem())
 
-      provider = CombinedProvider(
+    provider = CombinedProvider(
         LocalProvider(),
         ConsoleGridProvider(),
-      )
-      self.grid_updater = SteamGridUpdater(provider, self.logger)
+    )
+    self.grid_updater = SteamGridUpdater(provider, self.logger)
 
   def validate_base_environment(self):
-      """
-      Validate that the current environment meets all of Ice's requirements.
-      """
-      with EnvironmentChecker() as env_checker:
-        # If Steam is running then any changes we make will be overwritten
-        env_checker.require_program_not_running("Steam")
-        # I'm not sure if there are situations where this won't exist, but I
-        # assume that it does everywhere and better safe than sorry
-        env_checker.require_directory_exists(self.steam.userdata_location())
+    """
+    Validate that the current environment meets all of Ice's requirements.
+    """
+    with EnvironmentChecker() as env_checker:
+      # If Steam is running then any changes we make will be overwritten
+      env_checker.require_program_not_running("Steam")
+      # I'm not sure if there are situations where this won't exist, but I
+      # assume that it does everywhere and better safe than sorry
+      env_checker.require_directory_exists(self.steam.userdata_location())
 
   def validate_configuration(self, configuration):
-      with EnvironmentChecker() as env_checker:
-        for console in configuration.console_manager:
-          if console.is_enabled():
-            # Consoles assume they have a ROMs directory
-            env_checker.require_directory_exists(console.roms_directory())
+    with EnvironmentChecker() as env_checker:
+      for console in configuration.console_manager:
+        if console.is_enabled():
+          # Consoles assume they have a ROMs directory
+          env_checker.require_directory_exists(console.roms_directory())
 
   def validate_user_environment(self, user):
-      """
-      Validate that the current environment for a given user meets all of
-      Ice's requirements.
-      """
-      with EnvironmentChecker() as env_checker:
-        # If the user hasn't added any grid images on their own then this
-        # directory wont exist, so we require it explicitly here
-        env_checker.require_directory_exists(user.grid_directory())
-        # And it needs to be writable if we are going to save images there
-        env_checker.require_writable_path(user.grid_directory())
+    """
+    Validate that the current environment for a given user meets all of
+    Ice's requirements.
+    """
+    with EnvironmentChecker() as env_checker:
+      # If the user hasn't added any grid images on their own then this
+      # directory wont exist, so we require it explicitly here
+      env_checker.require_directory_exists(user.grid_directory())
+      # And it needs to be writable if we are going to save images there
+      env_checker.require_writable_path(user.grid_directory())
 
   def main(self):
-      self.logger.info("=========== Starting Ice ===========")
-      # TODO: Create any missing directories that Ice will need
-      self.logger.log_configuration(self.config)
-      for user in self.users:
-          self.logger.info("=========== User: %s ===========" % str(user.id32))
-          self.run_for_user(user)
+    self.logger.info("=========== Starting Ice ===========")
+    # TODO: Create any missing directories that Ice will need
+    self.logger.log_configuration(self.config)
+    for user in self.users:
+      self.logger.info("=========== User: %s ===========" % str(user.id32))
+      self.run_for_user(user)
 
   def run_for_user(self, user):
-      try:
-        self.validate_base_environment()
-        self.validate_configuration(self.config)
-        self.validate_user_environment(user)
-      except EnvCheckerError as e:
-        self.logger.exception("Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
-        return
-      # Find all of the ROMs that are currently in the designated folders
-      roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
-      rom_manager = IceROMManager(user, self.config, self.logger)
-      rom_manager.sync_roms(roms)
-      self.grid_updater.update_artwork_for_rom_collection(user, roms)
+    try:
+      self.validate_base_environment()
+      self.validate_configuration(self.config)
+      self.validate_user_environment(user)
+    except EnvCheckerError as e:
+      self.logger.exception(
+          "Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
+      return
+    # Find all of the ROMs that are currently in the designated folders
+    roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
+    rom_manager = IceROMManager(user, self.config, self.logger)
+    rom_manager.sync_roms(roms)
+    self.grid_updater.update_artwork_for_rom_collection(user, roms)
 
   def run(self):
     try:
-        self.main()
+      self.main()
     except Exception as error:
-        self.logger.exception("An exception occurred while running Ice")
+      self.logger.exception("An exception occurred while running Ice")

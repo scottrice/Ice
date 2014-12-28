@@ -1,4 +1,5 @@
-class EnvCheckerError(StandardError):
+class EnvCheckerError(Exception):
+
   def __init__(self, message, resolver=None, resolving_error=None):
     self.message = message
     self.resolver = resolver

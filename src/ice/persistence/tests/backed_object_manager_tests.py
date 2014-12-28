@@ -15,7 +15,9 @@ import unittest
 from ice.persistence.backed_object_manager import BackedObjectManager
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 
+
 class BackedObjectManagerTests(unittest.TestCase):
+
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
     self.tempfile = os.path.join(self.tempdir, "test.ini")
@@ -36,13 +38,13 @@ class BackedObjectManagerTests(unittest.TestCase):
 
   def test_initialize_loads_from_store(self):
     bs = self.create_backing_store({
-      "Iron Man": {
-        "identity": "Tony Stark",
-      },
-      "War Machine": {
-        "identity": "James Rhodes",
-        "alias": "Rhodey",
-      },
+        "Iron Man": {
+            "identity": "Tony Stark",
+        },
+        "War Machine": {
+            "identity": "James Rhodes",
+            "alias": "Rhodey",
+        },
     })
     manager = BackedObjectManager(bs)
     manager.initialize()
@@ -57,16 +59,16 @@ class BackedObjectManagerTests(unittest.TestCase):
     self.assertEquals(war_machine.identifier, "War Machine")
     self.assertEquals(war_machine.backed_value("identity"), "James Rhodes")
     self.assertEquals(war_machine.backed_value("alias"), "Rhodey")
-  
+
   def test_no_objects_from_store_before_initialize(self):
     bs = self.create_backing_store({
-      "Iron Man": {
-        "identity": "Tony Stark",
-      },
-      "War Machine": {
-        "identity": "James Rhodes",
-        "alias": "Rhodey",
-      },
+        "Iron Man": {
+            "identity": "Tony Stark",
+        },
+        "War Machine": {
+            "identity": "James Rhodes",
+            "alias": "Rhodey",
+        },
     })
     manager = BackedObjectManager(bs)
     iron_man = manager.find("Iron Man")
@@ -77,8 +79,8 @@ class BackedObjectManagerTests(unittest.TestCase):
 
   def test_all(self):
     bs = self.create_backing_store({
-      "Iron Man": {},
-      "War Machine": {},
+        "Iron Man": {},
+        "War Machine": {},
     })
     manager = BackedObjectManager(bs)
     manager.initialize()
@@ -98,13 +100,13 @@ class BackedObjectManagerTests(unittest.TestCase):
     self.assertIsNone(manager.find("Iron Man"))
 
   def test_find_returns_non_none_with_valid_identifier(self):
-    bs = self.create_backing_store({ "Iron Man": {} })
+    bs = self.create_backing_store({"Iron Man": {}})
     manager = BackedObjectManager(bs)
     manager.initialize()
     self.assertIsNotNone(manager.find("Iron Man"))
 
   def test_find_returns_same_object_between_calls(self):
-    bs = self.create_backing_store({ "Iron Man": {} })
+    bs = self.create_backing_store({"Iron Man": {}})
     manager = BackedObjectManager(bs)
     manager.initialize()
     first_result = manager.find("Iron Man")

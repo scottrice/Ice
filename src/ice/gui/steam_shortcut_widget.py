@@ -6,6 +6,7 @@ Created by Scott Rice on 8-22-2014
 
 from PyQt4 import QtGui
 
+
 class SteamShortcutWidget(QtGui.QWidget):
 
   IMAGE_WIDTH = 460
@@ -44,4 +45,3 @@ class SteamShortcutWidget(QtGui.QWidget):
     # TODO: Handle null paths (ideally use the same image that Steam does)
     pixmap = pixmap.scaled(self.IMAGE_WIDTH, self.IMAGE_HEIGHT)
     self.pictureWidget.setPixmap(pixmap)
-    

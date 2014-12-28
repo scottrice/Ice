@@ -6,6 +6,7 @@ Created by Yale Thomas on 8-18-2014
 
 from PyQt4 import QtGui
 
+
 class ConsolesTabWidget(QtGui.QWidget):
 
   def __init__(self):

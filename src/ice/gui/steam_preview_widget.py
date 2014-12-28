@@ -8,6 +8,7 @@ from PyQt4 import QtGui
 
 from steam_shortcut_widget import SteamShortcutWidget
 
+
 class SteamPreviewWidget(QtGui.QWidget):
 
   def __init__(self):

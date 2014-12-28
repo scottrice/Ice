@@ -13,7 +13,9 @@ import unittest
 
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 
+
 class ConfigFileBackingStoreTests(unittest.TestCase):
+
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
     self.tempfile = os.path.join(self.tempdir, "test.ini")
@@ -71,11 +73,11 @@ class ConfigFileBackingStoreTests(unittest.TestCase):
 
   def test_identifiers(self):
     self.create_config_file(self.tempfile, {
-      "Iron Man": {},
-      "Whiplash": {},
+        "Iron Man": {},
+        "Whiplash": {},
     })
     cfbs = ConfigFileBackingStore(self.tempfile)
-    self.assertEquals(cfbs.identifiers(), [ "Iron Man", "Whiplash" ])
+    self.assertEquals(cfbs.identifiers(), ["Iron Man", "Whiplash"])
 
   def test_added_identifiers_show_up_in_subsequent_calls(self):
     self.create_config_file(self.tempfile, {})
@@ -84,13 +86,13 @@ class ConfigFileBackingStoreTests(unittest.TestCase):
     self.assertIn("Iron Man", cfbs.identifiers())
 
   def test_removed_identifiers_dont_show_up_in_subsequent_calls(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {} })
+    self.create_config_file(self.tempfile, {"Iron Man": {}})
     cfbs = ConfigFileBackingStore(self.tempfile)
     cfbs.remove_identifier("Iron Man")
     self.assertNotIn("Iron Man", cfbs.identifiers())
 
   def test_add_identifier_raises_valueerror_when_identifier_exists(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {} })
+    self.create_config_file(self.tempfile, {"Iron Man": {}})
     cfbs = ConfigFileBackingStore(self.tempfile)
     with self.assertRaises(ValueError):
       cfbs.add_identifier("Iron Man")
@@ -109,35 +111,35 @@ class ConfigFileBackingStoreTests(unittest.TestCase):
       cfbs.keys("Iron Man")
 
   def test_get(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {
-      "identity": "Tony Stark",
-      "alignment": "good",
-    } })
+    self.create_config_file(self.tempfile, {"Iron Man": {
+        "identity": "Tony Stark",
+        "alignment": "good",
+    }})
     cfbs = ConfigFileBackingStore(self.tempfile)
     self.assertEqual(cfbs.get("Iron Man", "identity", ""), "Tony Stark")
 
   def test_get_returns_default_when_key_dne(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {} })
+    self.create_config_file(self.tempfile, {"Iron Man": {}})
     cfbs = ConfigFileBackingStore(self.tempfile)
     self.assertEqual(cfbs.get("Iron Man", "identity", ""), "")
 
   def test_get_returns_default_when_value_is_emptry_string(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {
-      "identity": ""
-    } })
+    self.create_config_file(self.tempfile, {"Iron Man": {
+        "identity": ""
+    }})
     cfbs = ConfigFileBackingStore(self.tempfile)
     self.assertEqual(cfbs.get("Iron Man", "identity", "Unknown"), "Unknown")
 
   def test_get_keys_are_case_insensitive(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {
-      "identity": "Tony Stark",
-      "alignment": "good",
-    } })
+    self.create_config_file(self.tempfile, {"Iron Man": {
+        "identity": "Tony Stark",
+        "alignment": "good",
+    }})
     cfbs = ConfigFileBackingStore(self.tempfile)
     self.assertEqual(cfbs.get("Iron Man", "IDENTITY", ""), "Tony Stark")
 
   def test_set_keys_are_case_insensitive(self):
-    self.create_config_file(self.tempfile, { "Iron Man": {} })
+    self.create_config_file(self.tempfile, {"Iron Man": {}})
     cfbs = ConfigFileBackingStore(self.tempfile)
     cfbs.set("Iron Man", "identity", "Tony Stark")
     self.assertEqual(cfbs.get("Iron Man", "IDENTITY", ""), "Tony Stark")
@@ -152,7 +154,7 @@ class ConfigFileBackingStoreTests(unittest.TestCase):
 
   def test_save_modifies_contents_of_file(self):
     self.create_config_file(self.tempfile, {
-      "Iron Man": { "identity": "Tony Stark" }
+        "Iron Man": {"identity": "Tony Stark"}
     })
     old_contents = self.file_contents(self.tempfile)
     cfbs = ConfigFileBackingStore(self.tempfile)

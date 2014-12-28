@@ -2,6 +2,8 @@
 # encoding: utf-8
 
 import grid_image_provider
+from functools import reduce
+
 
 class CombinedProvider(grid_image_provider.GridImageProvider):
 
@@ -35,4 +37,5 @@ class CombinedProvider(grid_image_provider.GridImageProvider):
     """
     Returns the first image found
     """
-    return reduce(lambda image, provider: image if image else provider.image_for_rom(rom), self._enabled_providers(), None)
+    return reduce(lambda image, provider: image if image else provider.image_for_rom(
+        rom), self._enabled_providers(), None)

@@ -7,7 +7,9 @@ import unittest
 from ice.environment_checker import EnvironmentChecker
 from ice.error.env_checker_error import EnvCheckerError
 
+
 class EnvironmentCheckerTests(unittest.TestCase):
+
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
 

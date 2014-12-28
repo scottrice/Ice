@@ -6,16 +6,18 @@ Created by Scott Rice on 8-23-2014
 
 from ice.gui.tabs.sync_tab_widget import SyncTabWidget
 
+
 class SyncTabController(object):
 
   # TODO: Runner shouldn't be passed to SyncTabWidget here, it should pass in
   # only the data needed when the tab widget needs it. The tab widget (and steam
   # preview widget) shouldnt be holding onto that information as state.
+
   def __init__(self, engine, statusBar):
-    self.windowStatusBar  = statusBar
-    self.widget           = SyncTabWidget()
-    self.engine           = engine
-    self.users            = engine.users
+    self.windowStatusBar = statusBar
+    self.widget = SyncTabWidget()
+    self.engine = engine
+    self.users = engine.users
 
     self.widget.populateUsersDropdownWithUsers(self.users)
     self.user = self.users[self.widget.selectedUserIndex()]

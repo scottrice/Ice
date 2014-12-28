@@ -14,7 +14,9 @@ import unittest
 from ice.persistence.backed_object import BackedObject
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 
+
 class BackedObjectTests(unittest.TestCase):
+
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
     self.tempfile = os.path.join(self.tempdir, "test.ini")
@@ -36,13 +38,13 @@ class BackedObjectTests(unittest.TestCase):
 
   def test_backed_value(self):
     bs = self.create_backing_store({
-      "Iron Man": { "identity": "Tony Stark" }
+        "Iron Man": {"identity": "Tony Stark"}
     })
     iron_man = BackedObject(bs, "Iron Man")
     self.assertEquals(iron_man.backed_value("identity"), "Tony Stark")
 
   def test_set_backed_value(self):
-    bs = self.create_backing_store({ "Iron Man": {} })
+    bs = self.create_backing_store({"Iron Man": {}})
     iron_man = BackedObject(bs, "Iron Man")
     self.assertIsNone(iron_man.backed_value("identity"))
     iron_man.set_backed_value("identity", "Tony Stark")
@@ -50,7 +52,7 @@ class BackedObjectTests(unittest.TestCase):
 
   def test_set_backed_value_doesnt_modify_backing_store(self):
     bs = self.create_backing_store({
-      "Iron Man": { "alignment": "good" }
+        "Iron Man": {"alignment": "good"}
     })
     iron_man = BackedObject(bs, "Iron Man")
     self.assertEqual(iron_man.backed_value("alignment"), "good")

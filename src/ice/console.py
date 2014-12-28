@@ -22,52 +22,55 @@ from persistence.config_file_backing_store import ConfigFileBackingStore
 from emulator import Emulator
 from rom import ROM
 
+
 class Console(BackedObject):
-    def __init__(self, backing_store, identifier, config):
-        super(Console, self).__init__(backing_store, identifier)
-        self.config                 = config
 
-        self.fullname               = identifier
-        self.shortname              = self.backed_value('nickname', self.fullname)
-        self.extensions             = self.backed_value('extensions', "")
-        self.custom_roms_directory  = self.backed_value('roms directory', "")
-        self.prefix                 = self.backed_value('prefix', "")
-        self.icon                   = self.backed_value('icon', "")
-        self.images_directory       = self.backed_value('images directory', "")
-        self.emulator_identifier    = self.backed_value('emulator', "")
-        
-        self.icon = os.path.expanduser(self.icon)
-        self.custom_roms_directory = os.path.expanduser(self.custom_roms_directory)
-        self.images_directory = os.path.expanduser(self.images_directory)
+  def __init__(self, backing_store, identifier, config):
+    super(Console, self).__init__(backing_store, identifier)
+    self.config = config
 
-        self.emulator = config.emulator_manager.find(self.emulator_identifier)
+    self.fullname = identifier
+    self.shortname = self.backed_value('nickname', self.fullname)
+    self.extensions = self.backed_value('extensions', "")
+    self.custom_roms_directory = self.backed_value('roms directory', "")
+    self.prefix = self.backed_value('prefix', "")
+    self.icon = self.backed_value('icon', "")
+    self.images_directory = self.backed_value('images directory', "")
+    self.emulator_identifier = self.backed_value('emulator', "")
 
-    def __repr__(self):
-        return self.fullname
+    self.icon = os.path.expanduser(self.icon)
+    self.custom_roms_directory = os.path.expanduser(self.custom_roms_directory)
+    self.images_directory = os.path.expanduser(self.images_directory)
 
-    def is_enabled(self):
-        return self.emulator is not None
+    self.emulator = config.emulator_manager.find(self.emulator_identifier)
 
-    def roms_directory(self):
-        """
-        If the user has specified a ROMs directory in consoles.txt and it is
-        accessible to Ice, returns that.
+  def __repr__(self):
+    return self.fullname
 
-        Otherwise, appends the shortname of the console to the default ROMs
-        directory given by config.txt.
-        """
-        if self.custom_roms_directory:
-            return self.custom_roms_directory
-        return os.path.join(self.config.roms_directory(),self.shortname)
-      
-    def is_valid_rom(self,path):
-        """
-        This function determines if a given path is actually a valid ROM file.
-        If a list of extensions is supplied for this console, we check if the path has a valid extension
-        If no extensions are defined for this console, we just accept any file
-        """
+  def is_enabled(self):
+    return self.emulator is not None
 
-        if self.extensions == "":
-            return True
-        extension = os.path.splitext(path)[1].lower()
-        return any(extension == ('.'+x.strip().lower()) for x in self.extensions.split(','))
+  def roms_directory(self):
+    """
+    If the user has specified a ROMs directory in consoles.txt and it is
+    accessible to Ice, returns that.
+
+    Otherwise, appends the shortname of the console to the default ROMs
+    directory given by config.txt.
+    """
+    if self.custom_roms_directory:
+      return self.custom_roms_directory
+    return os.path.join(self.config.roms_directory(), self.shortname)
+
+  def is_valid_rom(self, path):
+    """
+    This function determines if a given path is actually a valid ROM file.
+    If a list of extensions is supplied for this console, we check if the path has a valid extension
+    If no extensions are defined for this console, we just accept any file
+    """
+
+    if self.extensions == "":
+      return True
+    extension = os.path.splitext(path)[1].lower()
+    return any(extension == ('.' + x.strip().lower())
+               for x in self.extensions.split(','))

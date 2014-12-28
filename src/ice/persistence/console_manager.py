@@ -8,7 +8,9 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 from backed_object_manager import BackedObjectManager
 from ice.console import Console
 
+
 class ConsoleManager(BackedObjectManager):
+
   def __init__(self, backing_store, config):
     super(ConsoleManager, self).__init__(backing_store)
     self.config = config

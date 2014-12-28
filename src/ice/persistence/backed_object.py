@@ -7,12 +7,13 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 from ice import utils
 
+
 class BackedObject(object):
 
   def __init__(self, backing_store, identifier):
-    self.backing_store  = backing_store
-    self.identifier     = identifier
-    self.dirty_values   = {}
+    self.backing_store = backing_store
+    self.identifier = identifier
+    self.dirty_values = {}
 
   def backed_value(self, key, default=None):
     if key in self.dirty_values:

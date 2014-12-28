@@ -11,6 +11,7 @@ from error.path_existance_error import PathExistanceError
 from error.process_running_error import ProcessRunningError
 from error.writable_path_error import WritablePathError
 
+
 class EnvironmentChecker(object):
 
   def __enter__(self):
@@ -51,7 +52,8 @@ class EnvironmentChecker(object):
       try:
         p = psutil.Process(pid)
         if p.name().lower().startswith(program_name.lower()):
-          return self.requirement_errors.append(ProcessRunningError(program_name))
+          return self.requirement_errors.append(
+              ProcessRunningError(program_name))
       except Exception:
         continue
 

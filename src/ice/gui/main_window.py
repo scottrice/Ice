@@ -12,6 +12,7 @@ from ice.gui.tabs.emulators_tab_controller import EmulatorsTabController
 from ice.gui.tabs.settings_tab_controller import SettingsTabController
 from ice.runners.ice_engine import IceEngine
 
+
 class MainWindow(QtGui.QMainWindow):
 
   def __init__(self):
@@ -35,9 +36,8 @@ class MainWindow(QtGui.QMainWindow):
 
     self.show()
 
-
   def initUI(self):
-    QtGui.QToolTip.setFont(QtGui.QFont('SansSerif',10))
+    QtGui.QToolTip.setFont(QtGui.QFont('SansSerif', 10))
     self.setGeometry(300, 300, 800, 600)
     self.setWindowTitle('Ice')
     self.centralWidget = QtGui.QWidget(self)
@@ -54,17 +54,17 @@ class MainWindow(QtGui.QMainWindow):
     self.tabWidget = QtGui.QTabWidget()
 
     self.tab_controllers = {
-      "Sync":       SyncTabController(self.engine, self.statusBar()),
-      "Consoles":   ConsolesTabController(self.engine.config),
-      "Emulators":  EmulatorsTabController(self.engine.config),
-      "Settings":   SettingsTabController(self.engine.config),
+        "Sync": SyncTabController(self.engine, self.statusBar()),
+        "Consoles": ConsolesTabController(self.engine.config),
+        "Emulators": EmulatorsTabController(self.engine.config),
+        "Settings": SettingsTabController(self.engine.config),
     }
 
     tab_order = [
-      "Sync",
-      "Consoles",
-      "Emulators",
-      "Settings",
+        "Sync",
+        "Consoles",
+        "Emulators",
+        "Settings",
     ]
 
     for tab_name in tab_order:

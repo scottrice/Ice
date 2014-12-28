@@ -7,6 +7,7 @@ import unittest
 
 from ice import rom_finder
 
+
 class ROMFinderTests(unittest.TestCase):
 
   def setUp(self):
@@ -17,7 +18,8 @@ class ROMFinderTests(unittest.TestCase):
   def tearDown(self):
     pass
 
-  def test_roms_for_console_returns_a_rom_for_every_file_in_roms_directory(self):
+  def test_roms_for_console_returns_a_rom_for_every_file_in_roms_directory(
+          self):
     dirname = "RandomDir"
     rom1 = os.path.join(dirname, "rom1")
     rom2 = os.path.join(dirname, "rom2")
@@ -32,7 +34,6 @@ class ROMFinderTests(unittest.TestCase):
     for rom in roms:
       self.assertIn(rom.path, rom_paths)
       self.assertEquals(rom.console, self.mock_console)
-    
 
   def test_roms_for_console_ignores_invalid_roms(self):
     dirname = "RandomDir"

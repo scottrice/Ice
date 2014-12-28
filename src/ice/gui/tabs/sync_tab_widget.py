@@ -8,6 +8,7 @@ from PyQt4 import QtGui
 
 from ice.gui.steam_preview_widget import SteamPreviewWidget
 
+
 class SyncTabWidget(QtGui.QWidget):
 
   def __init__(self):

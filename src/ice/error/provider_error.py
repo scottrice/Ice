@@ -10,5 +10,6 @@ Represents an issue with getting an image from a Grid Image Provider (like
 ConsoleGrid).
 """
 
-class ProviderError(StandardError):
-    pass
+
+class ProviderError(Exception):
+  pass

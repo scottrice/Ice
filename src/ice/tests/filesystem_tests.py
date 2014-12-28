@@ -6,6 +6,7 @@ import unittest
 
 from ice import filesystem
 
+
 class FilesystemTests(unittest.TestCase):
 
   def setUp(self):
@@ -54,7 +55,10 @@ class FilesystemTests(unittest.TestCase):
     os.mkdir(dir1)
     dir2 = os.path.join(self.tempdir, "dir2")
     os.mkdir(dir2)
-    self.assertEquals(self.filesystem.files_in_directory(self.tempdir), [file1, file2])
+    self.assertEquals(
+        self.filesystem.files_in_directory(
+            self.tempdir), [
+            file1, file2])
 
   def test_files_in_directory_doesnt_return_hidden_files(self):
     file1 = os.path.join(self.tempdir, "bluefile")
@@ -67,9 +71,13 @@ class FilesystemTests(unittest.TestCase):
     os.mkdir(dir1)
     dir2 = os.path.join(self.tempdir, "dir2")
     os.mkdir(dir2)
-    self.assertEquals(self.filesystem.files_in_directory(self.tempdir), [file1, file2])
+    self.assertEquals(
+        self.filesystem.files_in_directory(
+            self.tempdir), [
+            file1, file2])
 
-  def test_subdirectories_of_directory_asserts_when_directory_doesnt_exist(self):
+  def test_subdirectories_of_directory_asserts_when_directory_doesnt_exist(
+          self):
     path = os.path.join(self.tempdir, "DNE")
     with self.assertRaises(AssertionError):
       self.filesystem.subdirectories_of_directory(path)
@@ -89,4 +97,7 @@ class FilesystemTests(unittest.TestCase):
     os.mkdir(dir1)
     dir2 = os.path.join(self.tempdir, "dir2")
     os.mkdir(dir2)
-    self.assertEquals(self.filesystem.subdirectories_of_directory(self.tempdir), [dir1, dir2])
+    self.assertEquals(
+        self.filesystem.subdirectories_of_directory(
+            self.tempdir), [
+            dir1, dir2])

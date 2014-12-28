@@ -14,7 +14,9 @@ from urllib2 import URLError
 from ice.error.provider_error import ProviderError
 from ice.gridproviders import consolegrid_provider
 
+
 class ConsoleGridProviderTests(unittest.TestCase):
+
   def setUp(self):
     self.provider = consolegrid_provider.ConsoleGridProvider()
 
@@ -42,7 +44,7 @@ class ConsoleGridProviderTests(unittest.TestCase):
 
   def test_is_enabled_returns_true(self):
     self.assertTrue(self.provider.is_enabled())
-  
+
   def test_consolegrid_top_picture_url(self):
     rom = self.create_mock_rom("Megaman")
     url = self.provider.consolegrid_top_picture_url(rom)

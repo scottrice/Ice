@@ -10,7 +10,9 @@ from PyQt4 import QtGui
 
 from ice.gui.main_window import MainWindow
 
+
 class QtRunner(object):
+
   def run(self, argv):
     app = QtGui.QApplication(argv)
     mw = MainWindow()

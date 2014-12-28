@@ -12,7 +12,9 @@ import unittest
 from ice.error.provider_error import ProviderError
 from ice.gridproviders.combined_provider import CombinedProvider
 
+
 class CombinedProviderTests(unittest.TestCase):
+
   def test_is_enabled_returns_false_when_no_providers_are_enabled(self):
     provider1 = mock.MagicMock()
     provider1.is_enabled.return_value = False
@@ -46,7 +48,8 @@ class CombinedProviderTests(unittest.TestCase):
     combined_provider = CombinedProvider(provider1, provider2)
     self.assertEquals(combined_provider.image_for_rom(mock_rom), image1)
 
-  def test_image_for_rom_returns_image_later_provider_when_first_returns_none(self):
+  def test_image_for_rom_returns_image_later_provider_when_first_returns_none(
+          self):
     provider1 = mock.MagicMock()
     provider1.image_for_rom.return_value = None
 

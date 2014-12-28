@@ -19,53 +19,54 @@ import shutil
 from persistence.backed_object import BackedObject
 import utils
 
+
 class Emulator(BackedObject):
 
-    def __init__(self, backing_store, identifier):
-        super(Emulator, self).__init__(backing_store, identifier)
+  def __init__(self, backing_store, identifier):
+    super(Emulator, self).__init__(backing_store, identifier)
 
-        self.name           = identifier
-        self.location       = self.backed_value('location')
-        self.format         = self.backed_value('command', "%l %r")
+    self.name = identifier
+    self.location = self.backed_value('location')
+    self.format = self.backed_value('command', "%l %r")
 
-        self.location = os.path.expanduser(self.location)
+    self.location = os.path.expanduser(self.location)
 
-        assert self.location is not None, "Missing location for Emulator:`%s`" % identifier
-        assert os.path.exists(self.location), "Path `%s` does not exist."
+    assert self.location is not None, "Missing location for Emulator:`%s`" % identifier
+    assert os.path.exists(self.location), "Path `%s` does not exist."
 
-    def __repr__(self):
-        return self.name
+  def __repr__(self):
+    return self.name
 
-    def __add_quotes_if_needed__(self, string):
-        if string.startswith("\"") and string.endswith("\""):
-            return string
-        else:
-            return "\"%s\"" % string
+  def __add_quotes_if_needed__(self, string):
+    if string.startswith("\"") and string.endswith("\""):
+      return string
+    else:
+      return "\"%s\"" % string
 
-    def is_enabled(self):
-        """
-        Checks to see whether enough information has been entered by the user
-        to make the emulator useable
-        """
-        # Right now the only thing we care about is whether a file exists where
-        # the user says the emulator is.
-        if not os.path.isfile(self.location):
-            return False
-        return True
-    
-    def command_string(self, rom):
-        """Generates a command string using the format specified by the user"""
-        # We don't know if the user put quotes around the emulator location. If
-        # so, we dont want to add another pair and screw things up.
-        quoted_location = self.__add_quotes_if_needed__(self.location)
-        # The user didnt give us the ROM information, but screw it, I already
-        # have some code to add quotes to a string, might as well use it.
-        quoted_rom = self.__add_quotes_if_needed__(rom.path)
-        return self.format.replace("%l", quoted_location).replace("%r", quoted_rom)
-        
-    def startdir(self,rom):
-        """
-        Returns the directory which stores the emulator. This value is useful
-        as the 'StartDir' option of a Steam Shortcut
-        """
-        return os.path.dirname(self.location)
+  def is_enabled(self):
+    """
+    Checks to see whether enough information has been entered by the user
+    to make the emulator useable
+    """
+    # Right now the only thing we care about is whether a file exists where
+    # the user says the emulator is.
+    if not os.path.isfile(self.location):
+      return False
+    return True
+
+  def command_string(self, rom):
+    """Generates a command string using the format specified by the user"""
+    # We don't know if the user put quotes around the emulator location. If
+    # so, we dont want to add another pair and screw things up.
+    quoted_location = self.__add_quotes_if_needed__(self.location)
+    # The user didnt give us the ROM information, but screw it, I already
+    # have some code to add quotes to a string, might as well use it.
+    quoted_rom = self.__add_quotes_if_needed__(rom.path)
+    return self.format.replace("%l", quoted_location).replace("%r", quoted_rom)
+
+  def startdir(self, rom):
+    """
+    Returns the directory which stores the emulator. This value is useful
+    as the 'StartDir' option of a Steam Shortcut
+    """
+    return os.path.dirname(self.location)
