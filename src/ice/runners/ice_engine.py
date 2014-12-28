@@ -14,10 +14,14 @@ from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
 from ice.filesystem import Filesystem
+from ice.gridproviders.combined_provider import CombinedProvider
+from ice.gridproviders.consolegrid_provider import ConsoleGridProvider
+from ice.gridproviders.local_provider import LocalProvider
 from ice.ice_logging import IceLogger
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_finder import ROMFinder
 from ice.rom_manager import IceROMManager
+from ice.steam_grid_updater import SteamGridUpdater
 
 class IceEngine(object):
 
@@ -36,6 +40,12 @@ class IceEngine(object):
       # TODO: Query the list of users some other way
       self.users = self.steam.local_users()
       self.rom_finder = ROMFinder(Filesystem())
+
+      provider = CombinedProvider(
+        LocalProvider(),
+        ConsoleGridProvider(),
+      )
+      self.grid_updater = SteamGridUpdater(provider, self.logger)
 
   def validate_base_environment(self):
       """
@@ -87,6 +97,7 @@ class IceEngine(object):
       roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
       rom_manager = IceROMManager(user, self.config, self.logger)
       rom_manager.sync_roms(roms)
+      self.grid_updater.update_artwork_for_rom_collection(user, roms)
 
   def run(self):
     try:

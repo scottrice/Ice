@@ -30,10 +30,6 @@ class IceROMManager():
         self.user = user
         self.config = config
         self.logger = logger
-        self.provider = combined_provider.CombinedProvider(
-          local_provider.LocalProvider(),
-          consolegrid_provider.ConsoleGridProvider(),
-        )
 
         self.managed_shortcuts = set()
         for shortcut in self.user.shortcuts:
@@ -99,22 +95,3 @@ class IceROMManager():
             self.add_rom(rom)
         # Save our changes
         self.user.save_shortcuts()
-        # Grab new artwork
-        self.update_artwork(roms)
-
-    def update_artwork(self,roms):
-        """
-        Sets a suitable grid image for every rom in 'roms' for `user`
-        """
-        shortcuts = map(lambda rom: rom.to_shortcut(), roms)
-        shortcuts_to_update = filter(lambda shortcut: shortcut.custom_image(self.user) is None, shortcuts)
-        for shortcut in shortcuts_to_update:
-          try:
-            path = self.provider.image_for_rom(rom)
-          except ProviderError as error:
-            self.logger.debug(error)
-          if path:
-            self.logger.info("Found grid image for %s" % shortcut.name)
-            shortcut.set_image(self.user, path)
-          else:
-            self.logger.info("No image found for %s" % shortcut.name)
