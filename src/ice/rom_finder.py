@@ -35,10 +35,4 @@ class ROMFinder(object):
     Equivalent to calling `roms_for_console` on every element of `consoles`
     and combining the results
     """
-    assert hasattr(
-        consoles, '__iter__'), "Expecting an iterable list of consoles"
-
-    def rom_collector(roms, console):
-      roms.extend(self.roms_for_console(console))
-      return roms
-    return reduce(rom_collector, consoles, [])
+    return reduce(lambda roms, console: roms + self.roms_for_console(console), consoles, [])
