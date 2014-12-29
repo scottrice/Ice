@@ -20,8 +20,8 @@ from ice.gridproviders.local_provider import LocalProvider
 from ice.ice_logging import IceLogger
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_finder import ROMFinder
-from ice.rom_manager import IceROMManager
 from ice.steam_grid_updater import SteamGridUpdater
+from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 
 
 class IceEngine(object):
@@ -41,6 +41,7 @@ class IceEngine(object):
     # TODO: Query the list of users some other way
     self.users = self.steam.local_users()
     self.rom_finder = ROMFinder(Filesystem())
+    self.shortcut_synchronizer = SteamShortcutSynchronizer(self.logger)
 
     provider = CombinedProvider(
         LocalProvider(),
@@ -95,10 +96,11 @@ class IceEngine(object):
       self.logger.exception(
           "Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
       return
+    backup_path = self.config.shortcuts_backup_path(user)
+    user.save_shortcuts(backup_path)
     # Find all of the ROMs that are currently in the designated folders
     roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
-    rom_manager = IceROMManager(user, self.config, self.logger)
-    rom_manager.sync_roms(roms)
+    self.shortcut_synchronizer.sync_roms_for_user(user, roms)
     self.grid_updater.update_artwork_for_rom_collection(user, roms)
 
   def run(self):
