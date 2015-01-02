@@ -1,0 +1,4 @@
+#!/bin/sh
+BASEDIR=`dirname $0`
+# Run any child scriptss
+python "$BASEDIR/run-unit-tests.py"
