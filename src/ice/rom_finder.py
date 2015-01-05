@@ -6,7 +6,8 @@ from functools import reduce
 
 class ROMFinder(object):
 
-  def __init__(self, filesystem):
+  def __init__(self, config, filesystem):
+    self.config     = config
     self.filesystem = filesystem
 
   def roms_for_console(self, console):
@@ -23,7 +24,8 @@ class ROMFinder(object):
     if not console.is_enabled():
       return []
 
-    paths = self.filesystem.files_in_directory(console.roms_directory())
+    roms_directory = self.config.roms_directory_for_console(console)
+    paths = self.filesystem.files_in_directory(roms_directory)
     valid_rom_paths = filter(console.is_valid_rom, paths)
     return map(lambda path: ROM(path, console), valid_rom_paths)
 

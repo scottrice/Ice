@@ -50,18 +50,6 @@ class Console(BackedObject):
   def is_enabled(self):
     return self.emulator is not None
 
-  def roms_directory(self):
-    """
-    If the user has specified a ROMs directory in consoles.txt and it is
-    accessible to Ice, returns that.
-
-    Otherwise, appends the shortname of the console to the default ROMs
-    directory given by config.txt.
-    """
-    if self.custom_roms_directory:
-      return self.custom_roms_directory
-    return os.path.join(self.config.roms_directory(), self.shortname)
-
   def is_valid_rom(self, path):
     """
     This function determines if a given path is actually a valid ROM file.

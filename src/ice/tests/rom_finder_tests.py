@@ -12,8 +12,9 @@ class ROMFinderTests(unittest.TestCase):
 
   def setUp(self):
     self.mock_console = mock.MagicMock()
+    self.mock_config = mock.MagicMock()
     self.mock_filesystem = mock.MagicMock()
-    self.rom_finder = rom_finder.ROMFinder(self.mock_filesystem)
+    self.rom_finder = rom_finder.ROMFinder(self.mock_config, self.mock_filesystem)
 
   def tearDown(self):
     pass
@@ -26,7 +27,7 @@ class ROMFinderTests(unittest.TestCase):
     rom3 = os.path.join(dirname, "rom3")
     rom_paths = [rom1, rom2, rom3]
     self.mock_console.is_valid_rom.return_value = True
-    self.mock_console.roms_directory.return_value = dirname
+    self.mock_config.roms_directory_for_console.return_value = dirname
     self.mock_filesystem.files_in_directory.return_value = rom_paths
 
     roms = self.rom_finder.roms_for_console(self.mock_console)
@@ -42,7 +43,7 @@ class ROMFinderTests(unittest.TestCase):
     rom3 = os.path.join(dirname, "rom3")
     rom_paths = [rom1, rom2, rom3]
     self.mock_console.is_valid_rom.return_value = False
-    self.mock_console.roms_directory.return_value = dirname
+    self.mock_config.roms_directory_for_console.return_value = dirname
     self.mock_filesystem.files_in_directory.return_value = rom_paths
 
     self.assertEquals([], self.rom_finder.roms_for_console(self.mock_console))
@@ -72,9 +73,10 @@ class ROMFinderTests(unittest.TestCase):
     self.mock_filesystem.files_in_directory.side_effect = fake_files_in_directory
 
     console1 = mock.MagicMock()
-    console1.roms_directory.return_value = firstdir
     console2 = mock.MagicMock()
-    console2.roms_directory.return_value = seconddir
+    def fake_roms_directory_for_console(console):
+      return firstdir if console == console1 else seconddir
+    self.mock_config.roms_directory_for_console.side_effect = fake_roms_directory_for_console
     both_consoles = [console1, console2]
 
     roms = self.rom_finder.roms_for_consoles([console1])

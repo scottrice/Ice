@@ -40,7 +40,7 @@ class IceEngine(object):
     self.steam = Steam()
     # TODO: Query the list of users some other way
     self.users = self.steam.local_users()
-    self.rom_finder = ROMFinder(Filesystem())
+    self.rom_finder = ROMFinder(self.config, Filesystem())
     self.shortcut_synchronizer = SteamShortcutSynchronizer(self.logger)
 
     provider = CombinedProvider(
@@ -65,7 +65,7 @@ class IceEngine(object):
       for console in configuration.console_manager:
         if console.is_enabled():
           # Consoles assume they have a ROMs directory
-          env_checker.require_directory_exists(console.roms_directory())
+          env_checker.require_directory_exists(configuration.roms_directory_for_console(console))
 
   def validate_user_environment(self, user):
     """
