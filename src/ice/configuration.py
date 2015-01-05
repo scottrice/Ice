@@ -60,10 +60,6 @@ class Configuration(object):
     self.emulators_backing_store = emulators_store
     self.emulator_manager = EmulatorManager(emulators_store)
     self.console_manager = ConsoleManager(consoles_store, self.emulator_manager)
-    # We initialize the emulators first so that when the consoles are
-    # initialized they will be able to grab emulators using `find`
-    self.emulator_manager.initialize()
-    self.console_manager.initialize()
 
   def _get_directory_from_store(self, identifier, key, default):
     # TODO: Clean up this function and write tests for the callsites
