@@ -21,6 +21,9 @@ class BackedObjectBackedObjectAdapter(object):
   def new(self, backing_store, identifier):
     return BackedObject(backing_store, identifier)
 
+  def save_in_store(self, backing_store, identifier, obj):
+    pass
+
 class BackedObjectManagerTests(unittest.TestCase):
 
   def setUp(self):
@@ -92,12 +95,7 @@ class BackedObjectManagerTests(unittest.TestCase):
     self.assertIsNotNone(second_result)
     self.assertIs(first_result, second_result)
 
-  # Right now BackedObjectManager has no way of knowing when BackedObject saves
-  # itself. That will be the case in future refactorings, but for now just
-  # disable this test
-  @unittest.skip("Will be reenabled after future refactorings")
-  def test_object_created_with_new_is_returned_from_find_after_save(self):
-    war_machine = self.manager.new("War Machine")
-    war_machine.set_backed_value("identity", "James Rhodes")
-    war_machine.save()
+  def test_find_after_set_object_for_identifier_returns_same_object_that_was_set(self):
+    war_machine = BackedObject(self.backing_store, "War Machine")
+    self.manager.set_object_for_identifier(war_machine, "War Machine")
     self.assertEquals(self.manager.find("War Machine"), war_machine)

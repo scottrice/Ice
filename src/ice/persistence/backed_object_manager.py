@@ -33,3 +33,12 @@ class BackedObjectManager(object):
     obj = self.adapter.new(self.backing_store, identifier)
     self.managed_objects[identifier] = obj
     return obj
+
+  def set_object_for_identifier(self, obj, identifier):
+    self.managed_objects[identifier] = obj
+    # Ensure that the identifier exists in the backing store before we ask
+    # the adapter to save it
+    if not self.backing_store.has_identifier(identifier):
+      self.backing_store.add_identifier(identifier)
+    # Make the adapter do the actual saving
+    self.adapter.save_in_store(self.backing_store, identifier, obj)
