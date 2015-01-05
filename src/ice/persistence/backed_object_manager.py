@@ -10,8 +10,9 @@ from ice.persistence.backed_object import BackedObject
 
 class BackedObjectManager(object):
 
-  def __init__(self, backing_store):
+  def __init__(self, backing_store, model_adapter):
     self.backing_store = backing_store
+    self.adapter = model_adapter
     self.managed_objects = {}
 
   def __iter__(self):
@@ -29,13 +30,6 @@ class BackedObjectManager(object):
       return self.managed_objects[identifier]
 
     # If not, create it lazily
-    obj = self.new(identifier)
+    obj = self.adapter.new(self.backing_store, identifier)
     self.managed_objects[identifier] = obj
     return obj
-
-  def new(self, identifier):
-    """
-    Creates a new instance of an object managed by BackedObjectManager, but
-    doesn't save it
-    """
-    return BackedObject(self.backing_store, identifier)

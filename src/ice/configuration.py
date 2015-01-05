@@ -13,8 +13,9 @@ import appdirs
 import datetime
 import os
 
-from persistence.console_manager import ConsoleManager
-from persistence.emulator_manager import EmulatorManager
+from persistence.backed_object_manager import BackedObjectManager
+from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
+from persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
 
 
 class Configuration(object):
@@ -58,8 +59,14 @@ class Configuration(object):
     self.config_backing_store = config_store
     self.consoles_backing_store = consoles_store
     self.emulators_backing_store = emulators_store
-    self.emulator_manager = EmulatorManager(emulators_store)
-    self.console_manager = ConsoleManager(consoles_store, self.emulator_manager)
+    self.emulator_manager = BackedObjectManager(
+      emulators_store,
+      EmulatorBackedObjectAdapter()
+    )
+    self.console_manager = BackedObjectManager(
+      consoles_store,
+      ConsoleBackedObjectAdapter(self.emulator_manager)
+    )
 
   def _get_directory_from_store(self, identifier, key, default):
     # TODO: Clean up this function and write tests for the callsites

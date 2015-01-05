@@ -11,33 +11,38 @@ import shutil
 import tempfile
 import unittest
 
-# from ice.persistence.backed_object import BackedObject
+from ice.persistence.backed_object import BackedObject
 from ice.persistence.backed_object_manager import BackedObjectManager
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 
+# The fact that this class exists should probably signal that my current API
+# isn't perfect...
+class BackedObjectBackedObjectAdapter(object):
+  def new(self, backing_store, identifier):
+    return BackedObject(backing_store, identifier)
 
 class BackedObjectManagerTests(unittest.TestCase):
 
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
     self.tempfile = os.path.join(self.tempdir, "test.ini")
+    self.backing_store = ConfigFileBackingStore(self.tempfile)
+    self.manager = BackedObjectManager(self.backing_store, BackedObjectBackedObjectAdapter())
 
   def tearDown(self):
     shutil.rmtree(self.tempdir)
 
-  def create_backing_store(self, data):
-    bs = ConfigFileBackingStore(self.tempfile)
+  def populate_backing_store(self, data):
     for ident in data.keys():
-      bs.add_identifier(ident)
+      self.backing_store.add_identifier(ident)
       ident_data = data[ident]
       for key in ident_data.keys():
         value = ident_data[key]
-        bs.set(ident, key, value)
-    bs.save()
-    return bs
+        self.backing_store.set(ident, key, value)
+    self.backing_store.save()
 
   def test_reading_data_from_store(self):
-    bs = self.create_backing_store({
+    self.populate_backing_store({
         "Iron Man": {
             "identity": "Tony Stark",
         },
@@ -46,9 +51,8 @@ class BackedObjectManagerTests(unittest.TestCase):
             "alias": "Rhodey",
         },
     })
-    manager = BackedObjectManager(bs)
-    iron_man = manager.find("Iron Man")
-    war_machine = manager.find("War Machine")
+    iron_man = self.manager.find("Iron Man")
+    war_machine = self.manager.find("War Machine")
 
     self.assertIsNotNone(iron_man)
     self.assertEquals(iron_man.identifier, "Iron Man")
@@ -60,12 +64,11 @@ class BackedObjectManagerTests(unittest.TestCase):
     self.assertEquals(war_machine.backed_value("alias"), "Rhodey")
 
   def test_all(self):
-    bs = self.create_backing_store({
+    self.populate_backing_store({
         "Iron Man": {},
         "War Machine": {},
     })
-    manager = BackedObjectManager(bs)
-    all_objects = manager.all()
+    all_objects = self.manager.all()
     self.assertIs(len(all_objects), 2)
     obj1 = all_objects[0]
     obj2 = all_objects[1]
@@ -74,22 +77,18 @@ class BackedObjectManagerTests(unittest.TestCase):
     self.assertIn(obj2.identifier, ["Iron Man", "War Machine"])
 
   def test_find_returns_none_with_invalid_identifier(self):
-    bs = self.create_backing_store({})
-    manager = BackedObjectManager(bs)
-    im = manager.find("Iron Man")
-    self.assertIsNone(manager.find("Iron Man"))
+    im = self.manager.find("Iron Man")
+    self.assertIsNone(self.manager.find("Iron Man"))
 
   def test_find_returns_non_none_with_valid_identifier(self):
-    bs = self.create_backing_store({"Iron Man": {}})
-    manager = BackedObjectManager(bs)
-    self.assertIsNotNone(manager.find("Iron Man"))
+    self.populate_backing_store({"Iron Man": {}})
+    self.assertIsNotNone(self.manager.find("Iron Man"))
 
   def test_find_returns_same_object_between_calls(self):
-    bs = self.create_backing_store({"Iron Man": {}})
-    manager = BackedObjectManager(bs)
-    first_result = manager.find("Iron Man")
+    self.populate_backing_store({"Iron Man": {}})
+    first_result = self.manager.find("Iron Man")
     self.assertIsNotNone(first_result)
-    second_result = manager.find("Iron Man")
+    second_result = self.manager.find("Iron Man")
     self.assertIsNotNone(second_result)
     self.assertIs(first_result, second_result)
 
@@ -98,9 +97,7 @@ class BackedObjectManagerTests(unittest.TestCase):
   # disable this test
   @unittest.skip("Will be reenabled after future refactorings")
   def test_object_created_with_new_is_returned_from_find_after_save(self):
-    bs = self.create_backing_store({})
-    manager = BackedObjectManager(bs)
-    war_machine = manager.new("War Machine")
+    war_machine = self.manager.new("War Machine")
     war_machine.set_backed_value("identity", "James Rhodes")
     war_machine.save()
-    self.assertEquals(manager.find("War Machine"), war_machine)
+    self.assertEquals(self.manager.find("War Machine"), war_machine)
