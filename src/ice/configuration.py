@@ -58,8 +58,8 @@ class Configuration(object):
     self.config_backing_store = config_store
     self.consoles_backing_store = consoles_store
     self.emulators_backing_store = emulators_store
-    self.console_manager = ConsoleManager(consoles_store, self)
     self.emulator_manager = EmulatorManager(emulators_store)
+    self.console_manager = ConsoleManager(consoles_store, self.emulator_manager)
     # We initialize the emulators first so that when the consoles are
     # initialized they will be able to grab emulators using `find`
     self.emulator_manager.initialize()

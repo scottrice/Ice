@@ -25,9 +25,8 @@ from rom import ROM
 
 class Console(BackedObject):
 
-  def __init__(self, backing_store, identifier, config):
+  def __init__(self, backing_store, identifier, emulators):
     super(Console, self).__init__(backing_store, identifier)
-    self.config = config
 
     self.fullname = identifier
     self.shortname = self.backed_value('nickname', self.fullname)
@@ -42,7 +41,7 @@ class Console(BackedObject):
     self.custom_roms_directory = os.path.expanduser(self.custom_roms_directory)
     self.images_directory = os.path.expanduser(self.images_directory)
 
-    self.emulator = config.emulator_manager.find(self.emulator_identifier)
+    self.emulator = emulators.find(self.emulator_identifier)
 
   def __repr__(self):
     return self.fullname

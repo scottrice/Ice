@@ -11,9 +11,9 @@ from ice.console import Console
 
 class ConsoleManager(BackedObjectManager):
 
-  def __init__(self, backing_store, config):
+  def __init__(self, backing_store, emulators):
     super(ConsoleManager, self).__init__(backing_store)
-    self.config = config
+    self.emulators = emulators
 
   def new(self, identifier):
-    return Console(self.backing_store, identifier, self.config)
+    return Console(self.backing_store, identifier, self.emulators)
