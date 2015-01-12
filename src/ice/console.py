@@ -16,32 +16,20 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 
 import os
 
-import utils
-from persistence.backed_object import BackedObject
-from persistence.config_file_backing_store import ConfigFileBackingStore
-from emulator import Emulator
 from rom import ROM
 
 
-class Console(BackedObject):
+class Console(object):
 
-  def __init__(self, backing_store, identifier, emulators):
-    super(Console, self).__init__(backing_store, identifier)
-
-    self.fullname = identifier
-    self.shortname = self.backed_value('nickname', self.fullname)
-    self.extensions = self.backed_value('extensions', "")
-    self.custom_roms_directory = self.backed_value('roms directory', "")
-    self.prefix = self.backed_value('prefix', "")
-    self.icon = self.backed_value('icon', "")
-    self.images_directory = self.backed_value('images directory', "")
-    self.emulator_identifier = self.backed_value('emulator', "")
-
-    self.icon = os.path.expanduser(self.icon)
-    self.custom_roms_directory = os.path.expanduser(self.custom_roms_directory)
-    self.images_directory = os.path.expanduser(self.images_directory)
-
-    self.emulator = emulators.find(self.emulator_identifier)
+  def __init__(self, fullname, shortname, extensions, custom_roms_directory, prefix, icon, images_directory, emulator):
+    self.fullname = fullname
+    self.shortname = shortname
+    self.extensions = extensions
+    self.custom_roms_directory = custom_roms_directory
+    self.prefix = prefix
+    self.icon = icon
+    self.images_directory = images_directory
+    self.emulator = emulator
 
   def __repr__(self):
     return self.fullname
