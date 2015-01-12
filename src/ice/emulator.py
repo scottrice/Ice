@@ -32,7 +32,7 @@ class Emulator(BackedObject):
     self.location = os.path.expanduser(self.location)
 
     assert self.location is not None, "Missing location for Emulator:`%s`" % identifier
-    assert os.path.exists(self.location), "Path `%s` does not exist."
+    assert os.path.exists(self.location), "Path `%s` does not exist." % self.location
 
   def __repr__(self):
     return self.name
