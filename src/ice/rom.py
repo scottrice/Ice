@@ -32,7 +32,7 @@ class ROM(object):
         self.console = console
 
     def __repr__(self):
-        return self.name()
+        return self.prefixed_name()
 
     def __eq__(self, other):
         return self.path == other.path and self.console == other.console
@@ -54,17 +54,16 @@ class ROM(object):
         return name_with_ext[:dot_index]
 
     def prefixed_name(self, clean=False):
-        """ Return the ROM name prefixed with the console shorthand. """
+        """
+        Return the ROM name prefixed with the console shorthand if available.
+        """
         prefix = self.console.prefix
         name = self.clean_name() if clean else self.name()
-        if prefix:
-            return "%s %s" % (prefix, name)
-        else:
-            return name
+        return "%s %s" % (prefix, name) if prefix else name
 
     def clean_name(self):
         """ Return the ROM name stripped of GoodTools tags. """
-        return re.sub(r"(\(.*\)|(\[.*\])", "", self.name()).strip()
+        return re.sub(r"(\(.*\))|(\[.*\])", "", self.name()).strip()
 
     def to_shortcut(self):
         """ Create a pysteam Shortcut object from the ROM object. """
