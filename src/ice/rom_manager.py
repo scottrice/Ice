@@ -6,7 +6,7 @@ IceROMManager.py
 Created by Scott on 2012-12-24.
 Copyright (c) 2012 Scott Rice. All rights reserved.
 
-The purpose of this class is to handle the interaction (or some would say 
+The purpose of this class is to handle the interaction (or some would say
 conversion) between ROMs and Steam Shortcuts. This class also handles checking
 to make sure I don't add duplicates of any ROMs to Steam.
 
@@ -14,10 +14,10 @@ Functionality should be added to this class if it involves the interaction
 between ROMs and Steam Shortcuts.
 """
 
-import os
+# import os
 
 import filesystem_helper
-from console import Console
+# from console import Console
 from error.provider_error import ProviderError
 from rom import ICE_FLAG_TAG
 
@@ -25,7 +25,9 @@ from rom import ICE_FLAG_TAG
 from gridproviders import local_provider
 from gridproviders import consolegrid_provider
 
-class IceROMManager():
+class IceROMManager(object):
+    """ ROM Manager class to handle adding/removal of ROMs to Steam. """
+
     def __init__(self, user, config, logger):
         self.user = user
         self.config = config
@@ -39,15 +41,15 @@ class IceROMManager():
         for shortcut in self.user.shortcuts:
             if self.__is_managed_by_ice__(shortcut):
                 self.managed_shortcuts.add(shortcut)
-    
-    def __is_managed_by_ice__(self,shortcut):
+
+    def __is_managed_by_ice__(self, shortcut):
         """
         We detect if a shortcut is managed by Ice by checking for Ice's flag
         in the tags.
         """
         return ICE_FLAG_TAG in shortcut.tags
-        
-    def rom_already_in_steam(self,rom):
+
+    def rom_already_in_steam(self, rom):
         """
         To check whether a ROM is already managed by Steam, we generate a
         Shortcut for that ROM, and then figure out whether an equal ROM exists
@@ -55,8 +57,9 @@ class IceROMManager():
         """
         generated_shortcut = rom.to_shortcut()
         return generated_shortcut in self.managed_shortcuts
-        
-    def add_rom(self,rom):
+
+    def add_rom(self, rom):
+        """ Add ROM to Steam shortcuts.vdf. """
         # Don't add a ROM if we don't have a supported emulator for it
         if rom.console.emulator is None:
             return
@@ -65,8 +68,9 @@ class IceROMManager():
             generated_shortcut = rom.to_shortcut()
             self.managed_shortcuts.add(generated_shortcut)
             self.user.shortcuts.append(generated_shortcut)
-            
-    def remove_deleted_roms_from_steam(self,roms):
+
+    def remove_deleted_roms_from_steam(self, roms):
+        """ Remove all roms in list from Steam shortcuts.vdf. """
         # We define 'has been deleted' by checking whether we have a shortcut
         # that was managed by Ice in Steam that is no longer in our ROM folders
         rom_shortcuts = set()
@@ -76,8 +80,8 @@ class IceROMManager():
         for shortcut in deleted_rom_shortcuts:
             self.logger.info("Deleting: %s" % shortcut.name)
             self.user.shortcuts.remove(shortcut)
-            
-    def sync_roms(self,roms):
+
+    def sync_roms(self, roms):
         """
         This function takes care of syncing ROMs. After this function exits,
         Steam will contain only non-Ice shortcuts and the ROMs represented
@@ -92,17 +96,27 @@ class IceROMManager():
         # Backup the shortcuts before we touch anything
         backup_path = self.config.shortcuts_backup_path(self.user)
         self.user.save_shortcuts(backup_path)
+
         # Remove old ROMs
         self.remove_deleted_roms_from_steam(roms)
+
+        # Build list of ROM names to find duplicate titles
+        rom_names = [rom.clean_name() for rom in roms]
+
         # Add new ROMs
         for rom in roms:
+            if rom_names.count(rom.clean_name()) > 1:
+                # there are multiple games of the same title in the collection.
+                # TODO: generate more distinct title for ROM to be added with
+                # to prevent Steam Big Picture mode glitchiness
+                pass
             self.add_rom(rom)
         # Save our changes
         self.user.save_shortcuts()
         # Grab new artwork
         self.update_artwork(roms)
 
-    def update_artwork(self,roms):
+    def update_artwork(self, roms):
         """
         Sets a suitable grid image for every rom in 'roms' for `user`
         """
@@ -125,10 +139,10 @@ class IceROMManager():
         """
         for provider in self.providers:
             try:
-              path = provider.image_for_rom(rom)
-              if path is not None:
-                  return path
+                path = provider.image_for_rom(rom)
+                if path is not None:
+                    return path
             except ProviderError as error:
-              # If the provider encountered an error, print it to the debug log
-              self.logger.debug(error)
+                # print provider errors to the debug log
+                self.logger.debug(error)
         return None
