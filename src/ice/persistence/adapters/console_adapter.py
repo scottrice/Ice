@@ -1,4 +1,6 @@
 
+import os
+
 from ice.console import Console
 
 class ConsoleBackedObjectAdapter(object):
@@ -8,7 +10,7 @@ class ConsoleBackedObjectAdapter(object):
 
   def new(self, backing_store, identifier):
     fullname = identifier
-    shortname = backing_store.get(identifier, 'nickname', self.fullname)
+    shortname = backing_store.get(identifier, 'nickname', fullname)
     extensions = backing_store.get(identifier, 'extensions', "")
     custom_roms_directory = backing_store.get(identifier, 'roms directory', "")
     prefix = backing_store.get(identifier, 'prefix', "")
