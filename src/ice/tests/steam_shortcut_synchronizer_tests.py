@@ -156,3 +156,14 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     self.assertIn(shortcut1, new_shortcuts)
     self.assertIn(shortcut2, new_shortcuts)
     self.assertIn(shortcut3, new_shortcuts)
+
+  def test_sync_roms_for_user_saves_shortcuts_after_running(self):
+    shortcut1 = Shortcut("Game1", "/Path/to/game1", "/Path/to", "", ICE_FLAG_TAG)
+    rom1 = mock.MagicMock()
+    rom1.to_shortcut.return_value = shortcut1
+
+    self.mock_user.shortcuts = []
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1])
+
+    self.assertEquals(self.mock_user.shortcuts, [shortcut1])
+    self.assertTrue(self.mock_user.save_shortcuts.called)

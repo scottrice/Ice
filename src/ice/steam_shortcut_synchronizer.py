@@ -44,3 +44,4 @@ class SteamShortcutSynchronizer(object):
 
     # Set the updated shortcuts
     user.shortcuts = unmanaged_shortcuts + rom_shortcuts
+    user.save_shortcuts()
