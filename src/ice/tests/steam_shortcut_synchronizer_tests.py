@@ -11,16 +11,27 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
 
   def setUp(self):
     self.mock_user = mock.MagicMock()
+    self.mock_archive = mock.MagicMock()
     self.mock_logger = mock.MagicMock()
-    self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_logger)
+    self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_archive, self.mock_logger)
 
   def test_unmanaged_shortcuts_returns_shortcut_not_affiliated_with_ice(self):
     random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
-    self.assertEquals(self.synchronizer.unmanaged_shortcuts([random_shortcut]), [random_shortcut])
+    unmanaged = self.synchronizer.unmanaged_shortcuts([],[random_shortcut])
+    self.assertEquals(unmanaged, [random_shortcut])
 
   def test_unmanaged_shortcuts_doesnt_return_shortcut_with_flag_tag(self):
     tagged_shortcut = Shortcut("Game", "/Path/to/game", "/Path/to", "", ICE_FLAG_TAG)
-    self.assertEquals(self.synchronizer.unmanaged_shortcuts([tagged_shortcut]), [])
+    unmanaged = self.synchronizer.unmanaged_shortcuts([],[tagged_shortcut])
+    self.assertEquals(unmanaged, [])
+
+  def test_unmanaged_shortcuts_doesnt_return_shortcut_with_appid_in_managed_ids(self):
+    managed_shortcut = Shortcut("Game", "/Path/to/game", "/Path/to", "")
+    random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
+    managed_ids = [managed_shortcut.appid()]
+    shortcuts = [managed_shortcut, random_shortcut]
+    unmanaged = self.synchronizer.unmanaged_shortcuts(managed_ids,shortcuts)
+    self.assertEquals(unmanaged, [random_shortcut])
 
   def test_added_shortcuts_doesnt_return_shortcuts_that_still_exist(self):
     shortcut1 = Shortcut("Game1", "/Path/to/game1", "/Path/to", "", ICE_FLAG_TAG)

@@ -3,14 +3,15 @@ from rom import ICE_FLAG_TAG
 
 class SteamShortcutSynchronizer(object):
 
-  def __init__(self, logger):
+  def __init__(self, managed_rom_archive, logger):
+    self.managed_rom_archive = managed_rom_archive
     self.logger = logger
 
-  def shortcut_is_managed_by_ice(self, shortcut):
-    return ICE_FLAG_TAG in shortcut.tags
+  def shortcut_is_managed_by_ice(self, managed_ids, shortcut):
+    return shortcut.appid() in managed_ids or ICE_FLAG_TAG in shortcut.tags
 
-  def unmanaged_shortcuts(self, shortcuts):
-    return filter(lambda shortcut: not self.shortcut_is_managed_by_ice(shortcut), shortcuts)
+  def unmanaged_shortcuts(self, managed_ids, shortcuts):
+    return filter(lambda shortcut: not self.shortcut_is_managed_by_ice(managed_ids, shortcut), shortcuts)
 
   def removed_shortcuts(self, current_shortcuts, new_shortcuts):
     # To get the list of only removed shortcuts we take all of the current
@@ -31,7 +32,8 @@ class SteamShortcutSynchronizer(object):
     # 'Unmanaged' is just the term I am using for shortcuts that the user has
     # added that Ice shouldn't delete. For example, something like a shortcut
     # to Plex would be 'Unmanaged'
-    unmanaged_shortcuts = self.unmanaged_shortcuts(user.shortcuts)
+    managed_ids = self.managed_rom_archive.previous_managed_ids(user)
+    unmanaged_shortcuts = self.unmanaged_shortcuts(managed_ids, user.shortcuts)
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, user.shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
     rom_shortcuts = map(lambda rom: rom.to_shortcut(), roms)
