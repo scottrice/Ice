@@ -32,8 +32,8 @@ class SteamShortcutSynchronizer(object):
     # 'Unmanaged' is just the term I am using for shortcuts that the user has
     # added that Ice shouldn't delete. For example, something like a shortcut
     # to Plex would be 'Unmanaged'
-    managed_ids = self.managed_rom_archive.previous_managed_ids(user)
-    unmanaged_shortcuts = self.unmanaged_shortcuts(managed_ids, user.shortcuts)
+    previous_managed_ids = self.managed_rom_archive.previous_managed_ids(user)
+    unmanaged_shortcuts = self.unmanaged_shortcuts(previous_managed_ids, user.shortcuts)
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, user.shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
     rom_shortcuts = map(lambda rom: rom.to_shortcut(), roms)
@@ -47,3 +47,7 @@ class SteamShortcutSynchronizer(object):
     # Set the updated shortcuts
     user.shortcuts = unmanaged_shortcuts + rom_shortcuts
     user.save_shortcuts()
+
+    # Update the archive
+    new_managed_ids = map(lambda shortcut: shortcut.appid(), rom_shortcuts)
+    self.managed_rom_archive.set_managed_ids(user, new_managed_ids)

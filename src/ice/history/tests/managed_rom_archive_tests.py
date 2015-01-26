@@ -54,3 +54,28 @@ class ManagedROMArchiveTests(unittest.TestCase):
     archive = ManagedROMArchive(self.temppath)
 
     self.assertEquals(archive.previous_managed_ids(self.mock_user), ["1234567890","0987654321"])
+
+  def test_set_managed_ids_creates_new_file_if_needed(self):
+    self.assertFalse(os.path.exists(self.temppath))
+    archive = ManagedROMArchive(self.temppath)
+    archive.set_managed_ids(self.mock_user, ["1234567890"])
+
+    self.assertTrue(os.path.exists(self.temppath))
+
+  def test_previous_managed_ids_returns_new_value_after_set_managed_ids(self):
+    archive = ManagedROMArchive(self.temppath)
+    new_ids = ["1234567890"]
+
+    self.assertNotEqual(archive.previous_managed_ids(self.mock_user), new_ids)
+    archive.set_managed_ids(self.mock_user, ["1234567890"])
+    self.assertEqual(archive.previous_managed_ids(self.mock_user), new_ids)
+
+  def test_creating_new_archive_after_set_managed_ids_uses_new_ids(self):
+    archive = ManagedROMArchive(self.temppath)
+    new_ids = ["1234567890"]
+
+    self.assertNotEqual(archive.previous_managed_ids(self.mock_user), new_ids)
+    archive.set_managed_ids(self.mock_user, ["1234567890"])
+
+    new_archive = ManagedROMArchive(self.temppath)
+    self.assertEqual(new_archive.previous_managed_ids(self.mock_user), new_ids)
