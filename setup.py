@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import uuid
 
 from distutils.sysconfig import get_python_lib
 from pip.req import parse_requirements
@@ -69,7 +70,7 @@ EXCLUDE_FROM_PACKAGES = [
 DEPENDENCY_LINKS = [
 ]
 
-requirements = [str(ir.req) for ir in parse_requirements('requirements.txt')]
+requirements = [str(ir.req) for ir in parse_requirements('requirements.txt', session=uuid.uuid1())]
 
 def extra_options(platform):
   if is_windows(platform):
