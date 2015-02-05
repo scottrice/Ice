@@ -49,8 +49,8 @@ class IceEngine(object):
     self.shortcut_synchronizer = SteamShortcutSynchronizer(managed_rom_archive, self.logger)
 
     provider = CombinedProvider(
-        LocalProvider(),
-        ConsoleGridProvider(),
+        LocalProvider(self.logger),
+        ConsoleGridProvider(self.logger),
     )
     self.grid_updater = SteamGridUpdater(provider, self.logger)
 

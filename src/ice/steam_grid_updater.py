@@ -14,11 +14,7 @@ class SteamGridUpdater(object):
       # If the user already has a custom image for their game, dont override it
       return
 
-    try:
-      path = self.provider.image_for_rom(rom)
-    except provider_error.ProviderError as error:
-      self.logger.debug(error)
-      path = None
+    path = self.provider.image_for_rom(rom)
 
     if path:
       self.logger.info("Found grid image for `%s`" % shortcut.name)

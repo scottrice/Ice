@@ -11,14 +11,17 @@ import os
 import unittest
 from urllib2 import URLError
 
-from ice.error.provider_error import ProviderError
+# I need to do this instead of importing the class explicitly so that I can
+# override the urllib2 function.
+# TODO: Use dependency injection so I don't need to use that hack.
 from ice.gridproviders import consolegrid_provider
 
 
 class ConsoleGridProviderTests(unittest.TestCase):
 
   def setUp(self):
-    self.provider = consolegrid_provider.ConsoleGridProvider()
+    self.mock_logger = mock.MagicMock()
+    self.provider = consolegrid_provider.ConsoleGridProvider(self.mock_logger)
 
   def tearDown(self):
     pass
@@ -58,18 +61,16 @@ class ConsoleGridProviderTests(unittest.TestCase):
     self.assertNotIn("Dankey Kang#Country", url)
     self.assertIn("Dankey%20Kang%23Country", url)
 
-  def test_find_url_raises_provider_error_on_204(self):
+  def test_find_url_returns_none_on_204(self):
     rom = self.create_mock_rom("Megaman")
     consolegrid_provider.urllib2.urlopen = self.dummy_urlopen_function(204)
-    with self.assertRaises(ProviderError):
-      self.provider.find_url_for_rom(rom)
+    self.assertIsNone(self.provider.find_url_for_rom(rom))
 
-  def test_find_url_raises_provider_error_on_urlerror(self):
+  def test_find_url_returns_none_on_urlerror(self):
     rom = self.create_mock_rom("Megaman")
     err = URLError("")
     consolegrid_provider.urllib2.urlopen = self.dummy_urlopen_function(err=err)
-    with self.assertRaises(ProviderError):
-      self.provider.find_url_for_rom(rom)
+    self.assertIsNone(self.provider.find_url_for_rom(rom))
 
   def test_image_for_rom_returns_none_when_empty_image_url(self):
     def dummy_find_url_for_rom(rom):

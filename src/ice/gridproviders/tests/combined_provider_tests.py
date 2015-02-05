@@ -9,7 +9,6 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 import mock
 import unittest
 
-from ice.error.provider_error import ProviderError
 from ice.gridproviders.combined_provider import CombinedProvider
 
 

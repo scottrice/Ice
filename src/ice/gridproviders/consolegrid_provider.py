@@ -13,10 +13,12 @@ import urllib
 import urllib2
 
 import grid_image_provider
-from ice.error.provider_error import ProviderError
 
 
 class ConsoleGridProvider(grid_image_provider.GridImageProvider):
+
+  def __init__(self, logger):
+    self.logger = logger
 
   @staticmethod
   def api_url():
@@ -40,16 +42,19 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
     try:
       response = urllib2.urlopen(self.consolegrid_top_picture_url(rom))
       if response.getcode() == 204:
-        raise ProviderError(
-            "ConsoleGrid has no game called `%s` for %s." %
-            (rom.name(), rom.console.fullname))
+        name = rom.name()
+        console = rom.console.fullname
+        self.logger.debug(
+          "ConsoleGrid has no game called `%s` for %s" % (name, console)
+        )
       else:
         return response.read()
     except urllib2.URLError as error:
       # Connection was refused. ConsoleGrid may be down, or something bad
       # may have happened
-      raise ProviderError(
-          "No image was downloaded because an error was received from ConsoleGrid.")
+      self.logger.debug(
+        "No image was downloaded due to an error with ConsoleGrid"
+      )
 
   def download_image(self, url):
     """
@@ -61,6 +66,6 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
 
   def image_for_rom(self, rom):
     image_url = self.find_url_for_rom(rom)
-    if image_url == "":
+    if image_url is None or image_url == "":
       return None
     return self.download_image(image_url)

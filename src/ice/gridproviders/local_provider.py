@@ -11,10 +11,12 @@ import sys
 import os
 
 import grid_image_provider
-from ice.error.provider_error import ProviderError
 
 
 class LocalProvider(grid_image_provider.GridImageProvider):
+
+  def __init__(self, logger):
+    self.logger = logger
 
   def valid_extensions(self):
     return ['.png', '.jpg', '.jpeg', '.tiff']
@@ -27,9 +29,11 @@ class LocalProvider(grid_image_provider.GridImageProvider):
     """
     img_dir = rom.console.images_directory
     if img_dir == "":
-      raise ProviderError(
-          "No images directory specified for %s" %
-          rom.console.shortname)
+      self.logger.debug(
+        "[%s] No images directory specified for %s" %
+        (rom.name(), rom.console.shortname)
+      )
+      return None
     for extension in self.valid_extensions():
       filename = rom.name() + extension
       path = os.path.join(img_dir, filename)

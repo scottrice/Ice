@@ -12,14 +12,14 @@ import shutil
 import tempfile
 import unittest
 
-from ice.error.provider_error import ProviderError
 from ice.gridproviders.local_provider import LocalProvider
 
 
 class LocalProviderTests(unittest.TestCase):
 
   def setUp(self):
-    self.provider = LocalProvider()
+    self.mock_logger = mock.MagicMock()
+    self.provider = LocalProvider(self.mock_logger)
     self.temp_directory = tempfile.mkdtemp()
 
   def tearDown(self):
@@ -77,8 +77,7 @@ class LocalProviderTests(unittest.TestCase):
     os.mkdir(os.path.join(self.temp_directory, "Megaman.png"))
     self.assertIsNone(self.provider.image_for_rom(rom))
 
-  def test_raises_provider_error_when_no_image_directory(self):
+  def test_returns_none_when_no_image_directory(self):
     rom = self.create_mock_rom("Megaman")
     rom.console.images_directory = ""
-    with self.assertRaises(ProviderError):
-      self.provider.image_for_rom(rom)
+    self.assertIsNone(self.provider.image_for_rom(rom))
