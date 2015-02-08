@@ -1,23 +1,31 @@
 
 import os
+import re
 import unicodedata
 
 class ROMParser(object):
+
+  regexes = [
+    # Regex that matches the entire string up until it hits the first '[',
+    # ']', '(', ')', or '.'
+    # DOESN'T WORK FOR GAMES WITH ()s IN THEIR NAME
+    ur"(?P<name>[^\(\)\[\]\.]*).*",
+  ]
+
   def __init__(self, logger):
     self.logger = logger
 
+    self.logger.debug("Creating ROM parser with regexes: %s" % self.regexes)
+
   def parse(self, path):
-    """Parses the name of the ROM given its filename."""
-    name_with_ext = os.path.basename(path)
-
-    # normalize the name to get rid of symbols that break the shortcuts.vdf
-    name_with_ext = unicodedata.normalize(
-        'NFKD', unicode(name_with_ext.decode('utf-8'))).encode('ascii', 'ignore')
-
-    dot_index = name_with_ext.rfind('.')
-    if dot_index == -1:
-      # There is no period, so there is no extension. Therefore, the
-      # name with extension is the name
-      return name_with_ext
-    # Return the entire string leading up to (but not including) the period
-    return name_with_ext[:dot_index]
+    """Parses the name of the ROM given its path."""
+    filename = os.path.basename(path)
+    opts = re.IGNORECASE
+    match = reduce(lambda match, regex: match if match else re.match(regex, filename, opts), self.regexes, None)
+    if match:
+      self.logger.debug("[ROMParser] Matched game '%s' using regular expression `%s`", filename, match.re.pattern)
+      name = match.groupdict()["name"]
+    else:
+      self.logger.debug("[ROMParser] No match found for '%s'", filename)
+      name = filename
+    return name.strip()
