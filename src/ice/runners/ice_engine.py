@@ -19,6 +19,7 @@ from ice.gridproviders.consolegrid_provider import ConsoleGridProvider
 from ice.gridproviders.local_provider import LocalProvider
 from ice.history.managed_rom_archive import ManagedROMArchive
 from ice.ice_logging import IceLogger
+from ice.parsing.rom_parser import ROMParser
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_finder import ROMFinder
 from ice.steam_grid_updater import SteamGridUpdater
@@ -43,7 +44,8 @@ class IceEngine(object):
     self.users = self.steam.local_users()
 
     filesystem = Filesystem()
-    self.rom_finder = ROMFinder(self.config, filesystem)
+    parser = ROMParser(self.logger)
+    self.rom_finder = ROMFinder(self.config, filesystem, parser)
     archive_data_path = Configuration.path_for_data_file("archive.json")
     managed_rom_archive = ManagedROMArchive(archive_data_path)
     self.shortcut_synchronizer = SteamShortcutSynchronizer(managed_rom_archive, self.logger)

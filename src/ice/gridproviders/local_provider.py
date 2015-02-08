@@ -31,11 +31,11 @@ class LocalProvider(grid_image_provider.GridImageProvider):
     if img_dir == "":
       self.logger.debug(
         "[%s] No images directory specified for %s" %
-        (rom.name(), rom.console.shortname)
+        (rom.name, rom.console.shortname)
       )
       return None
     for extension in self.valid_extensions():
-      filename = rom.name() + extension
+      filename = rom.name + extension
       path = os.path.join(img_dir, filename)
       if os.path.isfile(path):
         # We found a valid path, return it

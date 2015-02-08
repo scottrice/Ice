@@ -14,11 +14,6 @@ Functionality should be added to this class if it heavily involves the use of
 ROMs
 """
 
-import sys
-import os
-import stat
-import unicodedata
-
 from pysteam.shortcut import Shortcut
 
 ICE_FLAG_TAG = "~ManagedByIce"
@@ -26,37 +21,23 @@ ICE_FLAG_TAG = "~ManagedByIce"
 
 class ROM:
 
-  def __init__(self, path, console):
+  def __init__(self, path, console, name):
     self.path = path
     self.console = console
+    self.name = name
 
   def __repr__(self):
-    return self.name()
+    return self.name
 
   def __eq__(self, other):
     return self.path == other.path and self.console == other.console
-
-  def name(self):
-    name_with_ext = os.path.basename(self.path)
-
-    # normalize the name to get rid of symbols that break the shortcuts.vdf
-    name_with_ext = unicodedata.normalize(
-        'NFKD', unicode(name_with_ext.decode('utf-8'))).encode('ascii', 'ignore')
-
-    dot_index = name_with_ext.rfind('.')
-    if dot_index == -1:
-      # There is no period, so there is no extension. Therefore, the
-      # name with extension is the name
-      return name_with_ext
-    # Return the entire string leading up to (but not including) the period
-    return name_with_ext[:dot_index]
 
   def prefixed_name(self):
     prefix = self.console.prefix
     if prefix:
       return "%s %s" % (prefix, self.name())
     else:
-      return self.name()
+      return self.name
 
   def to_shortcut(self):
     appname = self.prefixed_name()

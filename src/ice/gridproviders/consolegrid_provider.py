@@ -31,7 +31,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
 
   def consolegrid_top_picture_url(self, rom):
     host = self.api_url()
-    quoted_name = urllib.quote(rom.name())
+    quoted_name = urllib.quote(rom.name)
     return "%s?console=%s&game=%s" % (host, rom.console.shortname, quoted_name)
 
   def find_url_for_rom(self, rom):
@@ -42,7 +42,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
     try:
       response = urllib2.urlopen(self.consolegrid_top_picture_url(rom))
       if response.getcode() == 204:
-        name = rom.name()
+        name = rom.name
         console = rom.console.fullname
         self.logger.debug(
           "ConsoleGrid has no game called `%s` for %s" % (name, console)

@@ -14,7 +14,12 @@ class ROMFinderTests(unittest.TestCase):
     self.mock_console = mock.MagicMock()
     self.mock_config = mock.MagicMock()
     self.mock_filesystem = mock.MagicMock()
-    self.rom_finder = rom_finder.ROMFinder(self.mock_config, self.mock_filesystem)
+    self.mock_parser = mock.MagicMock()
+    self.rom_finder = rom_finder.ROMFinder(
+      self.mock_config,
+      self.mock_filesystem,
+      self.mock_parser,
+    )
 
   def tearDown(self):
     pass
@@ -90,3 +95,17 @@ class ROMFinderTests(unittest.TestCase):
     for rom in roms:
       self.assertIn(rom.path, rom_paths)
       self.assertIn(rom.console, both_consoles)
+
+  def test_uses_parser_to_determine_rom_name(self):
+    dirname = "RandomDir"
+    rom1 = os.path.join(dirname, "rom1")
+    rom_paths = [rom1]
+    self.mock_console.is_valid_rom.return_value = True
+    self.mock_config.roms_directory_for_console.return_value = dirname
+    self.mock_filesystem.files_in_directory.return_value = rom_paths
+    self.mock_parser.parse.return_value = "ROM Name"
+
+    roms = self.rom_finder.roms_for_console(self.mock_console)
+    self.assertEquals(len(roms), 1)
+    returned_rom = roms[0]
+    self.assertEquals(returned_rom.name, "ROM Name")

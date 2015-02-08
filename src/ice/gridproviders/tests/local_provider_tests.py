@@ -30,7 +30,7 @@ class LocalProviderTests(unittest.TestCase):
     mock_console.shortname = console_shortname
     mock_console.images_directory = self.temp_directory
     mock_rom = mock.MagicMock()
-    mock_rom.name.return_value = rom_name
+    mock_rom.name = rom_name
     mock_rom.console = mock_console
     return mock_rom
 

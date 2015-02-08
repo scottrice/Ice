@@ -104,6 +104,7 @@ setup(
   test_suite='nose.collector',
   tests_require=[
     'nose',
+    'nose-parameterized',
     'mock',
   ],
   zip_safe=False,

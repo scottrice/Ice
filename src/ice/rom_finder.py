@@ -1,14 +1,19 @@
 
 from console import Console
 from rom import ROM
-from functools import reduce
+from functools import partial, reduce
 
 
 class ROMFinder(object):
 
-  def __init__(self, config, filesystem):
+  def __init__(self, config, filesystem, parser):
     self.config     = config
     self.filesystem = filesystem
+    self.parser = parser
+
+  def rom_for_path(self, console, path):
+    name = self.parser.parse(path)
+    return ROM(path, console, name)
 
   def roms_for_console(self, console):
     """
@@ -27,7 +32,8 @@ class ROMFinder(object):
     roms_directory = self.config.roms_directory_for_console(console)
     paths = self.filesystem.files_in_directory(roms_directory)
     valid_rom_paths = filter(console.is_valid_rom, paths)
-    return map(lambda path: ROM(path, console), valid_rom_paths)
+    rom_factory = partial(self.rom_for_path, console)
+    return map(rom_factory, valid_rom_paths)
 
   def roms_for_consoles(self, consoles):
     """

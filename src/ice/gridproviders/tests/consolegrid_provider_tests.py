@@ -41,7 +41,7 @@ class ConsoleGridProviderTests(unittest.TestCase):
     mock_console.fullname = console_name
     mock_console.shortname = console_name
     mock_rom = mock.MagicMock()
-    mock_rom.name.return_value = rom_name
+    mock_rom.name = rom_name
     mock_rom.console = mock_console
     return mock_rom
 
