@@ -1,7 +1,3 @@
-
-from error import provider_error
-
-
 class SteamGridUpdater(object):
 
   def __init__(self, provider, logger):
