@@ -13,7 +13,7 @@ def is_windows(platform):
 def is_mac(platform):
   return platform.startswith('darwin')
 
-if is_windows(sys.platform):
+if "py2exe" in sys.argv:
   import py2exe
 
 SRC = 'src'
