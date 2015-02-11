@@ -3,7 +3,6 @@ import mock
 import unittest
 
 from ice import steam_grid_updater
-from ice.error import provider_error
 
 
 class SteamGridUpdaterTests(unittest.TestCase):
