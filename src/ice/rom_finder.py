@@ -1,6 +1,6 @@
 
-from console import Console
-from rom import ROM
+from ice.console import Console
+from ice.rom import ROM
 from functools import reduce
 
 
@@ -27,7 +27,7 @@ class ROMFinder(object):
     roms_directory = self.config.roms_directory_for_console(console)
     paths = self.filesystem.files_in_directory(roms_directory)
     valid_rom_paths = filter(console.is_valid_rom, paths)
-    return map(lambda path: ROM(path, console), valid_rom_paths)
+    return list(map(lambda path: ROM(path, console), valid_rom_paths))
 
   def roms_for_consoles(self, consoles):
     """

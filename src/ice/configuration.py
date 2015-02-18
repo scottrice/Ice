@@ -13,9 +13,9 @@ import appdirs
 import datetime
 import os
 
-from persistence.backed_object_manager import BackedObjectManager
-from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
-from persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
+from ice.persistence.backed_object_manager import BackedObjectManager
+from ice.persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
+from ice.persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
 
 
 class Configuration(object):

@@ -6,9 +6,10 @@ Created by Scott on 2014-08-12.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-import ConfigParser
+try: import ConfigParser
+except: import configparser as ConfigParser
 
-import backing_store
+from ice.persistence import backing_store
 
 
 class ConfigFileBackingStore(backing_store.BackingStore):

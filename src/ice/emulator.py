@@ -16,8 +16,8 @@ import os
 import tempfile
 import shutil
 
-from persistence.backed_object import BackedObject
-import utils
+from ice.persistence.backed_object import BackedObject
+import ice.utils
 
 
 class Emulator(BackedObject):

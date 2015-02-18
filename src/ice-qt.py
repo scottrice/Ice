@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import sys
 import traceback
 
@@ -16,7 +17,9 @@ except Exception as e:
     traceback.print_exc()
     sys.stderr = stderr
   traceback.print_exc()
-  print ""
-  print "An error has occurred! A copy of the crash report has been saved to 'error.log'."
-  print "If this continues please submit an issue on our Github page (http://github.com/scottrice/Ice)"
-  raw_input()
+  print("")
+  print("An error has occurred! A copy of the crash report has been saved to 'error.log'.")
+  print("If this continues please submit an issue on our Github page (http://github.com/scottrice/Ice)")
+  try: input = raw_input
+  except NameError: pass
+  input()

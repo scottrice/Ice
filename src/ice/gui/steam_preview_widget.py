@@ -6,7 +6,7 @@ Created by Scott Rice on 8-22-2014
 
 from PyQt4 import QtGui
 
-from steam_shortcut_widget import SteamShortcutWidget
+from ice.gui.steam_shortcut_widget import SteamShortcutWidget
 
 
 class SteamPreviewWidget(QtGui.QWidget):

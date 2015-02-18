@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import grid_image_provider
+from ice.gridproviders import grid_image_provider
 from functools import reduce
 
 

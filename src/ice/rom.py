@@ -40,8 +40,9 @@ class ROM:
     name_with_ext = os.path.basename(self.path)
 
     # normalize the name to get rid of symbols that break the shortcuts.vdf
-    name_with_ext = unicodedata.normalize(
-        'NFKD', unicode(name_with_ext.decode('utf-8'))).encode('ascii', 'ignore')
+    try: name_with_ext = unicode(name_with_ext.decode('utf-8'))
+    except: pass
+    name_with_ext = unicodedata.normalize('NFKD', name_with_ext).encode('ascii', 'ignore').decode('ascii')
 
     dot_index = name_with_ext.rfind('.')
     if dot_index == -1:

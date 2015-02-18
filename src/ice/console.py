@@ -16,7 +16,7 @@ their emulators. This includes finding a list of ROMs in this console's folder.
 
 import os
 
-from rom import ROM
+from ice.rom import ROM
 
 
 class Console(object):

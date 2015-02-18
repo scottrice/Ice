@@ -1,4 +1,4 @@
-from env_checker_error import EnvCheckerError
+from ice.error.env_checker_error import EnvCheckerError
 
 
 class ProcessRunningError(Exception):

@@ -5,7 +5,8 @@ Created by Scott on 2014-08-14.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-from ice_engine import IceEngine
+from __future__ import print_function
+from ice.runners.ice_engine import IceEngine
 
 
 class CommandLineRunner(object):
@@ -16,6 +17,7 @@ class CommandLineRunner(object):
     engine.run()
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
-    print ""
-    print "Close the window, or hit enter to exit..."
-    raw_input()
+    print("")
+    print("Close the window, or hit enter to exit...")
+    try: raw_input()
+    except NameError: input()
