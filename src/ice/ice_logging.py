@@ -15,6 +15,16 @@ import traceback
 import logging
 import logging.handlers
 
+class IceLevelTagFilter(logging.Formatter):
+
+  def _tag_for_level(self, levelno):
+    name = logging.getLevelName(levelno)
+    return "" if levelno is logging.INFO else "[%s] " % name
+
+  def filter(self, record):
+    record.leveltag = self._tag_for_level(record.levelno)
+    return True
+
 class IceLogger():
 
   ''' initialize our loggers '''
@@ -23,8 +33,8 @@ class IceLogger():
     # steam handler (only print info messages to terminal)
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
-    ch.setFormatter(
-        logging.Formatter('%(levelname)s\t %(message)s'))
+    ch.addFilter(IceLevelTagFilter())
+    ch.setFormatter(logging.Formatter('%(leveltag)s%(message)s'))
 
     # logfile handler (print all messages to logfile)
     # - max file size of 1mb
@@ -35,7 +45,7 @@ class IceLogger():
         backupCount=5)
     fh.setLevel(logging.DEBUG)
     fh.setFormatter(
-        logging.Formatter('%(asctime)s (%(name)s) %(levelname)s: %(message)s'))
+        logging.Formatter('%(asctime)s [%(levelname)s][%(filename)s][%(funcName)s:%(lineno)s]: %(message)s'))
 
     # loggers
     self.logger = logging.getLogger('Ice')
@@ -53,7 +63,7 @@ class IceLogger():
     if emulator.is_enabled():
       self.info("Detected Emulator: %s" % emulator)
     else:
-      self.warning("[DISABLED] Issue detected with emulator `%s`" % emulator)
+      self.warning("Issue detected with emulator `%s`" % emulator)
 
   def log_console_state(self, console):
     """
@@ -65,10 +75,10 @@ class IceLogger():
     # stringified reason why the console is not enabled
     elif console.emulator is None:
       self.warning(
-          "[DISABLED] No emulator provided for console `%s`" %
+          "No emulator provided for console `%s`" %
           console)
     else:
-      self.warning("[DISABLED] Issue detected with console `%s`" % console)
+      self.warning("Issue detected with console `%s`" % console)
 
   def log_configuration(self, config):
     self.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
