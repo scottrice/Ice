@@ -29,6 +29,8 @@ from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 class IceEngine(object):
 
   def __init__(self):
+    self.validated_base_environment = False
+    self.validated_configuration = False
     self.logger = IceLogger()
     self.logger.debug("Initializing Ice")
     config_data_path = Configuration.path_for_data_file("config.txt")
@@ -60,6 +62,8 @@ class IceEngine(object):
     """
     Validate that the current environment meets all of Ice's requirements.
     """
+    if self.validated_base_environment:
+      return
     with EnvironmentChecker() as env_checker:
       # If Steam is running then any changes we make will be overwritten
       env_checker.require_program_not_running("Steam")
@@ -68,13 +72,17 @@ class IceEngine(object):
       env_checker.require_directory_exists(self.steam.userdata_location())
       # This is used to store history information and such
       env_checker.require_directory_exists(Configuration.data_directory())
+    self.validated_base_environment = True
 
   def validate_configuration(self, configuration):
+    if self.validated_configuration:
+      return
     with EnvironmentChecker() as env_checker:
       for console in configuration.console_manager:
         if console.is_enabled():
           # Consoles assume they have a ROMs directory
           env_checker.require_directory_exists(configuration.roms_directory_for_console(console))
+    self.validated_configuration = True
 
   def validate_user_environment(self, user):
     """
@@ -90,6 +98,14 @@ class IceEngine(object):
 
   def main(self):
     self.logger.info("=========== Starting Ice ===========")
+    try:
+      self.validate_base_environment()
+      self.validate_configuration(self.config)
+    except EnvCheckerError as e:
+      self.logger.info("Ice cannot run because of issues with your system.\n")
+      self.logger.info("\t%s\n" % e.message)
+      self.logger.info("Please resolve these issues and try running Ice again")
+      return
     # TODO: Create any missing directories that Ice will need
     self.logger.log_configuration(self.config)
     for user in self.users:
