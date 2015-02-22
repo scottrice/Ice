@@ -102,8 +102,9 @@ class IceEngine(object):
       self.validate_configuration(self.config)
       self.validate_user_environment(user)
     except EnvCheckerError as e:
-      self.logger.exception(
-          "Ice cannot run because of issues with your system. Please resolve the issues above and try running Ice again")
+      self.logger.info("Ice cannot run because of issues with your system.\n")
+      self.logger.info("\t%s\n" % e.message)
+      self.logger.info("Please resolve these issues and try running Ice again")
       return
     backup_path = self.config.shortcuts_backup_path(user)
     user.save_shortcuts(backup_path)
