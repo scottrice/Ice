@@ -15,47 +15,16 @@ import traceback
 import logging
 import logging.handlers
 
-
-class ColoredFilter():
-  # Explanation: http://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-  BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
-  # Explanation: http://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes
-  RESET_SEQ = "\033[0m"
-  COLOR_SEQ = "\033[%dm"
-  EXT_COLOR_SEQ = "\033[48;5;%dm"
-
-  def __init__(self):
-    self.colors = {}
-
-  def levelSequence(self, level):
-    return self.colors[level] if level in self.colors else self.RESET_SEQ
-
-  def setColor(self, level, color):
-    self.colors[level] = self.COLOR_SEQ % (40 + color)
-
-  def setExtendedColor(self, level, code):
-    self.colors[level] = self.EXT_COLOR_SEQ % code
-
-  def filter(self, record):
-    record.color = self.levelSequence(record.levelno)
-    record.nocolor = self.RESET_SEQ
-    return True
-
-
 class IceLogger():
 
   ''' initialize our loggers '''
 
   def __init__(self):
-    colorer = ColoredFilter()
-    colorer.setColor(logging.ERROR, ColoredFilter.RED)
-    colorer.setExtendedColor(logging.WARNING, 94)
     # steam handler (only print info messages to terminal)
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
-    ch.addFilter(colorer)
     ch.setFormatter(
-        logging.Formatter('%(color)s%(levelname)s\t%(nocolor)s %(message)s'))
+        logging.Formatter('%(levelname)s\t %(message)s'))
 
     # logfile handler (print all messages to logfile)
     # - max file size of 1mb
