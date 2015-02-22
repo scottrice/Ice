@@ -103,8 +103,8 @@ class IceEngine(object):
       self.validate_configuration(self.config)
     except EnvCheckerError as e:
       self.logger.info("Ice cannot run because of issues with your system.\n")
-      self.logger.info("\t%s\n" % e.message)
-      self.logger.info("Please resolve these issues and try running Ice again")
+      self.logger.info("* %s" % e.message)
+      self.logger.info("\nPlease resolve these issues and try running Ice again")
       return
     # TODO: Create any missing directories that Ice will need
     self.logger.log_configuration(self.config)
