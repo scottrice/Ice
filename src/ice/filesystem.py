@@ -26,7 +26,7 @@ class Filesystem(object):
     return [os.path.join(directory, name) for name in glob.glob(pattern)]
 
   def files_in_directory(self, directory):
-    return filter(os.path.isfile, self._paths_in_directory(directory))
+    return list(filter(os.path.isfile, self._paths_in_directory(directory)))
 
   def subdirectories_of_directory(self, directory):
-    return filter(os.path.isdir, self._paths_in_directory(directory))
+    return list(filter(os.path.isdir, self._paths_in_directory(directory)))

@@ -16,7 +16,7 @@ Ice's official documentation is available at [Getting Started.](http://scottrice
 
 ###Running the Source
 
-You will need Python 2.7 to run Ice. Python 3.0 and up will not work.
+You will need Python 2.7 or Python 3.0 and up to run Ice.
 
 You will also need pip installed. The easiest way to get that is to run `easy_install pip`.
 

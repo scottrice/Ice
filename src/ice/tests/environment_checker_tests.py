@@ -14,7 +14,13 @@ class EnvironmentCheckerTests(unittest.TestCase):
     self.tempdir = tempfile.mkdtemp()
 
   def tearDown(self):
-    shutil.rmtree(self.tempdir)
+    def del_rw(action, name, exc):
+      for root, subdirs, files in os.walk(name):
+        for filename in subdirs + files:
+          subdir_filename = os.path.join(root, filename)
+          os.chmod(name, stat.S_IWRITE)
+          shutil.rmtree(subdir_filename, onerror=del_rw)
+    shutil.rmtree(self.tempdir, onerror=del_rw)
 
   def testRequireDirectoryExistsSucceedsWhenDirectoryExists(self):
     try:

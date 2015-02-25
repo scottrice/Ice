@@ -55,7 +55,7 @@ class FilesystemTests(unittest.TestCase):
     os.mkdir(dir1)
     dir2 = os.path.join(self.tempdir, "dir2")
     os.mkdir(dir2)
-    self.assertEquals(
+    self.assertEqual(
         self.filesystem.files_in_directory(
             self.tempdir), [
             file1, file2])
@@ -71,7 +71,7 @@ class FilesystemTests(unittest.TestCase):
     os.mkdir(dir1)
     dir2 = os.path.join(self.tempdir, "dir2")
     os.mkdir(dir2)
-    self.assertEquals(
+    self.assertEqual(
         self.filesystem.files_in_directory(
             self.tempdir), [
             file1, file2])
@@ -97,7 +97,7 @@ class FilesystemTests(unittest.TestCase):
     os.mkdir(dir1)
     dir2 = os.path.join(self.tempdir, "dir2")
     os.mkdir(dir2)
-    self.assertEquals(
+    self.assertEqual(
         self.filesystem.subdirectories_of_directory(
             self.tempdir), [
             dir1, dir2])
