@@ -9,13 +9,10 @@ class Filesystem(object):
     return os.path.exists(path)
 
   def is_directory(self, path):
-    assert self.path_exists(
-        path), "`is_directory` expects the given path to exist"
     return os.path.isdir(path)
 
-  def _paths_in_directory(self, directory):
-    assert self.is_directory(
-        directory), "`paths_in_directory` expects a directory parameter"
+  def _paths_in_directory(self, directory, incl_subdirs=False):
+    assert self.is_directory(directory)
     # Use glob instead of `os.listdir` to find files because glob will ignore
     # hidden files. Or at least some hidden files. It ignores any file whose
     # name starts with ".", which is basically equivalent to 'hidden files' on
@@ -23,10 +20,24 @@ class Filesystem(object):
     # like to avoid having OS-specific 'ignore hidden files' logic in this file
     # and let Python handle it instead.
     pattern = os.path.join(directory, "*")
-    return [os.path.join(directory, name) for name in glob.glob(pattern)]
+    result = glob.glob(pattern)
+    # Unfortunately Python glob doesn't support `**` for matching 0 or 1
+    # subdirectories (like I was hoping it would), so instead we run a second
+    # glob if we need subdirectories
+    subdir_pattern = os.path.join(directory, "*", "*")
+    subdir_result = glob.glob(subdir_pattern) if incl_subdirs else []
+    return result + subdir_result
 
-  def files_in_directory(self, directory):
-    return filter(os.path.isfile, self._paths_in_directory(directory))
+  def files_in_directory(self, directory, include_subdirectories=False):
+    assert self.is_directory(directory), "Must specify a directory"
+    return filter(
+      os.path.isfile,
+      self._paths_in_directory(directory, incl_subdirs=include_subdirectories),
+    )
 
-  def subdirectories_of_directory(self, directory):
-    return filter(os.path.isdir, self._paths_in_directory(directory))
+  def subdirectories_of_directory(self, directory, recursive=False):
+    assert self.is_directory(directory), "Must specify a directory"
+    return filter(
+      os.path.isdir,
+      self._paths_in_directory(directory, incl_subdirs=recursive),
+    )

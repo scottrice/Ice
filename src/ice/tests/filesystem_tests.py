@@ -20,11 +20,6 @@ class FilesystemTests(unittest.TestCase):
     with open(path, "w") as f:
       f.write(contents)
 
-  def test_is_directory_asserts_when_path_doesnt_exist(self):
-    path = os.path.join(self.tempdir, "DNE")
-    with self.assertRaises(AssertionError):
-      self.filesystem.is_directory(path)
-
   def test_is_directory_returns_true_for_directories(self):
     path = os.path.join(self.tempdir, "temp_directory")
     os.mkdir(os.path.join(self.tempdir, path))
@@ -101,3 +96,39 @@ class FilesystemTests(unittest.TestCase):
         self.filesystem.subdirectories_of_directory(
             self.tempdir), [
             dir1, dir2])
+
+  def test_files_in_directory_ignores_subdirectories_by_default(self):
+    file1 = os.path.join(self.tempdir, "file1")
+    self.touch_file(file1)
+    dir1 = os.path.join(self.tempdir, "dir1")
+    os.mkdir(dir1)
+    file2 = os.path.join(dir1, "file2")
+    self.touch_file(file2)
+
+    result = self.filesystem.files_in_directory(self.tempdir)
+
+    self.assertEquals(set(result), set([file1]))
+
+  def test_files_in_directory_should_return_files_in_subdirectories_when_include_subdirectories_is_true(self):
+    file1 = os.path.join(self.tempdir, "file1")
+    self.touch_file(file1)
+    dir1 = os.path.join(self.tempdir, "dir1")
+    os.mkdir(dir1)
+    file2 = os.path.join(dir1, "file2")
+    self.touch_file(file2)
+
+    result = self.filesystem.files_in_directory(self.tempdir, include_subdirectories=True)
+
+    self.assertEquals(set([file1, file2]), set(result))
+
+  def test_subdirectories_of_directory_should_return_subdirectories_of_subdirectories_when_recursive_is_true(self):
+    dir1 = os.path.join(self.tempdir, "dir1")
+    dir11 = os.path.join(dir1, "dir11")
+    dir2 = os.path.join(self.tempdir, "dir2")
+    dir21 = os.path.join(dir2, "dir21")
+    dirs = [dir1, dir2, dir11, dir21]
+    map(os.mkdir, dirs)
+
+    result = self.filesystem.subdirectories_of_directory(self.tempdir, recursive=True)
+
+    self.assertEquals(set(dirs), set(result))
