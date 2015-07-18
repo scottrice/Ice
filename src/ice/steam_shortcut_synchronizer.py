@@ -8,7 +8,12 @@ class SteamShortcutSynchronizer(object):
     self.logger = logger
 
   def shortcut_is_managed_by_ice(self, managed_ids, shortcut):
-    return shortcut.appid() in managed_ids or ICE_FLAG_TAG in shortcut.tags
+    # LEGACY: At one point I added ICE_FLAG_TAG to every shortcut Ice made.
+    # That was a terrible idea, the managed_ids is a much better system. I
+    # keep this check around for legacy reasons though.
+    if ICE_FLAG_TAG in shortcut.tags:
+      return True
+    return shortcut.appid() in managed_ids
 
   def unmanaged_shortcuts(self, managed_ids, shortcuts):
     return filter(lambda shortcut: not self.shortcut_is_managed_by_ice(managed_ids, shortcut), shortcuts)

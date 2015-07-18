@@ -16,6 +16,9 @@ ROMs
 
 from pysteam.shortcut import Shortcut
 
+# LEGACY: At one point I added this to every shortcut that Ice made. That was
+# a terrible idea, and I'm keeping this definition here just in case I ever
+# have to clean up after myself
 ICE_FLAG_TAG = "~ManagedByIce"
 
 
@@ -45,5 +48,5 @@ class ROM:
     startdir = self.console.emulator.startdir(self)
     icon = self.console.icon
     category = self.console.fullname
-    tags = [ICE_FLAG_TAG, category]
+    tags = [category]
     return Shortcut(appname, exe, startdir, icon, tags)
