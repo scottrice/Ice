@@ -65,6 +65,27 @@ class ROMFinderTests(unittest.TestCase):
     console.is_enabled.return_value = False
     self.assertEquals(self.rom_finder.roms_for_console(console), [])
 
+  def test_roms_for_consoles_returns_roms_in_subdirs(self):
+    firstdir = "RandomDir"
+    rom1 = os.path.join(firstdir, "rom1")
+    subdir = "RandomSubdir"
+    rom2 = os.path.join(subdir, "rom2")
+    rom_paths = [rom1, rom2]
+
+    def fake_files_in_directory(dirname, include_subdirectories):
+      self.assertTrue(include_subdirectories)
+      return rom_paths
+    self.mock_filesystem.files_in_directory.side_effect = fake_files_in_directory
+
+    # No matter what the console is tell it to check firstdir
+    self.mock_config.roms_directory_for_console.return_value = firstdir
+
+    # Doesn't matter what 'console' we throw in here, we're always going
+    # to return firstdir
+    roms = self.rom_finder.roms_for_consoles([mock.MagicMock()])
+    self.assertEquals(len(roms), 2)
+    [self.assertIn(rom.path, rom_paths) for rom in roms]
+
   def test_roms_for_consoles_returns_collection_of_all_roms(self):
     firstdir = "RandomDir"
     rom1 = os.path.join(firstdir, "rom1")
@@ -73,7 +94,7 @@ class ROMFinderTests(unittest.TestCase):
     rom3 = os.path.join(seconddir, "rom3")
     rom_paths = [rom1, rom2, rom3]
 
-    def fake_files_in_directory(dirname):
+    def fake_files_in_directory(dirname, include_subdirectories):
       return [rom1, rom2] if dirname == firstdir else [rom3]
     self.mock_filesystem.files_in_directory.side_effect = fake_files_in_directory
 

@@ -30,7 +30,7 @@ class ROMFinder(object):
       return []
 
     roms_directory = self.config.roms_directory_for_console(console)
-    paths = self.filesystem.files_in_directory(roms_directory)
+    paths = self.filesystem.files_in_directory(roms_directory, include_subdirectories=True)
     valid_rom_paths = filter(console.is_valid_rom, paths)
     rom_factory = partial(self.rom_for_path, console)
     return map(rom_factory, valid_rom_paths)
