@@ -13,6 +13,11 @@ class SteamShortcutSynchronizer(object):
     # keep this check around for legacy reasons though.
     if ICE_FLAG_TAG in shortcut.tags:
       return True
+    if managed_ids is None:
+      # No history, nothing we can do other than assume they haven't run Ice
+      # before
+      return False
+    # We only 'manage' it if we added the shortcut in the last run
     return shortcut.appid() in managed_ids
 
   def unmanaged_shortcuts(self, managed_ids, shortcuts):

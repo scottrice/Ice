@@ -18,12 +18,12 @@ class ManagedROMArchiveTests(unittest.TestCase):
   def tearDown(self):
     shutil.rmtree(self.tempdir)
 
-  def test_previous_managed_ids_returns_empty_list_for_missing_file(self):
+  def test_previous_managed_ids_returns_none_for_missing_file(self):
     missing_path = os.path.join("some", "stupid", "path")
     self.assertFalse(os.path.exists(missing_path))
 
     archive = ManagedROMArchive(missing_path)
-    self.assertEquals(archive.previous_managed_ids(self.mock_user), [])
+    self.assertIsNone(archive.previous_managed_ids(self.mock_user))
 
   def test_previous_managed_ids_raises_exception_for_malformed_json(self):
     with open(self.temppath, "w+") as f:

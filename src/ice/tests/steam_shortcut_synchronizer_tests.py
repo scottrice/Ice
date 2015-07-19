@@ -15,6 +15,11 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     self.mock_logger = mock.MagicMock()
     self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_archive, self.mock_logger)
 
+  def test_unmanaged_shortcuts_returns_all_shortcuts_when_given_no_history(self):
+    random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
+    unmanaged = self.synchronizer.unmanaged_shortcuts(None,[random_shortcut])
+    self.assertEquals(unmanaged, [random_shortcut])
+
   def test_unmanaged_shortcuts_returns_shortcut_not_affiliated_with_ice(self):
     random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
     unmanaged = self.synchronizer.unmanaged_shortcuts([],[random_shortcut])
