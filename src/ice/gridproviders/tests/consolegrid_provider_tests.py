@@ -6,9 +6,9 @@ Created by Scott on 2014-08-18.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-import mock
 import os
 import unittest
+from mockito import *
 from urllib2 import URLError
 
 # I need to do this instead of importing the class explicitly so that I can
@@ -20,7 +20,7 @@ from ice.gridproviders import consolegrid_provider
 class ConsoleGridProviderTests(unittest.TestCase):
 
   def setUp(self):
-    self.mock_logger = mock.MagicMock()
+    self.mock_logger = mock()
     self.provider = consolegrid_provider.ConsoleGridProvider(self.mock_logger)
 
   def tearDown(self):
@@ -30,20 +30,21 @@ class ConsoleGridProviderTests(unittest.TestCase):
     def f(url):
       if err:
         raise err
-      m = mock.MagicMock()
-      m.getcode.return_value = code
-      m.read.return_value = data
+      m = mock()
+      when(m).getcode().thenReturn(code)
+      when(m).read().thenReturn(data)
       return m
     return f
 
   def create_mock_rom(self, rom_name="Test ROM", console_name="Test"):
-    mock_console = mock.MagicMock()
-    mock_console.fullname = console_name
-    mock_console.shortname = console_name
-    mock_rom = mock.MagicMock()
-    mock_rom.name = rom_name
-    mock_rom.console = mock_console
-    return mock_rom
+    console = mock()
+    console.fullname = console_name
+    console.shortname = console_name
+
+    rom = mock()
+    rom.name = rom_name
+    rom.console = console
+    return rom
 
   def test_is_enabled_returns_true(self):
     self.assertTrue(self.provider.is_enabled())

@@ -1,5 +1,5 @@
 
-import mock
+from mockito import *
 import unittest
 
 from nose_parameterized import parameterized
@@ -9,7 +9,7 @@ from ice.parsing.rom_parser import ROMParser
 
 class ROMFinderTests(unittest.TestCase):
   def setUp(self):
-    self.mock_logger = mock.MagicMock()
+    self.mock_logger = mock()
     self.parser = ROMParser(self.mock_logger)
 
   @parameterized.expand([

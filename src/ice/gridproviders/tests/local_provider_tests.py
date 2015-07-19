@@ -6,7 +6,7 @@ Created by Scott on 2014-08-18.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-import mock
+from mockito import *
 import os
 import shutil
 import tempfile
@@ -18,7 +18,7 @@ from ice.gridproviders.local_provider import LocalProvider
 class LocalProviderTests(unittest.TestCase):
 
   def setUp(self):
-    self.mock_logger = mock.MagicMock()
+    self.mock_logger = mock()
     self.provider = LocalProvider(self.mock_logger)
     self.temp_directory = tempfile.mkdtemp()
 
@@ -26,10 +26,10 @@ class LocalProviderTests(unittest.TestCase):
     shutil.rmtree(self.temp_directory)
 
   def create_mock_rom(self, rom_name="Test ROM", console_shortname="Test"):
-    mock_console = mock.MagicMock()
+    mock_console = mock()
     mock_console.shortname = console_shortname
     mock_console.images_directory = self.temp_directory
-    mock_rom = mock.MagicMock()
+    mock_rom = mock()
     mock_rom.name = rom_name
     mock_rom.console = mock_console
     return mock_rom

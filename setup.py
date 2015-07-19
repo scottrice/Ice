@@ -105,7 +105,7 @@ setup(
   tests_require=[
     'nose',
     'nose-parameterized',
-    'mock',
+    'mockito',
   ],
   zip_safe=False,
   classifiers=[

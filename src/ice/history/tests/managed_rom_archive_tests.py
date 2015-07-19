@@ -1,6 +1,6 @@
 
 import json
-import mock
+from mockito import *
 import os
 import shutil
 import tempfile
@@ -12,7 +12,7 @@ class ManagedROMArchiveTests(unittest.TestCase):
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
     self.temppath = os.path.join(self.tempdir, "tempfile")
-    self.mock_user = mock.MagicMock()
+    self.mock_user = mock()
     self.mock_user.id32 = 1234
 
   def tearDown(self):

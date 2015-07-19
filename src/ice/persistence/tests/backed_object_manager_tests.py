@@ -5,7 +5,7 @@ Created by Scott on 2014-08-20.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-import mock
+from mockito import *
 import os
 import shutil
 import tempfile
