@@ -15,19 +15,47 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     self.mock_logger = mock.MagicMock()
     self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_archive, self.mock_logger)
 
+  def _create_dummy_configuration_with_roms_dir(self, roms_dir):
+    config = mock.MagicMock()
+    # We check the path of every console (so we need at least 1 to do anything),
+    # but since we are stubbing our `roms_directory_for_console` impl we don't
+    # actually care what the console is.
+    config.console_manager.__iter__.return_value = [ mock.MagicMock() ]
+    config.roms_directory_for_console.return_value = roms_dir
+    return config
+
   def test_unmanaged_shortcuts_returns_all_shortcuts_when_given_no_history(self):
+    mock_config = self._create_dummy_configuration_with_roms_dir("/Some/Other/Path")
     random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
-    unmanaged = self.synchronizer.unmanaged_shortcuts(None,[random_shortcut])
+
+    unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], mock_config)
+
+    self.assertEquals(unmanaged, [random_shortcut])
+
+  def test_unmanaged_shortcuts_filters_suspicious_shortcuts_when_given_no_history(self):
+    mock_config = self._create_dummy_configuration_with_roms_dir("/Some/Path")
+    random_shortcut = Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path")
+
+    unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], mock_config)
+
+    self.assertEquals(unmanaged, [])
+
+  def test_unmanaged_shortcuts_doesnt_filter_suspicious_shortcuts_when_we_have_history(self):
+    mock_config = self._create_dummy_configuration_with_roms_dir("/Some/Path")
+    random_shortcut = Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path")
+
+    unmanaged = self.synchronizer.unmanaged_shortcuts([] ,[random_shortcut], mock_config)
+
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_unmanaged_shortcuts_returns_shortcut_not_affiliated_with_ice(self):
     random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
-    unmanaged = self.synchronizer.unmanaged_shortcuts([],[random_shortcut])
+    unmanaged = self.synchronizer.unmanaged_shortcuts([],[random_shortcut], None)
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_unmanaged_shortcuts_doesnt_return_shortcut_with_flag_tag(self):
     tagged_shortcut = Shortcut("Game", "/Path/to/game", "/Path/to", "", ICE_FLAG_TAG)
-    unmanaged = self.synchronizer.unmanaged_shortcuts([],[tagged_shortcut])
+    unmanaged = self.synchronizer.unmanaged_shortcuts([],[tagged_shortcut], None)
     self.assertEquals(unmanaged, [])
 
   def test_unmanaged_shortcuts_doesnt_return_shortcut_with_appid_in_managed_ids(self):
@@ -35,7 +63,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     random_shortcut = Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path")
     managed_ids = [managed_shortcut.appid()]
     shortcuts = [managed_shortcut, random_shortcut]
-    unmanaged = self.synchronizer.unmanaged_shortcuts(managed_ids,shortcuts)
+    unmanaged = self.synchronizer.unmanaged_shortcuts(managed_ids,shortcuts, None)
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_added_shortcuts_doesnt_return_shortcuts_that_still_exist(self):
@@ -101,7 +129,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     rom4 = mock.MagicMock()
     rom4.to_shortcut.return_value = shortcut4
 
-    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2, rom3, rom4])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2, rom3, rom4], None)
     new_shortcuts = self.mock_user.shortcuts
 
     self.assertEquals(len(new_shortcuts), 5)
@@ -116,7 +144,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     rom = mock.MagicMock()
     rom.to_shortcut.return_value = shortcut
 
-    self.synchronizer.sync_roms_for_user(self.mock_user, [rom])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom], None)
     self.assertTrue(self.mock_logger.info.called)
 
   def test_sync_roms_for_user_logs_once_for_each_added_rom(self):
@@ -130,14 +158,14 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     rom3 = mock.MagicMock()
     rom3.to_shortcut.return_value = shortcut3
 
-    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2, rom3])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2, rom3], None)
     self.assertEquals(self.mock_logger.info.call_count, 3)
 
   def test_sync_roms_for_user_logs_when_a_rom_is_removed(self):
     shortcut = Shortcut("Game", "/Path/to/game", "/Path/to", "", ICE_FLAG_TAG)
     self.mock_user.shortcuts = [shortcut]
 
-    self.synchronizer.sync_roms_for_user(self.mock_user, [])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [], None)
     self.assertTrue(self.mock_logger.info.called)
 
   def test_sync_roms_for_user_logs_once_for_each_removed_rom(self):
@@ -146,7 +174,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     shortcut3 = Shortcut("Game3", "/Path/to/game3", "/Path/to", "", ICE_FLAG_TAG)
     self.mock_user.shortcuts = [shortcut1, shortcut2, shortcut3]
 
-    self.synchronizer.sync_roms_for_user(self.mock_user, [])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [], None)
     self.assertEquals(self.mock_logger.info.call_count, 3)
 
   def test_sync_roms_for_user_both_adds_and_removes_roms(self):
@@ -164,7 +192,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
 
     old_shortcuts = [shortcut1, shortcut2, shortcut4]
     self.mock_user.shortcuts = old_shortcuts
-    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2, rom3])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2, rom3], None)
     new_shortcuts = self.mock_user.shortcuts
 
     self.assertEquals(self.mock_logger.info.call_count, 2)
@@ -179,7 +207,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     rom1.to_shortcut.return_value = shortcut1
 
     self.mock_user.shortcuts = []
-    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1], None)
 
     self.assertEquals(self.mock_user.shortcuts, [shortcut1])
     self.assertTrue(self.mock_user.save_shortcuts.called)
@@ -193,7 +221,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     rom2 = mock.MagicMock()
     rom2.to_shortcut.return_value = shortcut2
 
-    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2])
+    self.synchronizer.sync_roms_for_user(self.mock_user, [rom1, rom2], None)
 
     new_managed_ids = [shortcut1.appid(), shortcut2.appid()]
     self.mock_archive.set_managed_ids.assert_called_with(self.mock_user, new_managed_ids)

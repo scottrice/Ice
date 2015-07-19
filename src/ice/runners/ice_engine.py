@@ -126,7 +126,7 @@ class IceEngine(object):
     user.save_shortcuts(backup_path)
     # Find all of the ROMs that are currently in the designated folders
     roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
-    self.shortcut_synchronizer.sync_roms_for_user(user, roms)
+    self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.config)
     self.grid_updater.update_artwork_for_rom_collection(user, roms)
 
   def run(self):
