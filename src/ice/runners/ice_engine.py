@@ -25,17 +25,21 @@ from ice.rom_finder import ROMFinder
 from ice.steam_grid_updater import SteamGridUpdater
 from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 
+def _path_with_override(path_override, default_name):
+  if path_override is not None:
+    return path_override
+  return Configuration.path_for_data_file(default_name)
 
 class IceEngine(object):
 
-  def __init__(self):
+  def __init__(self, config_override = None, consoles_override = None, emulators_override = None):
     self.validated_base_environment = False
     self.validated_configuration = False
     self.logger = IceLogger()
     self.logger.debug("Initializing Ice")
-    config_data_path = Configuration.path_for_data_file("config.txt")
-    consoles_data_path = Configuration.path_for_data_file("consoles.txt")
-    emulators_data_path = Configuration.path_for_data_file("emulators.txt")
+    config_data_path = _path_with_override(config_override, "config.txt")
+    consoles_data_path = _path_with_override(consoles_override, "consoles.txt")
+    emulators_data_path = _path_with_override(emulators_override, "emulators.txt")
     self.config = Configuration(
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),
