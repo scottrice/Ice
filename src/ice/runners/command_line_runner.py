@@ -17,16 +17,15 @@ class CommandLineRunner(object):
     parser.add_argument('-c', '--config', type=str, default=None)
     parser.add_argument('-C', '--consoles', type=str, default=None)
     parser.add_argument('-e', '--emulators', type=str, default=None)
+    # Debugging options
+    parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument('-d', '--dry-run', action='store_true')
     return parser.parse_args(argv)
 
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
-    engine = IceEngine(
-      config_override=options.config,
-      consoles_override=options.consoles,
-      emulators_override=options.emulators,
-    )
-    engine.run()
+    engine = IceEngine(options)
+    engine.run(dry_run=options.dry_run)
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output
     print ""

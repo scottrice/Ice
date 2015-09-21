@@ -61,7 +61,7 @@ class SteamShortcutSynchronizer(object):
     # and filter out any that existed in the current shortcuts
     return filter(lambda shortcut: shortcut not in current_shortcuts, new_shortcuts)
 
-  def sync_roms_for_user(self, user, roms, configuration):
+  def sync_roms_for_user(self, user, roms, configuration, dry_run=False):
     """
     This function takes care of syncing ROMs. After this function exits,
     Steam will contain only non-Ice shortcuts and the ROMs represented
@@ -71,8 +71,11 @@ class SteamShortcutSynchronizer(object):
     # added that Ice shouldn't delete. For example, something like a shortcut
     # to Plex would be 'Unmanaged'
     previous_managed_ids = self.managed_rom_archive.previous_managed_ids(user)
+    self.logger.debug("Previous managed ids: %s" % previous_managed_ids)
     unmanaged_shortcuts = self.unmanaged_shortcuts(previous_managed_ids, user.shortcuts, configuration)
+    self.logger.debug("Unmanaged shortcuts: %s" % unmanaged_shortcuts)
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, user.shortcuts)
+    self.logger.debug("Current Ice shortcuts: %s" % current_ice_shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
     rom_shortcuts = map(lambda rom: rom.to_shortcut(), roms)
     # Calculate which ROMs were added and which were removed so we can inform
@@ -84,8 +87,16 @@ class SteamShortcutSynchronizer(object):
 
     # Set the updated shortcuts
     user.shortcuts = unmanaged_shortcuts + rom_shortcuts
+
+    self.logger.debug("Finished sync. Updated shortcuts: %s" % user.shortcuts)
+    if dry_run:
+      self.logger.debug("Not saving or updating history due to dry run")
+      return
+
+    self.logger.debug("Saving shortcuts")
     user.save_shortcuts()
 
     # Update the archive
     new_managed_ids = map(lambda shortcut: shortcut.appid(), rom_shortcuts)
+    self.logger.debug("Updating archive to ids: %s" % new_managed_ids)
     self.managed_rom_archive.set_managed_ids(user, new_managed_ids)
