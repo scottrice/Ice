@@ -22,7 +22,7 @@ ROMs Directory=/ROMs
 # Windows  => C:\Documents and Settings\<User>\Application Data\Scott Rice\Ice
 # Mac OS X => ~/Library/Application Support/Ice
 # Linux    => ~/.local/share/Ice
-Backup Directory=
+# Backup Directory=
 
 [Steam]
 # Leave this field blank unless Ice can't find Steam.

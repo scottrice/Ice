@@ -14,6 +14,9 @@ from error.writable_path_error import WritablePathError
 
 class EnvironmentChecker(object):
 
+  def __init__(self, filesystem):
+    self.filesystem = filesystem
+
   def __enter__(self):
     self.requirement_errors = []
     return self
@@ -30,8 +33,8 @@ class EnvironmentChecker(object):
     Validation will fail if a directory cant be created at that path
     or if a file already exists there
     """
-    if not os.path.isdir(path):
-      self.requirement_errors.append(PathExistanceError(path))
+    if not self.filesystem.is_directory(path):
+      self.requirement_errors.append(PathExistanceError(self.filesystem, path))
 
   def require_writable_path(self, path):
     """
@@ -40,7 +43,7 @@ class EnvironmentChecker(object):
     Returns an error if the path doesn't exist or it isn't writable
     None otherwise
     """
-    if not os.access(path, os.W_OK):
+    if not self.filesystem.is_writable(path):
       self.requirement_errors.append(WritablePathError(path))
 
   def require_program_not_running(self, program_name):

@@ -16,7 +16,6 @@ from ice import emulators
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
-from ice.filesystem import RealFilesystem
 from ice.gridproviders.combined_provider import CombinedProvider
 from ice.gridproviders.consolegrid_provider import ConsoleGridProvider
 from ice.gridproviders.local_provider import LocalProvider
@@ -35,7 +34,7 @@ def _path_with_override(path_override, default_name):
 
 class IceEngine(object):
 
-  def __init__(self, steam, options):
+  def __init__(self, steam, filesystem, options):
     """Valid options for creating an IceEngine are as follows:
 
     * config    - The path to the config file to use. Searches the default paths
@@ -48,12 +47,12 @@ class IceEngine(object):
     """
     self.validated_base_environment = False
     self.validated_configuration = False
+    self.filesystem = filesystem
     self.logger = IceLogger(verbose=options.verbose)
     self.logger.debug("Initializing Ice")
     config_data_path = _path_with_override(options.config, "config.txt")
     consoles_data_path = _path_with_override(options.consoles, "consoles.txt")
     emulators_data_path = _path_with_override(options.emulators, "emulators.txt")
-    filesystem = RealFilesystem()
     self.config = Configuration(
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),
@@ -81,7 +80,7 @@ class IceEngine(object):
     """
     if self.validated_base_environment:
       return
-    with EnvironmentChecker() as env_checker:
+    with EnvironmentChecker(self.filesystem) as env_checker:
       # If Steam is running then any changes we make will be overwritten
       env_checker.require_program_not_running("Steam")
       # I'm not sure if there are situations where this won't exist, but I
@@ -94,7 +93,7 @@ class IceEngine(object):
   def validate_configuration(self, configuration):
     if self.validated_configuration:
       return
-    with EnvironmentChecker() as env_checker:
+    with EnvironmentChecker(self.filesystem) as env_checker:
       for console in configuration.console_manager:
         if consoles.console_is_enabled(console):
           # Consoles assume they have a ROMs directory
@@ -106,7 +105,7 @@ class IceEngine(object):
     Validate that the current environment for a given user meets all of
     Ice's requirements.
     """
-    with EnvironmentChecker() as env_checker:
+    with EnvironmentChecker(self.filesystem) as env_checker:
       # If the user hasn't added any grid images on their own then this
       # directory wont exist, so we require it explicitly here
       env_checker.require_directory_exists(paths.custom_images_directory(user))

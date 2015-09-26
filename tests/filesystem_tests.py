@@ -141,6 +141,8 @@ class FilesystemTests(unittest.TestCase):
     ('/tmp/dir/', '/some/other/dir',  '/tmp/dir/some/other/dir'),
     ('/tmp/dir',  '/some/other/dir/', '/tmp/dir/some/other/dir'),
     ('/tmp/dir/', '/some/other/dir/', '/tmp/dir/some/other/dir'),
+    # Test that it doesn't adjust the path if the path already contains the root
+    ('/tmp/dir', '/tmp/dir/random/addition', '/tmp/dir/random/addition')
   ])
   @unittest.skipIf(sys.platform.startswith('win'), "Example test data is Posix specific")
   def test_fake_filesystem_adjusts_path_relative_to_root(self, root, path, expected):

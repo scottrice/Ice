@@ -5,11 +5,17 @@ import os
 
 class RealFilesystem(object):
 
+  def create_directories(self, path):
+    return os.makedirs(path)
+
   def path_exists(self, path):
     return os.path.exists(path)
 
   def is_directory(self, path):
     return os.path.isdir(path)
+
+  def is_writable(self, path):
+    return os.access(path, os.W_OK)
 
   def _paths_in_directory(self, directory, incl_subdirs=False):
     assert self.is_directory(directory)
@@ -52,6 +58,10 @@ class FakeFilesystem(object):
   def adjusted_path(self, path):
     """Adjusts the parameter `path` to be rooted in self.root rather than in
     the current directory (or the specified directory, if given)"""
+    # Check if path is already a subdirectory of the root. If it is, then we
+    # don't need to do any adjusting
+    if os.path.realpath(path).startswith(os.path.realpath(self.root)):
+      return path
     # Unfortunately we can't just use `os.path.join` here, as doing so when
     # `path` is absoulte simply returns `path`.
     to_components = lambda p: os.path.normpath(p).split(os.sep)
@@ -66,11 +76,17 @@ class FakeFilesystem(object):
       path_components.pop(0)
     return os.sep.join(root_components + path_components)
 
+  def create_directories(self, path):
+    return self.fs.create_directories(self.adjusted_path(path))
+
   def path_exists(self, path):
     return self.fs.path_exists(self.adjusted_path(path))
 
   def is_directory(self, path):
     return self.fs.is_directory(self.adjusted_path(path))
+
+  def is_writable(self, path):
+    return self.fs.is_writable(self.adjusted_path(path))
 
   def files_in_directory(self, directory, include_subdirectories=False):
     return self.fs.files_in_directory(

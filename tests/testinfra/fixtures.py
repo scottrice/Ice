@@ -9,9 +9,13 @@ from pysteam import model
 from pysteam import paths
 
 class SteamFixture(object):
-  def __init__(self):
-    # This has the side effect of making the directory I need
-    self.tempdir = tempfile.mkdtemp()
+  def __init__(self, tempdir=None):
+    self.tempdir = tempdir if tempdir is not None else tempfile.mkdtemp()
+
+    # tempfile will make the directory I need, but if the tempdir was provided
+    # we need to ensure that it exists
+    if not os.path.exists(self.tempdir):
+      os.makedirs(self.tempdir)
 
   def tearDown(self):
     # Check to make sure we haven't run this already
@@ -28,10 +32,10 @@ class SteamFixture(object):
     return model.Steam(self.tempdir)
 
 class UserFixture(object):
-  def __init__(self, steam_fixture):
+  def __init__(self, steam_fixture, uid=None):
     self.steam_fixture = steam_fixture
     # No real special reasoning behind these numbers, just arbitrarys
-    self.uid = str(random.randint(5, 2000))
+    self.uid = uid if uid is not None else str(random.randint(5, 2000))
     # Make all of the directories that Steam normally creates for a user
     self._create_default_directories()
 

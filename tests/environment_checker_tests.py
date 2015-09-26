@@ -6,6 +6,7 @@ import unittest
 
 from ice.environment_checker import EnvironmentChecker
 from ice.error.env_checker_error import EnvCheckerError
+from ice.filesystem import RealFilesystem
 
 
 class EnvironmentCheckerTests(unittest.TestCase):
@@ -18,7 +19,7 @@ class EnvironmentCheckerTests(unittest.TestCase):
 
   def testRequireDirectoryExistsSucceedsWhenDirectoryExists(self):
     try:
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_directory_exists(self.tempdir)
     except:
       self.fail("Should succeed when given a directory that exists")
@@ -26,7 +27,7 @@ class EnvironmentCheckerTests(unittest.TestCase):
   def testRequireDirectoryExistsCreatesMissingDirectory(self):
     path = os.path.join(self.tempdir, "missing")
     self.assertFalse(os.path.exists(path))
-    with EnvironmentChecker() as env_checker:
+    with EnvironmentChecker(RealFilesystem()) as env_checker:
       env_checker.require_directory_exists(path)
     self.assertTrue(os.path.isdir(path))
 
@@ -36,7 +37,7 @@ class EnvironmentCheckerTests(unittest.TestCase):
     with open(path, "w+") as f:
       f.write("Batman")
     with self.assertRaises(EnvCheckerError):
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_directory_exists(path)
 
   def testRequireDirectoryExistsFailsWhenCantCreateMissingDirectory(self):
@@ -45,13 +46,13 @@ class EnvironmentCheckerTests(unittest.TestCase):
     os.chmod(parent_path, stat.S_IREAD)
     child_path = os.path.join(parent_path, "dne")
     with self.assertRaises(EnvCheckerError):
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_directory_exists(child_path)
 
   def testRequireWritablePathSucceedsWithWritablePath(self):
     # Temp directories are writable by default
     try:
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_writable_path(self.tempdir)
     except:
       self.fail("Should succeed when given a writable path")
@@ -59,7 +60,7 @@ class EnvironmentCheckerTests(unittest.TestCase):
   def testRequireWritablePathFailsWhenDirectoryDoesntExist(self):
     path = os.path.join(self.tempdir, "dne")
     with self.assertRaises(EnvCheckerError):
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_writable_path(path)
 
   def testRequireWritablePathFailsWhenDirectoryIsntWritable(self):
@@ -67,7 +68,7 @@ class EnvironmentCheckerTests(unittest.TestCase):
     os.mkdir(path)
     os.chmod(path, stat.S_IREAD)
     with self.assertRaises(EnvCheckerError):
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_writable_path(path)
 
   def testRequireWritablePathFailsWhenFileIsntWritable(self):
@@ -76,7 +77,7 @@ class EnvironmentCheckerTests(unittest.TestCase):
       f.write("its so cool!")
     os.chmod(path, stat.S_IREAD)
     with self.assertRaises(EnvCheckerError):
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_writable_path(path)
 
   def testRequireProgramNotRunningFailsWhenProgramIsRunning(self):
@@ -90,5 +91,5 @@ class EnvironmentCheckerTests(unittest.TestCase):
     #
     # That would be bad
     with self.assertRaises(EnvCheckerError):
-      with EnvironmentChecker() as env_checker:
+      with EnvironmentChecker(RealFilesystem()) as env_checker:
         env_checker.require_program_not_running("python")

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "NESGame",
+    "exe": "\"/emu/Mednafen/mednafen\" \"%sb/ROMs/NES/NESGame.nes\"",
+    "startdir": "/emu/Mednafen",
+    "icon": "",
+    "tags": ["Nintendo Entertainment System"]
+  }
+]

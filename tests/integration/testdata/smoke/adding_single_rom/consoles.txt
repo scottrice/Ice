@@ -1,0 +1,4 @@
+
+[Nintendo Entertainment System]
+nickname=NES
+emulator=Mednafen

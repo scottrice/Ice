@@ -11,11 +11,13 @@ from pysteam.steam import get_steam
 
 from ice_engine import IceEngine
 
+from ice.filesystem import RealFilesystem
 
 class CommandLineRunner(object):
 
-  def __init__(self, steam=None):
+  def __init__(self, steam=None, filesystem=None):
     self.steam = steam if steam is not None else get_steam()
+    self.filesystem = RealFilesystem() if filesystem is None else filesystem
 
   def get_command_line_args(self, argv):
     parser = argparse.ArgumentParser()
@@ -29,5 +31,5 @@ class CommandLineRunner(object):
 
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
-    engine = IceEngine(self.steam, options)
+    engine = IceEngine(self.steam, filesystem = self.filesystem, options = options)
     engine.run(dry_run=options.dry_run)
