@@ -136,10 +136,7 @@ class IceEngine(object):
       self.logger.info("\t%s\n" % e.message)
       self.logger.info("Please resolve these issues and try running Ice again")
       return
-    if not dry_run:
-      self.logger.debug("Not creating backup because its a dry run")
-      backup_path = self.config.shortcuts_backup_path(user)
-      user.save_shortcuts(backup_path)
+    self._create_backup(user, dry_run=dry_run)
     # Find all of the ROMs that are currently in the designated folders
     roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
     self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.config, dry_run=dry_run)
@@ -150,3 +147,11 @@ class IceEngine(object):
       self.main(dry_run=dry_run)
     except Exception as error:
       self.logger.exception("An exception occurred while running Ice")
+
+  def _create_backup(self, user, dry_run=False):
+    if dry_run:
+      self.logger.debug("Not creating backup because its a dry run")
+      return
+
+    backup_path = self.config.shortcuts_backup_path(user)
+    user.save_shortcuts(backup_path)
