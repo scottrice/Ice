@@ -38,7 +38,7 @@ class ROM:
   def prefixed_name(self):
     prefix = self.console.prefix
     if prefix:
-      return "%s %s" % (prefix, self.name())
+      return "%s %s" % (prefix, self.name)
     else:
       return self.name
 
