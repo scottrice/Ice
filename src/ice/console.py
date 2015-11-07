@@ -44,7 +44,7 @@ class Console(object):
     If no extensions are defined for this console, we just accept any file
     """
 
-    if self.extensions == "":
+    if self.extensions == "" and os.path.isfile(path):
       return True
     extension = os.path.splitext(path)[1].lower()
     return any(extension == ('.' + x.strip().lower())
