@@ -1,0 +1,4 @@
+
+[alias]
+dist 	= //tools:dist
+ice  	= //:Ice

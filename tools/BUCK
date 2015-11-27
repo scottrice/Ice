@@ -1,0 +1,33 @@
+
+include_defs('//DEFS')
+
+python_script(
+  name = 'dist-script',
+  src  = 'dist.py',
+)
+
+# I hate to do this since it seems very un-bucklike, pyinstaller inherently
+# is platform specific, and I will need to do a lot of stuff to work around
+# generating the right commands per platform.
+out = platform_specific_value(
+  windows = 'Ice.exe',
+  mac     = 'Ice.app',
+  linux   = 'Ice',
+)
+genrule(
+  name = 'dist',
+  out  =  out,
+  # bash = '$(exe :dist-script) --out $OUT $(location //:Ice)',
+  bash = 'echo pyinstaller $(location //:Ice) ' +
+         '-p %s' % ':'.join(subdirs('src/')) +
+         '-p %s' % ':'.join(subdirs('vendor/')) +
+         ' && touch $OUT',
+  # bash = '$(exe :dist-script) $(location //:Ice)',
+  # bash = '$(exe :dist-script) --out $OUT',
+)
+
+genrule (
+  name = 'test',
+  out  = 'test.txt',
+  bash = 'echo $(location //:Ice) > $OUT',
+)

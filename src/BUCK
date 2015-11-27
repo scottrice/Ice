@@ -1,0 +1,12 @@
+
+python_library(
+    name = 'ice',
+    base_module = 'ice',
+    srcs = subdir_glob([
+       ('ice', '**/*.py'),
+    ]),
+    deps = [
+        '//vendor/pysteam:pysteam',
+    ],
+    visibility = ['PUBLIC'],
+)

@@ -1,0 +1,50 @@
+
+import os
+import sys
+
+def subdirs(path):
+  subpaths = os.listdir(path)
+  return filter(lambda p: os.path.isdir(os.path.join("src/", p)), subpaths)
+
+def to_target(name):
+  return ':%s' % name
+
+def platform_specific(windows, mac, linux):
+  plat = sys.platform
+  if 'win' in plat:
+    return windows()
+  elif 'darwin' in plat:
+    return mac()
+  else:
+    return linux()
+
+def platform_specific_value(windows, mac, linux):
+  ident = lambda x: lambda: x
+  return platform_specific(ident(windows), ident(mac), ident(linux))
+
+def python_script(name, src):
+  convertname = 'convertmain-%s' % name
+  libname = 'lib%s' % name
+
+  genrule(
+    name = convertname,
+    out  = '__main__.py',
+    bash = 'cp $SRCS $OUT',
+    srcs = [
+      src,
+    ]
+  )
+  python_library(
+    name = libname,
+    base_module = '',
+    srcs = [
+      to_target(convertname),
+    ],
+  )
+  python_binary(
+    name = name,
+    main_module = '',
+    deps = [
+      to_target(libname),
+    ],
+  )
