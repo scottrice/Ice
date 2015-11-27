@@ -1,0 +1,3 @@
+[submodule "vendor/pysteam"]
+	path = vendor/pysteam
+	url = https://github.com/scottrice/pysteam.git
