@@ -1,0 +1,43 @@
+
+include_defs('//tools/windows-wrapper/DEFS')
+
+cxx_binary(
+  name = 'windows-wrapper',
+  compiler_flags = [
+    '-I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7',
+    '-I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7',
+    '-fno-strict-aliasing',
+    '-fno-common',
+    '-dynamic',
+    '-arch',
+    'x86_64',
+    '-g',
+    '-Os',
+    '-pipe',
+    '-fno-common',
+    '-fno-strict-aliasing',
+    '-fwrapv',
+    '-Wall',
+    '-Wstrict-prototypes',
+    '-Wshorten-64-to-32',
+    '-g',
+    '-fwrapv',
+    '-Os',
+    '-Wall',
+    '-Wstrict-prototypes',
+    '-DENABLE_DTRACE',
+    '-DMACOSX',
+    '-DNDEBUG',
+    '-DPROGRAM="Ice.pex"',
+  ],
+  linker_flags = [
+    '-L/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config',
+    '-lpython2.7',
+    '-ldl',
+    '-framework',
+    'CoreFoundation',
+  ],
+  srcs = [
+    'main.c',
+  ]
+)
