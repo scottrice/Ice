@@ -16,8 +16,6 @@ def is_mac(platform):
 if "py2exe" in sys.argv:
   import py2exe
 
-SRC = 'src'
-
 WINDOWS_SPECIFIC_OPTIONS = dict(
   argv_emulation=False,
   setup_requires=[
@@ -35,7 +33,7 @@ WINDOWS_SPECIFIC_OPTIONS = dict(
 )
 
 MAC_SPECIFIC_OPTIONS = dict(
-  app=[ os.path.join(SRC, 'ice-qt.py') ],
+  app=[ os.path.join('bin', 'ice.py') ],
   setup_requires = [
     'py2app',
   ],
@@ -44,8 +42,8 @@ MAC_SPECIFIC_OPTIONS = dict(
       "argv_emulation": True,
       "iconfile": "icon.icns",
       "includes": [
-        "sip",
-        "PyQt4._qt",
+        "appdirs",
+        "psutil",
       ],
     },
   ),
@@ -89,14 +87,10 @@ setup(
   description='An application to automatically add ROMs to Steam as playable games',
   long_description=open('README.md').read(),
   license='MIT',
-  packages=find_packages(SRC, exclude=EXCLUDE_FROM_PACKAGES),
-  package_dir={
-    '': SRC
-  },
+  packages=find_packages('.', exclude=EXCLUDE_FROM_PACKAGES),
   include_package_data=True,
   data_files=DATA_FILES,
-  scripts=[ os.path.join(SRC, 'ice.py') ],
-  console=[ os.path.join(SRC, 'ice.py') ],
+  console=[ os.path.join('bin', 'ice.py') ],
   entry_points={'console_scripts': [
   ]},
   dependency_links = DEPENDENCY_LINKS,
