@@ -90,7 +90,7 @@ setup(
   packages=find_packages('.', exclude=EXCLUDE_FROM_PACKAGES),
   include_package_data=True,
   data_files=DATA_FILES,
-  console=[ os.path.join('bin', 'ice.py') ],
+  console=[ os.path.join('ice', '__main__.py') ],
   entry_points={'console_scripts': [
   ]},
   dependency_links = DEPENDENCY_LINKS,

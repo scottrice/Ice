@@ -4,7 +4,7 @@ import sys
 import traceback
 
 try:
-  from ice.runners import command_line_runner
+  from runners import command_line_runner
 
   if __name__ == "__main__":
     runner = command_line_runner.CommandLineRunner()
