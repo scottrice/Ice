@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # encoding: utf-8
 """
 configuration.py
@@ -119,7 +118,7 @@ class Configuration(object):
     )
     self.config_backing_store.save()
 
-  def userdata_directory(self):
+  def data_directory(self):
     return self._get_directory_from_store(
         self.USERDATA_IDENT,
         self.USERDATA_KEY,
@@ -145,7 +144,7 @@ class Configuration(object):
     filename = "shortcuts." + timestamp + ".vdf"
     return os.path.join(
         self.backup_directory(),
-        str(user.id32),
+        str(user.user_id),
         'config',
         filename
     )

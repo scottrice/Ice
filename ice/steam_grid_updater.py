@@ -1,3 +1,7 @@
+
+from pysteam import grid
+from pysteam import shortcuts
+
 class SteamGridUpdater(object):
 
   def __init__(self, provider, logger):
@@ -6,8 +10,12 @@ class SteamGridUpdater(object):
 
   def update_rom_artwork(self, user, rom, dry_run=False):
     shortcut = rom.to_shortcut()
-    if shortcut.custom_image(user) is not None:
-      # If the user already has a custom image for their game, dont override it
+    self.logger.debug("Updating image for %s (%s)" % (rom, shortcut))
+    app_id = shortcuts.shortcut_app_id(shortcut)
+
+    if grid.has_custom_image(user, app_id):
+      existing_image = grid.get_custom_image(user, app_id)
+      self.logger.debug("Not looking for new images for %s, it already has a grid image (%s)" % (shortcut.name, existing_image))
       return
 
     path = self.provider.image_for_rom(rom)
@@ -21,7 +29,7 @@ class SteamGridUpdater(object):
       return
 
     self.logger.info("Found grid image for `%s`" % shortcut.name)
-    shortcut.set_image(user, path)
+    grid.set_custom_image(user, app_id, path)
 
   def update_artwork_for_rom_collection(self, user, roms, dry_run=False):
     map(lambda rom: self.update_rom_artwork(user, rom, dry_run=dry_run), roms)

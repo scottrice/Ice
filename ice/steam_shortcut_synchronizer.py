@@ -1,4 +1,6 @@
 
+from pysteam import shortcuts
+
 from rom import ICE_FLAG_TAG
 
 class SteamShortcutSynchronizer(object):
@@ -43,7 +45,7 @@ class SteamShortcutSynchronizer(object):
     if managed_ids is None:
       return self._guess_whether_shortcut_is_managed_by_ice(shortcut, configuration)
     # We only 'manage' it if we added the shortcut in the last run
-    return shortcut.appid() in managed_ids
+    return shortcuts.shortcut_app_id(shortcut) in managed_ids
 
   def unmanaged_shortcuts(self, managed_ids, shortcuts, configuration):
     return filter(
@@ -72,9 +74,10 @@ class SteamShortcutSynchronizer(object):
     # to Plex would be 'Unmanaged'
     previous_managed_ids = self.managed_rom_archive.previous_managed_ids(user)
     self.logger.debug("Previous managed ids: %s" % previous_managed_ids)
-    unmanaged_shortcuts = self.unmanaged_shortcuts(previous_managed_ids, user.shortcuts, configuration)
+    current_shortcuts = shortcuts.get_shortcuts(user)
+    unmanaged_shortcuts = self.unmanaged_shortcuts(previous_managed_ids, current_shortcuts, configuration)
     self.logger.debug("Unmanaged shortcuts: %s" % unmanaged_shortcuts)
-    current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, user.shortcuts)
+    current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, current_shortcuts)
     self.logger.debug("Current Ice shortcuts: %s" % current_ice_shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
     rom_shortcuts = map(lambda rom: rom.to_shortcut(), roms)
@@ -86,17 +89,17 @@ class SteamShortcutSynchronizer(object):
     map(lambda shortcut: self.logger.info("Adding ROM: `%s`" % shortcut.name), added)
 
     # Set the updated shortcuts
-    user.shortcuts = unmanaged_shortcuts + rom_shortcuts
+    updated_shortcuts = unmanaged_shortcuts + rom_shortcuts
+    self.logger.debug("Sync Result: %s" % updated_shortcuts)
 
-    self.logger.debug("Finished sync. Updated shortcuts: %s" % user.shortcuts)
     if dry_run:
       self.logger.debug("Not saving or updating history due to dry run")
       return
 
     self.logger.debug("Saving shortcuts")
-    user.save_shortcuts()
+    shortcuts.set_shortcuts(user, updated_shortcuts)
 
     # Update the archive
-    new_managed_ids = map(lambda shortcut: shortcut.appid(), rom_shortcuts)
+    new_managed_ids = map(shortcuts.shortcut_app_id, rom_shortcuts)
     self.logger.debug("Updating archive to ids: %s" % new_managed_ids)
     self.managed_rom_archive.set_managed_ids(user, new_managed_ids)

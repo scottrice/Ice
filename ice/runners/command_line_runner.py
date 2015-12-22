@@ -7,10 +7,15 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 import argparse
 
+from pysteam.steam import get_steam
+
 from ice_engine import IceEngine
 
 
 class CommandLineRunner(object):
+
+  def __init__(self, steam=None):
+    self.steam = steam if steam is not None else get_steam()
 
   def get_command_line_args(self, argv):
     parser = argparse.ArgumentParser()
@@ -24,7 +29,7 @@ class CommandLineRunner(object):
 
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
-    engine = IceEngine(options)
+    engine = IceEngine(self.steam, options)
     engine.run(dry_run=options.dry_run)
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output

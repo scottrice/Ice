@@ -6,7 +6,10 @@ By that I mean the high level goal of `Adding ROMs to Steam`.
 """
 
 import os
-from pysteam.steam import Steam
+
+from pysteam import paths
+from pysteam import shortcuts
+from pysteam import steam
 
 from ice import console
 from ice import emulator
@@ -32,7 +35,7 @@ def _path_with_override(path_override, default_name):
 
 class IceEngine(object):
 
-  def __init__(self, options):
+  def __init__(self, steam, options):
     """Valid options for creating an IceEngine are as follows:
 
     * config    - The path to the config file to use. Searches the default paths
@@ -55,9 +58,7 @@ class IceEngine(object):
         ConfigFileBackingStore(consoles_data_path),
         ConfigFileBackingStore(emulators_data_path),
     )
-    self.steam = Steam()
-    # TODO: Query the list of users some other way
-    self.users = self.steam.local_users()
+    self.steam = steam
 
     filesystem = Filesystem()
     parser = ROMParser(self.logger)
@@ -83,7 +84,7 @@ class IceEngine(object):
       env_checker.require_program_not_running("Steam")
       # I'm not sure if there are situations where this won't exist, but I
       # assume that it does everywhere and better safe than sorry
-      env_checker.require_directory_exists(self.steam.userdata_location())
+      env_checker.require_directory_exists(self.steam.userdata_directory)
       # This is used to store history information and such
       env_checker.require_directory_exists(Configuration.data_directory())
     self.validated_base_environment = True
@@ -106,9 +107,9 @@ class IceEngine(object):
     with EnvironmentChecker() as env_checker:
       # If the user hasn't added any grid images on their own then this
       # directory wont exist, so we require it explicitly here
-      env_checker.require_directory_exists(user.grid_directory())
+      env_checker.require_directory_exists(paths.custom_images_directory(user))
       # And it needs to be writable if we are going to save images there
-      env_checker.require_writable_path(user.grid_directory())
+      env_checker.require_writable_path(paths.custom_images_directory(user))
 
   def main(self, dry_run=False):
     self.logger.info("=========== Starting Ice ===========")
@@ -122,9 +123,9 @@ class IceEngine(object):
       return
     # TODO: Create any missing directories that Ice will need
     self.logger.log_configuration(self.config)
-    for user in self.users:
-      self.logger.info("=========== User: %s ===========" % str(user.id32))
-      self.run_for_user(user, dry_run=dry_run)
+    for user_context in steam.local_user_contexts(self.steam):
+      self.logger.info("=========== User: %s ===========" % str(user_context.user_id))
+      self.run_for_user(user_context, dry_run=dry_run)
 
   def run_for_user(self, user, dry_run=False):
     try:
@@ -154,4 +155,4 @@ class IceEngine(object):
       return
 
     backup_path = self.config.shortcuts_backup_path(user)
-    user.save_shortcuts(backup_path)
+    shortcuts.write_shortcuts(backup_path, shortcuts.get_shortcuts(user))

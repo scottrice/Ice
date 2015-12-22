@@ -16,7 +16,7 @@ class ManagedROMArchive(object):
       return json.load(archive_file)
 
   def archive_key(self, user):
-    return str(user.id32)
+    return str(user.user_id)
 
   def previous_managed_ids(self, user):
     if self.archive is None:

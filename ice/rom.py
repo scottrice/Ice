@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # encoding: utf-8
 """
 IceROM.py
@@ -14,7 +13,7 @@ Functionality should be added to this class if it heavily involves the use of
 ROMs
 """
 
-from pysteam.shortcut import Shortcut
+from pysteam.model import Shortcut
 
 # LEGACY: At one point I added this to every shortcut that Ice made. That was
 # a terrible idea, and I'm keeping this definition here just in case I ever

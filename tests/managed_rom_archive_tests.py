@@ -13,7 +13,7 @@ class ManagedROMArchiveTests(unittest.TestCase):
     self.tempdir = tempfile.mkdtemp()
     self.temppath = os.path.join(self.tempdir, "tempfile")
     self.mock_user = mock()
-    self.mock_user.id32 = 1234
+    self.mock_user.user_id = 1234
 
   def tearDown(self):
     shutil.rmtree(self.tempdir)
