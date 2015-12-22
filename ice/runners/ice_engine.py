@@ -112,6 +112,10 @@ class IceEngine(object):
       env_checker.require_writable_path(paths.custom_images_directory(user))
 
   def main(self, dry_run=False):
+    if self.steam is None:
+      self.logger.error("Cannot run Ice because Steam doesn't appear to be installed")
+      return
+
     self.logger.info("=========== Starting Ice ===========")
     try:
       self.validate_base_environment()
