@@ -31,8 +31,3 @@ class CommandLineRunner(object):
     options = self.get_command_line_args(argv[1:])
     engine = IceEngine(self.steam, options)
     engine.run(dry_run=options.dry_run)
-    # Keeps the console from closing (until the user hits enter) so they can
-    # read any console output
-    print ""
-    print "Close the window, or hit enter to exit..."
-    raw_input()
