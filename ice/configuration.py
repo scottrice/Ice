@@ -118,7 +118,7 @@ class Configuration(object):
     )
     self.config_backing_store.save()
 
-  def data_directory(self):
+  def userdata_directory(self):
     return self._get_directory_from_store(
         self.USERDATA_IDENT,
         self.USERDATA_KEY,
