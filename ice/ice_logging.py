@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # encoding: utf-8
 """
 IceLogging.py
@@ -58,37 +57,3 @@ class IceLogger():
     self.warning = self.logger.warning
     self.error = self.logger.error
     self.exception = self.logger.exception
-
-  def log_emulator_state(self, emulator):
-    if emulator.is_enabled():
-      self.info("Detected Emulator: %s" % emulator)
-    else:
-      self.warning("Issue detected with emulator `%s`" % emulator)
-
-  def log_console_state(self, console):
-    """
-    Logs whether a console is enabled or not.
-    """
-    if console.is_enabled():
-      self.info("Detected Console: %s => %s" % (console, console.emulator))
-    # TODO: Move this logic into a function on Console which gives a
-    # stringified reason why the console is not enabled
-    elif console.emulator is None:
-      self.warning(
-          "No emulator provided for console `%s`" %
-          console)
-    else:
-      self.warning("Issue detected with console `%s`" % console)
-
-  def log_configuration(self, config):
-    self.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
-    self.debug(
-        "Using `consoles.txt` at `%s`" %
-        config.console_manager.backing_store.path)
-    self.debug(
-        "Using `emulators.txt` at `%s`" %
-        config.emulator_manager.backing_store.path)
-    for emulator in config.emulator_manager:
-      self.log_emulator_state(emulator)
-    for console in config.console_manager:
-      self.log_console_state(console)

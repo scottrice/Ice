@@ -126,7 +126,7 @@ class IceEngine(object):
       self.logger.info("\nPlease resolve these issues and try running Ice again")
       return
     # TODO: Create any missing directories that Ice will need
-    self.logger.log_configuration(self.config)
+    log_configuration(self.logger, self.config)
     for user_context in steam.local_user_contexts(self.steam):
       self.logger.info("=========== User: %s ===========" % str(user_context.user_id))
       self.run_for_user(user_context, dry_run=dry_run)
@@ -160,3 +160,46 @@ class IceEngine(object):
 
     backup_path = self.config.shortcuts_backup_path(user)
     shortcuts.write_shortcuts(backup_path, shortcuts.get_shortcuts(user))
+
+# Logging methods. The purpose of these methods isn't so much to log things as
+# they are to inform the user of the state of their setup (as Ice sees it).
+# They were originally on ice_logging but since they require knowledge of
+# emulators/consoles/configurations it meant that I couldn't log from a bunch
+# of different files. Clearly not ideal, and they weren't exactly a great fit
+# on the logger class anyway
+#
+# TODO(scottrice): Find a better home for these functions
+
+def log_emulator_state(logger, emulator):
+  if emulator.is_enabled():
+    logger.info("Detected Emulator: %s" % emulator)
+  else:
+    logger.warning("Issue detected with emulator `%s`" % emulator)
+
+def log_console_state(logger, console):
+  """
+  Logs whether a console is enabled or not.
+  """
+  if console.is_enabled():
+    logger.info("Detected Console: %s => %s" % (console, console.emulator))
+  # TODO: Move this logic into a function on Console which gives a
+  # stringified reason why the console is not enabled
+  elif console.emulator is None:
+    logger.warning(
+        "No emulator provided for console `%s`" %
+        console)
+  else:
+    logger.warning("Issue detected with console `%s`" % console)
+
+def log_configuration(logger, config):
+  logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
+  logger.debug(
+      "Using `consoles.txt` at `%s`" %
+      config.console_manager.backing_store.path)
+  logger.debug(
+      "Using `emulators.txt` at `%s`" %
+      config.emulator_manager.backing_store.path)
+  for emulator in config.emulator_manager:
+    log_emulator_state(logger, emulator)
+  for console in config.console_manager:
+    log_console_state(logger, console)
