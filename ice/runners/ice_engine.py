@@ -11,7 +11,7 @@ from pysteam import paths
 from pysteam import shortcuts
 from pysteam import steam
 
-from ice import console
+from ice import consoles
 from ice import emulator
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
@@ -94,7 +94,7 @@ class IceEngine(object):
       return
     with EnvironmentChecker() as env_checker:
       for console in configuration.console_manager:
-        if console.is_enabled():
+        if consoles.console_is_enabled(console):
           # Consoles assume they have a ROMs directory
           env_checker.require_directory_exists(configuration.roms_directory_for_console(console))
     self.validated_configuration = True
@@ -180,16 +180,14 @@ def log_console_state(logger, console):
   """
   Logs whether a console is enabled or not.
   """
-  if console.is_enabled():
-    logger.info("Detected Console: %s => %s" % (console, console.emulator))
+  if consoles.console_is_enabled(console):
+    logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator))
   # TODO: Move this logic into a function on Console which gives a
   # stringified reason why the console is not enabled
   elif console.emulator is None:
-    logger.warning(
-        "No emulator provided for console `%s`" %
-        console)
+    logger.warning("No emulator provided for console `%s`" % console.fullname)
   else:
-    logger.warning("Issue detected with console `%s`" % console)
+    logger.warning("Issue detected with console `%s`" % console.fullname)
 
 def log_configuration(logger, config):
   logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)

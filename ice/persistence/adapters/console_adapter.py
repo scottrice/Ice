@@ -1,7 +1,7 @@
 
 import os
 
-from ice.console import Console
+from ice import model
 
 class ConsoleBackedObjectAdapter(object):
 
@@ -9,14 +9,14 @@ class ConsoleBackedObjectAdapter(object):
     self.emulators = emulators
 
   def new(self, backing_store, identifier):
-    fullname = identifier
-    shortname = backing_store.get(identifier, 'nickname', fullname)
-    extensions = backing_store.get(identifier, 'extensions', "")
+    fullname              = identifier
+    shortname             = backing_store.get(identifier, 'nickname', fullname)
+    extensions            = backing_store.get(identifier, 'extensions', "")
     custom_roms_directory = backing_store.get(identifier, 'roms directory', "")
-    prefix = backing_store.get(identifier, 'prefix', "")
-    icon = backing_store.get(identifier, 'icon', "")
-    images_directory = backing_store.get(identifier, 'images directory', "")
-    emulator_identifier = backing_store.get(identifier, 'emulator', "")
+    prefix                = backing_store.get(identifier, 'prefix', "")
+    icon                  = backing_store.get(identifier, 'icon', "")
+    images_directory      = backing_store.get(identifier, 'images directory', "")
+    emulator_identifier   = backing_store.get(identifier, 'emulator', "")
 
     icon = os.path.expanduser(icon)
     custom_roms_directory = os.path.expanduser(custom_roms_directory)
@@ -24,7 +24,7 @@ class ConsoleBackedObjectAdapter(object):
 
     emulator = self.emulators.find(emulator_identifier)
 
-    return Console(
+    return model.Console(
       fullname,
       shortname,
       extensions,
