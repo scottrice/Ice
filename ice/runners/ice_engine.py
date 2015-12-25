@@ -12,7 +12,7 @@ from pysteam import shortcuts
 from pysteam import steam
 
 from ice import consoles
-from ice import emulator
+from ice import emulators
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
@@ -53,14 +53,16 @@ class IceEngine(object):
     config_data_path = _path_with_override(options.config, "config.txt")
     consoles_data_path = _path_with_override(options.consoles, "consoles.txt")
     emulators_data_path = _path_with_override(options.emulators, "emulators.txt")
+    filesystem = Filesystem()
     self.config = Configuration(
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),
         ConfigFileBackingStore(emulators_data_path),
+        self.logger,
+        filesystem,
     )
     self.steam = steam
 
-    filesystem = Filesystem()
     parser = ROMParser(self.logger)
     self.rom_finder = ROMFinder(self.config, filesystem, parser)
     archive_data_path = Configuration.path_for_data_file("archive.json")
@@ -171,17 +173,17 @@ class IceEngine(object):
 # TODO(scottrice): Find a better home for these functions
 
 def log_emulator_state(logger, emulator):
-  if emulator.is_enabled():
-    logger.info("Detected Emulator: %s" % emulator)
+  if emulators.emulator_is_enabled(emulator):
+    logger.info("Detected Emulator: %s" % emulator.name)
   else:
-    logger.warning("Issue detected with emulator `%s`" % emulator)
+    logger.warning("Issue detected with emulator `%s`" % emulator.name)
 
 def log_console_state(logger, console):
   """
   Logs whether a console is enabled or not.
   """
   if consoles.console_is_enabled(console):
-    logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator))
+    logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
   # TODO: Move this logic into a function on Console which gives a
   # stringified reason why the console is not enabled
   elif console.emulator is None:

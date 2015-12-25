@@ -54,13 +54,13 @@ class Configuration(object):
     else:
       return data_path
 
-  def __init__(self, config_store, consoles_store, emulators_store):
+  def __init__(self, config_store, consoles_store, emulators_store, logger, filesystem):
     self.config_backing_store = config_store
     self.consoles_backing_store = consoles_store
     self.emulators_backing_store = emulators_store
     self.emulator_manager = BackedObjectManager(
       emulators_store,
-      EmulatorBackedObjectAdapter()
+      EmulatorBackedObjectAdapter(logger, filesystem)
     )
     self.console_manager = BackedObjectManager(
       consoles_store,

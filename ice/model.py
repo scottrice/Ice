@@ -12,3 +12,9 @@ Console = collections.namedtuple('Console', [
   'images_directory',
   'emulator',
 ])
+
+Emulator = collections.namedtuple('Emulator', [
+  'name',
+  'location',
+  'format',
+])

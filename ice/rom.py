@@ -15,6 +15,8 @@ ROMs
 
 from pysteam.model import Shortcut
 
+import emulators
+
 # LEGACY: At one point I added this to every shortcut that Ice made. That was
 # a terrible idea, and I'm keeping this definition here just in case I ever
 # have to clean up after myself
@@ -42,10 +44,13 @@ class ROM:
       return self.name
 
   def to_shortcut(self):
-    appname = self.prefixed_name()
-    exe = self.console.emulator.command_string(self)
-    startdir = self.console.emulator.startdir(self)
-    icon = self.console.icon
+    emu = self.console.emulator
+    assert(emu is not None)
+
+    appname  = self.prefixed_name()
+    exe      = emulators.emulator_rom_launch_command(emu, self)
+    startdir = emulators.emulator_startdir(emu)
+    icon     = self.console.icon
     category = self.console.fullname
-    tags = [category]
+    tags     = [category]
     return Shortcut(appname, exe, startdir, icon, tags)
