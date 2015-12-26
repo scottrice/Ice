@@ -18,6 +18,7 @@
  *.so
 
 # Packages
+.eggs
 *.egg
 *.egg-info
 dist
