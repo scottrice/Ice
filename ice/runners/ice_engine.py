@@ -16,7 +16,7 @@ from ice import emulators
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
-from ice.filesystem import Filesystem
+from ice.filesystem import RealFilesystem
 from ice.gridproviders.combined_provider import CombinedProvider
 from ice.gridproviders.consolegrid_provider import ConsoleGridProvider
 from ice.gridproviders.local_provider import LocalProvider
@@ -53,7 +53,7 @@ class IceEngine(object):
     config_data_path = _path_with_override(options.config, "config.txt")
     consoles_data_path = _path_with_override(options.consoles, "consoles.txt")
     emulators_data_path = _path_with_override(options.emulators, "emulators.txt")
-    filesystem = Filesystem()
+    filesystem = RealFilesystem()
     self.config = Configuration(
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),

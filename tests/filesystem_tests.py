@@ -1,8 +1,11 @@
 
 import os
 import shutil
+import sys
 import tempfile
 import unittest
+
+from nose_parameterized import parameterized
 
 from ice import filesystem
 
@@ -11,7 +14,7 @@ class FilesystemTests(unittest.TestCase):
 
   def setUp(self):
     self.tempdir = tempfile.mkdtemp()
-    self.filesystem = filesystem.Filesystem()
+    self.filesystem = filesystem.RealFilesystem()
 
   def tearDown(self):
     shutil.rmtree(self.tempdir)
@@ -132,3 +135,14 @@ class FilesystemTests(unittest.TestCase):
     result = self.filesystem.subdirectories_of_directory(self.tempdir, recursive=True)
 
     self.assertEquals(set(dirs), set(result))
+
+  @parameterized.expand([
+    ('/tmp/dir',  '/some/other/dir',  '/tmp/dir/some/other/dir'),
+    ('/tmp/dir/', '/some/other/dir',  '/tmp/dir/some/other/dir'),
+    ('/tmp/dir',  '/some/other/dir/', '/tmp/dir/some/other/dir'),
+    ('/tmp/dir/', '/some/other/dir/', '/tmp/dir/some/other/dir'),
+  ])
+  @unittest.skipIf(sys.platform.startswith('win'), "Example test data is Posix specific")
+  def test_fake_filesystem_adjusts_path_relative_to_root(self, root, path, expected):
+    fs = filesystem.FakeFilesystem(root = root)
+    self.assertEqual(fs.adjusted_path(path), expected)

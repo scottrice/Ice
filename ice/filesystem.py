@@ -3,7 +3,7 @@ import glob
 import os
 
 
-class Filesystem(object):
+class RealFilesystem(object):
 
   def path_exists(self, path):
     return os.path.exists(path)
@@ -40,4 +40,46 @@ class Filesystem(object):
     return filter(
       os.path.isdir,
       self._paths_in_directory(directory, incl_subdirs=recursive),
+    )
+
+class FakeFilesystem(object):
+
+  def __init__(self, root):
+    self.root = root
+
+    self.fs = RealFilesystem()
+
+  def adjusted_path(self, path):
+    """Adjusts the parameter `path` to be rooted in self.root rather than in
+    the current directory (or the specified directory, if given)"""
+    # Unfortunately we can't just use `os.path.join` here, as doing so when
+    # `path` is absoulte simply returns `path`.
+    to_components = lambda p: os.path.normpath(p).split(os.sep)
+    root_components = to_components(self.root)
+    path_components = to_components(path)
+
+    # If the parameter path is absolute, it's components array will contain
+    # some marker that it is absolute (a drive identifier on Windows, and an
+    # empty component on Posix). By removing the first component we turn it
+    # into a relative path which can be appended to the root.
+    if os.path.isabs(path):
+      path_components.pop(0)
+    return os.sep.join(root_components + path_components)
+
+  def path_exists(self, path):
+    return self.fs.path_exists(self.adjusted_path(path))
+
+  def is_directory(self, path):
+    return self.fs.is_directory(self.adjusted_path(path))
+
+  def files_in_directory(self, directory, include_subdirectories=False):
+    return self.fs.files_in_directory(
+      self.adjusted_path(directory),
+      include_subdirectories=include_subdirectories
+    )
+
+  def subdirectories_of_directory(self, directory, recursive=False):
+    return self.fs.files_in_directory(
+      self.adjusted_path(directory),
+      recursive=recursive
     )
