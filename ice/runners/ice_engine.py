@@ -64,7 +64,7 @@ class IceEngine(object):
     self.steam = steam
 
     parser = ROMParser(self.logger)
-    self.rom_finder = ROMFinder(self.config, filesystem, parser)
+    self.rom_finder = ROMFinder(self.logger, self.config, filesystem, parser)
     archive_data_path = Configuration.path_for_data_file("archive.json")
     managed_rom_archive = ManagedROMArchive(archive_data_path)
     self.shortcut_synchronizer = SteamShortcutSynchronizer(managed_rom_archive, self.logger)

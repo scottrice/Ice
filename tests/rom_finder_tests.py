@@ -13,10 +13,13 @@ from ice import rom_finder
 class ROMFinderTests(unittest.TestCase):
 
   def setUp(self):
-    self.mock_config = mock()
+    self.mock_logger     = mock()
+    self.mock_config     = mock()
     self.mock_filesystem = mock()
-    self.mock_parser = mock()
+    self.mock_parser     = mock()
+
     self.rom_finder = rom_finder.ROMFinder(
+      self.mock_logger,
       self.mock_config,
       self.mock_filesystem,
       self.mock_parser,
