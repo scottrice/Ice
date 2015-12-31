@@ -22,7 +22,7 @@ You will also need pip installed. The easiest way to get that is to run `easy_in
 
 Next, you will need to download all of Ice's dependencies. To do so, run `python setup.py install`
 
-Once all of that is finished, simply run `python src/ice.py` from the repository's root directory. On Mac/Linux, you should also be able to use the command `src/ice.py` provided the file has the execute permission.
+Once all of that is finished, simply run `python -m ice` from the repository's root directory.
 
 ###Ice GUI
 
