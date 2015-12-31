@@ -77,6 +77,15 @@ class Configuration(object):
     else:
       return default
 
+  def _has_backup_option_set(self):
+    try:
+      store = self.config_backing_store
+      return self.BACKUP_KEY.lower() in store.keys(self.BACKUP_IDENT)
+    except ValueError:
+      # The backing store raises a ValueError if the identifier doesnt exist.
+      # If the identifier doesnt exist, we clearly dont have this option set.
+      return False
+
   def steam_userdata_location(self):
     """
     Returns the user-supplied location of Steam's `userdata` directory.
@@ -104,6 +113,8 @@ class Configuration(object):
     self.config_backing_store.save()
 
   def backup_directory(self):
+    if not self._has_backup_option_set():
+      return None
     return self._get_directory_from_store(
         self.BACKUP_IDENT,
         self.BACKUP_KEY,
@@ -140,10 +151,14 @@ class Configuration(object):
     This path is in the designated backup directory, and includes a timestamp
     before the extension to allow many backups to exist at once.
     """
+    backup_dir = self.backup_directory()
+    if backup_dir is None:
+      return None
+
     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     filename = "shortcuts." + timestamp + ".vdf"
     return os.path.join(
-        self.backup_directory(),
+        backup_dir,
         str(user.user_id),
         'config',
         filename

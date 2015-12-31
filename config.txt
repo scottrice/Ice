@@ -9,12 +9,20 @@
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
 ROMs Directory=
 
-# Set a directory to store backups of your shortcuts.vdf file. if left blank,
-# no backups will be created. The backups are created within this directory
-# in the format "/[user id]/shortcuts.[timestamp].vdf"
+# Set a directory to store backups of your shortcuts.vdf file. If left blank,
+# Ice will store backups in it's metadata folder (see note). If this option is
+# missing or commented out (using the preceding `#`) then no backups will be
+# created. Backups are stored in the format "/[user id]/shortcuts.[timestamp].vdf"
 #
 # Use ~ to represent your home folder (for example, C:\Users\Scott\)
-Backup Directory=~/Ice/backups
+#
+# NOTE: When this option is left blank, backups will be created in a different
+# folder depending on the operating system.
+#
+# Windows  => C:\Documents and Settings\<User>\Application Data\Scott Rice\Ice
+# Mac OS X => ~/Library/Application Support/Ice
+# Linux    => ~/.local/share/Ice
+Backup Directory=
 
 [Steam]
 # Leave this field blank unless Ice can't find Steam.

@@ -161,6 +161,10 @@ class IceEngine(object):
       return
 
     backup_path = self.config.shortcuts_backup_path(user)
+    if backup_path is None:
+      self.logger.info("No backups directory specified, so not backing up shortcuts.vdf before overwriting. See config.txt for more info")
+      return
+
     shortcuts.write_shortcuts(backup_path, shortcuts.get_shortcuts(user))
 
 # Logging methods. The purpose of these methods isn't so much to log things as
