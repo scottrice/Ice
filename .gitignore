@@ -33,6 +33,9 @@ lib
 lib64
 *.spec
 
+# Coverage data
+htmlcov/
+
 # Installer logs
 pip-log.txt
 
