@@ -43,6 +43,8 @@ class SteamGridUpdaterTests(unittest.TestCase):
     self.updater.update_rom_artwork(self.user_fixture.get_context(), rom)
     self.assertTrue(grid.has_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut)))
 
+    os.remove(path)
+
   def test_updater_does_nothing_if_provider_has_no_image(self):
     shortcut = model.Shortcut("Plex", "Plex.exe", "/Path/to/", "", [])
 
@@ -55,3 +57,26 @@ class SteamGridUpdaterTests(unittest.TestCase):
     self.updater.update_rom_artwork(self.user_fixture.get_context(), rom)
 
     self.assertFalse(grid.has_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut)))
+
+  def test_updater_keeps_image_if_already_exists(self):
+    shortcut = model.Shortcut("Plex", "Plex.exe", "/Path/to/", "", [])
+
+    rom = mock()
+    when(rom).to_shortcut().thenReturn(shortcut)
+
+    # Start with a custom image, say a .png
+    (handle, path) = tempfile.mkstemp('.png')
+    grid.set_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut), path)
+    os.remove(path)
+
+    # Make the provider return a .jpg
+    (handle, path) = tempfile.mkstemp('.jpg')
+    when(self.mock_provider).image_for_rom(rom).thenReturn(path)
+
+    self.assertTrue(grid.has_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut)))
+    self.updater.update_rom_artwork(self.user_fixture.get_context(), rom)
+    self.assertTrue(grid.has_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut)))
+
+    # Ensure that we are still using the .png, not the .jpg
+    (_, ext) = os.path.splitext(grid.get_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut)))
+    self.assertEqual(ext, '.png')
