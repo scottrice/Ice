@@ -1,2 +1,2 @@
-excludeDirectories = "{build,dist,*.egg,*.egg-info}"
+excludeDirectories = "{build,dist,*.egg,*.egg-info,htmlcov}"
 excludeFiles = "{*.egg,error.log, ice.log}"
