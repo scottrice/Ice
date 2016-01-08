@@ -15,6 +15,6 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
         # Prereqs
-        pip install --upgrade pysteam appdirs
+        sudo pip install --upgrade pysteam appdirs
         # Setup Ice
-        python setup.py install
+        sudo python setup.py install
