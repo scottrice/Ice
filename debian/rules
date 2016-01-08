@@ -1,16 +1,20 @@
+  GNU nano 2.2.6                  File: rules                                  Modified  
+
 #!/usr/bin/make -f
 
 %:
-	dh $@
+        dh $@
 
 override_dh_auto_clean:
-	sudo rm -rf /tmp/pip_build_root
-	sudo rm -rf build	
-	sudo rm -rf Ice.egg-info
-	sudo rm -rf dist
+        sudo rm -rf /tmp/pip_build_root
+        sudo rm -rf build
+        sudo rm -rf Ice.egg-info
+        sudo rm -rf dist
 
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	sudo pip install --upgrade pysteam appdirs
-	sudo python setup.py install
+        # Prereqs
+        pip install --upgrade pysteam appdirs
+        # Setup Ice
+        python setup.py install
