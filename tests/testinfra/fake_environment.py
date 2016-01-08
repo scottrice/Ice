@@ -18,6 +18,17 @@ from ice.runners.command_line_runner import CommandLineRunner
 
 from fixtures import SteamFixture, UserFixture
 
+def json_to_shortcut(json):
+  for field in ["name", "exe", "startdir", "icon", "tags"]:
+    assert(field in json)
+  return model.Shortcut(
+    name      = json.get("name"),
+    exe       = json.get("exe"),
+    startdir  = json.get("startdir"),
+    icon      = json.get("icon"),
+    tags      = json.get("tags")
+  )
+
 class FakeEnvironment(object):
   def __init__(self, file_path):
     """
@@ -86,15 +97,13 @@ class FakeEnvironment(object):
   def _adjust_json_path(self, path):
     return path.replace("%sb", self.sandbox.root)
 
-  def _shortcut_from_expectation_json(self, json):
-    for field in ["name", "exe", "startdir", "icon", "tags"]:
-      assert(field in json)
+  def _adjust_shortcut_exe(self, shortcut):
     return model.Shortcut(
-      name = json.get("name"),
-      exe = self._adjust_json_path(json.get("exe")),
-      startdir = json.get("startdir"),
-      icon = json.get("icon"),
-      tags = json.get("tags")
+      name      = shortcut.name,
+      exe       = self._adjust_json_path(shortcut.exe),
+      startdir  = shortcut.startdir,
+      icon      = shortcut.icon,
+      tags      = shortcut.tags,
     )
 
   def load_test_data(self, testdata):
@@ -116,13 +125,20 @@ class FakeEnvironment(object):
     self.user_fixtures.append(fixture)
     return fixture.uid
 
-  def expected_shortcuts(self):
-    """Returns the shortcuts which the test expects will exist after executing"""
-    expectations_path = os.path.join(self.testdata_dir, self.loaded_data, "shortcuts-expected.json")
+  def load_shortcuts_from_json(self, filename):
+    expectations_path = os.path.join(self.testdata_dir, self.loaded_data, filename)
     with open(expectations_path) as f:
       expected_shortcuts_json = json.load(f)
-    expected_shortcuts = map(self._shortcut_from_expectation_json, expected_shortcuts_json)
-    return expected_shortcuts
+    return map(json_to_shortcut, expected_shortcuts_json)
+
+  def expected_shortcuts(self, filename="shortcuts-expected.json"):
+    """Returns the shortcuts which the test expects will exist after executing"""
+    expected_shortcuts = self.load_shortcuts_from_json(filename)
+    return map(self._adjust_shortcut_exe, expected_shortcuts)
+
+  def set_user_shortcuts(self, uid, new_shortcuts):
+    context = model.LocalUserContext(self.steam_fixture.get_steam(), uid)
+    return shortcuts.set_shortcuts(context, new_shortcuts)
 
   def user_shortcuts(self, uid):
     context = model.LocalUserContext(self.steam_fixture.get_steam(), uid)
