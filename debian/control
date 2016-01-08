@@ -2,7 +2,10 @@ Source: ice
 Section: games
 Priority: extra
 Maintainer: SteamOS-Tools Signing Key <mdeguzis@gmail.com>
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9),
+ python-pip,
+ libxrandr2:i386,
+ python-psutil
 Standards-Version: 3.9.5
 Homepage: https://github.com/scottrice/Ice
 Vcs-Git: git:https://github.com/scottrice/Ice.git
