@@ -1,0 +1,21 @@
+Source: ice
+Section: games
+Priority: extra
+Maintainer: SteamOS-Tools Signing Key <mdeguzis@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: https://github.com/scottrice/Ice
+Vcs-Git: git:https://github.com/scottrice/Ice.git
+Vcs-Browser: https://github.com/scottrice/Ice
+
+Package: ice
+Architecture: all
+Depends: curl
+Description: ICE is a program / utility to bring emulation to Steam Big Picture Mode.
+ The purpose of this project is to leverage Steam's Big Picture mode to turn it into
+ an emulator frontend (similar to Hyperspin). It accomplishes this by creating folders
+ in specified locations on the user's hard drive, then adding any ROMs that are placed
+ in these folders to Steam as non-Steam games. Emulators are installed and configured
+ by the user before Ice is run.
+ .
+ This package is targeted at SteamOS.
