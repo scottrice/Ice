@@ -1,1 +1,2 @@
-ice-launch /usr/local/bin/
+ice /usr/local/bin/
+debian/ice-launch /usr/local/bin/
