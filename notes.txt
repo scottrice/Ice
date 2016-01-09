@@ -1,8 +1,8 @@
 todo:
 
-no more config files, only ice
+config files either gone and all hardcoded or move config files
 launch script
-do things in home directories!
+do things in home directories! Like creating roms directories and searching for roms
 init script to update, but only if changes have been made
 emulators as dependencies for package and fully configured for launch
 
