@@ -57,11 +57,11 @@ emulator=
 
 [Super Nintendo]
 nickname=SNES
-emulator=
+emulator=Zsnes
 
 [Nintendo 64]
 nickname=N64
-emulator=
+emulator=Mupen64plus
 
 [Nintendo Gamecube]
 nickname=Gamecube

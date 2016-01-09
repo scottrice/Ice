@@ -30,3 +30,11 @@
 # [SNES9X-GTK]
 # location=/usr/bin/snes9x-gtk
 # command=%l %r
+
+[Mupen64plus]
+location = /usr/games/mupen64plus
+command = %l %r
+
+[Zsnes]
+location = /usr/bin/zsnes
+command = %l %r
