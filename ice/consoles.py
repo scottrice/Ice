@@ -6,6 +6,18 @@ def console_is_enabled(console):
   """Determines whether a console should have it's ROMs added to Steam."""
   return console.emulator is not None
 
+def console_roms_directory(configuration, console):
+  """
+  If the user has specified a custom ROMs directory in consoles.txt then
+  return that.
+
+  Otherwise, append the shortname of the console to the default ROMs
+  directory given by config.txt.
+  """
+  if console.custom_roms_directory:
+    return console.custom_roms_directory
+  return os.path.join(configuration.roms_directory(), console.shortname)
+
 def path_is_rom(console, path):
   """
   This function determines if a given path is actually a valid ROM file.

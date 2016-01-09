@@ -98,7 +98,7 @@ class IceEngine(object):
       for console in configuration.console_manager:
         if consoles.console_is_enabled(console):
           # Consoles assume they have a ROMs directory
-          env_checker.require_directory_exists(configuration.roms_directory_for_console(console))
+          env_checker.require_directory_exists(consoles.console_roms_directory(configuration, console))
     self.validated_configuration = True
 
   def validate_user_environment(self, user):

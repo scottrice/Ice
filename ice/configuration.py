@@ -139,15 +139,3 @@ class Configuration(object):
         'config',
         filename
     )
-
-  def roms_directory_for_console(self, console):
-    """
-    If the user has specified a custom ROMs directory in consoles.txt then
-    return that.
-
-    Otherwise, append the shortname of the console to the default ROMs
-    directory given by config.txt.
-    """
-    if console.custom_roms_directory:
-      return console.custom_roms_directory
-    return os.path.join(self.roms_directory(), console.shortname)

@@ -1,6 +1,7 @@
 
 from pysteam import shortcuts
 
+import consoles
 import roms
 
 class SteamShortcutSynchronizer(object):
@@ -9,17 +10,17 @@ class SteamShortcutSynchronizer(object):
     self.managed_rom_archive = managed_rom_archive
     self.logger = logger
 
-  def _guess_whether_shortcut_is_managed_by_ice(self, shortcut, configuration):
+  def _guess_whether_shortcut_is_managed_by_ice(self, shortcut, config):
     # Helper function which guesses whether the shortcut was added during a
     # previous run of Ice with its console set as `console`. We do this the
     # same way we did before we had the flag tag, we check the console's
     # ROMs directory and see if it shows up in the executable for the shortcut
     def shortcut_is_managed_by_console(console):
-      return configuration.roms_directory_for_console(console) in shortcut.exe
+      return consoles.console_roms_directory(config, console) in shortcut.exe
 
     return reduce(
       lambda is_managed, console: is_managed or shortcut_is_managed_by_console(console),
-      configuration.console_manager,
+      config.console_manager,
       False,
     )
 

@@ -7,6 +7,8 @@ from nose_parameterized import parameterized
 from ice import consoles
 from ice import model
 
+from testinfra import fixtures
+
 class ConsolesTests(unittest.TestCase):
 
   def test_console_is_enabled(self):
@@ -16,6 +18,17 @@ class ConsolesTests(unittest.TestCase):
 
     invalid = model.Console("Nintendo", "NES", "", "", "", "", "", None)
     self.assertFalse(consoles.console_is_enabled(invalid))
+
+  @parameterized.expand([
+    # NES has no custom image directory set, so it should use the default
+    (fixtures.consoles.nes, '/grid/', '/grid/NES'),
+    # SNES, on the other hand, does, so we should use the provided one
+    (fixtures.consoles.snes, '/grid/', '/external/consoles/roms/snes'),
+  ])
+  def test_console_roms_directory(self, console, config_path, expected):
+    config = mock()
+    when(config).roms_directory().thenReturn(config_path)
+    self.assertEqual(consoles.console_roms_directory(config, console), expected)
 
   @parameterized.expand([
     # No extensions passes everything

@@ -25,8 +25,8 @@ class ROMFinderTests(unittest.TestCase):
       self.mock_parser,
     )
 
-  def _dummy_console(self, extensions, emu):
-    return model.Console("Nintendo", "NES", extensions, "", "", "", "", emu)
+  def _dummy_console(self, extensions, emu, roms_directory = ""):
+    return model.Console("Nintendo", "NES", extensions, roms_directory, "", "", "", emu)
 
   def test_roms_for_console_returns_a_rom_for_every_file_in_roms_directory(self):
     dirname = "RandomDir"
@@ -35,8 +35,7 @@ class ROMFinderTests(unittest.TestCase):
     rom3 = os.path.join(dirname, "rom3")
     rom_paths = [rom1, rom2, rom3]
 
-    console = self._dummy_console("", mock())
-    when(self.mock_config).roms_directory_for_console(console).thenReturn(dirname)
+    console = self._dummy_console("", mock(), dirname)
     when(self.mock_filesystem).files_in_directory(dirname, include_subdirectories=True).thenReturn(rom_paths)
 
     roms = self.rom_finder.roms_for_console(console)
@@ -52,8 +51,7 @@ class ROMFinderTests(unittest.TestCase):
     rom3 = os.path.join(dirname, "rom3")
     rom_paths = [rom1, rom2, rom3]
 
-    console = self._dummy_console(".txt", mock())
-    when(self.mock_config).roms_directory_for_console(console).thenReturn(dirname)
+    console = self._dummy_console(".txt", mock(), dirname)
     when(self.mock_filesystem).files_in_directory(dirname, include_subdirectories=True).thenReturn(rom_paths)
 
     self.assertEquals([], self.rom_finder.roms_for_console(console))
@@ -76,8 +74,7 @@ class ROMFinderTests(unittest.TestCase):
     rom2 = os.path.join(firstdir, subdir, "rom2")
     rom_paths = [rom1, rom2]
 
-    console = self._dummy_console("", mock())
-    when(self.mock_config).roms_directory_for_console(console).thenReturn(firstdir)
+    console = self._dummy_console("", mock(), firstdir)
     when(self.mock_filesystem).files_in_directory(firstdir, include_subdirectories=True).thenReturn(rom_paths)
 
     roms = self.rom_finder.roms_for_console(console)
@@ -97,11 +94,8 @@ class ROMFinderTests(unittest.TestCase):
     when(self.mock_filesystem).files_in_directory(firstdir, include_subdirectories=True).thenReturn([rom1, rom2])
     when(self.mock_filesystem).files_in_directory(seconddir, include_subdirectories=True).thenReturn([rom3])
 
-    console1 = self._dummy_console("", mock())
-    console2 = self._dummy_console("", mock())
-
-    when(self.mock_config).roms_directory_for_console(console1).thenReturn(firstdir)
-    when(self.mock_config).roms_directory_for_console(console2).thenReturn(seconddir)
+    console1 = self._dummy_console("", mock(), firstdir)
+    console2 = self._dummy_console("", mock(), seconddir)
 
     roms = self.rom_finder.roms_for_consoles([console1])
     self.assertEquals(len(roms), 2)
@@ -121,8 +115,7 @@ class ROMFinderTests(unittest.TestCase):
     rom1 = os.path.join(dirname, "rom1")
     rom_paths = [rom1]
 
-    console = self._dummy_console("", mock())
-    when(self.mock_config).roms_directory_for_console(console).thenReturn(dirname)
+    console = self._dummy_console("", mock(), dirname)
     when(self.mock_filesystem).files_in_directory(dirname, include_subdirectories=True).thenReturn(rom_paths)
     when(self.mock_parser).parse(any(str)).thenReturn("ROM Name")
 

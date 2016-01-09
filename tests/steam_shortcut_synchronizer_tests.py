@@ -35,8 +35,8 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     # but since we are stubbing our `roms_directory_for_console` impl we don't
     # actually care what the console is.
     console = mock()
+    console.custom_roms_directory = roms_dir
     config.console_manager = [ console ]
-    when(config).roms_directory_for_console(console).thenReturn(roms_dir)
     return config
 
   def test_unmanaged_shortcuts_returns_all_shortcuts_when_given_no_history(self):

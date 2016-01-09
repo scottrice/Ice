@@ -34,7 +34,7 @@ class ROMFinder(object):
       self.logger.debug("Skipping console due to being disabled - %s" % str(console))
       return []
 
-    roms_directory = self.config.roms_directory_for_console(console)
+    roms_directory = consoles.console_roms_directory(self.config, console)
     self.logger.debug("[%s] Using `%s` as ROMs directory" % (console.shortname, roms_directory))
     paths = self.filesystem.files_in_directory(roms_directory, include_subdirectories=True)
     self.logger.debug("[%s] Files in ROMs directory: %s" % (console.shortname, paths))
