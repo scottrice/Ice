@@ -80,9 +80,6 @@ main()
 	# clone
 	git clone -b "$rel_target" "$git_url" "$git_dir"
 
-	# copy in modified rules until tested
-        cp -r "$scriptdir/rules" "$git_dir"
-
 	#################################################
 	# Build package
 	#################################################
@@ -134,10 +131,6 @@ main()
 	sleep 2s
 
 	dpkg-buildpackage -rfakeroot -us -uc
-
-	#################################################
-	# Post install configuration
-	#################################################
 	
 	#################################################
 	# Cleanup
@@ -173,7 +166,7 @@ main()
 	echo -e "############################################################\n"
 	
 	echo -e "Showing contents of: ${build_dir}: \n"
-	ls ${build_dir}| grep $pkgname_$pkgver
+	ls ${build_dir}| grep ${pkgver}
 
 	echo -e "\n==> Would you like to transfer any packages that were built? [y/n]"
 	sleep 0.5s
@@ -184,7 +177,7 @@ main()
 
 		# cut files
 		if [[ -d "${build_dir}" ]]; then
-			scp ${build_dir}/${pkgname}_${pkgver}* mikeyd@archboxmtd:/home/mikeyd/packaging/SteamOS-Tools/incoming
+			scp ${build_dir}/*${pkgver}* mikeyd@archboxmtd:/home/mikeyd/packaging/SteamOS-Tools/incoming
 		fi
 
 	elif [[ "$transfer_choice" == "n" ]]; then
