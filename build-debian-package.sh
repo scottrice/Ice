@@ -44,7 +44,11 @@ install_prereqs()
 	sleep 2s
 	
 	# Avoid libattr garbage for 32 bit package installed by emulators
-	sudo mv "/usr/share/doc/libattr1/changelog.Debian.gz" "/usr/share/doc/libattr1/changelog.Debian.gz.old"
+	if [[ -f "/usr/share/doc/libattr1/changelog.Debian.gz" ]]; then
+	
+		sudo mv "/usr/share/doc/libattr1/changelog.Debian.gz" \
+		"/usr/share/doc/libattr1/changelog.Debian.gz.old" 2> /dev/null
+	fi
 	
 	# install basic build packages
 	sudo apt-get install -y --force-yes build-essential bc debhelper libxrandr2:i386 \
