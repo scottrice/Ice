@@ -19,4 +19,3 @@ except Exception as e:
   print ""
   print "An error has occurred! A copy of the crash report has been saved to 'error.log'."
   print "If this continues please submit an issue on our Github page (http://github.com/scottrice/Ice)"
-  raw_input()
