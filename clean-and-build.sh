@@ -3,7 +3,7 @@
 # Cleans project files for manual build attempts and builds
 
 # uninstall python applications
-sudo pip remove  pysteam appdirs
+sudo pip uninstall pysteam appdirs
 
 # Remove project files
 sudo rm -rf /tmp/pip_build_root
