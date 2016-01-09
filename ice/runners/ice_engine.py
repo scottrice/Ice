@@ -50,9 +50,9 @@ class IceEngine(object):
     self.filesystem = filesystem
     self.logger = IceLogger(verbose=options.verbose)
     self.logger.debug("Initializing Ice")
-    config_data_path = _path_with_override(options.config, "config.txt")
-    consoles_data_path = _path_with_override(options.consoles, "consoles.txt")
-    emulators_data_path = _path_with_override(options.emulators, "emulators.txt")
+    config_data_path = _path_with_override(options.config, "/etc/ice/config.txt")
+    consoles_data_path = _path_with_override(options.consoles, "/etc/ice/consoles.txt")
+    emulators_data_path = _path_with_override(options.emulators, "/etc/ice/emulators.txt")
     self.config = Configuration(
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),
@@ -159,7 +159,7 @@ class IceEngine(object):
       self.logger.debug("Not creating backup because its a dry run")
       return
 
-    backup_path = self.config.shortcuts_backup_path(user)
+    backup_path = self.config.shortcuts_backup_path(user, self.filesystem)
     if backup_path is None:
       self.logger.info("No backups directory specified, so not backing up shortcuts.vdf before overwriting. See config.txt for more info")
       return
