@@ -2,6 +2,9 @@
 
 # Cleans project files for manual build attempts and builds
 
+# Debian packages required
+sudo apt-get install -y --force-yes libxrandr2:i386 python-pip python-psutil
+
 # uninstall python applications
 sudo pip uninstall pysteam
 sudo pip uninstall pysteam-steamos 
