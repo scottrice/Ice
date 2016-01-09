@@ -17,6 +17,32 @@
 
 # Man page notes
 
+## Creating / maintaining
+[creating (nixcraft)](http://www.cyberciti.biz/faq/linux-unix-creating-a-manpage/)
+
+Example to use:
+```
+.\" Manpage for ice.
+.\" Contact ser@mail.net.in to correct errors or typos.
+.TH man 8 "08 Jan 2016" "1.0" "ice man page"
+.SH NAME
+ice \- Utility to add ROMs to Steam BPM and make launching them much easier.
+.SH SYNOPSIS
+ice-launcher [DIR]
+.SH DESCRIPTION
+This is an effort to make Ice, a tool which can add ROMs to your Steam library, work in SteamOS. All credit for the original application goes to the user scottrice.
+.SH OPTIONS
+TODO
+.SH SEE ALSO
+TODO
+man(5)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+SteamOS version: ProfessorKaos64 (mdeguzis@gmail.com), Sharkwouter (https://github.com/sharkwouter)
+Original source code: Scott Rice (https://github.com/scottrice/Ice)
+```
+
 ## Investigate / augment Parsers
 ```
 parser.add_argument('-c', '--config', type=str, default=None)
