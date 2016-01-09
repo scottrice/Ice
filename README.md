@@ -23,7 +23,3 @@ Run:
 ```
 
 Once all of that is finished, simply run `python -m ice` from the repository's root directory. A Debian package is being worked on.
-
-###Ice GUI
-
-A GUI for Ice is currently being developed, but is very far from being production ready. As of writing, it is basically non-functional. Do not attempt to use the GUI, doing so will only bring you pain and heartache.
