@@ -4,19 +4,21 @@
 	dh $@
 
 override_dh_auto_clean:
-	sudo rm -rf /tmp/pip_build_root
-	sudo rm -rf build	
-	sudo rm -rf Ice.egg-info
-	sudo rm -rf dist
+	# clean dirs
+	sudo rm -rf "/tmp/pip_build_root"
+	sudo rm -rf "build"
+	sudo rm -rf "Ice.egg-info"
+	sudo rm -rf "dist"
 
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	# Prereqs
-	sudo pip install --upgrade pysteam appdirs
-	# Setup Ice
+	sudo pip install -r requirements.txt
 	sudo python setup.py install
 
+override_dh_installdirs:
+	dh_installdirs /etc/ice
+	
 override_dh_auto_install:
 
 override_dh_usrlocal:
