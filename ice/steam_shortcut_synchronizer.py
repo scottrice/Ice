@@ -1,5 +1,5 @@
 
-from pysteam import shortcuts
+from pysteam-steamos import shortcuts
 
 from rom import ICE_FLAG_TAG
 

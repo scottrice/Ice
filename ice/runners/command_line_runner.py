@@ -7,7 +7,7 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 import argparse
 
-from pysteam.steam import get_steam
+from pysteam-steamos.steam import get_steam
 
 from ice_engine import IceEngine
 

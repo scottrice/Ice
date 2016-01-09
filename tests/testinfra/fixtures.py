@@ -5,8 +5,8 @@ import random
 import shutil
 import tempfile
 
-from pysteam import model
-from pysteam import paths
+from pysteam-steamos import model
+from pysteam-steamos import paths
 
 class SteamFixture(object):
   def __init__(self, tempdir=None):
@@ -53,7 +53,7 @@ class UserFixture(object):
     # hierarchy
     os.mkdir(paths.user_specific_data_directory(self.get_context()))
     # The "config" directory, which stores shortcuts.vdf and the grid directory
-    # TODO: There should probably be a helper function for this in pysteam
+    # TODO: There should probably be a helper function for this in pysteam-steamos
     os.mkdir(os.path.join(paths.user_specific_data_directory(self.get_context()), "config"))
     # The directory which stores grid images
     os.mkdir(paths.custom_images_directory(self.get_context()))

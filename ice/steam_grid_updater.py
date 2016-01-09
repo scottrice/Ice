@@ -1,6 +1,6 @@
 
-from pysteam import grid
-from pysteam import shortcuts
+from pysteam-steamos import grid
+from pysteam-steamos import shortcuts
 
 class SteamGridUpdater(object):
 
