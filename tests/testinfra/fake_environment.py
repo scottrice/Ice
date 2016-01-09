@@ -83,7 +83,6 @@ class FakeEnvironment(object):
       None,
       None,
       None,
-      None,
     )
     target_roms_directory = self.sandbox.adjusted_path(c.roms_directory())
     source_roms_directory = os.path.join(directory, 'ROMs')

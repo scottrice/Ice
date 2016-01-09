@@ -20,11 +20,9 @@ class SteamGridUpdaterTests(unittest.TestCase):
     self.steam_fixture = fixtures.SteamFixture()
     self.user_fixture = fixtures.UserFixture(self.steam_fixture)
 
-    self.mock_logger = mock()
     self.mock_provider = mock()
     self.updater = steam_grid_updater.SteamGridUpdater(
         self.mock_provider,
-        self.mock_logger,
     )
 
   def tearDown(self):

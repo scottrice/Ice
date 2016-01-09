@@ -21,7 +21,7 @@ from ice.gridproviders.combined_provider import CombinedProvider
 from ice.gridproviders.consolegrid_provider import ConsoleGridProvider
 from ice.gridproviders.local_provider import LocalProvider
 from ice.history.managed_rom_archive import ManagedROMArchive
-from ice.ice_logging import IceLogger
+from ice.logs import logger
 from ice.parsing.rom_parser import ROMParser
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_finder import ROMFinder
@@ -48,8 +48,7 @@ class IceEngine(object):
     self.validated_base_environment = False
     self.validated_configuration = False
     self.filesystem = filesystem
-    self.logger = IceLogger()
-    self.logger.debug("Initializing Ice")
+    logger.debug("Initializing Ice")
     config_data_path = _path_with_override(filesystem, options.config, "config.txt")
     consoles_data_path = _path_with_override(filesystem, options.consoles, "consoles.txt")
     emulators_data_path = _path_with_override(filesystem, options.emulators, "emulators.txt")
@@ -57,22 +56,21 @@ class IceEngine(object):
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),
         ConfigFileBackingStore(emulators_data_path),
-        self.logger,
         filesystem,
     )
     self.steam = steam
 
-    parser = ROMParser(self.logger)
-    self.rom_finder = ROMFinder(self.logger, self.config, filesystem, parser)
+    parser = ROMParser()
+    self.rom_finder = ROMFinder(self.config, filesystem, parser)
     archive_data_path = paths.highest_precedent_data_file(filesystem, "archive.json")
     managed_rom_archive = ManagedROMArchive(archive_data_path)
-    self.shortcut_synchronizer = SteamShortcutSynchronizer(managed_rom_archive, self.logger)
+    self.shortcut_synchronizer = SteamShortcutSynchronizer(managed_rom_archive)
 
     provider = CombinedProvider(
-        LocalProvider(self.logger),
-        ConsoleGridProvider(self.logger),
+        LocalProvider(),
+        ConsoleGridProvider(),
     )
-    self.grid_updater = SteamGridUpdater(provider, self.logger)
+    self.grid_updater = SteamGridUpdater(provider)
 
   def validate_base_environment(self):
     """
@@ -114,22 +112,22 @@ class IceEngine(object):
 
   def main(self, dry_run=False):
     if self.steam is None:
-      self.logger.error("Cannot run Ice because Steam doesn't appear to be installed")
+      logger.error("Cannot run Ice because Steam doesn't appear to be installed")
       return
 
-    self.logger.info("=========== Starting Ice ===========")
+    logger.info("=========== Starting Ice ===========")
     try:
       self.validate_base_environment()
       self.validate_configuration(self.config)
     except EnvCheckerError as e:
-      self.logger.info("Ice cannot run because of issues with your system.\n")
-      self.logger.info("* %s" % e.message)
-      self.logger.info("\nPlease resolve these issues and try running Ice again")
+      logger.info("Ice cannot run because of issues with your system.\n")
+      logger.info("* %s" % e.message)
+      logger.info("\nPlease resolve these issues and try running Ice again")
       return
     # TODO: Create any missing directories that Ice will need
-    log_configuration(self.logger, self.config)
+    log_configuration(self.config)
     for user_context in steam.local_user_contexts(self.steam):
-      self.logger.info("=========== User: %s ===========" % str(user_context.user_id))
+      logger.info("=========== User: %s ===========" % str(user_context.user_id))
       self.run_for_user(user_context, dry_run=dry_run)
 
   def run_for_user(self, user, dry_run=False):
@@ -138,9 +136,9 @@ class IceEngine(object):
       self.validate_configuration(self.config)
       self.validate_user_environment(user)
     except EnvCheckerError as e:
-      self.logger.info("Ice cannot run because of issues with your system.\n")
-      self.logger.info("\t%s\n" % e.message)
-      self.logger.info("Please resolve these issues and try running Ice again")
+      logger.info("Ice cannot run because of issues with your system.\n")
+      logger.info("\t%s\n" % e.message)
+      logger.info("Please resolve these issues and try running Ice again")
       return
     self._create_backup(user, dry_run=dry_run)
     # Find all of the ROMs that are currently in the designated folders
@@ -152,16 +150,16 @@ class IceEngine(object):
     try:
       self.main(dry_run=dry_run)
     except Exception as error:
-      self.logger.exception("An exception occurred while running Ice")
+      logger.exception("An exception occurred while running Ice")
 
   def _create_backup(self, user, dry_run=False):
     if dry_run:
-      self.logger.debug("Not creating backup because its a dry run")
+      logger.debug("Not creating backup because its a dry run")
       return
 
     backup_path = self.config.shortcuts_backup_path(user)
     if backup_path is None:
-      self.logger.info("No backups directory specified, so not backing up shortcuts.vdf before overwriting. See config.txt for more info")
+      logger.info("No backups directory specified, so not backing up shortcuts.vdf before overwriting. See config.txt for more info")
       return
 
     shortcuts.write_shortcuts(backup_path, shortcuts.get_shortcuts(user))
@@ -175,13 +173,13 @@ class IceEngine(object):
 #
 # TODO(scottrice): Find a better home for these functions
 
-def log_emulator_state(logger, emulator):
+def log_emulator_state(emulator):
   if emulators.emulator_is_enabled(emulator):
     logger.info("Detected Emulator: %s" % emulator.name)
   else:
     logger.warning("Issue detected with emulator `%s`" % emulator.name)
 
-def log_console_state(logger, console):
+def log_console_state(console):
   """
   Logs whether a console is enabled or not.
   """
@@ -194,7 +192,7 @@ def log_console_state(logger, console):
   else:
     logger.warning("Issue detected with console `%s`" % console.fullname)
 
-def log_configuration(logger, config):
+def log_configuration(config):
   logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)
   logger.debug(
       "Using `consoles.txt` at `%s`" %
@@ -203,6 +201,6 @@ def log_configuration(logger, config):
       "Using `emulators.txt` at `%s`" %
       config.emulator_manager.backing_store.path)
   for emulator in config.emulator_manager:
-    log_emulator_state(logger, emulator)
+    log_emulator_state(emulator)
   for console in config.console_manager:
-    log_console_state(logger, console)
+    log_console_state(console)

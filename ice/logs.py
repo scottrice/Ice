@@ -24,11 +24,7 @@ class IceLevelTagFilter(logging.Formatter):
     record.leveltag = self._tag_for_level(record.levelno)
     return True
 
-class IceLogger():
-
-  ''' initialize our loggers '''
-
-  def __init__(self):
+def create_logger():
     # steam handler (only print info messages to terminal)
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
@@ -47,13 +43,10 @@ class IceLogger():
         logging.Formatter('%(asctime)s [%(levelname)s][%(filename)s][%(funcName)s:%(lineno)s]: %(message)s'))
 
     # loggers
-    self.logger = logging.getLogger('Ice')
-    self.logger.setLevel(logging.DEBUG)
-    self.logger.addHandler(ch)
-    self.logger.addHandler(fh)
+    logger = logging.getLogger('Ice')
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(ch)
+    logger.addHandler(fh)
+    return logger
 
-    self.info = self.logger.info
-    self.debug = self.logger.debug
-    self.warning = self.logger.warning
-    self.error = self.logger.error
-    self.exception = self.logger.exception
+logger = create_logger()

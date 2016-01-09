@@ -12,11 +12,9 @@ import os
 
 import grid_image_provider
 
+from ice.logs import logger
 
 class LocalProvider(grid_image_provider.GridImageProvider):
-
-  def __init__(self, logger):
-    self.logger = logger
 
   def valid_extensions(self):
     return ['.png', '.jpg', '.jpeg', '.tiff']
@@ -29,7 +27,7 @@ class LocalProvider(grid_image_provider.GridImageProvider):
     """
     img_dir = rom.console.images_directory
     if img_dir == "":
-      self.logger.debug(
+      logger.debug(
         "[%s] No images directory specified for %s" %
         (rom.name, rom.console.shortname)
       )

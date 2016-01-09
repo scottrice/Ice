@@ -4,11 +4,12 @@ from pysteam import shortcuts
 import consoles
 import roms
 
+from logs import logger
+
 class SteamShortcutSynchronizer(object):
 
-  def __init__(self, managed_rom_archive, logger):
+  def __init__(self, managed_rom_archive):
     self.managed_rom_archive = managed_rom_archive
-    self.logger = logger
 
   def _guess_whether_shortcut_is_managed_by_ice(self, shortcut, config):
     # Helper function which guesses whether the shortcut was added during a
@@ -74,33 +75,33 @@ class SteamShortcutSynchronizer(object):
     # added that Ice shouldn't delete. For example, something like a shortcut
     # to Plex would be 'Unmanaged'
     previous_managed_ids = self.managed_rom_archive.previous_managed_ids(user)
-    self.logger.debug("Previous managed ids: %s" % previous_managed_ids)
+    logger.debug("Previous managed ids: %s" % previous_managed_ids)
     current_shortcuts = shortcuts.get_shortcuts(user)
     unmanaged_shortcuts = self.unmanaged_shortcuts(previous_managed_ids, current_shortcuts, configuration)
-    self.logger.debug("Unmanaged shortcuts: %s" % unmanaged_shortcuts)
+    logger.debug("Unmanaged shortcuts: %s" % unmanaged_shortcuts)
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, current_shortcuts)
-    self.logger.debug("Current Ice shortcuts: %s" % current_ice_shortcuts)
+    logger.debug("Current Ice shortcuts: %s" % current_ice_shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
     rom_shortcuts = map(roms.rom_to_shortcut, users_roms)
     # Calculate which ROMs were added and which were removed so we can inform
     # the user
     removed = self.removed_shortcuts(current_ice_shortcuts, rom_shortcuts)
-    map(lambda shortcut: self.logger.info("Removing ROM: `%s`" % shortcut.name), removed)
+    map(lambda shortcut: logger.info("Removing ROM: `%s`" % shortcut.name), removed)
     added = self.added_shortcuts(current_ice_shortcuts, rom_shortcuts)
-    map(lambda shortcut: self.logger.info("Adding ROM: `%s`" % shortcut.name), added)
+    map(lambda shortcut: logger.info("Adding ROM: `%s`" % shortcut.name), added)
 
     # Set the updated shortcuts
     updated_shortcuts = unmanaged_shortcuts + rom_shortcuts
-    self.logger.debug("Sync Result: %s" % updated_shortcuts)
+    logger.debug("Sync Result: %s" % updated_shortcuts)
 
     if dry_run:
-      self.logger.debug("Not saving or updating history due to dry run")
+      logger.debug("Not saving or updating history due to dry run")
       return
 
-    self.logger.debug("Saving shortcuts")
+    logger.debug("Saving shortcuts")
     shortcuts.set_shortcuts(user, updated_shortcuts)
 
     # Update the archive
     new_managed_ids = map(shortcuts.shortcut_app_id, rom_shortcuts)
-    self.logger.debug("Updating archive to ids: %s" % new_managed_ids)
+    logger.debug("Updating archive to ids: %s" % new_managed_ids)
     self.managed_rom_archive.set_managed_ids(user, new_managed_ids)

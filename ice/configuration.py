@@ -30,13 +30,13 @@ class Configuration(object):
   USERDATA_IDENT = "Steam"
   USERDATA_KEY = "Userdata Directory"
 
-  def __init__(self, config_store, consoles_store, emulators_store, logger, filesystem):
+  def __init__(self, config_store, consoles_store, emulators_store, filesystem):
     self.config_backing_store = config_store
     self.consoles_backing_store = consoles_store
     self.emulators_backing_store = emulators_store
     self.emulator_manager = BackedObjectManager(
       emulators_store,
-      EmulatorBackedObjectAdapter(logger, filesystem)
+      EmulatorBackedObjectAdapter(filesystem)
     )
     self.console_manager = BackedObjectManager(
       consoles_store,

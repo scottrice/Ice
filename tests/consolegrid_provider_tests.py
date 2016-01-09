@@ -20,8 +20,7 @@ from ice.gridproviders import consolegrid_provider
 class ConsoleGridProviderTests(unittest.TestCase):
 
   def setUp(self):
-    self.mock_logger = mock()
-    self.provider = consolegrid_provider.ConsoleGridProvider(self.mock_logger)
+    self.provider = consolegrid_provider.ConsoleGridProvider()
 
   def tearDown(self):
     pass

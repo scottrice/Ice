@@ -18,8 +18,7 @@ from ice.gridproviders.local_provider import LocalProvider
 class LocalProviderTests(unittest.TestCase):
 
   def setUp(self):
-    self.mock_logger = mock()
-    self.provider = LocalProvider(self.mock_logger)
+    self.provider = LocalProvider()
     self.temp_directory = tempfile.mkdtemp()
 
   def tearDown(self):

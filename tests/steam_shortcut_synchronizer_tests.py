@@ -19,8 +19,10 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     self.user_fixture = fixtures.UserFixture(self.steam_fixture)
 
     self.mock_archive = mock()
+    self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_archive)
+
     self.mock_logger = mock()
-    self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_archive, self.mock_logger)
+    steam_shortcut_synchronizer.logger = self.mock_logger
 
   def tearDown(self):
     self.user_fixture.tearDown()

@@ -9,8 +9,7 @@ from ice.parsing.rom_parser import ROMParser
 
 class ROMFinderTests(unittest.TestCase):
   def setUp(self):
-    self.mock_logger = mock()
-    self.parser = ROMParser(self.mock_logger)
+    self.parser = ROMParser()
 
   @parameterized.expand([
     ("The Legend of Zelda", "The Legend of Zelda"),

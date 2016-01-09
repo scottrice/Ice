@@ -1,12 +1,12 @@
 
 import os
 
+from ice.logs import logger
 from ice.model import Emulator
 
 class EmulatorBackedObjectAdapter(object):
 
-  def __init__(self, logger, filesystem):
-    self.logger = logger
+  def __init__(self, filesystem):
     self.filesystem = filesystem
 
   def new(self, backing_store, identifier):
@@ -17,11 +17,11 @@ class EmulatorBackedObjectAdapter(object):
     location = os.path.expanduser(location)
 
     if location is None:
-      self.logger.error("Missing location for Emulator: `%s`" % name)
+      logger.error("Missing location for Emulator: `%s`" % name)
 
     if not self.filesystem.path_exists(location):
-      self.logger.error("Could not find a file at `%s`, which is set as the location for `%s`." % (location, name))
-      self.logger.error("Launching your game in Steam might not work.")
+      logger.error("Could not find a file at `%s`, which is set as the location for `%s`." % (location, name))
+      logger.error("Launching your game in Steam might not work.")
 
     return Emulator(
       name,
