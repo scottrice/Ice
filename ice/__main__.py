@@ -11,7 +11,7 @@ try:
     runner.run(sys.argv)
 except Exception as e:
   stderr = sys.stderr
-  with open('error.log', 'w') as f:
+  with open('~/ice-error.log', 'w') as f:
     sys.stderr = f
     traceback.print_exc()
     sys.stderr = stderr
