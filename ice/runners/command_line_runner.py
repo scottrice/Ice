@@ -25,7 +25,6 @@ class CommandLineRunner(object):
     parser.add_argument('-C', '--consoles', type=str, default=None)
     parser.add_argument('-e', '--emulators', type=str, default=None)
     # Debugging options
-    parser.add_argument('-v', '--verbose', action='store_true')
     parser.add_argument('-d', '--dry-run', action='store_true')
     return parser.parse_args(argv)
 

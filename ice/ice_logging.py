@@ -28,10 +28,10 @@ class IceLogger():
 
   ''' initialize our loggers '''
 
-  def __init__(self, verbose=False):
+  def __init__(self):
     # steam handler (only print info messages to terminal)
     ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO if not verbose else logging.DEBUG)
+    ch.setLevel(logging.INFO)
     ch.addFilter(IceLevelTagFilter())
     ch.setFormatter(logging.Formatter('%(leveltag)s%(message)s'))
 

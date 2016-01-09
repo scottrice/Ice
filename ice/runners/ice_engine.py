@@ -44,12 +44,11 @@ class IceEngine(object):
                   paths for 'consoles.txt' if none is provided
     * emulators - The path to the emulators file to use. Searches the default
                   paths for 'emulators.txt' if none is provided
-    * verbose   - Turn on debug logging.
     """
     self.validated_base_environment = False
     self.validated_configuration = False
     self.filesystem = filesystem
-    self.logger = IceLogger(verbose=options.verbose)
+    self.logger = IceLogger()
     self.logger.debug("Initializing Ice")
     config_data_path = _path_with_override(filesystem, options.config, "config.txt")
     consoles_data_path = _path_with_override(filesystem, options.consoles, "consoles.txt")
