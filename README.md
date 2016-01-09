@@ -16,13 +16,13 @@ Ice's official documentation is available at [Getting Started.](http://scottrice
 
 ###Running the Source
 
-You will need Python 2.7 to run Ice. Python 3.0 and up will not work.
+Run:
 
-You will also need pip installed. The easiest way to get that is to run `easy_install pip`.
+```
+./clean-and-build.sh
+```
 
-Next, you will need to download all of Ice's dependencies. To do so, run `python setup.py install`
-
-Once all of that is finished, simply run `python -m ice` from the repository's root directory.
+Once all of that is finished, simply run `python -m ice` from the repository's root directory. A Debian package is being worked on.
 
 ###Ice GUI
 
