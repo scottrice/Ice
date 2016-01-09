@@ -8,7 +8,6 @@ from nose_parameterized import parameterized
 
 from ice import emulators
 from ice import model
-from ice import rom
 
 class EmulatorsTests(unittest.TestCase):
 
@@ -45,5 +44,9 @@ class EmulatorsTests(unittest.TestCase):
   ])
   def test_emulator_rom_launch_command(self, fmt, location, rompath, expected):
     emu = model.Emulator("Mednafen", location, fmt)
-    r = rom.ROM(rompath, mock(), "ROM")
+    r = model.ROM(
+      name = "ROM",
+      path = rompath,
+      console = mock(),
+    )
     self.assertEqual(emulators.emulator_rom_launch_command(emu, r), expected)

@@ -2,6 +2,8 @@
 from pysteam import grid
 from pysteam import shortcuts
 
+from ice import roms
+
 class SteamGridUpdater(object):
 
   def __init__(self, provider, logger):
@@ -9,7 +11,7 @@ class SteamGridUpdater(object):
     self.logger = logger
 
   def update_rom_artwork(self, user, rom, dry_run=False):
-    shortcut = rom.to_shortcut()
+    shortcut = roms.rom_to_shortcut(rom)
     self.logger.debug("Updating image for %s (%s)" % (rom, shortcut))
     app_id = shortcuts.shortcut_app_id(shortcut)
 

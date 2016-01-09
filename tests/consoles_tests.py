@@ -6,7 +6,6 @@ from nose_parameterized import parameterized
 
 from ice import consoles
 from ice import model
-from ice import rom
 
 class ConsolesTests(unittest.TestCase):
 

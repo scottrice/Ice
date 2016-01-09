@@ -18,3 +18,9 @@ Emulator = collections.namedtuple('Emulator', [
   'location',
   'format',
 ])
+
+ROM = collections.namedtuple('ROM', [
+  'name',
+  'path',
+  'console',
+])

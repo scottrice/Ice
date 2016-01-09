@@ -2,8 +2,7 @@
 from functools import partial
 
 import consoles
-
-from rom import ROM
+import model
 
 class ROMFinder(object):
 
@@ -14,8 +13,11 @@ class ROMFinder(object):
     self.parser     = parser
 
   def rom_for_path(self, console, path):
-    name = self.parser.parse(path)
-    return ROM(path, console, name)
+    return model.ROM(
+      name    = self.parser.parse(path),
+      path    = path,
+      console = console
+    )
 
   def roms_for_console(self, console):
     """

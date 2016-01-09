@@ -1,7 +1,7 @@
 
 from pysteam import shortcuts
 
-from rom import ICE_FLAG_TAG
+import roms
 
 class SteamShortcutSynchronizer(object):
 
@@ -27,7 +27,7 @@ class SteamShortcutSynchronizer(object):
     # LEGACY: At one point I added ICE_FLAG_TAG to every shortcut Ice made.
     # That was a terrible idea, the managed_ids is a much better system. I
     # keep this check around for legacy reasons though.
-    if ICE_FLAG_TAG in shortcut.tags:
+    if roms.ICE_FLAG_TAG in shortcut.tags:
       return True
     # LEGACY: For most of Ice's life it guessed whether it managed a shortcut
     # or not. This was REALLY bad, as it was very dependent on configuration
@@ -63,7 +63,7 @@ class SteamShortcutSynchronizer(object):
     # and filter out any that existed in the current shortcuts
     return filter(lambda shortcut: shortcut not in current_shortcuts, new_shortcuts)
 
-  def sync_roms_for_user(self, user, roms, configuration, dry_run=False):
+  def sync_roms_for_user(self, user, users_roms, configuration, dry_run=False):
     """
     This function takes care of syncing ROMs. After this function exits,
     Steam will contain only non-Ice shortcuts and the ROMs represented
@@ -80,7 +80,7 @@ class SteamShortcutSynchronizer(object):
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, current_shortcuts)
     self.logger.debug("Current Ice shortcuts: %s" % current_ice_shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
-    rom_shortcuts = map(lambda rom: rom.to_shortcut(), roms)
+    rom_shortcuts = map(roms.rom_to_shortcut, users_roms)
     # Calculate which ROMs were added and which were removed so we can inform
     # the user
     removed = self.removed_shortcuts(current_ice_shortcuts, rom_shortcuts)

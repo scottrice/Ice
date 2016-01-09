@@ -6,9 +6,10 @@ import unittest
 from mockito import *
 
 from pysteam import grid
-from pysteam import model
 from pysteam import shortcuts
 
+from ice import model
+from ice import roms
 from ice import steam_grid_updater
 
 from testinfra import fixtures
@@ -31,10 +32,8 @@ class SteamGridUpdaterTests(unittest.TestCase):
     self.steam_fixture.tearDown()
 
   def test_updater_sets_image_if_provider_has_one(self):
-    shortcut = model.Shortcut("Plex", "Plex.exe", "/Path/to/", "", [])
-
-    rom = mock()
-    when(rom).to_shortcut().thenReturn(shortcut)
+    rom = model.ROM(name = 'Game1', path = '/Path/to/game1', console = fixtures.consoles.flagged)
+    shortcut = roms.rom_to_shortcut(rom)
 
     (handle, path) = tempfile.mkstemp('.png')
     when(self.mock_provider).image_for_rom(rom).thenReturn(path)
@@ -46,10 +45,8 @@ class SteamGridUpdaterTests(unittest.TestCase):
     os.remove(path)
 
   def test_updater_does_nothing_if_provider_has_no_image(self):
-    shortcut = model.Shortcut("Plex", "Plex.exe", "/Path/to/", "", [])
-
-    rom = mock()
-    when(rom).to_shortcut().thenReturn(shortcut)
+    rom = model.ROM(name = 'Game1', path = '/Path/to/game1', console = fixtures.consoles.flagged)
+    shortcut = roms.rom_to_shortcut(rom)
 
     when(self.mock_provider).image_for_rom(rom).thenReturn(None)
 
@@ -59,10 +56,8 @@ class SteamGridUpdaterTests(unittest.TestCase):
     self.assertFalse(grid.has_custom_image(self.user_fixture.get_context(), shortcuts.shortcut_app_id(shortcut)))
 
   def test_updater_keeps_image_if_already_exists(self):
-    shortcut = model.Shortcut("Plex", "Plex.exe", "/Path/to/", "", [])
-
-    rom = mock()
-    when(rom).to_shortcut().thenReturn(shortcut)
+    rom = model.ROM(name = 'Game1', path = '/Path/to/game1', console = fixtures.consoles.flagged)
+    shortcut = roms.rom_to_shortcut(rom)
 
     # Start with a custom image, say a .png
     (handle, path) = tempfile.mkstemp('.png')
