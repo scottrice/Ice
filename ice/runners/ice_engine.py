@@ -7,12 +7,13 @@ By that I mean the high level goal of `Adding ROMs to Steam`.
 
 import os
 
-from pysteam import paths
+from pysteam import paths as steam_paths
 from pysteam import shortcuts
 from pysteam import steam
 
 from ice import consoles
 from ice import emulators
+from ice import paths
 from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
@@ -87,7 +88,7 @@ class IceEngine(object):
       # assume that it does everywhere and better safe than sorry
       env_checker.require_directory_exists(self.steam.userdata_directory)
       # This is used to store history information and such
-      env_checker.require_directory_exists(Configuration.data_directory())
+      env_checker.require_directory_exists(paths.application_data_directory())
     self.validated_base_environment = True
 
   def validate_configuration(self, configuration):
@@ -108,9 +109,9 @@ class IceEngine(object):
     with EnvironmentChecker(self.filesystem) as env_checker:
       # If the user hasn't added any grid images on their own then this
       # directory wont exist, so we require it explicitly here
-      env_checker.require_directory_exists(paths.custom_images_directory(user))
+      env_checker.require_directory_exists(steam_paths.custom_images_directory(user))
       # And it needs to be writable if we are going to save images there
-      env_checker.require_writable_path(paths.custom_images_directory(user))
+      env_checker.require_writable_path(steam_paths.custom_images_directory(user))
 
   def main(self, dry_run=False):
     if self.steam is None:

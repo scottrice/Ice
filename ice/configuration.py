@@ -12,6 +12,8 @@ import appdirs
 import datetime
 import os
 
+import paths
+
 from persistence.backed_object_manager import BackedObjectManager
 from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
 from persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
@@ -29,12 +31,6 @@ class Configuration(object):
   USERDATA_KEY = "Userdata Directory"
 
   @staticmethod
-  def data_directory():
-    # Parameters are 'App Name' and 'App Author'
-    # TODO: Get these values from the same place as setup.py
-    return appdirs.user_data_dir("Ice", "Scott Rice")
-
-  @staticmethod
   def path_for_data_file(filename):
     """
     Returns the path to a data file named `filename`.
@@ -46,7 +42,7 @@ class Configuration(object):
     path to a new file in the data directory.
     """
     local_path = os.path.abspath(filename)
-    data_path = os.path.join(Configuration.data_directory(), filename)
+    data_path = os.path.join(paths.application_data_directory(), filename)
     if os.path.isfile(data_path):
       return data_path
     elif os.path.isfile(local_path):
@@ -118,7 +114,7 @@ class Configuration(object):
     return self._get_directory_from_store(
         self.BACKUP_IDENT,
         self.BACKUP_KEY,
-        os.path.join(Configuration.data_directory(), 'Backups')
+        os.path.join(paths.application_data_directory(), 'Backups')
     )
 
   def set_backup_directory(self, dir):
@@ -133,7 +129,7 @@ class Configuration(object):
     return self._get_directory_from_store(
         self.USERDATA_IDENT,
         self.USERDATA_KEY,
-        os.path.join(Configuration.data_directory(), 'Userdata')
+        os.path.join(paths.application_data_directory(), 'Userdata')
     )
 
   def set_userdata_directory(self, dir):
