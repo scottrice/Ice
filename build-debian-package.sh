@@ -3,7 +3,7 @@
 # Author:	Michael DeGuzis
 # Git:		https://github.com/ProfessorKaos64/SteamOS-Tools
 # Scipt Name:	build-debian-package.sh
-# Script Ver:	1.0.0
+# Script Ver:	1.0.1
 # Description:	Builds simple pacakge for using ice
 #
 # See:		http://github.com/ProfessorKaos64/Ice
@@ -41,9 +41,13 @@ install_prereqs()
 	clear
 	echo -e "==> Installing prerequisites for building...\n"
 	sleep 2s
+	
+	# Avoid libattr garbage for 32 bit package installed by emulators
+	sudo mv "/usr/share/doc/libattr1/changelog.Debian.gz" "/usr/share/doc/libattr1/changelog.Debian.gz.old"
+	
 	# install basic build packages
-	sudo apt-get install -y --force-yes build-essential bc debhelper \
-	libxrandr2:i386 python-pip python-psutil 
+	sudo apt-get install -y --force-yes build-essential bc debhelper libxrandr2:i386 \
+	python-pip python-psutil groff
 
 	# Install emulators
 	sudo apt-get install -y --force-yes zsnes mupen64plus
