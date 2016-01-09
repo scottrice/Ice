@@ -34,4 +34,4 @@ Backup Directory=
 # It is located in Steam's installation directory on Windows (ex. C:\Program Files\Steam\userdata).
 # It is generally located at ~/Library/Application Support/Steam/userdata/ on OSX and
 # ~/.local/share/Steam/userdata/ on Linux.
-Userdata Directory=/home/steam/.local/share/Steam/userdata
+Userdata Directory=
