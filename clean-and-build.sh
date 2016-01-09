@@ -12,7 +12,7 @@ sudo rm -rf Ice.egg-info
 sudo rm -rf dist
 
 # Attemp new project build
-sudo pip install --upgrade pysteam appdirs
+sudo pip install -r requirements.txt
 sudo python setup.py install
 
 # Run info
