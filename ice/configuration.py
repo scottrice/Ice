@@ -30,26 +30,6 @@ class Configuration(object):
   USERDATA_IDENT = "Steam"
   USERDATA_KEY = "Userdata Directory"
 
-  @staticmethod
-  def path_for_data_file(filename):
-    """
-    Returns the path to a data file named `filename`.
-    This function first checks to see if the data file exists in the data
-    directory. If so, it returns that.
-    Then, this function checks to see if the data file exists in the local
-    directory. If so, it returns that.
-    If neither of those things are true then this function will return the
-    path to a new file in the data directory.
-    """
-    local_path = os.path.abspath(filename)
-    data_path = os.path.join(paths.application_data_directory(), filename)
-    if os.path.isfile(data_path):
-      return data_path
-    elif os.path.isfile(local_path):
-      return local_path
-    else:
-      return data_path
-
   def __init__(self, config_store, consoles_store, emulators_store, logger, filesystem):
     self.config_backing_store = config_store
     self.consoles_backing_store = consoles_store

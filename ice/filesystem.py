@@ -14,6 +14,9 @@ class RealFilesystem(object):
   def is_directory(self, path):
     return os.path.isdir(path)
 
+  def is_file(self, path):
+    return os.path.isfile(path)
+
   def is_writable(self, path):
     return os.access(path, os.W_OK)
 
@@ -84,6 +87,9 @@ class FakeFilesystem(object):
 
   def is_directory(self, path):
     return self.fs.is_directory(self.adjusted_path(path))
+
+  def is_file(self, path):
+    return self.fs.is_file(self.adjusted_path(path))
 
   def is_writable(self, path):
     return self.fs.is_writable(self.adjusted_path(path))

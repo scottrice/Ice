@@ -28,10 +28,10 @@ from ice.rom_finder import ROMFinder
 from ice.steam_grid_updater import SteamGridUpdater
 from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 
-def _path_with_override(path_override, default_name):
+def _path_with_override(filesystem, path_override, default_name):
   if path_override is not None:
     return path_override
-  return Configuration.path_for_data_file(default_name)
+  return paths.highest_precedent_data_file(filesystem, default_name)
 
 class IceEngine(object):
 
@@ -51,9 +51,9 @@ class IceEngine(object):
     self.filesystem = filesystem
     self.logger = IceLogger(verbose=options.verbose)
     self.logger.debug("Initializing Ice")
-    config_data_path = _path_with_override(options.config, "config.txt")
-    consoles_data_path = _path_with_override(options.consoles, "consoles.txt")
-    emulators_data_path = _path_with_override(options.emulators, "emulators.txt")
+    config_data_path = _path_with_override(filesystem, options.config, "config.txt")
+    consoles_data_path = _path_with_override(filesystem, options.consoles, "consoles.txt")
+    emulators_data_path = _path_with_override(filesystem, options.emulators, "emulators.txt")
     self.config = Configuration(
         ConfigFileBackingStore(config_data_path),
         ConfigFileBackingStore(consoles_data_path),
@@ -65,7 +65,7 @@ class IceEngine(object):
 
     parser = ROMParser(self.logger)
     self.rom_finder = ROMFinder(self.logger, self.config, filesystem, parser)
-    archive_data_path = Configuration.path_for_data_file("archive.json")
+    archive_data_path = paths.highest_precedent_data_file(filesystem, "archive.json")
     managed_rom_archive = ManagedROMArchive(archive_data_path)
     self.shortcut_synchronizer = SteamShortcutSynchronizer(managed_rom_archive, self.logger)
 
