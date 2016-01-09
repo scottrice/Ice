@@ -3,8 +3,8 @@ import unittest
 
 from mockito import *
 
-from pysteam-steamos import model
-from pysteam-steamos import shortcuts
+from pysteam import model
+from pysteam import shortcuts
 
 from ice import steam_shortcut_synchronizer
 from ice.rom import ICE_FLAG_TAG

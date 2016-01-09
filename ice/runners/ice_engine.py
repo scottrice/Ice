@@ -7,9 +7,9 @@ By that I mean the high level goal of `Adding ROMs to Steam`.
 
 import os
 
-from pysteam-steamos import paths
-from pysteam-steamos import shortcuts
-from pysteam-steamos import steam
+from pysteam import paths
+from pysteam import shortcuts
+from pysteam import steam
 
 from ice import consoles
 from ice import emulators

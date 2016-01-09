@@ -5,9 +5,9 @@ import unittest
 
 from mockito import *
 
-from pysteam-steamos import grid
-from pysteam-steamos import model
-from pysteam-steamos import shortcuts
+from pysteam import grid
+from pysteam import model
+from pysteam import shortcuts
 
 from ice import steam_grid_updater
 

@@ -13,7 +13,7 @@ Functionality should be added to this class if it heavily involves the use of
 ROMs
 """
 
-from pysteam-steamos.model import Shortcut
+from pysteam.model import Shortcut
 
 import emulators
 

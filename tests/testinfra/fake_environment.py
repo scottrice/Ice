@@ -7,9 +7,9 @@ import tempfile
 import traceback
 
 from functools import partial
-from pysteam-steamos import model
-from pysteam-steamos import paths
-from pysteam-steamos import shortcuts
+from pysteam import model
+from pysteam import paths
+from pysteam import shortcuts
 
 from ice.configuration import Configuration
 from ice.filesystem import FakeFilesystem

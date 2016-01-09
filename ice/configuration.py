@@ -91,7 +91,7 @@ class Configuration(object):
     Returns the user-supplied location of Steam's `userdata` directory.
 
     The defaults for each system aren't handled here, but instead inside
-    pysteam-steamos. As such, this method will return None if the user hasn't
+    pysteam. As such, this method will return None if the user hasn't
     specified a directory.
     """
     # We want to return None even if the empty string is given
