@@ -13,7 +13,10 @@ Vcs-Browser: https://github.com/scottrice/Ice
 
 Package: ice
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ zsnes,
+ mupen64plus
 Description: ICE is a program / utility to bring emulation to Steam Big Picture Mode.
  The purpose of this project is to leverage Steam's Big Picture mode to turn it into
  an emulator frontend (similar to Hyperspin). It accomplishes this by creating folders
