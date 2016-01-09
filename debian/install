@@ -1,2 +1,5 @@
-ice /usr/local/bin/
+ice /usr/share/games
 debian/ice-launch /usr/local/bin/
+config.txt /etc/ice
+consoles.txt /etc/ice
+emulators.txt /etc/ice
