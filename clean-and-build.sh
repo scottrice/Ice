@@ -4,7 +4,7 @@
 
 # uninstall python applications
 sudo pip uninstall pysteam
-sudo pip uninstall python-steamos 
+sudo pip uninstall pysteam-steamos 
 sudo pip uninstall appdirs
 
 # Remove project files
