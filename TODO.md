@@ -12,7 +12,7 @@
   * zsnes mupen64plus python-pip(if used for installing) python-psutil(also available with pip)
 * python
   * pysteam appdirs
-* unknowno
+* unknown
   * dunno if needed: libxrandr2:i386(was in old setup script)
 
 # Man page notes
