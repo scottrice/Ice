@@ -108,7 +108,6 @@ main()
 
 	  * Packaged deb for SteamOS-Tools
 	  * See: packages.libregeek.org
-	  * Simple package for ice curl tool
 	  * Upstream authors and source: $git_url
 
 	 -- $uploader  $date_long
