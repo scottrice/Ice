@@ -2,4 +2,5 @@ ice (0.1.0-1+git+bsos1) brewmaster; urgency=low
 
   * Initial upload dummy changelog
 
- -- SteamOS-Tools Signing Key <mdeguzis@gmail.com>  Sat, 09 Jan 2016 19:14:39 -050
+ -- SteamOS-Tools Signing Key <mdeguzis@gmail.com>  Sat, 09 Jan 2016 19:14:39 -0500
+ 
