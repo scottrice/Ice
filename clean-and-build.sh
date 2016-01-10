@@ -16,6 +16,7 @@ sudo rm -rf build
 sudo rm -rf Ice.egg-info
 sudo rm -rf dist
 sudo rm -rf /etc/ice/
+sudo rm -rf /usr/share/games.ice
 
 # create configuration directories
 sudo mkdir -p /etc/ice/
@@ -23,6 +24,10 @@ sudo mkdir -p /etc/ice/
 # Attemp new project build
 sudo pip install -r requirements.txt
 sudo python setup.py install
+
+# Add main files
+sudo cp -r ice /usr/share/games
+sudo cp ice-launcher /usr/bin/
 
 # copy configuration files
 sudo cp config.txt /etc/ice/
