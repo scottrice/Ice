@@ -3,7 +3,8 @@
 # Cleans project files for manual build attempts and builds
 
 # Debian packages required
-sudo apt-get install -y --force-yes libxrandr2:i386 python-pip python-psutil
+# pysteam is now in the libregeek repos
+sudo apt-get install -y --force-yes libxrandr2:i386 python-pip python-psutil pysteam
 
 # uninstall python applications
 sudo pip uninstall pysteam
