@@ -1,4 +1,4 @@
 psutil==2.1.1
 appdirs==1.2.0
-pysteam==1.0.0-b2
+#pysteam==1.0.0-b2
 #pysteam-steamos==1.0.3
