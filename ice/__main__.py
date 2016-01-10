@@ -2,6 +2,7 @@
 
 import sys
 import traceback
+import os
 
 try:
   from runners import command_line_runner
@@ -11,7 +12,7 @@ try:
     runner.run(sys.argv)
 except Exception as e:
   stderr = sys.stderr
-  with open('~/ice-error.log', 'w') as f:
+  with open(os.path.join(os.environ['HOME'],"ice-error.log"),'w') as f:
     sys.stderr = f
     traceback.print_exc()
     sys.stderr = stderr
