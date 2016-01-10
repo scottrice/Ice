@@ -15,6 +15,9 @@
 * unknown
   * dunno if needed: libxrandr2:i386(was in old setup script)
 
+# Using PyPi
+* [Submitting to PyPi (Peter Downs)](http://peterdowns.com/posts/first-time-with-pypi.html)
+
 # Man page notes
 
 ## Creating / maintaining
