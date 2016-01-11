@@ -187,6 +187,50 @@ configurations:
           have problems running ROMs if there are spaces in any of your folder
           names.
   # --------------------------------
+  # RetroArch
+  # --------------------------------
+  - name: RetroArch
+    url: "http://www.libretro.com"
+    supports: "http://wiki.libretro.com/index.php?title=Main_Page#Core_Software_Library"
+    platforms:
+      - name: "windows"
+        config:
+      - name: "mac"
+        config:
+      - name: "linux"
+        config: |
+          [RetroArch Super Nintendo]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/snes9x_next_libretro.so" %r
+
+          [RetroArch Nintendo DS]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/desmume_libretro.so" %r
+
+          [RetroArch Nintendo]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/fceumm_libretro.so" %r
+
+          [RetroArch Gameboy Advance]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/vba_next_libretro.so" %r
+
+          [RetroArch Sega Genesis]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/genesis_plus_gx_libretro.so" %r
+
+          [RetroArch Nintendo 64]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/mupen64plus_libretro.so" %r
+
+          [RetroArch Sony Playstation]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/pcsx1_libretro.so" %r
+
+          [RetroArch Sony Playstation Portable]
+          location=/usr/bin/retroarch
+          command=%l -f -L "/usr/lib/libretro/ppsspp_libretro.so" %r
+  # --------------------------------
   # Snes9x
   # --------------------------------
   - name: Snes9x
