@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	# clean dirs
+	sudo rm -rf "/tmp/pip_build_root"
+	sudo rm -rf "build"
+	sudo rm -rf "Ice.egg-info"
+	sudo rm -rf "dist"
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	sudo pip install -r requirements.txt
+	sudo python setup.py install
+
+override_dh_installdirs:
+	dh_installdirs /etc/ice
+	dh_installdirs /usr/share/games
+	dh_installdirs $HOME/.config/ice
+	
+override_dh_auto_install:
+
+override_dh_usrlocal:
