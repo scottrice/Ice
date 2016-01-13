@@ -120,7 +120,7 @@ class Configuration(object):
     )
     self.config_backing_store.save()
 
-  def shortcuts_backup_path(self, user, timestamp_format="%Y%m%d%H%M%S"):
+  def shortcuts_backup_path(self, user, filesystem, timestamp_format="%Y%m%d%H%M%S"):
     """
     Returns the path for a shortcuts.vdf backup file.
 
@@ -133,9 +133,14 @@ class Configuration(object):
 
     timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     filename = "shortcuts." + timestamp + ".vdf"
-    return os.path.join(
+    dirname = (
         backup_dir,
         str(user.user_id),
-        'config',
+        'config'
+    )
+    if filesystem.path_exists(dirname) == False:
+        filesystem.create_directories(dirname)
+    return os.path.join(
+        dirname,
         filename
     )

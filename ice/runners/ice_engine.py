@@ -157,7 +157,7 @@ class IceEngine(object):
       logger.debug("Not creating backup because its a dry run")
       return
 
-    backup_path = self.config.shortcuts_backup_path(user)
+    backup_path = self.config.shortcuts_backup_path(user, self.filesystem)
     if backup_path is None:
       logger.info("No backups directory specified, so not backing up shortcuts.vdf before overwriting. See config.txt for more info")
       return
