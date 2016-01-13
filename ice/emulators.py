@@ -25,18 +25,19 @@ def emulator_rom_launch_command(emulator, rom):
   # have some code to add quotes to a string, might as well use it.
   quoted_location = add_quotes(normalize(emulator.location))
   quoted_rom      = add_quotes(normalize(rom.path))
+
   # The format string contains a bunch of specifies that users can use to
   # substitute values in at runtime. Right now the only supported values are:
   # %l - The location of the emulator (to avoid sync bugs)
   # %r - The location of the ROM (so the emulator knows what to launch)
-  # %n - The ROM filename without its extension (for emulators that utilize separete configuration files)
+  # %fn - The ROM filename without its extension (for emulators that utilize separete configuration files)
   #
   # More may be added in the future, but for now this is what we support
   return (
     emulator.format
       .replace("%l", quoted_location)
       .replace("%r", quoted_rom)
-      .replace("%n", os.path.splitext(os.path.basename(rom.path))[0])
+      .replace("%fn", os.path.splitext(os.path.basename(rom.path))[0])
   )
 
 def emulator_startdir(emulator):
