@@ -11,6 +11,7 @@ from pysteam import paths as steam_paths
 from pysteam import shortcuts
 from pysteam import steam
 
+from ice import backups
 from ice import consoles
 from ice import emulators
 from ice import paths
@@ -140,7 +141,10 @@ class IceEngine(object):
       logger.info("\t%s\n" % e.message)
       logger.info("Please resolve these issues and try running Ice again")
       return
-    self._create_backup(user, dry_run=dry_run)
+    if dry_run:
+      logger.debug("Not creating backup because its a dry run")
+    else:
+      backups.create_backup_of_shortcuts(self.config, user)
     # Find all of the ROMs that are currently in the designated folders
     roms = self.rom_finder.roms_for_consoles(self.config.console_manager)
     self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.config, dry_run=dry_run)
@@ -151,18 +155,6 @@ class IceEngine(object):
       self.main(dry_run=dry_run)
     except Exception as error:
       logger.exception("An exception occurred while running Ice")
-
-  def _create_backup(self, user, dry_run=False):
-    if dry_run:
-      logger.debug("Not creating backup because its a dry run")
-      return
-
-    backup_path = self.config.shortcuts_backup_path(user)
-    if backup_path is None:
-      logger.info("No backups directory specified, so not backing up shortcuts.vdf before overwriting. See config.txt for more info")
-      return
-
-    shortcuts.write_shortcuts(backup_path, shortcuts.get_shortcuts(user))
 
 # Logging methods. The purpose of these methods isn't so much to log things as
 # they are to inform the user of the state of their setup (as Ice sees it).
