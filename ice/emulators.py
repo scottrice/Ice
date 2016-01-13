@@ -18,6 +18,7 @@ def emulator_rom_launch_command(emulator, rom):
   # so normalizing it then adding quotes should do what I want 100% of the time
   normalize = lambda s: s.strip("\"")
   add_quotes = lambda s: "\"%s\"" % s
+
   # We don't know if the user put quotes around the emulator location. If
   # so, we dont want to add another pair and screw things up.
   #
@@ -25,7 +26,6 @@ def emulator_rom_launch_command(emulator, rom):
   # have some code to add quotes to a string, might as well use it.
   quoted_location = add_quotes(normalize(emulator.location))
   quoted_rom      = add_quotes(normalize(rom.path))
-
   # The format string contains a bunch of specifies that users can use to
   # substitute values in at runtime. Right now the only supported values are:
   # %l - The location of the emulator (to avoid sync bugs)
