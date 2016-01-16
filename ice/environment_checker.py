@@ -56,7 +56,7 @@ class EnvironmentChecker(object):
         p = psutil.Process(pid)
         if p.name().lower().startswith(program_name.lower()):
           return self.requirement_errors.append(
-              ProcessRunningError(program_name))
+              ProcessRunningError(p.name()))
       except Exception:
         continue
 
