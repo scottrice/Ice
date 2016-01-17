@@ -30,12 +30,14 @@ def emulator_rom_launch_command(emulator, rom):
   # substitute values in at runtime. Right now the only supported values are:
   # %l - The location of the emulator (to avoid sync bugs)
   # %r - The location of the ROM (so the emulator knows what to launch)
+  # %fn - The ROM filename without its extension (for emulators that utilize separete configuration files)
   #
   # More may be added in the future, but for now this is what we support
   return (
     emulator.format
       .replace("%l", quoted_location)
       .replace("%r", quoted_rom)
+      .replace("%fn", os.path.splitext(os.path.basename(rom.path))[0])
   )
 
 def emulator_startdir(emulator):
