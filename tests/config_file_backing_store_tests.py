@@ -128,12 +128,12 @@ class ConfigFileBackingStoreTests(unittest.TestCase):
     cfbs = ConfigFileBackingStore(self.tempfile)
     self.assertEqual(cfbs.get("Superman", "identity", "Unknown"), "Unknown")
 
-  def test_get_returns_default_when_value_is_emptry_string(self):
+  def test_get_returns_empty_string_when_value_is_emptry_string(self):
     self.create_config_file(self.tempfile, {"Iron Man": {
         "identity": ""
     }})
     cfbs = ConfigFileBackingStore(self.tempfile)
-    self.assertEqual(cfbs.get("Iron Man", "identity", "Unknown"), "Unknown")
+    self.assertEqual(cfbs.get("Iron Man", "identity", "Unknown"), "")
 
   def test_get_keys_are_case_insensitive(self):
     self.create_config_file(self.tempfile, {"Iron Man": {

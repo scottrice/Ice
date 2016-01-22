@@ -2,6 +2,8 @@
 
 import os
 
+import roms
+
 def console_is_enabled(console):
   """Determines whether a console should have it's ROMs added to Steam."""
   return console.emulator is not None
@@ -16,7 +18,7 @@ def console_roms_directory(configuration, console):
   """
   if console.custom_roms_directory:
     return console.custom_roms_directory
-  return os.path.join(configuration.roms_directory(), console.shortname)
+  return os.path.join(roms.roms_directory(configuration), console.shortname)
 
 def path_is_rom(console, path):
   """

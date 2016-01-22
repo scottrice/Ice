@@ -68,7 +68,7 @@ class Configuration(object):
     return self._get_directory_from_store(
         self.ROM_IDENT,
         self.ROM_KEY,
-        os.path.join('~', 'ROMs')
+        None
     )
 
   def set_roms_directory(self, dir):

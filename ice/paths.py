@@ -8,6 +8,9 @@ def application_data_directory():
   # TODO: Get these values from the same place as setup.py
   return appdirs.user_data_dir("Ice", "Scott Rice")
 
+def default_roms_directory():
+  return os.path.join(os.path.expanduser('~'), 'ROMs')
+
 def highest_precedent_data_file(filesystem, filename):
   """
   Returns the path to a data file named `filename`.

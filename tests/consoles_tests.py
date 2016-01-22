@@ -21,9 +21,9 @@ class ConsolesTests(unittest.TestCase):
 
   @parameterized.expand([
     # NES has no custom image directory set, so it should use the default
-    (fixtures.consoles.nes, '/grid/', '/grid/NES'),
+    (fixtures.consoles.nes, '/roms/', '/roms/NES'),
     # SNES, on the other hand, does, so we should use the provided one
-    (fixtures.consoles.snes, '/grid/', '/external/consoles/roms/snes'),
+    (fixtures.consoles.snes, '/roms/', '/external/consoles/roms/snes'),
   ])
   def test_console_roms_directory(self, console, config_path, expected):
     config = mock()

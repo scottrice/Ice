@@ -39,7 +39,7 @@ class ConfigFileBackingStore(backing_store.BackingStore):
   def get(self, ident, key, default=None):
     try:
       val = self.configParser.get(ident, key.lower())
-      return val if val != "" else default
+      return val
     except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
       return default
 

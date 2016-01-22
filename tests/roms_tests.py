@@ -4,11 +4,14 @@ import shutil
 import tempfile
 import unittest
 
+from mockito import *
+
 from nose_parameterized import parameterized
 
 from pysteam import model as steam_model
 
 from ice import model
+from ice import paths
 from ice import roms
 
 from testinfra import fixtures
@@ -17,6 +20,15 @@ class ROMsTests(unittest.TestCase):
 
   def setUp(self):
     pass
+
+  @parameterized.expand([
+    (None, paths.default_roms_directory()),
+    ('/roms/', '/roms/'),
+  ])
+  def test_roms_directory(self, config_directory, expected):
+    config = mock()
+    when(config).roms_directory().thenReturn(config_directory)
+    self.assertEqual(roms.roms_directory(config), expected)
 
   @parameterized.expand([
     ('Banjo Kazoomie', None, 'Banjo Kazoomie'),
