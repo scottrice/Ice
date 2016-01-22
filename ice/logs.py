@@ -14,6 +14,8 @@ import traceback
 import logging
 import logging.handlers
 
+import paths
+
 class IceLevelTagFilter(logging.Formatter):
 
   def _tag_for_level(self, levelno):
@@ -33,9 +35,9 @@ def create_logger():
 
     # logfile handler (print all messages to logfile)
     # - max file size of 1mb
-    # - log file is stored in root ice folder and is named 'ice.log'
+    # - log file is stored in `log_file_location` (which is inside application_data_dir)
     fh = logging.handlers.RotatingFileHandler(
-        filename='ice.log',
+        filename=paths.log_file_location(),
         maxBytes=1048576,
         backupCount=5)
     fh.setLevel(logging.DEBUG)

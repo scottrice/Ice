@@ -8,6 +8,9 @@ def application_data_directory():
   # TODO: Get these values from the same place as setup.py
   return appdirs.user_data_dir("Ice", "Scott Rice")
 
+def log_file_location():
+  return os.path.join(application_data_directory(), 'ice.log')
+
 def default_roms_directory():
   return os.path.join(os.path.expanduser('~'), 'ROMs')
 
