@@ -123,6 +123,11 @@ class ConfigFileBackingStoreTests(unittest.TestCase):
     cfbs = ConfigFileBackingStore(self.tempfile)
     self.assertEqual(cfbs.get("Iron Man", "identity", ""), "")
 
+  def test_get_returns_default_when_section_dne(self):
+    self.create_config_file(self.tempfile, {"Iron Man": {}})
+    cfbs = ConfigFileBackingStore(self.tempfile)
+    self.assertEqual(cfbs.get("Superman", "identity", "Unknown"), "Unknown")
+
   def test_get_returns_default_when_value_is_emptry_string(self):
     self.create_config_file(self.tempfile, {"Iron Man": {
         "identity": ""
