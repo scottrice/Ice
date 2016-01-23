@@ -11,22 +11,6 @@ from ice import model
 
 class EmulatorsTests(unittest.TestCase):
 
-  def test_emulator_is_enabled_returns_false_when_location_doesnt_exist(self):
-    emu = model.Emulator("Mednafen", "", "%l %r")
-    self.assertFalse(emulators.emulator_is_enabled(emu))
-
-  def test_emulator_is_enabled_returns_false_when_location_is_directory(self):
-    d = tempfile.mkdtemp()
-    emu = model.Emulator("Mednafen", d, "%l %r")
-    self.assertFalse(emulators.emulator_is_enabled(emu))
-    os.rmdir(d)
-
-  def test_emulator_is_enabled_returns_true_when_location_is_file(self):
-    (f, path) = tempfile.mkstemp()
-    emu = model.Emulator("Mednafen", path, "%l %r")
-    self.assertTrue(emulators.emulator_is_enabled(emu))
-    os.remove(path)
-
   @parameterized.expand([
     ("C:/emu.exe", "C:"),
     ("C:/Path/to/emulator.exe", "C:/Path/to"),

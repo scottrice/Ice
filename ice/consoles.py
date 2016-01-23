@@ -4,10 +4,6 @@ import os
 
 import roms
 
-def console_is_enabled(console):
-  """Determines whether a console should have it's ROMs added to Steam."""
-  return console.emulator is not None
-
 def console_roms_directory(configuration, console):
   """
   If the user has specified a custom ROMs directory in consoles.txt then

@@ -11,14 +11,6 @@ from testinfra import fixtures
 
 class ConsolesTests(unittest.TestCase):
 
-  def test_console_is_enabled(self):
-    emu = mock()
-    valid = model.Console("Nintendo", "NES", "", "", "", "", "", emu)
-    self.assertTrue(consoles.console_is_enabled(valid))
-
-    invalid = model.Console("Nintendo", "NES", "", "", "", "", "", None)
-    self.assertFalse(consoles.console_is_enabled(invalid))
-
   @parameterized.expand([
     # NES has no custom image directory set, so it should use the default
     (fixtures.consoles.nes, '/roms/', '/roms/NES'),

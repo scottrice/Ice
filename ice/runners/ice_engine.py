@@ -94,9 +94,8 @@ class IceEngine(object):
       return
     with EnvironmentChecker(self.filesystem) as env_checker:
       for console in configuration.console_manager:
-        if consoles.console_is_enabled(console):
-          # Consoles assume they have a ROMs directory
-          env_checker.require_directory_exists(consoles.console_roms_directory(configuration, console))
+        # Consoles assume they have a ROMs directory
+        env_checker.require_directory_exists(consoles.console_roms_directory(configuration, console))
     self.validated_configuration = True
 
   def validate_user_environment(self, user):
@@ -168,23 +167,10 @@ class IceEngine(object):
 # TODO(scottrice): Find a better home for these functions
 
 def log_emulator_state(emulator):
-  if emulators.emulator_is_enabled(emulator):
-    logger.info("Detected Emulator: %s" % emulator.name)
-  else:
-    logger.warning("Issue detected with emulator `%s`" % emulator.name)
+  logger.info("Detected Emulator: %s" % emulator.name)
 
 def log_console_state(console):
-  """
-  Logs whether a console is enabled or not.
-  """
-  if consoles.console_is_enabled(console):
-    logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
-  # TODO: Move this logic into a function on Console which gives a
-  # stringified reason why the console is not enabled
-  elif console.emulator is None:
-    logger.warning("No emulator provided for console `%s`" % console.fullname)
-  else:
-    logger.warning("Issue detected with console `%s`" % console.fullname)
+  logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
 
 def log_configuration(config):
   logger.debug("Using `config.txt` at `%s`" % config.config_backing_store.path)

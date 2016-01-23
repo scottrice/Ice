@@ -54,17 +54,6 @@ class ROMFinderTests(unittest.TestCase):
 
     self.assertEquals([], self.rom_finder.roms_for_console(console))
 
-  def test_roms_for_console_returns_nothing_for_disabled_consoles(self):
-    dirname = "RandomDir"
-    rom1 = os.path.join(dirname, "rom1")
-    rom2 = os.path.join(dirname, "rom2")
-    rom3 = os.path.join(dirname, "rom3")
-    rom_paths = [rom1, rom2, rom3]
-    self.mock_filesystem.files_in_directory.return_value = rom_paths
-
-    console = self._dummy_console("", None)
-    self.assertEquals(self.rom_finder.roms_for_console(console), [])
-
   def test_roms_for_consoles_returns_roms_in_subdirs(self):
     firstdir = "RandomDir"
     rom1 = os.path.join(firstdir, "rom1")

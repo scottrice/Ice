@@ -1,6 +1,7 @@
 
 import os
 
+from ice.logs import logger
 from ice import model
 
 class ConsoleBackedObjectAdapter(object):
@@ -34,6 +35,13 @@ class ConsoleBackedObjectAdapter(object):
       images_directory,
       emulator,
     )
+
+  def verify(self, console):
+    if console.emulator is None:
+      logger.debug("No emulator provided for console `%s`" % console.fullname)
+      return False
+
+    return True
 
   def save_in_store(self, backing_store, identifier, console):
     backing_store.set(identifier, 'nickname', console.shortname)

@@ -31,10 +31,6 @@ class ROMFinder(object):
 
     Returns an empty list if `console` is not enabled
     """
-    if not consoles.console_is_enabled(console):
-      logger.debug("Skipping console due to being disabled - %s" % str(console))
-      return []
-
     roms_directory = consoles.console_roms_directory(self.config, console)
     logger.debug("[%s] Using `%s` as ROMs directory" % (console.shortname, roms_directory))
     paths = self.filesystem.files_in_directory(roms_directory, include_subdirectories=True)

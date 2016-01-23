@@ -2,13 +2,6 @@
 
 import os
 
-def emulator_is_enabled(emulator):
-  """Checks to see whether enough information has been entered by the user to
-  make the emulator useable"""
-  # Right now the only thing we care about is whether a file exists where
-  # the user says the emulator is.
-  return os.path.isfile(emulator.location)
-
 def emulator_rom_launch_command(emulator, rom):
   """Generates a command string that will launch `rom` with `emulator` (using
   the format provided by the user). The return value of this function should

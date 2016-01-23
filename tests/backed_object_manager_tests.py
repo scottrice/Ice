@@ -18,8 +18,16 @@ from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 # The fact that this class exists should probably signal that my current API
 # isn't perfect...
 class BackedObjectBackedObjectAdapter(object):
+
+  def __init__(self):
+    # Verifier that accepts everything by default
+    self.verifier = lambda obj: True
+
   def new(self, backing_store, identifier):
     return BackedObject(backing_store, identifier)
+
+  def verify(self, obj):
+    return self.verifier(obj)
 
   def save_in_store(self, backing_store, identifier, obj):
     pass
@@ -30,7 +38,8 @@ class BackedObjectManagerTests(unittest.TestCase):
     self.tempdir = tempfile.mkdtemp()
     self.tempfile = os.path.join(self.tempdir, "test.ini")
     self.backing_store = ConfigFileBackingStore(self.tempfile)
-    self.manager = BackedObjectManager(self.backing_store, BackedObjectBackedObjectAdapter())
+    self.adapter = BackedObjectBackedObjectAdapter()
+    self.manager = BackedObjectManager(self.backing_store, self.adapter)
 
   def tearDown(self):
     shutil.rmtree(self.tempdir)
@@ -99,3 +108,20 @@ class BackedObjectManagerTests(unittest.TestCase):
     war_machine = BackedObject(self.backing_store, "War Machine")
     self.manager.set_object_for_identifier(war_machine, "War Machine")
     self.assertEquals(self.manager.find("War Machine"), war_machine)
+
+  def test_all_doesnt_include_objects_where_verification_fails(self):
+    self.populate_backing_store({
+        "Iron Man":     {},
+        "War Machine":  {},
+        "Whiplash":     {},
+    })
+    self.adapter.verifier = lambda obj: obj.identifier.startswith("W")
+    identifiers = map(lambda obj: obj.identifier, self.manager.all())
+    self.assertEqual(len(identifiers), 2)
+    self.assertIn("War Machine", identifiers)
+    self.assertIn("Whiplash", identifiers)
+
+  def test_find_returns_none_for_object_where_verification_fails(self):
+    self.populate_backing_store({"Iron Man": {}})
+    self.adapter.verifier = lambda obj: False
+    self.assertIsNone(self.manager.find("Iron Man"))
