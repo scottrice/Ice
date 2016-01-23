@@ -128,6 +128,8 @@ class IceEngine(object):
     # TODO: Create any missing directories that Ice will need
     log_configuration(self.config)
     for user_context in steam.local_user_contexts(self.steam):
+      if user_context.user_id == "anonymous":
+        continue
       logger.info("=========== User: %s ===========" % str(user_context.user_id))
       self.run_for_user(user_context, dry_run=dry_run)
 
