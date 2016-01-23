@@ -12,11 +12,11 @@ from pysteam import shortcuts
 from pysteam import steam
 
 from ice import backups
+from ice import configuration
 from ice import consoles
 from ice import emulators
 from ice import paths
 from ice import settings
-from ice.configuration import Configuration
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
 from ice.gridproviders.combined_provider import CombinedProvider

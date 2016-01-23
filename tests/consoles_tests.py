@@ -19,7 +19,7 @@ class ConsolesTests(unittest.TestCase):
   ])
   def test_console_roms_directory(self, console, config_path, expected):
     config = mock()
-    when(config).roms_directory().thenReturn(config_path)
+    config.roms_directory = config_path
     self.assertEqual(consoles.console_roms_directory(config, console), expected)
 
   @parameterized.expand([

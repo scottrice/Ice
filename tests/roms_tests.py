@@ -27,7 +27,7 @@ class ROMsTests(unittest.TestCase):
   ])
   def test_roms_directory(self, config_directory, expected):
     config = mock()
-    when(config).roms_directory().thenReturn(config_directory)
+    config.roms_directory = config_directory
     self.assertEqual(roms.roms_directory(config), expected)
 
   @parameterized.expand([

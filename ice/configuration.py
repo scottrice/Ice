@@ -8,86 +8,46 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 Wrapper class around the options that a user could set to configure Ice
 """
 
+import collections
 import os
 
+import model
 import paths
 
-class Configuration(object):
+ConfigOption = collections.namedtuple('ConfigOption', [
+  'identifier',
+  'key',
+  'default',
+])
 
-  ROM_IDENT = "Storage"
-  ROM_KEY = "ROMs Directory"
+ROMsDirectoryOption = ConfigOption(
+  identifier = "Storage",
+  key = "ROMs Directory",
+  default = None,
+)
 
-  BACKUP_IDENT = "Storage"
-  BACKUP_KEY = "Backup Directory"
+BackupDirectoryOption = ConfigOption(
+  identifier = "Storage",
+  key = "Backup Directory",
+  default = None,
+)
 
-  USERDATA_IDENT = "Steam"
-  USERDATA_KEY = "Userdata Directory"
+UserdataDirectoryOption = ConfigOption(
+  identifier = "Steam",
+  key = "Userdata Directory",
+  default = None,
+)
 
-  def __init__(self, config_store):
-    self.config_backing_store = config_store
+def get_directory(store, option):
+  path = store.get(option.identifier, option.key, option.default)
+  if path is not None:
+    path = os.path.expanduser(path)
+  return path
 
-  def _get_directory_from_store(self, identifier, key, default):
-    # TODO: Clean up this function and write tests for the callsites
-    path = self.config_backing_store.get(identifier, key, default)
-    if path is not None:
-      return os.path.expanduser(path)
-    elif default is not None:
-      return os.path.expanduser(default)
-    else:
-      return default
-
-  def steam_userdata_location(self):
-    """
-    Returns the user-supplied location of Steam's `userdata` directory.
-
-    The defaults for each system aren't handled here, but instead inside
-    pysteam. As such, this method will return None if the user hasn't
-    specified a directory.
-    """
-    # We want to return None even if the empty string is given
-    return self._get_directory_from_store('Steam', 'Userdata Location', None)
-
-  def roms_directory(self):
-    return self._get_directory_from_store(
-        self.ROM_IDENT,
-        self.ROM_KEY,
-        None
-    )
-
-  def set_roms_directory(self, dir):
-    self.config_backing_store.set(
-        self.ROM_IDENT,
-        self.ROM_KEY,
-        dir
-    )
-    self.config_backing_store.save()
-
-  def backup_directory(self):
-    return self._get_directory_from_store(
-        self.BACKUP_IDENT,
-        self.BACKUP_KEY,
-        None
-    )
-
-  def set_backup_directory(self, dir):
-    self.config_backing_store.set(
-        self.BACKUP_IDENT,
-        self.BACKUP_KEY,
-        dir
-    )
-    self.config_backing_store.save()
-
-  def userdata_directory(self):
-    return self._get_directory_from_store(
-        self.USERDATA_IDENT,
-        self.USERDATA_KEY,
-        os.path.join(paths.application_data_directory(), 'Userdata')
-    )
-
-  def set_userdata_directory(self, dir):
-    self.config_backing_store.set(
-        self.USERDATA_IDENT,
-        self.USERDATA_KEY,
-        dir
-    )
-    self.config_backing_store.save()
+def from_store(store):
+  """Builds a Configuration object (defined in the model)"""
+  return model.Configuration(
+    backup_directory = get_directory(store, BackupDirectoryOption),
+    roms_directory = get_directory(store, ROMsDirectoryOption),
+    userdata_directory = get_directory(store, UserdataDirectoryOption),
+  )

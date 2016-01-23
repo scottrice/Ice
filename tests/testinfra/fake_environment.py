@@ -11,7 +11,7 @@ from pysteam import model
 from pysteam import paths
 from pysteam import shortcuts
 
-from ice.configuration import Configuration
+from ice import configuration
 from ice.filesystem import FakeFilesystem
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.runners.command_line_runner import CommandLineRunner
@@ -75,8 +75,8 @@ class FakeEnvironment(object):
     """Takes the ROMs located in `directory/ROMs` and moves them into the
     ROMs directory specified in the provided config.txt file."""
     config_path = self._test_config_path(directory, 'config')
-    c = Configuration(ConfigFileBackingStore(config_path))
-    target_roms_directory = self.sandbox.adjusted_path(c.roms_directory())
+    c = configuration.from_store(ConfigFileBackingStore(config_path))
+    target_roms_directory = self.sandbox.adjusted_path(c.roms_directory)
     source_roms_directory = os.path.join(directory, 'ROMs')
     shutil.copytree(source_roms_directory, target_roms_directory)
 

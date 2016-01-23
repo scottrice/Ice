@@ -39,7 +39,7 @@ def settings_file_path(name, filesystem, override = None):
 def load_configuration(filesystem, override = None):
   path = settings_file_path('config.txt', filesystem, override)
   logger.debug("Loading config from path: %s" % path)
-  return configuration.Configuration(ConfigFileBackingStore(path))
+  return configuration.from_store(ConfigFileBackingStore(path))
 
 def load_emulators(filesystem, override = None):
   path = settings_file_path('emulators.txt', filesystem, override)

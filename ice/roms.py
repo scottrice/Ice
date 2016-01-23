@@ -24,7 +24,7 @@ import paths
 ICE_FLAG_TAG = "~ManagedByIce"
 
 def roms_directory(config):
-  user_override = config.roms_directory()
+  user_override = config.roms_directory
   if user_override is not None:
     return user_override
   return paths.default_roms_directory()

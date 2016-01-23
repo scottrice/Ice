@@ -2,6 +2,12 @@
 
 import collections
 
+Configuration = collections.namedtuple('Configuration', [
+  'backup_directory',
+  'roms_directory',
+  'userdata_directory',
+])
+
 Console = collections.namedtuple('Console', [
   'fullname',
   'shortname',

@@ -31,7 +31,7 @@ def shortcuts_backup_path(directory, user, timestamp_format="%Y%m%d%H%M%S"):
   )
 
 def backup_directory(config):
-  backup_dir = config.backup_directory()
+  backup_dir = config.backup_directory
   if backup_dir is None:
     return None
 

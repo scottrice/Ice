@@ -30,13 +30,13 @@ class BackupsTests(unittest.TestCase):
   ])
   def test_backup_directory(self, config_backups_dir, expected_dir):
     config = mock()
-    when(config).backup_directory().thenReturn(config_backups_dir)
+    config.backup_directory = config_backups_dir
 
     self.assertEqual(backups.backup_directory(config), expected_dir)
 
   def test_create_backup_of_shortcuts_does_nothing_if_backups_directory_is_none(self):
     config = mock()
-    when(config).backup_directory().thenReturn(None)
+    config.backup_directory = None
 
     user = self.user_fixture.get_context()
 
@@ -52,7 +52,7 @@ class BackupsTests(unittest.TestCase):
     backup_dir = os.path.join(tempdir, "Backups")
 
     config = mock()
-    when(config).backup_directory().thenReturn(backup_dir)
+    config.backup_directory = backup_dir
 
     user = self.user_fixture.get_context()
 
@@ -67,7 +67,7 @@ class BackupsTests(unittest.TestCase):
     backup_dir = os.path.join(tempdir, "Backups")
 
     config = mock()
-    when(config).backup_directory().thenReturn(backup_dir)
+    config.backup_directory = backup_dir
 
     user = self.user_fixture.get_context()
 
