@@ -18,8 +18,9 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     self.steam_fixture = fixtures.SteamFixture()
     self.user_fixture = fixtures.UserFixture(self.steam_fixture)
 
+    self.mock_config  = mock()
     self.mock_archive = mock()
-    self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_archive)
+    self.synchronizer = steam_shortcut_synchronizer.SteamShortcutSynchronizer(self.mock_config, self.mock_archive)
 
     self.mock_logger = mock()
     steam_shortcut_synchronizer.logger = self.mock_logger
@@ -31,37 +32,32 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
   def _set_users_shortcuts(self, users_shortcuts):
     shortcuts.set_shortcuts(self.user_fixture.get_context(), users_shortcuts)
 
-  def _create_dummy_configuration_with_roms_dir(self, roms_dir):
-    config = mock()
-    # We check the path of every console (so we need at least 1 to do anything),
-    # but since we are stubbing our `roms_directory_for_console` impl we don't
-    # actually care what the console is.
+  def _create_dummy_console(self, roms_dir):
     console = mock()
     console.custom_roms_directory = roms_dir
-    config.console_manager = [ console ]
-    return config
+    return console
 
   def test_unmanaged_shortcuts_returns_all_shortcuts_when_given_no_history(self):
-    mock_config = self._create_dummy_configuration_with_roms_dir("/Some/Other/Path")
+    dummy_console = self._create_dummy_console("/Some/Other/Path")
     random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", [])
 
-    unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], mock_config)
+    unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], [dummy_console])
 
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_unmanaged_shortcuts_filters_suspicious_shortcuts_when_given_no_history(self):
-    mock_config = self._create_dummy_configuration_with_roms_dir("/Some/Path")
+    dummy_console = self._create_dummy_console("/Some/Path")
     random_shortcut = steam_model.Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path", "", [])
 
-    unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], mock_config)
+    unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], [dummy_console])
 
     self.assertEquals(unmanaged, [])
 
   def test_unmanaged_shortcuts_doesnt_filter_suspicious_shortcuts_when_we_have_history(self):
-    mock_config = self._create_dummy_configuration_with_roms_dir("/Some/Path")
+    dummy_console = self._create_dummy_console("/Some/Path")
     random_shortcut = steam_model.Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path", "", [])
 
-    unmanaged = self.synchronizer.unmanaged_shortcuts([] ,[random_shortcut], mock_config)
+    unmanaged = self.synchronizer.unmanaged_shortcuts([] ,[random_shortcut], [dummy_console])
 
     self.assertEquals(unmanaged, [random_shortcut])
 

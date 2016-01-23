@@ -8,16 +8,9 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 Wrapper class around the options that a user could set to configure Ice
 """
 
-import appdirs
-import datetime
 import os
 
 import paths
-
-from persistence.backed_object_manager import BackedObjectManager
-from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
-from persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
-
 
 class Configuration(object):
 
@@ -30,18 +23,8 @@ class Configuration(object):
   USERDATA_IDENT = "Steam"
   USERDATA_KEY = "Userdata Directory"
 
-  def __init__(self, config_store, consoles_store, emulators_store, filesystem):
+  def __init__(self, config_store):
     self.config_backing_store = config_store
-    self.consoles_backing_store = consoles_store
-    self.emulators_backing_store = emulators_store
-    self.emulator_manager = BackedObjectManager(
-      emulators_store,
-      EmulatorBackedObjectAdapter(filesystem)
-    )
-    self.console_manager = BackedObjectManager(
-      consoles_store,
-      ConsoleBackedObjectAdapter(self.emulator_manager)
-    )
 
   def _get_directory_from_store(self, identifier, key, default):
     # TODO: Clean up this function and write tests for the callsites

@@ -74,16 +74,8 @@ class FakeEnvironment(object):
   def _load_roms_for_test(self, directory):
     """Takes the ROMs located in `directory/ROMs` and moves them into the
     ROMs directory specified in the provided config.txt file."""
-    # TODO: This is extremely non-kosher. The fact that I have to do this
-    # suggests that something is very wrong with my Configuration object.
-    #
-    # Knowing that object I'm tempted to agree.
-    c = Configuration(
-      ConfigFileBackingStore(self._test_config_path(directory, 'config')),
-      None,
-      None,
-      None,
-    )
+    config_path = self._test_config_path(directory, 'config')
+    c = Configuration(ConfigFileBackingStore(config_path))
     target_roms_directory = self.sandbox.adjusted_path(c.roms_directory())
     source_roms_directory = os.path.join(directory, 'ROMs')
     shutil.copytree(source_roms_directory, target_roms_directory)
