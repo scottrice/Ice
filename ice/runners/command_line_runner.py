@@ -31,4 +31,4 @@ class CommandLineRunner(object):
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
     engine = IceEngine(self.steam, filesystem = self.filesystem, options = options)
-    engine.run(dry_run=options.dry_run)
+    engine.main(dry_run=options.dry_run)

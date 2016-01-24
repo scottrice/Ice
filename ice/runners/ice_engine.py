@@ -9,7 +9,7 @@ import os
 
 from pysteam import paths as steam_paths
 from pysteam import shortcuts
-from pysteam import steam
+from pysteam import steam as steam_module
 
 from ice import backups
 from ice import configuration
@@ -42,11 +42,13 @@ class IceEngine(object):
     * emulators - The path to the emulators file to use. Searches the default
                   paths for 'emulators.txt' if none is provided
     """
-    self.validated_base_environment = False
-    self.validated_consoles = False
-
     self.steam = steam
     self.filesystem = filesystem
+
+    # We want to ignore the anonymous context, cause theres no reason to sync
+    # ROMs for it since you cant log in as said user.
+    is_user_context = lambda context: context.user_id != 'anonymous'
+    self.users = filter(is_user_context, steam_module.local_user_contexts(self.steam))
 
     logger.debug("Initializing Ice")
     self.config    = settings.load_configuration(filesystem, options.config)
@@ -55,21 +57,19 @@ class IceEngine(object):
 
     parser = ROMParser()
     self.rom_finder = ROMFinder(self.config, filesystem, parser)
+
     managed_rom_archive = ManagedROMArchive(paths.archive_path())
     self.shortcut_synchronizer = SteamShortcutSynchronizer(self.config, managed_rom_archive)
 
-    provider = CombinedProvider(
+    self.grid_updater = SteamGridUpdater(CombinedProvider(
         LocalProvider(),
         ConsoleGridProvider(),
-    )
-    self.grid_updater = SteamGridUpdater(provider)
+    ))
 
-  def validate_base_environment(self):
+  def validate_environment(self):
     """
     Validate that the current environment meets all of Ice's requirements.
     """
-    if self.validated_base_environment:
-      return
     with EnvironmentChecker(self.filesystem) as env_checker:
       # If Steam is running then any changes we make will be overwritten
       env_checker.require_program_not_running("Steam")
@@ -78,38 +78,32 @@ class IceEngine(object):
       env_checker.require_directory_exists(self.steam.userdata_directory)
       # This is used to store history information and such
       env_checker.require_directory_exists(paths.application_data_directory())
-    self.validated_base_environment = True
 
-  def validate_consoles(self):
-    if self.validated_consoles:
-      return
-    with EnvironmentChecker(self.filesystem) as env_checker:
       for console in self.consoles:
         # Consoles assume they have a ROMs directory
         env_checker.require_directory_exists(consoles.console_roms_directory(self.config, console))
-    self.validated_consoles = True
 
-  def validate_user_environment(self, user):
-    """
-    Validate that the current environment for a given user meets all of
-    Ice's requirements.
-    """
-    with EnvironmentChecker(self.filesystem) as env_checker:
-      # If the user hasn't added any grid images on their own then this
-      # directory wont exist, so we require it explicitly here
-      env_checker.require_directory_exists(steam_paths.custom_images_directory(user))
-      # And it needs to be writable if we are going to save images there
-      env_checker.require_writable_path(steam_paths.custom_images_directory(user))
+      for user in self.users:
+        # If the user hasn't added any grid images on their own then this
+        # directory wont exist, so we require it explicitly here
+        env_checker.require_directory_exists(steam_paths.custom_images_directory(user))
+        # And it needs to be writable if we are going to save images there
+        env_checker.require_writable_path(steam_paths.custom_images_directory(user))
 
-  def main(self, dry_run=False):
+  def create_backup(self, user, dry_run=False):
+    if dry_run:
+      logger.debug("Not creating backup because its a dry run")
+    else:
+      backups.create_backup_of_shortcuts(self.config, user)
+
+  def run(self, dry_run=False):
     if self.steam is None:
       logger.error("Cannot run Ice because Steam doesn't appear to be installed")
       return
 
     logger.info("=========== Starting Ice ===========")
     try:
-      self.validate_base_environment()
-      self.validate_consoles()
+      self.validate_environment()
     except EnvCheckerError as e:
       logger.info("Ice cannot run because of issues with your system.\n")
       logger.info("* %s" % e.message)
@@ -120,34 +114,16 @@ class IceEngine(object):
     log_emulators(self.emulators)
     log_consoles(self.consoles)
 
-    for user_context in steam.local_user_contexts(self.steam):
-      if user_context.user_id == "anonymous":
-        continue
-      logger.info("=========== User: %s ===========" % str(user_context.user_id))
-      self.run_for_user(user_context, dry_run=dry_run)
-
-  def run_for_user(self, user, dry_run=False):
-    try:
-      self.validate_base_environment()
-      self.validate_consoles()
-      self.validate_user_environment(user)
-    except EnvCheckerError as e:
-      logger.info("Ice cannot run because of issues with your system.\n")
-      logger.info("\t%s\n" % e.message)
-      logger.info("Please resolve these issues and try running Ice again")
-      return
-    if dry_run:
-      logger.debug("Not creating backup because its a dry run")
-    else:
-      backups.create_backup_of_shortcuts(self.config, user)
-    # Find all of the ROMs that are currently in the designated folders
     roms = self.rom_finder.roms_for_consoles(self.consoles)
-    self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.consoles, dry_run=dry_run)
-    self.grid_updater.update_artwork_for_rom_collection(user, roms, dry_run=dry_run)
+    for user in self.users:
+      logger.info("=========== User: %s ===========" % str(user.user_id))
+      self.create_backup(user, dry_run=dry_run)
+      self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.consoles, dry_run=dry_run)
+      self.grid_updater.update_artwork_for_rom_collection(user, roms, dry_run=dry_run)
 
-  def run(self, dry_run=False):
+  def main(self, dry_run=False):
     try:
-      self.main(dry_run=dry_run)
+      self.run(dry_run=dry_run)
     except Exception as error:
       logger.exception("An exception occurred while running Ice")
 
