@@ -2,7 +2,7 @@
 
 import os
 
-import Pastebin as pastebin
+import pastebin
 
 import filesystem
 import paths
