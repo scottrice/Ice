@@ -6,8 +6,9 @@ Created by Scott on 2013-01-24.
 Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 
-import sys
+import inspect
 import os
+import sys
 import time
 import traceback
 
@@ -15,6 +16,16 @@ import logging
 import logging.handlers
 
 import paths
+
+def is_test_stack_frame(frame):
+  # The path of the executing file is in frame[1]
+  path = frame[1]
+  # See if the path is in the unittest module
+  return "unittest" in path
+
+def is_running_in_test():
+  current_stack = inspect.stack()
+  return any(map(is_test_stack_frame, inspect.stack()))
 
 class IceLevelTagFilter(logging.Formatter):
 
@@ -47,8 +58,9 @@ def create_logger():
     # loggers
     logger = logging.getLogger('Ice')
     logger.setLevel(logging.DEBUG)
-    logger.addHandler(ch)
-    logger.addHandler(fh)
+    if not is_running_in_test():
+      logger.addHandler(ch)
+      logger.addHandler(fh)
     return logger
 
 logger = create_logger()
