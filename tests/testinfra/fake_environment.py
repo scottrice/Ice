@@ -20,7 +20,7 @@ from fixtures import SteamFixture, UserFixture
 
 def json_to_shortcut(json):
   for field in ["name", "exe", "startdir", "icon", "tags"]:
-    assert(field in json)
+    assert field in json
   return model.Shortcut(
     name      = json.get("name"),
     exe       = json.get("exe"),
@@ -46,7 +46,7 @@ class FakeEnvironment(object):
     # The testdata directory should be in the same directory as the tests
     # themselves.
     self.testdata_dir = os.path.join(os.path.dirname(file_path), "testdata")
-    assert(os.path.exists(self.testdata_dir))
+    assert os.path.exists(self.testdata_dir)
 
     self.loaded_data = None
     self.extra_args = []
@@ -58,7 +58,7 @@ class FakeEnvironment(object):
     shutil.rmtree(self.sandbox.root)
 
   def _use_config_file(self, file, location):
-    assert(os.path.exists(location))
+    assert os.path.exists(location)
     self.extra_args.append('--%s' % file)
     self.extra_args.append(location)
 
@@ -103,10 +103,10 @@ class FakeEnvironment(object):
     folder from the provided testdata subdirectory and places it in the sandbox
     such that it will be used by Ice the next time its run.
     """
-    assert(self.loaded_data is None, "Can't load test data twice in a single test")
+    assert self.loaded_data is None, "Can't load test data twice in a single test"
     self.loaded_data = testdata
     data_directory = os.path.join(self.testdata_dir, testdata)
-    assert(os.path.exists(data_directory), "Can't load test data from a missing directory")
+    assert os.path.exists(data_directory), "Can't load test data from a missing directory"
     self._load_config_file_overrides(data_directory)
     self._load_roms_for_test(data_directory)
     self._override_backups_directory(data_directory)
