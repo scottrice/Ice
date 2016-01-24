@@ -23,6 +23,8 @@ class CommandLineRunner(object):
   def get_command_line_args(self, argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('pdebug', type=bool, nargs='?', help="Pastes debug logs to pastebin to include with bug reports.")
+    parser.add_argument('-s', '--skip-steam-check', action='store_true', help="Skips checking whether Steam is running")
+    # Config options
     parser.add_argument('-c', '--config', type=str, default=None)
     parser.add_argument('-C', '--consoles', type=str, default=None)
     parser.add_argument('-e', '--emulators', type=str, default=None)
@@ -37,5 +39,14 @@ class CommandLineRunner(object):
       debug.paste_debug_logs()
       return
 
-    engine = IceEngine(self.steam, filesystem = self.filesystem, options = options)
-    engine.main(dry_run=options.dry_run)
+    engine = IceEngine(
+      self.steam,
+      filesystem = self.filesystem,
+      file_overrides = {
+        'config': options.config,
+        'consoles': options.consoles,
+        'emulators': options.emulators,
+      })
+    engine.run(
+      skip_steam_check=options.skip_steam_check,
+      dry_run=options.dry_run)
