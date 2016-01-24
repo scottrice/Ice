@@ -35,3 +35,7 @@ ROMs Directory=/ROMs
 # It is generally located at ~/Library/Application Support/Steam/userdata/ on OSX and
 # ~/.local/share/Steam/userdata/ on Linux.
 Userdata Directory=
+
+
+[Images]
+Providers=local

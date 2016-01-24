@@ -4,6 +4,7 @@ import collections
 
 Configuration = collections.namedtuple('Configuration', [
   'backup_directory',
+  'provider_spec',
   'roms_directory',
   'userdata_directory',
 ])

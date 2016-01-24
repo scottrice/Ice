@@ -6,6 +6,9 @@ import configuration
 import paths
 
 from logs import logger
+from gridproviders.combined_provider import CombinedProvider
+from gridproviders.consolegrid_provider import ConsoleGridProvider
+from gridproviders.local_provider import LocalProvider
 from persistence.backed_object_manager import BackedObjectManager
 from persistence.config_file_backing_store import ConfigFileBackingStore
 from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
@@ -56,3 +59,18 @@ def load_consoles(emulators, filesystem, override = None):
     ConfigFileBackingStore(path),
     ConsoleBackedObjectAdapter(emulators)
   )
+
+def image_provider(config):
+  providerByName = {
+    "local": LocalProvider,
+    "consolegrid": ConsoleGridProvider,
+  }
+  normalize = lambda s: s.strip().lower()
+  names = map(normalize, config.provider_spec.split(","))
+  instances = map(lambda name: providerByName[name](), names)
+  logger.debug("Creating with component providers: %s" % str(instances))
+  if len(instances) == 0:
+    logger.error("No image providers specified. Ice will run, but will not \
+                  find grid images for your ROMs. If this wasnt intentional, \
+                  see config.txt.")
+  return CombinedProvider(*instances)

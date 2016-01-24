@@ -35,3 +35,19 @@ Backup Directory=
 # It is generally located at ~/Library/Application Support/Steam/userdata/ on OSX and
 # ~/.local/share/Steam/userdata/ on Linux.
 Userdata Directory=
+
+
+[Images]
+# Comma separated list of providers for Ice to use when looking for grid
+# images. The valid values are:
+#
+# * `local`       - Looks in the `custom_images_directory` of the Console for
+#                   a game of the same name.
+# * `consolegrid` - Hits the ConsoleGrid API looking for a game of that name.
+#
+# Ice will ask these providers for images in order, stopping when it one is
+# found. This means order matters, and `local, consolegrid` is not the same as
+# `consolegrid, local`.
+#
+# The default is `local, consolegrid`
+Providers=local, consolegrid

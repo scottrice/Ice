@@ -19,9 +19,6 @@ from ice import paths
 from ice import settings
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
-from ice.gridproviders.combined_provider import CombinedProvider
-from ice.gridproviders.consolegrid_provider import ConsoleGridProvider
-from ice.gridproviders.local_provider import LocalProvider
 from ice.history.managed_rom_archive import ManagedROMArchive
 from ice.logs import logger
 from ice.parsing.rom_parser import ROMParser
@@ -61,10 +58,7 @@ class IceEngine(object):
     managed_rom_archive = ManagedROMArchive(paths.archive_path())
     self.shortcut_synchronizer = SteamShortcutSynchronizer(self.config, managed_rom_archive)
 
-    self.grid_updater = SteamGridUpdater(CombinedProvider(
-        LocalProvider(),
-        ConsoleGridProvider(),
-    ))
+    self.grid_updater = SteamGridUpdater(settings.image_provider(self.config))
 
   def validate_environment(self):
     """

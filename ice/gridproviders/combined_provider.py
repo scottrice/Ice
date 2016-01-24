@@ -1,9 +1,10 @@
-#!/usr/bin/env python
 # encoding: utf-8
 
-import grid_image_provider
 from functools import reduce
 
+import grid_image_provider
+
+from ice.logs import logger
 
 class CombinedProvider(grid_image_provider.GridImageProvider):
 

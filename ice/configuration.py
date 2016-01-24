@@ -38,8 +38,17 @@ UserdataDirectoryOption = ConfigOption(
   default = None,
 )
 
+ProviderSpecOption = ConfigOption(
+  identifier = "Images",
+  key = "Providers",
+  default = "local, consolegrid",
+)
+
+def get(store, option):
+  return store.get(option.identifier, option.key, option.default)
+
 def get_directory(store, option):
-  path = store.get(option.identifier, option.key, option.default)
+  path = get(store, option)
   if path is not None:
     path = os.path.expanduser(path)
   return path
@@ -48,6 +57,7 @@ def from_store(store):
   """Builds a Configuration object (defined in the model)"""
   return model.Configuration(
     backup_directory = get_directory(store, BackupDirectoryOption),
+    provider_spec = get(store, ProviderSpecOption),
     roms_directory = get_directory(store, ROMsDirectoryOption),
     userdata_directory = get_directory(store, UserdataDirectoryOption),
   )
