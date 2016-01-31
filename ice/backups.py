@@ -5,9 +5,9 @@ import os
 
 from pysteam import shortcuts
 
-import paths
+from . import paths
 
-from logs import logger
+from .logs import logger
 
 def default_backups_directory():
   return os.path.join(paths.application_data_directory(), 'Backups')

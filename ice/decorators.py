@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-from logs import logger
+from .logs import logger
 
 def catch_exceptions(msg):
   def decorator(func):

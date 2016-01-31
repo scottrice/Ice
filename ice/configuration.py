@@ -11,8 +11,8 @@ Wrapper class around the options that a user could set to configure Ice
 import collections
 import os
 
-import model
-import paths
+from . import model
+from . import paths
 
 ConfigOption = collections.namedtuple('ConfigOption', [
   'identifier',

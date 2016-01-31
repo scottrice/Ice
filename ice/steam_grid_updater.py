@@ -2,9 +2,9 @@
 from pysteam import grid
 from pysteam import shortcuts
 
-import roms
+from . import roms
 
-from logs import logger
+from .logs import logger
 
 class SteamGridUpdater(object):
 

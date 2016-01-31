@@ -15,7 +15,7 @@ import traceback
 import logging
 import logging.handlers
 
-import paths
+from . import paths
 
 STREAM_STRING_FORMAT = '%(leveltag)s%(message)s'
 FILE_STRING_FORMAT = '%(asctime)s [%(levelname)s][%(filename)s][%(funcName)s:%(lineno)s]: %(message)s'

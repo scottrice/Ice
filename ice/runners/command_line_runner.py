@@ -9,7 +9,7 @@ import argparse
 
 from pysteam.steam import get_steam
 
-from ice_engine import IceEngine
+from .ice_engine import IceEngine
 
 from ice import debug
 from ice.filesystem import RealFilesystem

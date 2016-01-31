@@ -1,10 +1,10 @@
-
+import sys
 from functools import partial
 
-import consoles
-import model
+from . import consoles
+from . import model
 
-from logs import logger
+from .logs import logger
 
 class ROMFinder(object):
 
@@ -47,6 +47,11 @@ class ROMFinder(object):
     Equivalent to calling `roms_for_console` on every element of `consoles`
     and combining the results
     """
-    # Abuses the fact that the `+` operator is overloaded with lists to turn
-    # our list of lists into a single giant list. Yay for duck typing?
-    return sum(map(self.roms_for_console, consoles), [])
+    # Python 2 and 3 act differently on map() types, since map() in Python3 now returns an iterator
+    if sys.version_info[0] >= 3:
+      # TODO: Fix this somehow?
+      return list(map(self.roms_for_console, consoles))
+    else:
+      # Abuses the fact that the `+` operator is overloaded with lists to turn
+      # our list of lists into a single giant list. Yay for duck typing?
+      return sum(map(self.roms_for_console, consoles), [])

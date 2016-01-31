@@ -9,10 +9,17 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 
 import sys
 import os
-import urllib
-import urllib2
 
-import grid_image_provider
+# Python 2 and 3 compatibility for urllib.
+try:
+    from urllib.request import urlopen, Request, urlretrieve
+    from urllib.error import HTTPError, URLError
+    from urllib.parse import quote
+except ImportError:
+    from urllib import urlencode, quote, urlretrieve
+    from urllib2 import urlopen, Request, HTTPError, URLError
+
+from . import grid_image_provider
 
 from ice.logs import logger
 
@@ -29,7 +36,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
 
   def consolegrid_top_picture_url(self, rom):
     host = self.api_url()
-    quoted_name = urllib.quote(rom.name)
+    quoted_name = quote(rom.name)
     return "%s?console=%s&game=%s" % (host, rom.console.shortname, quoted_name)
 
   def find_url_for_rom(self, rom):
@@ -38,7 +45,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
     ConsoleGrid.com
     """
     try:
-      response = urllib2.urlopen(self.consolegrid_top_picture_url(rom))
+      response = urlopen(self.consolegrid_top_picture_url(rom))
       if response.getcode() == 204:
         name = rom.name
         console = rom.console.fullname
@@ -47,7 +54,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
         )
       else:
         return response.read()
-    except urllib2.URLError as error:
+    except URLError as error:
       # Connection was refused. ConsoleGrid may be down, or something bad
       # may have happened
       logger.debug(
@@ -59,7 +66,7 @@ class ConsoleGridProvider(grid_image_provider.GridImageProvider):
     Downloads the image at 'url' and returns the path to the image on the
     local filesystem
     """
-    (path, headers) = urllib.urlretrieve(url)
+    (path, headers) = urlretrieve(url)
     return path
 
   def image_for_rom(self, rom):

@@ -1,10 +1,10 @@
 
 from pysteam import shortcuts
 
-import roms
+from . import roms
 
-from consoles import console_roms_directory
-from logs import logger
+from .consoles import console_roms_directory
+from .logs import logger
 
 class SteamShortcutSynchronizer(object):
 

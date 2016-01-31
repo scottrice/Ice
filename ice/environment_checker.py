@@ -7,9 +7,9 @@ import os
 import psutil
 import sys
 
-from error.path_existance_error import PathExistanceError
-from error.process_running_error import ProcessRunningError
-from error.writable_path_error import WritablePathError
+from .error.path_existance_error import PathExistanceError
+from .error.process_running_error import ProcessRunningError
+from .error.writable_path_error import WritablePathError
 
 
 class EnvironmentChecker(object):
