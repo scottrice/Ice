@@ -6,16 +6,20 @@ Created by Scott on 2014-08-12.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-import ConfigParser
+# Python 2 and 3 compatibility for ConfigParser
+try:
+  from configparser import ConfigParser, RawConfigParser, NoSectionError, NoOptionError, DuplicateSectionError
+except ImportError:
+  from ConfigParser import ConfigParser, RawConfigParser, NoSectionError, NoOptionError, DuplicateSectionError
 
-import backing_store
+from . import backing_store
 
 
 class ConfigFileBackingStore(backing_store.BackingStore):
 
   def __init__(self, path):
     super(ConfigFileBackingStore, self).__init__(path)
-    self.configParser = ConfigParser.RawConfigParser()
+    self.configParser = RawConfigParser()
     self.configParser.read(self.path)
 
   def identifiers(self):
@@ -24,7 +28,7 @@ class ConfigFileBackingStore(backing_store.BackingStore):
   def add_identifier(self, ident):
     try:
       self.configParser.add_section(ident)
-    except ConfigParser.DuplicateSectionError:
+    except DuplicateSectionError:
       raise ValueError("The identifier `%s` already exists" % str(ident))
 
   def remove_identifier(self, ident):
@@ -33,14 +37,14 @@ class ConfigFileBackingStore(backing_store.BackingStore):
   def keys(self, ident):
     try:
       return self.configParser.options(ident)
-    except ConfigParser.NoSectionError:
+    except NoSectionError:
       raise ValueError("No identifier named `%s` exists" % str(ident))
 
   def get(self, ident, key, default=None):
     try:
       val = self.configParser.get(ident, key.lower())
       return val
-    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+    except (NoSectionError, NoOptionError):
       return default
 
   def set(self, ident, key, value):

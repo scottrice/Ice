@@ -2,7 +2,7 @@
 
 import os
 
-import roms
+from . import roms
 
 def console_roms_directory(configuration, console):
   """

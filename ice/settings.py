@@ -1,18 +1,19 @@
 # encoding: utf-8
 
 import os
+import sys
 
-import configuration
-import paths
+from . import configuration
+from . import paths
 
-from logs import logger
-from gridproviders.combined_provider import CombinedProvider
-from gridproviders.consolegrid_provider import ConsoleGridProvider
-from gridproviders.local_provider import LocalProvider
-from persistence.backed_object_manager import BackedObjectManager
-from persistence.config_file_backing_store import ConfigFileBackingStore
-from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
-from persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
+from .logs import logger
+from .gridproviders.combined_provider import CombinedProvider
+from .gridproviders.consolegrid_provider import ConsoleGridProvider
+from .gridproviders.local_provider import LocalProvider
+from .persistence.backed_object_manager import BackedObjectManager
+from .persistence.config_file_backing_store import ConfigFileBackingStore
+from .persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
+from .persistence.adapters.emulator_adapter import EmulatorBackedObjectAdapter
 
 def find_settings_file(name, filesystem):
   """
@@ -69,8 +70,15 @@ def image_provider(config):
   names = map(normalize, config.provider_spec.split(","))
   instances = map(lambda name: providerByName[name](), names)
   logger.debug("Creating with component providers: %s" % str(instances))
-  if len(instances) == 0:
-    logger.error("No image providers specified. Ice will run, but will not \
-                  find grid images for your ROMs. If this wasnt intentional, \
-                  see config.txt.")
+  # map() returns an interator in Python 3, so we have to check empty in a different way.
+  if sys.version_info[0] >= 3:
+    if not instances:
+      logger.error("No image providers specified. Ice will run, but will not \
+                    find grid images for your ROMs. If this wasnt intentional, \
+                    see config.txt.")
+  else:
+    if len(instances) == 0:
+      logger.error("No image providers specified. Ice will run, but will not \
+                    find grid images for your ROMs. If this wasnt intentional, \
+                    see config.txt.")
   return CombinedProvider(*instances)

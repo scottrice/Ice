@@ -15,8 +15,8 @@ ROMs
 
 from pysteam import model
 
-import emulators
-import paths
+from . import emulators
+from . import paths
 
 # LEGACY: At one point I added this to every shortcut that Ice made. That was
 # a terrible idea, and I'm keeping this definition here just in case I ever

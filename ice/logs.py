@@ -15,7 +15,7 @@ import traceback
 import logging
 import logging.handlers
 
-import paths
+from . import paths
 
 def is_test_stack_frame(frame):
   # The path of the executing file is in frame[1]

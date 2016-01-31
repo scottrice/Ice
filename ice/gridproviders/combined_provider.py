@@ -2,7 +2,7 @@
 
 from functools import reduce
 
-import grid_image_provider
+from . import grid_image_provider
 
 from ice.logs import logger
 

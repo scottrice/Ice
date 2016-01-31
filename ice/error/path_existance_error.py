@@ -1,6 +1,6 @@
 import os
 
-from env_checker_error import EnvCheckerError
+from .env_checker_error import EnvCheckerError
 
 
 class PathExistanceError(Exception):
