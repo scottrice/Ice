@@ -22,6 +22,8 @@ class ROMFinderTests(unittest.TestCase):
     ("Shenmue 2 (PAL).iso" , "Shenmue 2"),
     ("Resident Evil Code Veronica (PAL) (UK).iso" , "Resident Evil Code Veronica"),
     ("Chrono Trigger (USA).sfc", "Chrono Trigger"),
+    ("Dr. Mario 64 (USA).z64", "Dr. Mario 64"),
+    ("Super Mario World (E) (V1.0).smc", "Super Mario World"),
     # TODO(Wishlist): I'd like to be able to remove the `Rev 1` from the filename, but that is much
     # more complicated than our current strategy of just matching against everything not in parens
     # ("Super Mario World 2 - Yoshi's Island Rev 1 (1995)(Nintendo)(US).sfc", "Super Mario World 2 - Yoshi's Island"),
