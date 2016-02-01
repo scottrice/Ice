@@ -11,7 +11,7 @@ class ROMParser(object):
     # Regex that matches the entire string up until it hits the first '[',
     # ']', '(', ')', or '.'
     # DOESN'T WORK FOR GAMES WITH ()s IN THEIR NAME
-    ur"(?P<name>[^\(\)\[\]\.]*).*",
+    ur"(?P<name>[^\(\)\[\]]*).*",
   ]
 
   def __init__(self):
@@ -20,6 +20,7 @@ class ROMParser(object):
   def parse(self, path):
     """Parses the name of the ROM given its path."""
     filename = os.path.basename(path)
+    filename = os.path.splitext(filename)[0]
     opts = re.IGNORECASE
     match = reduce(lambda match, regex: match if match else re.match(regex, filename, opts), self.regexes, None)
     if match:
