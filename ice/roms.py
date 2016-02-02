@@ -24,10 +24,11 @@ import paths
 ICE_FLAG_TAG = "~ManagedByIce"
 
 def roms_directory(config):
-  user_override = config.roms_directory
-  if user_override is not None:
-    return user_override
-  return paths.default_roms_directory()
+  option = config.roms_directory
+  if option is None or option == "":
+    return paths.default_roms_directory()
+  else:
+    return option
 
 def rom_shortcut_name(rom):
   """Calculates what a ROM's name should be when represented as a shortcut in

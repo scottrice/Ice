@@ -23,6 +23,7 @@ class ROMsTests(unittest.TestCase):
 
   @parameterized.expand([
     (None, paths.default_roms_directory()),
+    ("", paths.default_roms_directory()),
     ('/roms/', '/roms/'),
   ])
   def test_roms_directory(self, config_directory, expected):
