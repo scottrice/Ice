@@ -11,6 +11,7 @@ from pysteam.steam import get_steam
 
 from ice_engine import IceEngine
 
+from ice import decorators
 from ice import debug
 from ice.filesystem import RealFilesystem
 
@@ -32,6 +33,7 @@ class CommandLineRunner(object):
     parser.add_argument('-d', '--dry-run', action='store_true')
     return parser.parse_args(argv)
 
+  @decorators.catch_exceptions("An exception occurred while running Ice")
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
 

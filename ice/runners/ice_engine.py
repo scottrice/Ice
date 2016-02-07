@@ -14,7 +14,6 @@ from pysteam import steam as steam_module
 from ice import backups
 from ice import configuration
 from ice import consoles
-from ice import decorators
 from ice import emulators
 from ice import paths
 from ice import settings
@@ -103,7 +102,6 @@ class IceEngine(object):
     else:
       backups.create_backup_of_shortcuts(self.config, user)
 
-  @decorators.catch_exceptions("An exception occurred while running Ice")
   def run(
     self,
     skip_steam_check=False,
