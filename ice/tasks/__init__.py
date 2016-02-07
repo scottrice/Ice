@@ -3,4 +3,5 @@
 
 from engine import TaskEngine
 from grid import UpdateGridImagesTask
+from logging import LogAppStateTask
 from shortcuts import SyncShortcutsTask

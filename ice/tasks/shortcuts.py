@@ -17,12 +17,11 @@ class SyncShortcutsTask(object):
 
   def __call__(self, users, roms, dry_run):
     for user in users:
-      logger.info("=========== User: %s ===========" % str(user.user_id))
       if dry_run:
         logger.debug("Not creating backup because its a dry run")
       else:
-        logger.info("::Backing up shortcuts")
+        logger.info("::Backing up shortcuts for U:%s" % user.user_id)
         backups.create_backup_of_shortcuts(self.app_settings.config, user)
 
-      logger.info("::Syncing Shortcuts")
+      logger.info("::Syncing Shortcuts for U:%s" % user.user_id)
       self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.app_settings.consoles, dry_run=dry_run)

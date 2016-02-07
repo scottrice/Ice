@@ -14,7 +14,7 @@ import debug
 import settings
 
 from filesystem import RealFilesystem
-from tasks import TaskEngine, SyncShortcutsTask, UpdateGridImagesTask
+from tasks import TaskEngine, LogAppStateTask, SyncShortcutsTask, UpdateGridImagesTask
 
 class CommandLineRunner(object):
 
@@ -36,6 +36,7 @@ class CommandLineRunner(object):
 
   def tasks_for_options(self, app_settings, options):
     return [
+      LogAppStateTask(app_settings),
       SyncShortcutsTask(app_settings),
       UpdateGridImagesTask(app_settings),
     ]

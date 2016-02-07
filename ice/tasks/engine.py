@@ -105,27 +105,6 @@ class TaskEngine(object):
       logger.info("\nPlease resolve these issues and try running Ice again")
       return
 
-    # TODO: Create any missing directories that Ice will need
-    log_emulators(self.app_settings.emulators)
-    log_consoles(self.app_settings.consoles)
-
     roms = self.rom_finder.roms_for_consoles(self.app_settings.consoles)
 
     [ task(self.users, roms, dry_run=dry_run) for task in tasks ]
-
-# Logging methods. The purpose of these methods isn't so much to log things as
-# they are to inform the user of the state of their setup (as Ice sees it).
-# They were originally on ice_logging but since they require knowledge of
-# emulators/consoles/configurations it meant that I couldn't log from a bunch
-# of different files. Clearly not ideal, and they weren't exactly a great fit
-# on the logger class anyway
-#
-# TODO(scottrice): Find a better home for these functions
-
-def log_emulators(emulators):
-  for emulator in emulators:
-    logger.info("Detected Emulator: %s" % emulator.name)
-
-def log_consoles(consoles):
-  for console in consoles:
-    logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
