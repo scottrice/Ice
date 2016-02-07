@@ -11,9 +11,10 @@ from pysteam.steam import get_steam
 
 import decorators
 import debug
+import settings
 
 from filesystem import RealFilesystem
-from tasks import TaskEngine
+from tasks import TaskEngine, UpdateGridImagesTask
 
 class CommandLineRunner(object):
 
@@ -33,6 +34,11 @@ class CommandLineRunner(object):
     parser.add_argument('-d', '--dry-run', action='store_true')
     return parser.parse_args(argv)
 
+  def tasks_for_options(self, app_settings, options):
+    return [
+      UpdateGridImagesTask(app_settings),
+    ]
+
   @decorators.catch_exceptions("An exception occurred while running Ice")
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
@@ -41,14 +47,18 @@ class CommandLineRunner(object):
       debug.paste_debug_logs()
       return
 
+    app_settings = settings.load_app_settings(self.filesystem, file_overrides = {
+        'config.txt': options.config,
+        'consoles.txt': options.consoles,
+        'emulators.txt': options.emulators,
+    })
     engine = TaskEngine(
       self.steam,
       filesystem = self.filesystem,
-      file_overrides = {
-        'config': options.config,
-        'consoles': options.consoles,
-        'emulators': options.emulators,
-      })
+      app_settings = app_settings,
+    )
     engine.run(
+      tasks = self.tasks_for_options(app_settings, options),
       skip_steam_check=options.skip_steam_check,
-      dry_run=options.dry_run)
+      dry_run=options.dry_run
+    )

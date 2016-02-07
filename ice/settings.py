@@ -3,6 +3,7 @@
 import os
 
 import configuration
+import model
 import paths
 
 from logs import logger
@@ -58,6 +59,14 @@ def load_consoles(emulators, filesystem, override = None):
   return BackedObjectManager(
     ConfigFileBackingStore(path),
     ConsoleBackedObjectAdapter(emulators)
+  )
+
+def load_app_settings(filesystem, file_overrides = {}):
+  emulators = load_emulators(filesystem, file_overrides['emulators.txt'])
+  return model.AppSettings(
+    config = load_configuration(filesystem, file_overrides['config.txt']),
+    consoles = load_consoles(emulators, filesystem, file_overrides['consoles.txt']),
+    emulators = emulators,
   )
 
 def image_provider(config):

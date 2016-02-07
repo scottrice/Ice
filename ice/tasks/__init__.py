@@ -2,3 +2,4 @@
 # encoding: utf-8
 
 from engine import TaskEngine
+from grid import UpdateGridImagesTask

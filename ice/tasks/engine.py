@@ -24,7 +24,6 @@ from ice.logs import logger
 from ice.parsing.rom_parser import ROMParser
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_finder import ROMFinder
-from ice.steam_grid_updater import SteamGridUpdater
 from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 
 STEAM_CHECK_SKIPPED_WARNING = """\
@@ -38,7 +37,7 @@ class TaskEngine(object):
     self,
     steam,
     filesystem,
-    file_overrides):
+    app_settings):
     """Valid options for creating an IceEngine are as follows:
 
     * config    - The path to the config file to use. Searches the default paths
@@ -57,17 +56,14 @@ class TaskEngine(object):
     self.users = filter(is_user_context, steam_module.local_user_contexts(self.steam))
 
     logger.debug("Initializing Ice")
-    self.config    = settings.load_configuration(filesystem, file_overrides['config'])
-    self.emulators = settings.load_emulators(filesystem, file_overrides['emulators'])
-    self.consoles  = settings.load_consoles(self.emulators, filesystem, file_overrides['consoles'])
+
+    self.app_settings = app_settings
 
     parser = ROMParser()
-    self.rom_finder = ROMFinder(self.config, filesystem, parser)
+    self.rom_finder = ROMFinder(app_settings.config, filesystem, parser)
 
     managed_rom_archive = ManagedROMArchive(paths.archive_path())
-    self.shortcut_synchronizer = SteamShortcutSynchronizer(self.config, managed_rom_archive)
-
-    self.grid_updater = SteamGridUpdater(settings.image_provider(self.config))
+    self.shortcut_synchronizer = SteamShortcutSynchronizer(app_settings.config, managed_rom_archive)
 
   def validate_environment(self, skip_steam_check):
     """
@@ -85,9 +81,9 @@ class TaskEngine(object):
       # This is used to store history information and such
       env_checker.require_directory_exists(paths.application_data_directory())
 
-      for console in self.consoles:
+      for console in self.app_settings.consoles:
         # Consoles assume they have a ROMs directory
-        env_checker.require_directory_exists(consoles.console_roms_directory(self.config, console))
+        env_checker.require_directory_exists(consoles.console_roms_directory(self.app_settings.config, console))
 
       for user in self.users:
         # If the user hasn't added any grid images on their own then this
@@ -100,10 +96,11 @@ class TaskEngine(object):
     if dry_run:
       logger.debug("Not creating backup because its a dry run")
     else:
-      backups.create_backup_of_shortcuts(self.config, user)
+      backups.create_backup_of_shortcuts(self.app_settings.config, user)
 
   def run(
     self,
+    tasks,
     skip_steam_check=False,
     dry_run=False):
     if self.steam is None:
@@ -120,15 +117,17 @@ class TaskEngine(object):
       return
 
     # TODO: Create any missing directories that Ice will need
-    log_emulators(self.emulators)
-    log_consoles(self.consoles)
+    log_emulators(self.app_settings.emulators)
+    log_consoles(self.app_settings.consoles)
 
-    roms = self.rom_finder.roms_for_consoles(self.consoles)
+    roms = self.rom_finder.roms_for_consoles(self.app_settings.consoles)
+
     for user in self.users:
       logger.info("=========== User: %s ===========" % str(user.user_id))
       self.create_backup(user, dry_run=dry_run)
-      self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.consoles, dry_run=dry_run)
-      self.grid_updater.update_artwork_for_rom_collection(user, roms, dry_run=dry_run)
+      self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.app_settings.consoles, dry_run=dry_run)
+
+    [ task(self.users, roms, dry_run=dry_run) for task in tasks ]
 
 # Logging methods. The purpose of these methods isn't so much to log things as
 # they are to inform the user of the state of their setup (as Ice sees it).

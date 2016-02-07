@@ -2,6 +2,12 @@
 
 import collections
 
+AppSettings = collections.namedtuple('AppSettings', [
+  'config',
+  'consoles',
+  'emulators',
+])
+
 Configuration = collections.namedtuple('Configuration', [
   'backup_directory',
   'provider_spec',
