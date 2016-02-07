@@ -3,3 +3,4 @@
 
 from engine import TaskEngine
 from grid import UpdateGridImagesTask
+from shortcuts import SyncShortcutsTask

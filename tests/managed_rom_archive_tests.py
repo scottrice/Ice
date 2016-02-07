@@ -6,7 +6,7 @@ import shutil
 import tempfile
 import unittest
 
-from ice.history.managed_rom_archive import ManagedROMArchive
+from ice.history import ManagedROMArchive
 
 class ManagedROMArchiveTests(unittest.TestCase):
   def setUp(self):

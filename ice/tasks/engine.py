@@ -19,12 +19,10 @@ from ice import paths
 from ice import settings
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
-from ice.history.managed_rom_archive import ManagedROMArchive
 from ice.logs import logger
 from ice.parsing.rom_parser import ROMParser
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from ice.rom_finder import ROMFinder
-from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 
 STEAM_CHECK_SKIPPED_WARNING = """\
 Not checking whether Steam is running. Any changes made may be overwritten \
@@ -62,9 +60,6 @@ class TaskEngine(object):
     parser = ROMParser()
     self.rom_finder = ROMFinder(app_settings.config, filesystem, parser)
 
-    managed_rom_archive = ManagedROMArchive(paths.archive_path())
-    self.shortcut_synchronizer = SteamShortcutSynchronizer(app_settings.config, managed_rom_archive)
-
   def validate_environment(self, skip_steam_check):
     """
     Validate that the current environment meets all of Ice's requirements.
@@ -92,12 +87,6 @@ class TaskEngine(object):
         # And it needs to be writable if we are going to save images there
         env_checker.require_writable_path(steam_paths.custom_images_directory(user))
 
-  def create_backup(self, user, dry_run=False):
-    if dry_run:
-      logger.debug("Not creating backup because its a dry run")
-    else:
-      backups.create_backup_of_shortcuts(self.app_settings.config, user)
-
   def run(
     self,
     tasks,
@@ -121,11 +110,6 @@ class TaskEngine(object):
     log_consoles(self.app_settings.consoles)
 
     roms = self.rom_finder.roms_for_consoles(self.app_settings.consoles)
-
-    for user in self.users:
-      logger.info("=========== User: %s ===========" % str(user.user_id))
-      self.create_backup(user, dry_run=dry_run)
-      self.shortcut_synchronizer.sync_roms_for_user(user, roms, self.app_settings.consoles, dry_run=dry_run)
 
     [ task(self.users, roms, dry_run=dry_run) for task in tasks ]
 
