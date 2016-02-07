@@ -14,7 +14,7 @@ import debug
 import settings
 
 from filesystem import RealFilesystem
-from tasks import TaskEngine, LogAppStateTask, SyncShortcutsTask, UpdateGridImagesTask
+from tasks import  TaskEngine, LaunchSteamTask, LogAppStateTask, SyncShortcutsTask, UpdateGridImagesTask
 
 class CommandLineRunner(object):
 
@@ -25,7 +25,8 @@ class CommandLineRunner(object):
   def get_command_line_args(self, argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('pdebug', type=bool, nargs='?', help="Pastes debug logs to pastebin to include with bug reports.")
-    parser.add_argument('-s', '--skip-steam-check', action='store_true', help="Skips checking whether Steam is running")
+    parser.add_argument('--skip-steam-check', action='store_true', help="Skips checking whether Steam is running")
+    parser.add_argument('--launch-steam', action='store_true', help="Launches Steam after the shortcuts have been synced and its safe to do so")
     # Config options
     parser.add_argument('-c', '--config', type=str, default=None)
     parser.add_argument('-C', '--consoles', type=str, default=None)
@@ -35,11 +36,16 @@ class CommandLineRunner(object):
     return parser.parse_args(argv)
 
   def tasks_for_options(self, app_settings, options):
-    return [
+    tasks = [
       LogAppStateTask(app_settings),
       SyncShortcutsTask(app_settings),
-      UpdateGridImagesTask(app_settings),
     ]
+
+    if options.launch_steam:
+      tasks = tasks + [ LaunchSteamTask() ]
+
+    tasks = tasks + [ UpdateGridImagesTask(app_settings) ]
+    return tasks
 
   @decorators.catch_exceptions("An exception occurred while running Ice")
   def run(self, argv):
