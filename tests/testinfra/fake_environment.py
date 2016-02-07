@@ -12,9 +12,9 @@ from pysteam import paths
 from pysteam import shortcuts
 
 from ice import configuration
+from ice.cli import CommandLineRunner
 from ice.filesystem import FakeFilesystem
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
-from ice.runners.command_line_runner import CommandLineRunner
 
 from fixtures import SteamFixture, UserFixture
 

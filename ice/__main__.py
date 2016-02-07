@@ -4,10 +4,10 @@ import sys
 import traceback
 
 try:
-  from runners import command_line_runner
+  from cli import CommandLineRunner
 
   if __name__ == "__main__":
-    runner = command_line_runner.CommandLineRunner()
+    runner = CommandLineRunner()
     runner.run(sys.argv)
     # Keeps the console from closing (until the user hits enter) so they can
     # read any console output

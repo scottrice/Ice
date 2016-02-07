@@ -9,11 +9,11 @@ import argparse
 
 from pysteam.steam import get_steam
 
-from ice_engine import IceEngine
+import decorators
+import debug
 
-from ice import decorators
-from ice import debug
-from ice.filesystem import RealFilesystem
+from filesystem import RealFilesystem
+from tasks import TaskEngine
 
 class CommandLineRunner(object):
 
@@ -41,7 +41,7 @@ class CommandLineRunner(object):
       debug.paste_debug_logs()
       return
 
-    engine = IceEngine(
+    engine = TaskEngine(
       self.steam,
       filesystem = self.filesystem,
       file_overrides = {

@@ -32,7 +32,7 @@ Not checking whether Steam is running. Any changes made may be overwritten \
 when Steam exits.\
 """
 
-class IceEngine(object):
+class TaskEngine(object):
 
   def __init__(
     self,
