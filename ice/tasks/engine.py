@@ -31,20 +31,7 @@ when Steam exits.\
 
 class TaskEngine(object):
 
-  def __init__(
-    self,
-    steam,
-    filesystem,
-    app_settings):
-    """Valid options for creating an IceEngine are as follows:
-
-    * config    - The path to the config file to use. Searches the default paths
-                  for 'config.txt' otherwise
-    * consoles  - The path to the consoles file to use. Searches the default
-                  paths for 'consoles.txt' if none is provided
-    * emulators - The path to the emulators file to use. Searches the default
-                  paths for 'emulators.txt' if none is provided
-    """
+  def __init__(self, steam, filesystem, app_settings):
     self.steam = steam
     self.filesystem = filesystem
 
@@ -87,11 +74,7 @@ class TaskEngine(object):
         # And it needs to be writable if we are going to save images there
         env_checker.require_writable_path(steam_paths.custom_images_directory(user))
 
-  def run(
-    self,
-    tasks,
-    skip_steam_check=False,
-    dry_run=False):
+  def run(self, tasks, skip_steam_check=False, dry_run=False):
     if self.steam is None:
       logger.error("Cannot run Ice because Steam doesn't appear to be installed")
       return
@@ -107,4 +90,5 @@ class TaskEngine(object):
 
     roms = self.rom_finder.roms_for_consoles(self.app_settings.consoles)
 
-    [ task(self.users, roms, dry_run=dry_run) for task in tasks ]
+    for task in tasks:
+      task(self.users, roms, dry_run=dry_run)
