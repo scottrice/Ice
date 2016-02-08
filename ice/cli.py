@@ -7,19 +7,20 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 import argparse
 
-from pysteam.steam import get_steam
+from pysteam.steam import get_steam, Steam
 
 import decorators
 import debug
 import settings
 
+from logs import logger
 from filesystem import RealFilesystem
 from tasks import  TaskEngine, LaunchSteamTask, LogAppStateTask, SyncShortcutsTask, UpdateGridImagesTask
 
 class CommandLineRunner(object):
 
   def __init__(self, steam=None, filesystem=None):
-    self.steam = steam if steam is not None else get_steam()
+    self.steam = steam
     self.filesystem = RealFilesystem() if filesystem is None else filesystem
 
   def get_command_line_args(self, argv):
@@ -34,6 +35,26 @@ class CommandLineRunner(object):
     # Debugging options
     parser.add_argument('-d', '--dry-run', action='store_true')
     return parser.parse_args(argv)
+
+  def should_use_user_override(self, override):
+    if override is None:
+      return False
+    if override == "":
+      return False
+    if not self.filesystem.path_exists(override):
+      logger.warning("config.txt specifies a Steam userdata directory that doesn't exist. Ignoring.")
+      return False
+    return False
+
+  def get_steam(self, config):
+    override = config.userdata_directory
+    if self.should_use_user_override(override):
+      return Steam(override)
+
+    if self.steam is not None:
+      return self.steam
+
+    return get_steam()
 
   def tasks_for_options(self, app_settings, options):
     tasks = [
@@ -61,7 +82,7 @@ class CommandLineRunner(object):
         'emulators.txt': options.emulators,
     })
     engine = TaskEngine(
-      self.steam,
+      self.get_steam(app_settings.config),
       filesystem = self.filesystem,
       app_settings = app_settings,
     )

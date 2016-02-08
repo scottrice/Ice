@@ -12,6 +12,6 @@ class UpdateGridImagesTask(object):
     self.grid_updater = steam_grid_updater.SteamGridUpdater(provider)
 
   def __call__(self, users, roms, dry_run):
-    logger.info("::Updating grid images")
     for user in users:
+      logger.info("::Updating grid images for U:%s" % user.user_id)
       self.grid_updater.update_artwork_for_rom_collection(user, roms, dry_run=dry_run)

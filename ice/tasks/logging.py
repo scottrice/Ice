@@ -16,5 +16,9 @@ class LogAppStateTask(object):
     for console in self.app_settings.consoles:
       logger.info("Detected Console: %s => %s" % (console.fullname, console.emulator.name))
 
+    if len(users) is 0:
+      logger.info("No users were found in Steam's userdata, so Ice has no shortcuts to set. Has anyone logged in on this computer before?")
+      return
+
     user_ids = map(lambda u: u.user_id, users)
     logger.info("===== Running for users: %s =====" % ", ".join(user_ids))
