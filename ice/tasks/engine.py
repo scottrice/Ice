@@ -1,9 +1,4 @@
-"""
-IceEngine
-
-The job of this class is to perform the functionality that Ice is defined by.
-By that I mean the high level goal of `Adding ROMs to Steam`.
-"""
+# encoding: utf-8
 
 import os
 
