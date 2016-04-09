@@ -17,7 +17,12 @@ from logs import logger
 from filesystem import RealFilesystem
 from parsing.rom_parser import ROMParser
 from rom_finder import ROMFinder
-from tasks import  TaskEngine, LaunchSteamTask, LogAppStateTask, SyncShortcutsTask, UpdateGridImagesTask
+from tasks import TaskEngine, \
+                  LaunchSteamTask, \
+                  LogAppStateTask, \
+                  PrepareEnvironmentTask, \
+                  SyncShortcutsTask, \
+                  UpdateGridImagesTask \
 
 class CommandLineRunner(object):
 
@@ -63,6 +68,7 @@ class CommandLineRunner(object):
     rom_finder = ROMFinder(self.filesystem, parser)
 
     tasks = [
+      PrepareEnvironmentTask(self.filesystem, options.skip_steam_check),
       LogAppStateTask(),
       SyncShortcutsTask(rom_finder),
     ]
@@ -93,6 +99,5 @@ class CommandLineRunner(object):
     )
     engine.run(
       tasks = self.tasks_for_options(options),
-      skip_steam_check=options.skip_steam_check,
       dry_run=options.dry_run
     )
