@@ -101,10 +101,9 @@ class CommandLineRunner(object):
     })
     engine = TaskEngine(
       self.get_steam(app_settings.config),
-      filesystem = self.filesystem,
-      app_settings = app_settings,
     )
     engine.run(
       tasks = self.tasks_for_options(options),
+      app_settings = app_settings,
       dry_run=options.dry_run
     )
