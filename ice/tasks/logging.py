@@ -7,7 +7,7 @@ from ice.logs import logger
 # relying on log messages as our UI
 class LogAppStateTask(object):
 
-  def __call__(self, app_settings, users, roms, dry_run):
+  def __call__(self, app_settings, users, dry_run):
     for emulator in app_settings.emulators:
       logger.info("Detected Emulator: %s" % emulator.name)
 

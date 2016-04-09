@@ -9,7 +9,15 @@ from ice.steam_shortcut_synchronizer import SteamShortcutSynchronizer
 
 class SyncShortcutsTask(object):
 
-  def __call__(self, app_settings, users, roms, dry_run):
+  def __init__(self, rom_finder):
+    self.rom_finder = rom_finder
+
+  def __call__(self, app_settings, users, dry_run):
+    roms = self.rom_finder.roms_for_consoles(
+      app_settings.config,
+      app_settings.consoles,
+    )
+
     managed_rom_archive = history.ManagedROMArchive(paths.archive_path())
     shortcut_synchronizer = SteamShortcutSynchronizer(app_settings.config, managed_rom_archive)
 

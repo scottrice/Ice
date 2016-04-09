@@ -15,6 +15,8 @@ import settings
 
 from logs import logger
 from filesystem import RealFilesystem
+from parsing.rom_parser import ROMParser
+from rom_finder import ROMFinder
 from tasks import  TaskEngine, LaunchSteamTask, LogAppStateTask, SyncShortcutsTask, UpdateGridImagesTask
 
 class CommandLineRunner(object):
@@ -57,15 +59,18 @@ class CommandLineRunner(object):
     return get_steam()
 
   def tasks_for_options(self, options):
+    parser = ROMParser()
+    rom_finder = ROMFinder(self.filesystem, parser)
+
     tasks = [
       LogAppStateTask(),
-      SyncShortcutsTask(),
+      SyncShortcutsTask(rom_finder),
     ]
 
     if options.launch_steam:
       tasks = tasks + [ LaunchSteamTask() ]
 
-    tasks = tasks + [ UpdateGridImagesTask() ]
+    tasks = tasks + [ UpdateGridImagesTask(rom_finder) ]
     return tasks
 
   @decorators.catch_exceptions("An exception occurred while running Ice")

@@ -15,9 +15,7 @@ from ice import settings
 from ice.error.env_checker_error import EnvCheckerError
 from ice.environment_checker import EnvironmentChecker
 from ice.logs import logger
-from ice.parsing.rom_parser import ROMParser
 from ice.persistence.config_file_backing_store import ConfigFileBackingStore
-from ice.rom_finder import ROMFinder
 
 STEAM_CHECK_SKIPPED_WARNING = """\
 Not checking whether Steam is running. Any changes made may be overwritten \
@@ -38,9 +36,6 @@ class TaskEngine(object):
     logger.debug("Initializing Ice")
 
     self.app_settings = app_settings
-
-    parser = ROMParser()
-    self.rom_finder = ROMFinder(filesystem, parser)
 
   def validate_environment(self, skip_steam_check):
     """
@@ -83,10 +78,5 @@ class TaskEngine(object):
       logger.info("\nPlease resolve these issues and try running Ice again")
       return
 
-    roms = self.rom_finder.roms_for_consoles(
-      self.app_settings.config,
-      self.app_settings.consoles,
-    )
-
     for task in tasks:
-      task(self.app_settings, self.users, roms, dry_run=dry_run)
+      task(self.app_settings, self.users, dry_run=dry_run)
