@@ -9,20 +9,14 @@ import argparse
 
 from pysteam.steam import get_steam, Steam
 
-import decorators
-import debug
-import settings
+import tasks
 
-from logs import logger
-from filesystem import RealFilesystem
-from parsing.rom_parser import ROMParser
-from rom_finder import ROMFinder
-from tasks import TaskEngine, \
-                  LaunchSteamTask, \
-                  LogAppStateTask, \
-                  PrepareEnvironmentTask, \
-                  SyncShortcutsTask, \
-                  UpdateGridImagesTask \
+from ice import decorators
+from ice import debug
+from ice import settings
+from ice.logs import logger
+from ice.filesystem import RealFilesystem
+from ice.tasks import TaskEngine
 
 def handle_exception(e, fatal):
   # Just log it
@@ -70,40 +64,33 @@ class CommandLineRunner(object):
 
     return get_steam()
 
-  def tasks_for_options(self, options):
-    parser = ROMParser()
-    rom_finder = ROMFinder(self.filesystem, parser)
-
-    tasks = [
-      PrepareEnvironmentTask(self.filesystem, options.skip_steam_check),
-      LogAppStateTask(),
-      SyncShortcutsTask(rom_finder),
-    ]
-
-    if options.launch_steam:
-      tasks = tasks + [ LaunchSteamTask() ]
-
-    tasks = tasks + [ UpdateGridImagesTask(rom_finder) ]
-    return tasks
-
   @decorators.catch_exceptions(handle_exception)
   def run(self, argv):
-    options = self.get_command_line_args(argv[1:])
+    opts = self.get_command_line_args(argv[1:])
 
-    if options.pdebug is True:
+    if opts.pdebug is True:
       debug.paste_debug_logs()
       return
 
+    task_coordinator = tasks.TaskCoordinator(self.filesystem)
+
     app_settings = settings.load_app_settings(self.filesystem, file_overrides = {
-        'config.txt': options.config,
-        'consoles.txt': options.consoles,
-        'emulators.txt': options.emulators,
+        'config.txt': opts.config,
+        'consoles.txt': opts.consoles,
+        'emulators.txt': opts.emulators,
     })
+
     engine = TaskEngine(
       self.get_steam(app_settings.config),
     )
+
+    tasks_to_run = task_coordinator.tasks_for_options(
+      launch_steam = opts.launch_steam,
+      skip_steam_check = opts.skip_steam_check,
+    )
+
     engine.run(
-      tasks = self.tasks_for_options(options),
+      tasks = tasks_to_run,
       app_settings = app_settings,
-      dry_run=options.dry_run
+      dry_run=opts.dry_run
     )
