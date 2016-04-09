@@ -40,7 +40,7 @@ class TaskEngine(object):
     self.app_settings = app_settings
 
     parser = ROMParser()
-    self.rom_finder = ROMFinder(app_settings.config, filesystem, parser)
+    self.rom_finder = ROMFinder(filesystem, parser)
 
   def validate_environment(self, skip_steam_check):
     """
@@ -83,7 +83,10 @@ class TaskEngine(object):
       logger.info("\nPlease resolve these issues and try running Ice again")
       return
 
-    roms = self.rom_finder.roms_for_consoles(self.app_settings.consoles)
+    roms = self.rom_finder.roms_for_consoles(
+      self.app_settings.config,
+      self.app_settings.consoles,
+    )
 
     for task in tasks:
       task(self.app_settings, self.users, roms, dry_run=dry_run)
