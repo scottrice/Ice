@@ -24,6 +24,13 @@ from tasks import TaskEngine, \
                   SyncShortcutsTask, \
                   UpdateGridImagesTask \
 
+def handle_exception(e, fatal):
+  # Just log it
+  if fatal:
+    logger.exception("An exception occurred while running Ice")
+  else:
+    logger.error(e.message)
+
 class CommandLineRunner(object):
 
   def __init__(self, steam=None, filesystem=None):
@@ -79,7 +86,7 @@ class CommandLineRunner(object):
     tasks = tasks + [ UpdateGridImagesTask(rom_finder) ]
     return tasks
 
-  @decorators.catch_exceptions("An exception occurred while running Ice")
+  @decorators.catch_exceptions(handle_exception)
   def run(self, argv):
     options = self.get_command_line_args(argv[1:])
 

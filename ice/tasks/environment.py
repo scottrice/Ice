@@ -4,14 +4,17 @@ from pysteam import paths as steam_paths
 
 from ice import consoles
 from ice.environment_checker import EnvironmentChecker
+from ice.error import HumanReadableError
 from ice.error.env_checker_error import EnvCheckerError
 from ice.logs import logger
 from ice import paths
 
 ERROR_MESSAGE_FORMAT = """\
 Ice cannot run because of issues with your system.
+
 * %s
-Please resolve these issues and try running Ice again.
+
+Please resolve these issues and try running Ice again.\
 """
 
 STEAM_CHECK_SKIPPED_WARNING = """\
@@ -29,7 +32,7 @@ class PrepareEnvironmentTask(object):
       self.validate_environment(app_settings, users)
     except EnvCheckerError as e:
       updated_message = ERROR_MESSAGE_FORMAT % e.message
-      raise StandardError(updated_message)
+      raise HumanReadableError(updated_message)
 
   def validate_environment(self, app_settings, users):
     """
