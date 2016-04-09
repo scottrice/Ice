@@ -56,16 +56,16 @@ class CommandLineRunner(object):
 
     return get_steam()
 
-  def tasks_for_options(self, app_settings, options):
+  def tasks_for_options(self, options):
     tasks = [
-      LogAppStateTask(app_settings),
-      SyncShortcutsTask(app_settings),
+      LogAppStateTask(),
+      SyncShortcutsTask(),
     ]
 
     if options.launch_steam:
       tasks = tasks + [ LaunchSteamTask() ]
 
-    tasks = tasks + [ UpdateGridImagesTask(app_settings) ]
+    tasks = tasks + [ UpdateGridImagesTask() ]
     return tasks
 
   @decorators.catch_exceptions("An exception occurred while running Ice")
@@ -87,7 +87,7 @@ class CommandLineRunner(object):
       app_settings = app_settings,
     )
     engine.run(
-      tasks = self.tasks_for_options(app_settings, options),
+      tasks = self.tasks_for_options(options),
       skip_steam_check=options.skip_steam_check,
       dry_run=options.dry_run
     )

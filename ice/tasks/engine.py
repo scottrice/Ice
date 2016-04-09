@@ -86,4 +86,4 @@ class TaskEngine(object):
     roms = self.rom_finder.roms_for_consoles(self.app_settings.consoles)
 
     for task in tasks:
-      task(self.users, roms, dry_run=dry_run)
+      task(self.app_settings, self.users, roms, dry_run=dry_run)
