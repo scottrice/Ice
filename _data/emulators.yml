@@ -53,7 +53,7 @@ configurations:
   # higan
   # --------------------------------
   - name: higan
-    url: "http://byuu.org/higan/"
+    url: "http://byuu.org/emulation/higan/"
     supports: "NES, SNES, Gameboy, Gameboy Color, Gameboy Advance"
     platforms:
       - name: "windows"
