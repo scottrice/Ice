@@ -5,14 +5,14 @@ if ($steam) {
   if (!$steam.HasExited) {
     $steam | Stop-Process -Force
   }
-  }
-  Remove-Variable steam
-
+}
+ 
+Remove-Variable steam
 start-process .\Ice.exe
 $ice = Get-process ice
- while(!$ice.HasExited){
+while(!$ice.HasExited){
 
- }
+}
  Remove-Variable ice
 
  start-process "steam:"
