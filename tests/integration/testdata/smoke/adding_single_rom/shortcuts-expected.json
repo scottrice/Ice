@@ -1,9 +1,15 @@
 [
   {
     "name": "NESGame",
-    "exe": "\"/emu/Mednafen/mednafen\" \"%sb/ROMs/NES/NESGame.nes\"",
+    "exe": "\"/emu/Mednafen/mednafen\"",
     "startdir": "/emu/Mednafen",
     "icon": "",
+    "shortcut_path": "",
+    "launch_options": "\"%sb/ROMs/NES/NESGame.nes\"",
+    "hidden": false,
+    "allow_desktop_config": false,
+    "open_vr": false,
+    "last_play_time": 0,
     "tags": ["Nintendo Entertainment System"]
   }
 ]

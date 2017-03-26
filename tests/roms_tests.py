@@ -57,9 +57,15 @@ class ROMsTests(unittest.TestCase):
   @parameterized.expand([
     (fixtures.roms.banjo_kazooie, steam_model.Shortcut(
       name = '[NES] Banjo Kazooie',
-      exe = '\"/emulators/Mednafen/mednafen\" \"/roms/nes/Banjo Kazooie.nes\"',
+      exe = '\"/emulators/Mednafen/mednafen\"',
       startdir = '/emulators/Mednafen',
       icon = '/consoles/icons/nes.png',
+      shortcut_path ='',
+      launch_options ='\"/roms/nes/Banjo Kazooie.nes\"',
+      hidden = False,
+      allow_desktop_config = False,
+      open_vr = False,
+      last_play_time = 0,
       tags = ['Nintendo Entertainment System']
     ))
   ])

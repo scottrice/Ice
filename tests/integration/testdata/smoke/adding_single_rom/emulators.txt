@@ -1,4 +1,4 @@
 
 [Mednafen]
 location=/emu/Mednafen/mednafen
-command=%l %r
+command=%r

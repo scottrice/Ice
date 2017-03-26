@@ -24,7 +24,7 @@ class SmokeTests(unittest.TestCase):
     self.env.load_test_data(os.path.join("smoke", "adding_single_rom"))
     u1 = self.env.create_fake_user()
     u2 = self.env.create_fake_user()
-    u2_shortcut = model.Shortcut('Plex', '/Path/to/Plex', '/Path/to', '', [])
+    u2_shortcut = model.Shortcut('Plex', '/Path/to/Plex', '/Path/to', '', '', '', False, False, False, 0, [])
     preexisting_shortcuts = [u2_shortcut]
     self.env.set_user_shortcuts(u2, preexisting_shortcuts)
     self.env.run_command()

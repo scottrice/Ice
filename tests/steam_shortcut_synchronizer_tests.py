@@ -39,7 +39,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
 
   def test_unmanaged_shortcuts_returns_all_shortcuts_when_given_no_history(self):
     dummy_console = self._create_dummy_console("/Some/Other/Path")
-    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", [])
+    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", "", "", False, False, False, 0, [])
 
     unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], [dummy_console])
 
@@ -47,7 +47,7 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
 
   def test_unmanaged_shortcuts_filters_suspicious_shortcuts_when_given_no_history(self):
     dummy_console = self._create_dummy_console("/Some/Path")
-    random_shortcut = steam_model.Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path", "", [])
+    random_shortcut = steam_model.Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path", "", "", "", False, False, False, 0, [])
 
     unmanaged = self.synchronizer.unmanaged_shortcuts(None ,[random_shortcut], [dummy_console])
 
@@ -55,77 +55,77 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
 
   def test_unmanaged_shortcuts_doesnt_filter_suspicious_shortcuts_when_we_have_history(self):
     dummy_console = self._create_dummy_console("/Some/Path")
-    random_shortcut = steam_model.Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path", "", [])
+    random_shortcut = steam_model.Shortcut("Iron Man", "/Some/Emulator/Path/emulator /Some/Path/Iron Man", "/Some/Emulator/Path", "", "", "", False, False, False, 0, [])
 
     unmanaged = self.synchronizer.unmanaged_shortcuts([] ,[random_shortcut], [dummy_console])
 
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_unmanaged_shortcuts_returns_shortcut_not_affiliated_with_ice(self):
-    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", [])
+    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", "", "", False, False, False, 0, [])
     unmanaged = self.synchronizer.unmanaged_shortcuts([],[random_shortcut], None)
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_unmanaged_shortcuts_doesnt_return_shortcut_with_flag_tag(self):
-    tagged_shortcut = steam_model.Shortcut("Game", "/Path/to/game", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    tagged_shortcut = steam_model.Shortcut("Game", "/Path/to/game", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     unmanaged = self.synchronizer.unmanaged_shortcuts([],[tagged_shortcut], None)
     self.assertEquals(unmanaged, [])
 
   def test_unmanaged_shortcuts_doesnt_return_shortcut_with_appid_in_managed_ids(self):
-    managed_shortcut = steam_model.Shortcut("Game", "/Path/to/game", "/Path/to", "", [])
-    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", [])
+    managed_shortcut = steam_model.Shortcut("Game", "/Path/to/game", "/Path/to", "", "", "", False, False, False, 0, [])
+    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", "", "", False, False, False, 0, [])
     managed_ids = [shortcuts.shortcut_app_id(managed_shortcut)]
     all_shortcuts = [managed_shortcut, random_shortcut]
     unmanaged = self.synchronizer.unmanaged_shortcuts(managed_ids, all_shortcuts, None)
     self.assertEquals(unmanaged, [random_shortcut])
 
   def test_added_shortcuts_doesnt_return_shortcuts_that_still_exist(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     old = [shortcut1, shortcut2]
     new = [shortcut1, shortcut2]
     self.assertEquals(self.synchronizer.added_shortcuts(old, new), [])
 
   def test_added_shortcuts_returns_shortcuts_that_didnt_exist_previously(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     new = [shortcut1, shortcut2]
     self.assertEquals(self.synchronizer.added_shortcuts([], new), [shortcut1, shortcut2])
 
   def test_added_shortcuts_only_returns_shortcuts_that_exist_now_but_not_before(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut3 = steam_model.Shortcut("Game3", "/Path/to/game3", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut4 = steam_model.Shortcut("Game4", "/Path/to/game4", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut3 = steam_model.Shortcut("Game3", "/Path/to/game3", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut4 = steam_model.Shortcut("Game4", "/Path/to/game4", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     old = [shortcut1, shortcut2]
     new = [shortcut1, shortcut2, shortcut3, shortcut4]
     self.assertEquals(self.synchronizer.added_shortcuts(old, new), [shortcut3, shortcut4])
 
   def test_removed_shortcuts_doesnt_return_shortcuts_that_still_exist(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     old = [shortcut1, shortcut2]
     new = [shortcut1, shortcut2]
     self.assertEquals(self.synchronizer.removed_shortcuts(old, new), [])
 
   def test_removed_shortcuts_returns_shortcuts_that_dont_exist_anymore(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     old = [shortcut1, shortcut2]
     new = []
     self.assertEquals(self.synchronizer.removed_shortcuts(old, new), [shortcut1, shortcut2])
 
   def test_removed_shortcuts_only_returns_shortcuts_that_dont_exist_now_but_did_before(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut3 = steam_model.Shortcut("Game3", "/Path/to/game3", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut4 = steam_model.Shortcut("Game4", "/Path/to/game4", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut3 = steam_model.Shortcut("Game3", "/Path/to/game3", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut4 = steam_model.Shortcut("Game4", "/Path/to/game4", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     old = [shortcut1, shortcut2, shortcut3, shortcut4]
     new = [shortcut1, shortcut2]
     self.assertEquals(self.synchronizer.removed_shortcuts(old, new), [shortcut3, shortcut4])
 
   def test_sync_roms_for_user_keeps_unmanaged_shortcuts(self):
-    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", [])
+    random_shortcut = steam_model.Shortcut("Plex", "/Some/Random/Path/plex", "/Some/Random/Path", "", "", "", False, False, False, 0, [])
     self._set_users_shortcuts([random_shortcut])
     when(self.mock_archive).previous_managed_ids(self.user_fixture.get_context()).thenReturn([])
 
@@ -173,16 +173,16 @@ class SteamShortcutSynchronizerTests(unittest.TestCase):
     verify(self.mock_logger, times=3).info(any())
 
   def test_sync_roms_for_user_logs_when_a_rom_is_removed(self):
-    shortcut = steam_model.Shortcut("Game", "/Path/to/game", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut = steam_model.Shortcut("Game", "/Path/to/game", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     self._set_users_shortcuts([shortcut])
 
     self.synchronizer.sync_roms_for_user(self.user_fixture.get_context(), [], None)
     verify(self.mock_logger).info(any())
 
   def test_sync_roms_for_user_logs_once_for_each_removed_rom(self):
-    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", [roms.ICE_FLAG_TAG])
-    shortcut3 = steam_model.Shortcut("Game3", "/Path/to/game3", "/Path/to", "", [roms.ICE_FLAG_TAG])
+    shortcut1 = steam_model.Shortcut("Game1", "/Path/to/game1", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut2 = steam_model.Shortcut("Game2", "/Path/to/game2", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
+    shortcut3 = steam_model.Shortcut("Game3", "/Path/to/game3", "/Path/to", "", "", "", False, False, False, 0, [roms.ICE_FLAG_TAG])
     self._set_users_shortcuts([shortcut1, shortcut2, shortcut3])
 
     self.synchronizer.sync_roms_for_user(self.user_fixture.get_context(), [], None)

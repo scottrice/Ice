@@ -19,14 +19,20 @@ from ice.persistence.config_file_backing_store import ConfigFileBackingStore
 from fixtures import SteamFixture, UserFixture
 
 def json_to_shortcut(json):
-  for field in ["name", "exe", "startdir", "icon", "tags"]:
+  for field in ["name", "exe", "startdir", "icon", "shortcut_path", "launch_options", "hidden", "allow_desktop_config", "open_vr", "last_play_time", "tags"]:
     assert field in json
   return model.Shortcut(
-    name      = json.get("name"),
-    exe       = json.get("exe"),
-    startdir  = json.get("startdir"),
-    icon      = json.get("icon"),
-    tags      = json.get("tags")
+    name                 = json.get("name").encode("UTF8"),
+    exe                  = json.get("exe").encode("UTF8"),
+    startdir             = json.get("startdir").encode("UTF8"),
+    icon                 = json.get("icon").encode("UTF8"),
+    shortcut_path        = json.get("shortcut_path").encode("UTF8"),
+    launch_options       = json.get("launch_options").encode("UTF8"),
+    hidden               = json.get("hidden"),
+    allow_desktop_config = json.get("allow_desktop_config"),
+    open_vr              = json.get("open_vr"),
+    last_play_time       = json.get("last_play_time"),
+    tags                 = json.get("tags")
   )
 
 class FakeEnvironment(object):
@@ -90,11 +96,17 @@ class FakeEnvironment(object):
 
   def _adjust_shortcut_exe(self, shortcut):
     return model.Shortcut(
-      name      = shortcut.name,
-      exe       = self._adjust_json_path(shortcut.exe),
-      startdir  = shortcut.startdir,
-      icon      = shortcut.icon,
-      tags      = shortcut.tags,
+      name                 = shortcut.name,
+      exe                  = self._adjust_json_path(shortcut.exe),
+      startdir             = shortcut.startdir,
+      icon                 = shortcut.icon,
+      shortcut_path        ='',
+      launch_options       = self._adjust_json_path(shortcut.launch_options.replace("/", os.sep)),
+      hidden               = False,
+      allow_desktop_config = False,
+      open_vr              = False,
+      last_play_time       = 0,
+      tags                 = shortcut.tags,
     )
 
   def load_test_data(self, testdata):

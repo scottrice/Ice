@@ -12,7 +12,8 @@ class EmulatorBackedObjectAdapter(object):
   def new(self, backing_store, identifier):
     name     = identifier
     location = backing_store.get(identifier, 'location')
-    fmt      = backing_store.get(identifier, 'command', "%l %r")
+    # fmt      = backing_store.get(identifier, 'command', "%l %r")
+    fmt      = backing_store.get(identifier, 'command', "%r")
 
     location = os.path.expanduser(location)
 

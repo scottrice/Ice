@@ -81,7 +81,7 @@ emulators = DataFixture({
   "mednafen": model.Emulator(
     name = 'Mednafen',
     location = '/emulators/Mednafen/mednafen',
-    format = "%l %r"
+    format = "%r"
   ),
 })
 

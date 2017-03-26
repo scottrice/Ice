@@ -71,7 +71,7 @@ class BackupsTests(unittest.TestCase):
 
     user = self.user_fixture.get_context()
 
-    shortcut = model.Shortcut('Plex', '/Path/to/plex', '/Path/to', '', [])
+    shortcut = model.Shortcut('Plex', '/Path/to/plex', '/Path/to', '', '', '', False, False, False, 0, [])
     user_shortcuts = [shortcut]
 
     shortcuts.set_shortcuts(user, user_shortcuts)
