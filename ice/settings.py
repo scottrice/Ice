@@ -10,6 +10,7 @@ from logs import logger
 from gridproviders.combined_provider import CombinedProvider
 from gridproviders.consolegrid_provider import ConsoleGridProvider
 from gridproviders.local_provider import LocalProvider
+from gridproviders.retrogamingcloud_provider import RetroGamingCloudProvider
 from persistence.backed_object_manager import BackedObjectManager
 from persistence.config_file_backing_store import ConfigFileBackingStore
 from persistence.adapters.console_adapter import ConsoleBackedObjectAdapter
@@ -73,6 +74,7 @@ def image_provider(config):
   providerByName = {
     "local": LocalProvider,
     "consolegrid": ConsoleGridProvider,
+    "retrogamingcloud": RetroGamingCloudProvider,
   }
   normalize = lambda s: s.strip().lower()
   names = map(normalize, config.provider_spec.split(","))

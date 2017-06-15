@@ -10,4 +10,5 @@ __all__ = [
     "consolegrid_provider",
     "grid_image_provider",
     "local_provider",
+    "retrogamingcloud_provider",
 ]
