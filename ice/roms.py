@@ -46,9 +46,15 @@ def rom_to_shortcut(rom):
   assert(emu is not None)
 
   return model.Shortcut(
-    name      = rom_shortcut_name(rom),
-    exe       = emulators.emulator_rom_launch_command(emu, rom),
-    startdir  = emulators.emulator_startdir(emu),
-    icon      = rom.console.icon,
-    tags      = [rom.console.fullname]
+    name                  = rom_shortcut_name(rom),
+    exe                   = emulators.emulator_rom_launch_command(emu, rom),
+    startdir              = emulators.emulator_startdir(emu),
+    icon                  = rom.console.icon,
+    shortcut_path         = "",
+    launch_options        = "",
+    hidden                = False,
+    allow_desktop_config  = True,
+    open_vr               = False,
+    last_play_time        = 0,
+    tags                  = [rom.console.fullname]
   )
