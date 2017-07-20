@@ -42,7 +42,7 @@ class RetroGamingCloudProvider(grid_image_provider.GridImageProvider):
 
 	def rgc_search(self, rom):
 		api_root = self.api_url()
-		url = "%s?name=\"%s\"" % (api_root, rom.name)
+		url = "%s?name=%s" % (api_root, rom.name)
 		return self.rgc_get_result(url)
 
 	def rgc_get_media(self, game_id):
@@ -58,7 +58,7 @@ class RetroGamingCloudProvider(grid_image_provider.GridImageProvider):
 			return None
 		game_id = game_verify_by_name["id"]
 		game_media = self.rgc_get_media(game_id)
-		game_grid_url = next((grid["url"] for grid in game_media), None)
+		game_grid_url = next((grid["game"]["most_popular_media_url"] for grid in game_media), None)
 		if game_grid_url is None:
 			return None
 		return self.download_image(game_grid_url)
