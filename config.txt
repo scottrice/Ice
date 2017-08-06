@@ -50,4 +50,4 @@ Userdata Directory=
 # `consolegrid, local`.
 #
 # The default is `local, consolegrid`
-Providers=local, consolegrid
+Providers=local, consolegridpics
