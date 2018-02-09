@@ -5,6 +5,7 @@ import os
 import configuration
 import model
 import paths
+from gridproviders.thegamesdb_provider import TheGamesDBProvider
 
 from logs import logger
 from gridproviders.combined_provider import CombinedProvider
@@ -73,6 +74,7 @@ def image_provider(config):
   providerByName = {
     "local": LocalProvider,
     "consolegrid": ConsoleGridProvider,
+    "thegamesdb": TheGamesDBProvider,
   }
   normalize = lambda s: s.strip().lower()
   names = map(normalize, config.provider_spec.split(","))
