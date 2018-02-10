@@ -1,10 +1,12 @@
-![Example of Ice](ice-example.png "Example")
+![Example of Ice using thegamesdb.net boxart images](ice-example-new.png "Example")
 
 ##Ice (TheGamesDB.net Addon)
 
 ###Description
 
 This fork adds a new provider to download images from thegamesdb.net
+It also generates nicer coverimages if the coverimage doesnt fit steam banner size.
+
 Have fun with it.
 
 ###License
