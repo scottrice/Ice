@@ -1,10 +1,11 @@
 ![Example of Ice](ice-example.png "Example")
 
-##Ice
+##Ice (TheGamesDB.net Addon)
 
 ###Description
 
-The purpose of this project is to leverage Steam's Big Picture mode to turn it into an emulator frontend (similar to Hyperspin). It accomplishes this by creating folders in specified locations on the user's hard drive, then adding any ROMs that are placed in these folders to Steam as non-Steam games. Emulators are installed and configured by the user before Ice is run.
+This fork adds a new provider to download images from thegamesdb.net
+Have fun with it.
 
 ###License
 
@@ -24,6 +25,3 @@ Next, you will need to download all of Ice's dependencies. To do so, run `python
 
 Once all of that is finished, simply run `python -m ice` from the repository's root directory.
 
-###Ice GUI
-
-A GUI for Ice is currently being developed, but is very far from being production ready. As of writing, it is basically non-functional. Do not attempt to use the GUI, doing so will only bring you pain and heartache.
