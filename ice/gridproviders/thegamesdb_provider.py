@@ -14,6 +14,7 @@ import shutil
 import grid_image_provider
 
 from ice.logs import logger
+from ice.steam_banner_creator import SteamBannerCreator
 
 
 class TheGamesDBProvider(grid_image_provider.GridImageProvider):
@@ -102,7 +103,10 @@ class TheGamesDBProvider(grid_image_provider.GridImageProvider):
     def image_for_rom(self, rom):
         imgUrl = self.searchTheGamesDb(rom)
         if imgUrl is not None:
-            return self.download_image(imgUrl)
+            img = self.download_image(imgUrl)
+            SteamBannerCreator().convertToSteamBannerImage(img)
+            return img
+
 
     def findFrontBoxArt(self, boxarts):
         if boxarts is not None:
