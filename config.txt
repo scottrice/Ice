@@ -45,9 +45,11 @@ Userdata Directory=
 #                   a game of the same name.
 # * `consolegrid` - Hits the ConsoleGrid API looking for a game of that name.
 #
-# Ice will ask these providers for images in order, stopping when it one is
-# found. This means order matters, and `local, consolegrid` is not the same as
-# `consolegrid, local`.
+# * `thegamesdb`  - Hits the TheGamesDB API looking for a game of that name.
 #
-# The default is `local, consolegrid`
-Providers=local, consolegrid
+# Ice will ask these providers for images in order, stopping when it one is
+# found. This means order matters, and `local, consolegrid, thegamesdb` is not the same as
+# `consolegrid, local, thegamesdb`.
+#
+# The default is `local, consolegrid, thegamesdb`
+Providers=local, thegamesdb
