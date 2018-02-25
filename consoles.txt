@@ -53,48 +53,63 @@
 #
 [Nintendo Entertainment System]
 nickname=NES
-emulator=
+emulator=retroarch_nes
+roms directory=C:\Emulation\ROMs\NES
+images directory=C:\Emulation\Artwork\NES\Named_Boxarts
 
 [Super Nintendo]
 nickname=SNES
-emulator=
+emulator=retroarch_snes
+roms directory=C:\Emulation\ROMs\SNES
+images directory=C:\Emulation\Artwork\SNES\Named_Boxarts
 
 [Nintendo 64]
 nickname=N64
-emulator=
+emulator=retroarch_n64
+roms directory=C:\Emulation\ROMs\N64
+images directory=C:\Emulation\Artwork\N64\Named_Boxarts
 
-[Nintendo Gamecube]
-nickname=Gamecube
-emulator=
+#[Nintendo Gamecube]
+#nickname=Gamecube
+#emulator=retroarch_gamecube
+#roms directory=C:\Emulation\ROMs\Gamecube
 
-[Nintendo Wii]
-nickname=Wii
-emulator=
+#[Nintendo Wii]
+#nickname=Wii
+#emulator=
 
-[Playstation 1]
-nickname=PS1
-emulator=
+#[Playstation 1]
+#nickname=PS1
+#emulator=
 
-[Playstation 2]
-nickname=PS2
-emulator=
+#[Playstation 2]
+#nickname=PS2
+#emulator=
 
 [Sega Genesis]
 nickname=Genesis
-emulator=
+emulator=retroarch_genesis
+roms directory=C:\Emulation\ROMs\Genesis
+images directory=C:\Emulation\Artwork\Genesis\Named_Boxarts
 
-[Sega Dreamcast]
-nickname=Dreamcast
-emulator=
+[Sega Master System]
+nickname=SMS
+emulator=retroarch_sms
+roms directory=C:\Emulation\ROMs\SMS
+images directory=C:\Emulation\Artwork\SMS\Named_Boxarts
 
-[Nintendo Gameboy]
-nickname=Gameboy
-emulator=
+#[Sega Dreamcast]
+#nickname=Dreamcast
+#emulator=
 
-[Gameboy Advance]
-nickname=GBA
-emulator=
+#[Nintendo Gameboy]
+#nickname=Gameboy
+#emulator=
 
-[Nintendo DS]
-nickname=DS
-emulator=
+#[Gameboy Advance]
+#nickname=GBA
+#emulator=
+
+#[Nintendo DS]
+#nickname=DS
+#emulator=

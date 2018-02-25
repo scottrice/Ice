@@ -30,3 +30,31 @@
 # [SNES9X-GTK]
 # location=/usr/bin/snes9x-gtk
 # command=%l %r
+
+[retroarch_nes]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\nestopia_libretro.dll %r
+
+[retroarch_snes]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\bsnes_balanced_libretro.dll %r
+
+[retroarch_genesis]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\genesis_plus_gx_libretro.dll %r
+
+[retroarch_sms]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\genesis_plus_gx_libretro.dll %r
+
+[retroarch_wii]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\dolphin_libretro.dll %r
+
+[retroarch_gamecube]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\dolphin_libretro.dll %r
+
+[retroarch_n64]
+location=C:\Emulation\RetroArch\retroarch.exe
+command=%l -f -L C:\Emulation\RetroArch\cores\mupen64plus_libretro.dll %r
