@@ -8,6 +8,8 @@ Copyright (c) 2013 Scott Rice. All rights reserved.
 """
 __all__ = [
     "consolegrid_provider",
+    "retrogaming_provider"
+    "thegamesdb_provider"
     "grid_image_provider",
     "local_provider",
 ]
