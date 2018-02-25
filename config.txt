@@ -7,7 +7,7 @@
 # If no directory is provided, "~/ROMs" is used.
 # Example:
 # ~\ROMs                     => C:\Users\<YOUR USERNAME>\ROMs
-ROMs Directory=
+ROMs Directory=C:\Emulation\ROMs
 
 # Set a directory to store backups of your shortcuts.vdf file. If left blank,
 # Ice will store backups in it's metadata folder (see note). If this option is
@@ -50,4 +50,4 @@ Userdata Directory=
 # `consolegrid, local`.
 #
 # The default is `local, consolegrid`
-Providers=local, consolegrid
+Providers=local, thegamesdb, retrogaming
