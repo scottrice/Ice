@@ -74,6 +74,7 @@ class SteamShortcutSynchronizer(object):
     previous_managed_ids = self.managed_rom_archive.previous_managed_ids(user)
     logger.debug("Previous managed ids: %s" % previous_managed_ids)
     current_shortcuts = shortcuts.get_shortcuts(user)
+    current_shortcuts = [x for x in current_shortcuts if x is not None]
     unmanaged_shortcuts = self.unmanaged_shortcuts(previous_managed_ids, current_shortcuts, consoles)
     logger.debug("Unmanaged shortcuts: %s" % unmanaged_shortcuts)
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, current_shortcuts)
