@@ -64,4 +64,5 @@ def create_backup_of_shortcuts(config, user, dry_run=False):
   # Make sure the user-specific backups dir exists
   _create_directory_if_needed(os.path.dirname(backup_path))
 
-  shortcuts.write_shortcuts(backup_path, shortcuts.get_shortcuts(user))
+  shortcuts_list = shortcuts.get_shortcuts(user)
+  shortcuts.write_shortcuts(backup_path, [x for x in shortcuts_list if x is not None])
