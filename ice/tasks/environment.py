@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-from pysteam import paths as steam_paths
+from ice.steam import paths as steam_paths
 
 from ice import consoles
 from ice.environment_checker import EnvironmentChecker

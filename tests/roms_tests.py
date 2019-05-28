@@ -13,8 +13,8 @@ from pysteam import model as steam_model
 from ice import model
 from ice import paths
 from ice import roms
+from tests.testinfra import fixtures
 
-from testinfra import fixtures
 
 class ROMsTests(unittest.TestCase):
 
@@ -55,7 +55,7 @@ class ROMsTests(unittest.TestCase):
     self.assertEqual(roms.rom_shortcut_name(rom), expected)
 
   @parameterized.expand([
-    (fixtures.roms.banjo_kazooie, steam_model.Shortcut(
+    (roms.banjo_kazooie, steam_model.Shortcut(
       name = '[NES] Banjo Kazooie',
       exe = '\"/emulators/Mednafen/mednafen\" \"/roms/nes/Banjo Kazooie.nes\"',
       startdir = '/emulators/Mednafen',

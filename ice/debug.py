@@ -41,6 +41,6 @@ def make_paste(contents):
 
 def paste_debug_logs():
   url = make_paste(debug_log_contents())
-  print "You can find your logs at:\n"
-  print "\t%s\n" % url
-  print "Please include this link in any bug reports."
+  print("You can find your logs at:\n")
+  print("\t%s\n" % url)
+  print("Please include this link in any bug reports.")

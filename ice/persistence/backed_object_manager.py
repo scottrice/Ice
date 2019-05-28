@@ -5,9 +5,6 @@ Created by Scott on 2014-08-20.
 Copyright (c) 2014 Scott Rice. All rights reserved.
 """
 
-from ice.persistence.backed_object import BackedObject
-
-
 class BackedObjectManager(object):
 
   def __init__(self, backing_store, model_adapter):

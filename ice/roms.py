@@ -13,7 +13,7 @@ Functionality should be added to this class if it heavily involves the use of
 ROMs
 """
 
-from pysteam import model
+from ice.steam import model
 
 import emulators
 import paths

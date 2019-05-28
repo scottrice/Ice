@@ -1,4 +1,4 @@
-from env_checker_error import EnvCheckerError
+from .env_checker_error import EnvCheckerError
 
 
 class WritablePathError(Exception):

@@ -1,19 +1,9 @@
 # encoding: utf-8
 
-import os
+from ice.steam import steam as steam_module
 
-from pysteam import paths as steam_paths
-from pysteam import shortcuts
-from pysteam import steam as steam_module
-
-from ice import backups
-from ice import configuration
-from ice import consoles
-from ice import emulators
-from ice import paths
-from ice import settings
 from ice.logs import logger
-from ice.persistence.config_file_backing_store import ConfigFileBackingStore
+
 
 class TaskEngine(object):
 
@@ -23,8 +13,7 @@ class TaskEngine(object):
     logger.debug("Initializing Ice")
     # We want to ignore the anonymous context, cause theres no reason to sync
     # ROMs for it since you cant log in as said user.
-    is_user_context = lambda context: context.user_id != 'anonymous'
-    self.users = filter(is_user_context, steam_module.local_user_contexts(self.steam))
+    self.users = [item for item in steam_module.local_user_contexts(self.steam) if item.user_id != 'anonymous']
 
   def run(self, tasks, app_settings, dry_run=False):
     if self.steam is None:

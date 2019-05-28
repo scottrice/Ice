@@ -76,7 +76,7 @@ def image_provider(config):
   }
   normalize = lambda s: s.strip().lower()
   names = map(normalize, config.provider_spec.split(","))
-  instances = map(lambda name: providerByName[name](), names)
+  instances = list(map(lambda name: providerByName[name](), names))
   logger.debug("Creating with component providers: %s" % str(instances))
   if len(instances) == 0:
     logger.error("No image providers specified. Ice will run, but will not \

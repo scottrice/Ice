@@ -29,7 +29,7 @@ them in the `git-hooks` directory and make a pull request.
 
 class WindowsSymlinkAdapter(object):
   def __init__(self):
-    print WINDOWS_VERSION_NEEDS_TESTING_ERROR_MESSAGE
+    print(WINDOWS_VERSION_NEEDS_TESTING_ERROR_MESSAGE)
     sys.exit(1)
     # Real attempted implementation
     import win32file
@@ -69,12 +69,12 @@ def remove_preexisting_hooks_dir(hooks_directory):
     return False
   hooks = os.listdir(hooks_directory)
   if len(hooks) == 0:
-    print "Removing empty hooks directory"
+    print("Removing empty hooks directory")
     shutil.rmtree(hooks_directory)
     return False
   samples = glob.glob(os.path.join(hooks_directory, "*.sample"))
   if len(hooks) == len(samples):
-    print "Removing sample hooks directory"
+    print("Removing sample hooks directory")
     shutil.rmtree(hooks_directory)
     return False
   return True
@@ -91,10 +91,10 @@ def create_hooks_symlink(adapter, target_hooks_path):
     # This script has already been run, we're done
     sys.exit(0)
 
-  print "Installing symlink into %s" % install_path
+  print("Installing symlink into %s" % install_path)
 
   if remove_preexisting_hooks_dir(install_path):
-    print GIT_HOOKS_ALREADY_EXIST_ERROR_MESSAGE
+    print(GIT_HOOKS_ALREADY_EXIST_ERROR_MESSAGE)
     sys.exit(1)
 
   adapter.create(install_path, target_hooks_path)

@@ -1,5 +1,5 @@
 
-from pysteam import shortcuts
+from ice.steam import shortcuts
 
 import roms
 
@@ -47,20 +47,17 @@ class SteamShortcutSynchronizer(object):
     return shortcuts.shortcut_app_id(shortcut) in managed_ids
 
   def unmanaged_shortcuts(self, managed_ids, shortcuts, consoles):
-    return filter(
-      lambda shortcut: not self.shortcut_is_managed_by_ice(managed_ids, shortcut, consoles),
-      shortcuts,
-    )
+    return [shortcut for shortcut in shortcuts if not self.shortcut_is_managed_by_ice(managed_ids, shortcut, consoles)]
 
   def removed_shortcuts(self, current_shortcuts, new_shortcuts):
     # To get the list of only removed shortcuts we take all of the current
     # shortcuts and filter out any that exist in the new shortcuts
-    return filter(lambda shortcut: shortcut not in new_shortcuts, current_shortcuts)
+    return [shortcut for shortcut in current_shortcuts if shortcut not in new_shortcuts]
 
   def added_shortcuts(self, current_shortcuts, new_shortcuts):
     # To get the list of only added shortcuts we take all of the new shortcuts
     # and filter out any that existed in the current shortcuts
-    return filter(lambda shortcut: shortcut not in current_shortcuts, new_shortcuts)
+    return [shortcut for shortcut in new_shortcuts if shortcut not in current_shortcuts]
 
   def sync_roms_for_user(self, user, users_roms, consoles, dry_run=False):
     """
@@ -79,7 +76,7 @@ class SteamShortcutSynchronizer(object):
     current_ice_shortcuts = filter(lambda shortcut: shortcut not in unmanaged_shortcuts, current_shortcuts)
     logger.debug("Current Ice shortcuts: %s" % current_ice_shortcuts)
     # Generate a list of shortcuts out of our list of ROMs
-    rom_shortcuts = map(roms.rom_to_shortcut, users_roms)
+    rom_shortcuts = [roms.rom_to_shortcut(rom) for rom in users_roms]
     # Calculate which ROMs were added and which were removed so we can inform
     # the user
     removed = self.removed_shortcuts(current_ice_shortcuts, rom_shortcuts)
@@ -99,6 +96,6 @@ class SteamShortcutSynchronizer(object):
     shortcuts.set_shortcuts(user, updated_shortcuts)
 
     # Update the archive
-    new_managed_ids = map(shortcuts.shortcut_app_id, rom_shortcuts)
+    new_managed_ids = [shortcuts.shortcut_app_id(shortcut) for shortcut in rom_shortcuts]
     logger.debug("Updating archive to ids: %s" % new_managed_ids)
     self.managed_rom_archive.set_managed_ids(user, new_managed_ids)

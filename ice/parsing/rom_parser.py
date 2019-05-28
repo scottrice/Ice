@@ -1,7 +1,7 @@
 
 import os
 import re
-import unicodedata
+from functools import reduce
 
 from ice.logs import logger
 
@@ -11,7 +11,7 @@ class ROMParser(object):
     # Regex that matches the entire string up until it hits the first '[',
     # ']', '(', ')', or '.'
     # DOESN'T WORK FOR GAMES WITH ()s IN THEIR NAME
-    ur"(?P<name>[^\(\)\[\]]*).*",
+    r"(?P<name>[^\(\)\[\]]*).*",
   ]
 
   def __init__(self):

@@ -48,7 +48,7 @@ class CacheTests(unittest.TestCase):
   def test_getting_multiple_level_value_after_setting_intermediate_key_raises(self):
     self.cache.set("a", "b", "some value")
 
-    with self.assertRaises(StandardError):
+    with self.assertRaises(Exception):
       self.cache.get("a", "b", "c")
 
   def test_setting_multiple_level_key_overwrites_intermediate_value(self):

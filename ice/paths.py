@@ -3,6 +3,9 @@
 import appdirs
 import os
 
+from steam.paths import user_config_directory
+
+
 def application_data_directory():
   # Parameters are 'App Name' and 'App Author'
   # TODO: Get these values from the same place as setup.py
@@ -19,3 +22,12 @@ def log_file_location():
 
 def default_roms_directory():
   return os.path.join(os.path.expanduser('~'), 'ROMs')
+
+def shortcuts_path(user_context):
+  """Returns the path to the file in which Steam stores its shortcuts. This
+  file is a custom file format, so see the `shortcuts` module if you would
+  like to read/write to this file."""
+  return os.path.join(
+    user_config_directory(user_context),
+    "shortcuts.vdf"
+  )

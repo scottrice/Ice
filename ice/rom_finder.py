@@ -62,4 +62,4 @@ class ROMFinder(object):
     """
     # Abuses the fact that the `+` operator is overloaded with lists to turn
     # our list of lists into a single giant list. Yay for duck typing?
-    return sum(map(partial(self.roms_for_console, config), consoles), [])
+    return [rom for console in consoles for rom in self.roms_for_console(config, console)]

@@ -1,2 +1,2 @@
 
-from runner import CommandLineRunner
+from cli.runner import CommandLineRunner

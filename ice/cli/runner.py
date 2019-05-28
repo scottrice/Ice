@@ -7,9 +7,8 @@ Copyright (c) 2014 Scott Rice. All rights reserved.
 
 import argparse
 
-from pysteam.steam import get_steam, Steam
-
-import tasks
+from cli.tasks import TaskCoordinator
+from ice.steam import steam
 
 from ice import decorators
 from ice import debug
@@ -57,12 +56,12 @@ class CommandLineRunner(object):
   def get_steam(self, config):
     override = config.userdata_directory
     if self.should_use_user_override(override):
-      return Steam(override)
+      return steam.Steam(override)
 
     if self.steam is not None:
       return self.steam
 
-    return get_steam()
+    return steam.get_steam()
 
   @decorators.catch_exceptions(handle_exception)
   def run(self, argv):
@@ -72,7 +71,7 @@ class CommandLineRunner(object):
       debug.paste_debug_logs()
       return
 
-    task_coordinator = tasks.TaskCoordinator(self.filesystem)
+    task_coordinator = TaskCoordinator(self.filesystem)
 
     app_settings = settings.load_app_settings(self.filesystem, file_overrides = {
         'config.txt': opts.config,

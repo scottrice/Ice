@@ -80,7 +80,7 @@ class BackedObjectManagerTests(unittest.TestCase):
         "Iron Man": {},
         "War Machine": {},
     })
-    all_objects = self.manager.all()
+    all_objects = list(self.manager.all())
     self.assertIs(len(all_objects), 2)
     obj1 = all_objects[0]
     obj2 = all_objects[1]
@@ -116,7 +116,7 @@ class BackedObjectManagerTests(unittest.TestCase):
         "Whiplash":     {},
     })
     self.adapter.verifier = lambda obj: obj.identifier.startswith("W")
-    identifiers = map(lambda obj: obj.identifier, self.manager.all())
+    identifiers = list(map(lambda obj: obj.identifier, self.manager.all()))
     self.assertEqual(len(identifiers), 2)
     self.assertIn("War Machine", identifiers)
     self.assertIn("Whiplash", identifiers)

@@ -3,7 +3,7 @@
 import datetime
 import os
 
-from pysteam import shortcuts
+from ice.steam import shortcuts
 
 import paths
 

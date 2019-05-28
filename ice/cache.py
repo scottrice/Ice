@@ -6,7 +6,7 @@ class Cache(object):
 
   def get(self, *args):
     if len(args) is 0:
-      raise StandardError("Must provide at least one key to `cache.get()`")
+      raise Exception("Must provide at least one key to `cache.get()`")
 
     key = args[0]
 
@@ -23,7 +23,7 @@ class Cache(object):
     # value for the remaining arguments
     subcache = self.__store__[key]
     if not isinstance(subcache, Cache):
-      raise StandardError("Attempting to get value from multi level cache "
+      raise Exception("Attempting to get value from multi level cache "
                           "after explicitly setting intermediate value")
 
     # If we were called with `get(a, b, c)`, `return subcache.get(b, c)`
@@ -31,7 +31,7 @@ class Cache(object):
 
   def set(self, *args):
     if len(args) < 2:
-      raise StandardError("Must provide at least a key and a value to "
+      raise Exception("Must provide at least a key and a value to "
                           "`cache.set()`")
 
     key = args[0]
