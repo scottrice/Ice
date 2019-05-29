@@ -5,7 +5,6 @@ import paths
 from ice.steam._crc_algorithms import Crc
 from ice.steam._shortcut_generator import ShortcutGenerator
 from ice.steam._shortcut_parser import ShortcutParser
-from steam import shortcut_parser
 
 
 def shortcut_app_id(shortcut):
@@ -37,7 +36,6 @@ def write_shortcuts(path, shortcuts):
 # the LocalUserContext object
 
 def get_shortcuts(user_context):
-  shortcut_parser.parse_shortcuts(paths.shortcuts_path(user_context))
   return read_shortcuts(paths.shortcuts_path(user_context))
 
 def set_shortcuts(user_context, shortcuts):
