@@ -6,6 +6,55 @@ from pathlib import Path
 from typing import NamedTuple, Any, List
 
 
+class Shortcut:
+    name: str
+    exe: str
+    startdir: str
+    icon: Any
+    tags: List[str]
+
+    @classmethod
+    def parse_from_bytes(cls, byte_str: bytes):
+        tokenized = byte_str.split(b'\x01')
+        for pair in tokenized:
+            try:
+                if not pair:
+                    continue
+
+                key, value, *_ = pair.split(b'\x00')
+                if key == b'AppName':
+                    cls.name = value.decode()
+                elif key == b'Exe':
+                    cls.exe = value.decode()
+                elif key == b'StartDir':
+                    cls.startdir = value.decode()
+            except (UnicodeDecodeError, ValueError):
+                pass
+        return cls()
+
+    def to_bytes(self):
+        """
+        Turn a single instance of a Shortcut into a byte string
+        Don't forget to properly concatenate these to create a well-formed vdf
+        """
+        byte_string = b''
+        byte_string += b'\x01' + b'AppName' + b'\x00' + self.name.encode() + b'\x00'
+        byte_string += b'\x01' + b'Exe' + b'\x00' + self.exe.encode() + b'\x00'
+        byte_string += b'\x01' + b'StartDir' + b'\x00' + self.startdir.encode() + b'\x00'
+        byte_string += b'\x01' + b'icon' + b'\x00\x00'
+        byte_string += b'\x01' + b'ShortcutPath' + b'\x00\x00'
+        byte_string += b'\x01' + b'LaunchOptions' + b'\x00\x00'
+        byte_string += b'\x02' + b'IsHidden' + b'\x00' + (b'\x00' * 4)
+        byte_string += b'\x02' + b'AllowDesktopConfig' + b'\x00' + b'\x01' + (b'\x00' * 3)
+        byte_string += b'\x02' + b'AllowOverlay' + b'\x00' + b'\x01' + (b'\x00' * 3)
+        byte_string += b'\x02' + b'OpenVR' + b'\x00' + (b'\x00' * 4)
+        byte_string += b'\x02' + b'Devkit' + b'\x00' + (b'\x00' * 4)
+        byte_string += b'\x01' + b'DevkitGameID' + b'\x00\x00'
+        byte_string += b'\x02' + b'LastPlayTime' + b'\x00???\x00'
+
+        return byte_string
+
+
 def parse_shortcuts_vdf(path):
     byte_slices = []
     with open(path, 'rb') as fp:
@@ -44,33 +93,13 @@ def parse_shortcuts_vdf(path):
     return [Shortcut.parse_from_bytes(byte_str) for byte_str in byte_slices]
 
 
-class Shortcut(NamedTuple):
-    name: str
-    exe: str
-    startdir: str
-    icon: Any
-    tags: List[str]
-
-    @classmethod
-    def parse_from_bytes(cls, byte_str: bytes):
-        tokenized = byte_str.split(b'\x01')
-        for pair in tokenized:
-            try:
-                if not pair:
-                    continue
-
-                key, value, *_ = pair.split(b'\x00')
-                if key == b'AppName':
-                    cls.name = value.decode()
-                elif key == b'Exe':
-                    temp = value.decode().strip('"')
-                    # replace all instances of '" "'
-                    cls.exe = temp.replace('" "', ' ')
-                elif key == b'StartDir':
-                    cls.startdir = value.decode().strip('"')
-            except (UnicodeDecodeError, ValueError):
-                pass
-        return cls
+def write_shortcuts_vdf(path, shortcuts: List[Shortcut]):
+    with open(path, 'wb') as fp:
+        fp.write(b'\x00shortcuts\x00')
+        for index, shortcut in enumerate(shortcuts):
+            fp.write(b'\x00' + str(index).encode() + b'\x00')
+            fp.write(shortcut.to_bytes())
+        fp.write(b'tags\x00' + (b'\x08' * 4))
 
 
 # Represents a Steam installation. Since we don't really care about where the
