@@ -26,7 +26,7 @@ class SteamShortcutSynchronizer(object):
     # LEGACY: At one point I added ICE_FLAG_TAG to every shortcut Ice made.
     # That was a terrible idea, the managed_ids is a much better system. I
     # keep this check around for legacy reasons though.
-    if roms.ICE_FLAG_TAG in shortcut.tags:
+    if roms.ICE_FLAG_TAG in shortcut.get('tags', []):
       return True
     # LEGACY: For most of Ice's life it guessed whether it managed a shortcut
     # or not. This was REALLY bad, as it was very dependent on configuration

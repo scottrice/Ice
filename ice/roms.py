@@ -45,10 +45,10 @@ def rom_to_shortcut(rom):
   emu = rom.console.emulator
   assert(emu is not None)
 
-  return model.Shortcut(
-    name      = rom_shortcut_name(rom),
-    exe       = emulators.emulator_rom_launch_command(emu, rom),
-    startdir  = emulators.emulator_startdir(emu),
-    icon      = rom.console.icon,
-    tags      = [rom.console.fullname]
-  )
+  return {
+    'AppName': rom_shortcut_name(rom),
+    'Exe': emulators.emulator_rom_launch_command(emu, rom),
+    'StartDir': emulators.emulator_startdir(emu),
+    'icon': rom.console.icon,
+    'tags': {'0': rom.console.fullname}
+}
