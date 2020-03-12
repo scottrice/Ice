@@ -1,4 +1,4 @@
 appdirs==1.2.0
 pastebin==1.1.0
-psutil==2.1.1
+psutil==5.6.6
 pysteam==1.0.0-beta2
